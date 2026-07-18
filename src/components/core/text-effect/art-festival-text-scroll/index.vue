@@ -32,11 +32,11 @@
 </script>
 
 <style scoped lang="scss">
-// 节日文本滚动容器（overflow-hidden transition-[height] duration-600 ease-in-out）
-.festival-text-scroll {
-  overflow: hidden; // overflow-hidden
-  transition-property: height; // transition-[height]
-  transition-duration: 600ms; // duration-600
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); // ease-in-out
-}
+  // 节日文本滚动容器（overflow-hidden transition-[height] duration-600 ease-in-out）
+  .festival-text-scroll {
+    overflow: hidden; // overflow-hidden
+    transition-property: height; // transition-[height]
+    transition-duration: 600ms; // duration-600
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); // ease-in-out
+  }
 </style>

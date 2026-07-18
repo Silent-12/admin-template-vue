@@ -43,20 +43,20 @@
 </script>
 
 <style scoped lang="scss">
-// 销售概览卡片容器（h-105 p-5 mb-5 max-sm:mb-4）
-.sales-overview {
-  height: 26.25rem; // h-105
-  padding: 1.25rem; // p-5
-  margin-bottom: 1.25rem; // mb-5
+  // 销售概览卡片容器（h-105 p-5 mb-5 max-sm:mb-4）
+  .sales-overview {
+    height: 26.25rem; // h-105
+    padding: 1.25rem; // p-5
+    margin-bottom: 1.25rem; // mb-5
 
-  @media (max-width: 39.99rem) {
-    // max-sm:mb-4
-    margin-bottom: 1rem;
+    @media (max-width: 39.99rem) {
+      // max-sm:mb-4
+      margin-bottom: 1rem;
+    }
   }
-}
 
-// 增长率文字（text-success）
-.sales-overview-success {
-  color: var(--art-success);
-}
+  // 增长率文字（text-success）
+  .sales-overview-success {
+    color: var(--art-success);
+  }
 </style>

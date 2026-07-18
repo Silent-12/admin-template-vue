@@ -2,10 +2,7 @@
 <template>
   <div class="layout-lock-screen">
     <!-- 开发者工具警告覆盖层 -->
-    <div
-      v-if="showDevToolsWarning"
-      class="dev-tools-warning flex-cc animate-fade-in"
-    >
+    <div v-if="showDevToolsWarning" class="dev-tools-warning flex-cc animate-fade-in">
       <div class="dev-tools-warning__content">
         <div class="dev-tools-warning__icon">🔒</div>
         <h1 class="dev-tools-warning__title">系统已锁定</h1>
@@ -92,11 +89,7 @@
             {{ $t('lockScreen.unlock.btnText') }}
           </ElButton>
           <div class="unlock-content__back-wrapper">
-            <ElButton
-              text
-              class="unlock-content__back-btn"
-              @click="toLogin"
-            >
+            <ElButton text class="unlock-content__back-btn" @click="toLogin">
               {{ $t('lockScreen.unlock.backBtnText') }}
             </ElButton>
           </div>
@@ -467,7 +460,11 @@
     width: 100%; // w-full
     height: 100%; // h-full
     color: #fff; // text-white
-    background-image: linear-gradient(to bottom right, #1e1e1e, #000); // bg-gradient-to-br from-[#1e1e1e] to-black
+    background-image: linear-gradient(
+      to bottom right,
+      #1e1e1e,
+      #000
+    ); // bg-gradient-to-br from-[#1e1e1e] to-black
 
     // p-5 text-center select-none
     &__content {

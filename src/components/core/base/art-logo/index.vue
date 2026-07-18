@@ -21,9 +21,9 @@
 </script>
 
 <style scoped lang="scss">
-// logo 图片（原 Tailwind w-full h-full）
-.logo-img {
-  width: 100%;
-  height: 100%;
-}
+  // logo 图片（原 Tailwind w-full h-full）
+  .logo-img {
+    width: 100%;
+    height: 100%;
+  }
 </style>

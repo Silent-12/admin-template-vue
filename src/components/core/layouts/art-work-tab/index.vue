@@ -40,11 +40,7 @@
           @click="clickTab(item)"
           @contextmenu.prevent="(e: MouseEvent) => showMenu(e, item.path)"
         >
-          <ArtSvgIcon
-            v-show="item.icon"
-            :icon="item.icon"
-            class="work-tab__item-icon"
-          />
+          <ArtSvgIcon v-show="item.icon" :icon="item.icon" class="work-tab__item-icon" />
           {{ item.customTitle || formatMenuTitle(item.title) }}
           <span
             v-if="list.length > 1 && !item.fixedTab"
@@ -53,10 +49,7 @@
           >
             <ArtSvgIcon icon="ri:close-large-fill" class="work-tab__close-icon" />
           </span>
-          <div
-            v-if="tabStyle === 'tab-google'"
-            class="line"
-          />
+          <div v-if="tabStyle === 'tab-google'" class="line" />
         </li>
       </ul>
     </div>

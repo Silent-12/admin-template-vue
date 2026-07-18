@@ -33,54 +33,54 @@
 </script>
 
 <style scoped lang="scss">
-// 小节标题间距（覆盖 SectionTitle 默认 mt-7.5）
-.container-section-title {
-  margin-top: 3.125rem; // mt-12.5
-}
-
-// 容器宽度选项列表
-.container-list {
-  display: flex; // flex
-}
-
-// 单个容器选项
-.container-option {
-  flex: 1 1 0%; // flex-1
-  height: 4rem; // h-16
-  margin-top: 1.25rem; // mt-5
-  margin-right: 0.875rem; // mr-3.5
-  margin-bottom: 0.875rem; // mb-3.5
-  cursor: pointer; // cursor-pointer
-  border-width: 2px !important; // !border-2（覆盖 border-full-d 的 1px）
-  border-style: solid; // 确保 active 态有边框样式
-  border-radius: 0.5rem; // rounded-lg
-  color: var(--art-gray-800) !important; // !text-g-800
-
-  &:last-child {
-    margin-right: 0; // last:mr-0
+  // 小节标题间距（覆盖 SectionTitle 默认 mt-7.5）
+  .container-section-title {
+    margin-top: 3.125rem; // mt-12.5
   }
 
-  // 激活态：边框与图标使用主题色
-  &.is-active {
-    border-color: var(--theme-color); // border-theme
+  // 容器宽度选项列表
+  .container-list {
+    display: flex; // flex
+  }
 
-    // [&_i]:!text-theme（图标颜色跟随主题色）
-    :deep(i) {
-      color: var(--theme-color) !important;
+  // 单个容器选项
+  .container-option {
+    flex: 1 1 0%; // flex-1
+    height: 4rem; // h-16
+    margin-top: 1.25rem; // mt-5
+    margin-right: 0.875rem; // mr-3.5
+    margin-bottom: 0.875rem; // mb-3.5
+    cursor: pointer; // cursor-pointer
+    border-width: 2px !important; // !border-2（覆盖 border-full-d 的 1px）
+    border-style: solid; // 确保 active 态有边框样式
+    border-radius: 0.5rem; // rounded-lg
+    color: var(--art-gray-800) !important; // !text-g-800
+
+    &:last-child {
+      margin-right: 0; // last:mr-0
+    }
+
+    // 激活态：边框与图标使用主题色
+    &.is-active {
+      border-color: var(--theme-color); // border-theme
+
+      // [&_i]:!text-theme（图标颜色跟随主题色）
+      :deep(i) {
+        color: var(--theme-color) !important;
+      }
     }
   }
-}
 
-// 容器选项图标
-.container-option-icon {
-  margin-right: 0.5rem; // mr-2
-  font-size: 1.125rem; // text-lg
-  line-height: 1.75rem; // text-lg
-}
+  // 容器选项图标
+  .container-option-icon {
+    margin-right: 0.5rem; // mr-2
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+  }
 
-// 容器选项文本
-.container-option-label {
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-}
+  // 容器选项文本
+  .container-option-label {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+  }
 </style>

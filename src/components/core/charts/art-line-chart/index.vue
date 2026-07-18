@@ -371,9 +371,9 @@
 </script>
 
 <style scoped lang="scss">
-// 图表容器
-.chart-container {
-  position: relative; // relative
-  width: calc(100% + 10px); // w-[calc(100%+10px)]
-}
+  // 图表容器
+  .chart-container {
+    position: relative; // relative
+    width: calc(100% + 10px); // w-[calc(100%+10px)]
+  }
 </style>

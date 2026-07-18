@@ -10,10 +10,7 @@
       <ArtFestivalTextScroll v-if="!isFullPage" />
 
       <!-- 路由信息调试 -->
-      <div
-        v-if="isOpenRouteInfo === 'true'"
-        class="route-info-debug border-full-d"
-      >
+      <div v-if="isOpenRouteInfo === 'true'" class="route-info-debug border-full-d">
         router meta：{{ route.meta }}
       </div>
     </div>
@@ -44,10 +41,7 @@
 
     <!-- 全屏页面切换过渡遮罩（用于提升页面切换视觉体验） -->
     <Teleport to="body">
-      <div
-        v-show="showTransitionMask"
-        class="transition-mask"
-      />
+      <div v-show="showTransitionMask" class="transition-mask" />
     </Teleport>
   </div>
 </template>
@@ -137,31 +131,31 @@
 </script>
 
 <style scoped lang="scss">
-// 全屏页面模式：原 overflow-auto
-.layout-content--full-page {
-  overflow: auto;
-}
+  // 全屏页面模式：原 overflow-auto
+  .layout-content--full-page {
+    overflow: auto;
+  }
 
-// 路由信息调试条：原 px-2 py-1.5 mb-3 text-sm text-g-500 bg-g-200 rounded-md
-.route-info-debug {
-  padding: 0.375rem 0.5rem; // py-1.5 px-2
-  margin-bottom: 0.75rem; // mb-3
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem;
-  color: var(--art-gray-500); // text-g-500
-  background: var(--art-gray-200); // bg-g-200
-  border-radius: 0.375rem; // rounded-md
-}
+  // 路由信息调试条：原 px-2 py-1.5 mb-3 text-sm text-g-500 bg-g-200 rounded-md
+  .route-info-debug {
+    padding: 0.375rem 0.5rem; // py-1.5 px-2
+    margin-bottom: 0.75rem; // mb-3
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem;
+    color: var(--art-gray-500); // text-g-500
+    background: var(--art-gray-200); // bg-g-200
+    border-radius: 0.375rem; // rounded-md
+  }
 
-// 全屏切换过渡遮罩：原 fixed top-0 left-0 z-[2000] w-screen h-screen pointer-events-none bg-box
-.transition-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2000;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  background: var(--default-box-color); // bg-box
-}
+  // 全屏切换过渡遮罩：原 fixed top-0 left-0 z-[2000] w-screen h-screen pointer-events-none bg-box
+  .transition-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    background: var(--default-box-color); // bg-box
+  }
 </style>

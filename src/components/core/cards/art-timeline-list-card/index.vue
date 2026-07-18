@@ -69,55 +69,55 @@
 </script>
 
 <style scoped lang="scss">
-// 时间轴列表卡片容器
-.timeline-list-card {
-  padding: 1.25rem; // p-5
-}
+  // 时间轴列表卡片容器
+  .timeline-list-card {
+    padding: 1.25rem; // p-5
+  }
 
-// 卡片头部
-.card-header {
-  padding-bottom: 0.875rem; // pb-3.5
-}
+  // 卡片头部
+  .card-header {
+    padding-bottom: 0.875rem; // pb-3.5
+  }
 
-// 标题
-.card-title {
-  font-size: 1.125rem; // text-lg
-  line-height: 1.75rem; // text-lg
-  font-weight: 500; // font-medium
-}
+  // 标题
+  .card-title {
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+    font-weight: 500; // font-medium
+  }
 
-// 副标题
-.card-subtitle {
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-  color: var(--art-gray-600); // text-g-600
-}
+  // 副标题
+  .card-subtitle {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+    color: var(--art-gray-600); // text-g-600
+  }
 
-// ElTimeline 自定义内边距（保留 !important 以覆盖 el-timeline 默认 padding）
-.timeline-custom {
-  padding-left: 0.125rem !important; // !pl-0.5 (0.5 * 0.25rem)
-}
+  // ElTimeline 自定义内边距（保留 !important 以覆盖 el-timeline 默认 padding）
+  .timeline-custom {
+    padding-left: 0.125rem !important; // !pl-0.5 (0.5 * 0.25rem)
+  }
 
-// 内容行（flex-c 提供了 display:flex; align-items:center）
-.item-content {
-  gap: 0.75rem; // gap-3
-}
+  // 内容行（flex-c 提供了 display:flex; align-items:center）
+  .item-content {
+    gap: 0.75rem; // gap-3
+  }
 
-// 内容内层（flex-c 提供了 display:flex; align-items:center）
-.item-inner {
-  gap: 0.5rem; // gap-2
-}
+  // 内容内层（flex-c 提供了 display:flex; align-items:center）
+  .item-inner {
+    gap: 0.5rem; // gap-2
+  }
 
-// 内容文本
-.item-text {
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-}
+  // 内容文本
+  .item-text {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+  }
 
-// 代码标识
-.item-code {
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-  color: var(--theme-color); // text-theme
-}
+  // 代码标识
+  .item-code {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+    color: var(--theme-color); // text-theme
+  }
 </style>

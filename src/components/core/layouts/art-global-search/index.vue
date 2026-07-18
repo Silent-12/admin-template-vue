@@ -50,11 +50,7 @@
               class="box search-history__item c-p flex-cb rounded-custom-sm"
               v-for="(item, index) in historyResult"
               :key="index"
-              :class="
-                historyHIndex === index
-                  ? 'search-history__item--highlighted'
-                  : ''
-              "
+              :class="historyHIndex === index ? 'search-history__item--highlighted' : ''"
               @click="searchGoPage(item)"
               @mouseenter="highlightOnHoverHistory(index)"
             >

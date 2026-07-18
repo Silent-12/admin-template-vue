@@ -2,11 +2,7 @@
 <template>
   <nav class="breadcrumb" aria-label="breadcrumb">
     <ul class="breadcrumb__list flex-c">
-      <li
-        v-for="(item, index) in breadcrumbItems"
-        :key="item.path"
-        class="breadcrumb__item flex-c"
-      >
+      <li v-for="(item, index) in breadcrumbItems" :key="item.path" class="breadcrumb__item flex-c">
         <div
           :class="isClickable(item, index) ? 'breadcrumb__link c-p tad-200' : ''"
           @click="handleBreadcrumbClick(item, index)"

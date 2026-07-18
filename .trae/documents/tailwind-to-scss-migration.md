@@ -7,11 +7,13 @@
 ## 当前状态分析
 
 ### 技术栈
+
 - Vue 3 + TypeScript + Vite 7
 - Tailwind CSS v4（CSS-first 配置，无 `tailwind.config.js`）
 - Sass ^1.81.0（已配置全局注入 `el-light.scss` 和 `mixin.scss`）
 
 ### Tailwind 入口与配置
+
 - **vite.config.ts** [第 11 行](file:///e:/hulihan/admin-template-pro/vite.config.ts#L11) `import tailwindcss from '@tailwindcss/vite'` + [第 70 行](file:///e:/hulihan/admin-template-pro/vite.config.ts#L70) `tailwindcss()` 插件
 - **src/main.ts** [第 6 行](file:///e:/hulihan/admin-template-pro/src/main.ts#L6) `import '@styles/core/tailwind.css'`
 - **src/assets/styles/core/tailwind.css**（208 行，核心配置文件）：
@@ -23,12 +25,14 @@
   - `@layer components`：`.art-card-header` 复合组件类
 
 ### 使用 Tailwind 的文件清单（共 70 个）
+
 - **页面组件（views）**：14 个（含 login/register/forget-password、dashboard/console/modules/* 7 个、result/fail、system/user-center、system/role/modules/role-permission-dialog、outside/Iframe）
 - **公共组件（components）**：55 个，含 base(3)、banners(1)、cards(9)、charts(7)、forms(4)、layouts(20)、others(2)、tables(1)、text-effect(3)、views(4)、widget(1)
 - **特殊文件**：`src/views/auth/login/style.css` 使用 `@reference '@styles/core/tailwind.css';` 引用 Tailwind
 - **使用 `@apply` 的文件**：6 个（login/style.css、art-table-header、art-notification、art-mixed-menu、ArtUserMenu、art-global-search）
 
 ### 已有 SCSS 基础设施
+
 - 全局 SCSS 入口：[src/assets/styles/index.scss](file:///e:/hulihan/admin-template-pro/src/assets/styles/index.scss)
 - 全局 mixin：[src/assets/styles/core/mixin.scss](file:///e:/hulihan/admin-template-pro/src/assets/styles/core/mixin.scss)（9 个 mixin）
   - ⚠️ `backdropBlur` mixin 使用了 `--tw-backdrop-*` 变量，移除 Tailwind 后需重写为标准 `backdrop-filter`
@@ -37,7 +41,7 @@
 ## 迁移决策
 
 | 决策项 | 方案 |
-|--------|------|
+| --- | --- |
 | 自定义工具类（flex-c, border-*-d, c-p, art-card-header 等） | 保留为全局 SCSS 工具类，组件中继续以 `class="flex-c"` 形式使用 |
 | 主题 CSS 变量（--art-primary, --art-gray-* 等） | 保留为 CSS 变量，迁移到全局 SCSS 文件，组件 SCSS 中用 `var(--art-primary)` 引用 |
 | Tailwind 原生工具类（flex, items-center, text-lg, p-4 等） | 转换为组件内 `<style scoped lang="scss">` 中的样式 |
@@ -48,6 +52,7 @@
 ## 迁移规则手册（适用于每个文件）
 
 ### R1. 模板中的 Tailwind 类迁移
+
 - 识别 `<template>` 中所有 `class="..."`、`:class="..."` 内的 Tailwind 工具类
 - 为元素添加语义化 class（如 `class="card-header"`），将原 Tailwind 类对应的样式写入 `<style scoped lang="scss">`
 - **保留**自定义工具类引用（`flex-c`, `border-b-d`, `c-p`, `tad-200` 等），这些由全局 SCSS 提供
@@ -56,27 +61,31 @@
   - `max-sm:` → `@media (max-width: 39.99rem)` 等
 
 ### R2. `@apply` 指令处理
+
 - 将 `<style>` 中的 `@apply xxx yyy zzz` 展开为对应的 CSS 属性
 - 例如 `@apply flex items-center justify-between` → `display: flex; align-items: center; justify-content: space-between;`
 - 删除 `@reference '@styles/core/tailwind.css';` 引用语句
 
 ### R3. 颜色类映射表
-| Tailwind 类 | SCSS 写法 |
-|-------------|-----------|
-| `bg-primary` / `text-primary` | `color/background: var(--art-primary)` |
-| `bg-g-100` ~ `bg-g-900` | `background: var(--art-gray-100~900)` |
-| `text-g-100` ~ `text-g-900` | `color: var(--art-gray-100~900)` |
-| `bg-box` | `background: var(--default-box-color)` |
-| `bg-theme` / `text-theme` | `var(--theme-color)` |
-| `bg-hover-color` | `background: var(--art-hover-color)` |
-| `bg-active-color` | `background: var(--art-active-color)` |
-| `border-box` / `border-default` | `border-color: var(--default-border)` |
+
+| Tailwind 类                     | SCSS 写法                              |
+| ------------------------------- | -------------------------------------- |
+| `bg-primary` / `text-primary`   | `color/background: var(--art-primary)` |
+| `bg-g-100` ~ `bg-g-900`         | `background: var(--art-gray-100~900)`  |
+| `text-g-100` ~ `text-g-900`     | `color: var(--art-gray-100~900)`       |
+| `bg-box`                        | `background: var(--default-box-color)` |
+| `bg-theme` / `text-theme`       | `var(--theme-color)`                   |
+| `bg-hover-color`                | `background: var(--art-hover-color)`   |
+| `bg-active-color`               | `background: var(--art-active-color)`  |
+| `border-box` / `border-default` | `border-color: var(--default-border)`  |
 
 ### R4. 暗黑模式迁移
+
 - `dark:bg-x` → SCSS 中 `.dark & { background: ... }` 或 `:where(.dark, .dark *) & { ... }`
 - 优先使用已有 CSS 变量（暗黑模式自动切换），避免手写 `.dark` 覆盖
 
 ### R5. 文件结构
+
 - 每个 `.vue` 组件的 `<style>` 块改为 `<style scoped lang="scss">`
 - 若原组件已有 `<style scoped lang="scss">`，将新样式合并进去
 - 若原样式为 `<style lang="css">` 或独立 `.css` 文件，转为 scss 并合并
@@ -128,6 +137,7 @@
 ### 阶段 1：基础组件迁移（base/，3 个文件）
 
 迁移以下文件，将 Tailwind 类转为组件内 SCSS：
+
 - `src/components/core/base/art-back-to-top/index.vue`
 - `src/components/core/base/art-logo/index.vue`
 - `src/components/core/base/art-svg-icon/index.vue`
@@ -170,6 +180,7 @@
 ### 阶段 5：布局组件迁移（layouts/，20 个文件，最复杂）
 
 按子模块分批：
+
 - **5.1 菜单**：`art-menus/art-horizontal-menu/index.vue` + `widget/HorizontalSubmenu.vue` + `art-menus/art-mixed-menu/index.vue` + `art-menus/art-sidebar-menu/index.vue` + `widget/SidebarSubmenu.vue`
 - **5.2 顶栏**：`art-header-bar/index.vue` + `widget/ArtUserMenu.vue`（含 `@apply`）
 - **5.3 设置面板**：`art-settings-panel/widget/*` 共 7 个（BoxStyleSettings、ColorSettings、ContainerSettings、SectionTitle、SettingActions、SettingHeader、SettingItem）
@@ -178,6 +189,7 @@
 **验证**：重点测试菜单展开/折叠、暗黑模式切换、设置面板、全局搜索、通知中心、工作台标签页等交互。
 
 ### 阶段 6：其他组件迁移
+
 - `banners/art-card-banner/index.vue`
 - `others/art-menu-right/index.vue`、`others/art-watermark/index.vue`
 - `tables/art-table-header/index.vue`（含 `@apply`）

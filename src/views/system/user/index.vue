@@ -259,15 +259,15 @@
 </script>
 
 <style scoped lang="scss">
-// 用户头像（原 size-9.5 rounded-md）
-.user-avatar {
-  width: 2.375rem;
-  height: 2.375rem;
-  border-radius: 0.375rem;
-}
+  // 用户头像（原 size-9.5 rounded-md）
+  .user-avatar {
+    width: 2.375rem;
+    height: 2.375rem;
+    border-radius: 0.375rem;
+  }
 
-// 用户名与邮箱容器（原 ml-2）
-.user-info {
-  margin-left: 0.5rem;
-}
+  // 用户名与邮箱容器（原 ml-2）
+  .user-info {
+    margin-left: 0.5rem;
+  }
 </style>

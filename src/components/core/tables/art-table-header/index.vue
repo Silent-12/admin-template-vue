@@ -72,10 +72,7 @@
                 class="column-option flex-c"
                 :class="{ 'fixed-column': item.fixed }"
               >
-                <div
-                  class="drag-icon flex-cc"
-                  :class="item.fixed ? 'is-fixed' : 'is-movable'"
-                >
+                <div class="drag-icon flex-cc" :class="item.fixed ? 'is-fixed' : 'is-movable'">
                   <ArtSvgIcon
                     :icon="item.fixed ? 'ri:unpin-line' : 'ri:drag-move-2-fill'"
                     class="drag-icon-svg"
@@ -355,11 +352,7 @@
     justify-content: center; // justify-center
     cursor: pointer; // cursor-pointer
     border-radius: 0.375rem; // rounded-md
-    background-color: color-mix(
-      in srgb,
-      var(--art-gray-300) 55%,
-      transparent
-    ); // bg-g-300/55
+    background-color: color-mix(in srgb, var(--art-gray-300) 55%, transparent); // bg-g-300/55
     color: var(--art-gray-700); // text-g-700
 
     &:hover {

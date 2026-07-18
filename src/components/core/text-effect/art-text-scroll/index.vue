@@ -287,127 +287,127 @@
 </script>
 
 <style scoped lang="scss">
-// 文字滚动容器（relative overflow-hidden border box-border text-sm）
-.text-scroll-container {
-  position: relative; // relative
-  overflow: hidden; // overflow-hidden
-  border-width: 1px; // border
-  box-sizing: border-box; // box-border
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-}
+  // 文字滚动容器（relative overflow-hidden border box-border text-sm）
+  .text-scroll-container {
+    position: relative; // relative
+    overflow: hidden; // overflow-hidden
+    border-width: 1px; // border
+    box-sizing: border-box; // box-border
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+  }
 
-// 左侧音量图标容器（absolute left-0 h-full w-9 z-10）
-.text-scroll-icon-left {
-  position: absolute; // absolute
-  left: 0; // left-0
-  top: 0;
-  height: 100%; // h-full
-  width: 2.25rem; // w-9
-  z-index: 10; // z-10
-}
+  // 左侧音量图标容器（absolute left-0 h-full w-9 z-10）
+  .text-scroll-icon-left {
+    position: absolute; // absolute
+    left: 0; // left-0
+    top: 0;
+    height: 100%; // h-full
+    width: 2.25rem; // w-9
+    z-index: 10; // z-10
+  }
 
-// 音量图标（text-lg）
-.icon-volume {
-  font-size: 1.125rem; // text-lg
-  line-height: 1.75rem; // text-lg
-}
+  // 音量图标（text-lg）
+  .icon-volume {
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+  }
 
-// 文字内容容器（whitespace-nowrap inline-block transition-opacity duration-600 px-9）
-.text-scroll-content {
-  white-space: nowrap; // whitespace-nowrap
-  display: inline-block; // inline-block
-  transition-property: opacity; // transition-opacity
-  transition-duration: 600ms; // duration-600
-  padding-left: 2.25rem; // px-9
-  padding-right: 2.25rem; // px-9
+  // 文字内容容器（whitespace-nowrap inline-block transition-opacity duration-600 px-9）
+  .text-scroll-content {
+    white-space: nowrap; // whitespace-nowrap
+    display: inline-block; // inline-block
+    transition-property: opacity; // transition-opacity
+    transition-duration: 600ms; // duration-600
+    padding-left: 2.25rem; // px-9
+    padding-right: 2.25rem; // px-9
 
-  // [&_a]:text-danger
-  a {
-    color: var(--art-danger);
+    // [&_a]:text-danger
+    a {
+      color: var(--art-danger);
 
-    // [&_a:hover]:underline [&_a:hover]:text-danger/80
-    &:hover {
-      text-decoration: underline;
-      color: color-mix(in srgb, var(--art-danger) 80%, transparent);
+      // [&_a:hover]:underline [&_a:hover]:text-danger/80
+      &:hover {
+        text-decoration: underline;
+        color: color-mix(in srgb, var(--art-danger) 80%, transparent);
+      }
     }
   }
-}
 
-// 纵向滚动模式（flex flex-col）
-.text-scroll-content.is-vertical {
-  display: flex; // flex
-  flex-direction: column; // flex-col
-}
+  // 纵向滚动模式（flex flex-col）
+  .text-scroll-content.is-vertical {
+    display: flex; // flex
+    flex-direction: column; // flex-col
+  }
 
-// 文本片段（inline-block）
-.text-scroll-text {
-  display: inline-block; // inline-block
-}
+  // 文本片段（inline-block）
+  .text-scroll-text {
+    display: inline-block; // inline-block
+  }
 
-// 隐藏状态（opacity-0）
-.text-scroll-content.is-hidden {
-  opacity: 0; // opacity-0
-}
+  // 隐藏状态（opacity-0）
+  .text-scroll-content.is-hidden {
+    opacity: 0; // opacity-0
+  }
 
-// 可见状态（opacity-100）
-.text-scroll-content.is-visible {
-  opacity: 1; // opacity-100
-}
+  // 可见状态（opacity-100）
+  .text-scroll-content.is-visible {
+    opacity: 1; // opacity-100
+  }
 
-// 右侧关闭按钮容器（absolute right-0 h-full w-9）
-.text-scroll-close {
-  position: absolute; // absolute
-  right: 0; // right-0
-  top: 0;
-  height: 100%; // h-full
-  width: 2.25rem; // w-9
-}
+  // 右侧关闭按钮容器（absolute right-0 h-full w-9）
+  .text-scroll-close {
+    position: absolute; // absolute
+    right: 0; // right-0
+    top: 0;
+    height: 100%; // h-full
+    width: 2.25rem; // w-9
+  }
 
-// 关闭图标（text-lg）
-.icon-close {
-  font-size: 1.125rem; // text-lg
-  line-height: 1.75rem; // text-lg
-}
+  // 关闭图标（text-lg）
+  .icon-close {
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+  }
 
-// 主题颜色变体（90% 文字色 + 50% 边框色）
-.is-theme {
-  color: color-mix(in srgb, var(--theme-color) 90%, transparent);
-  border-color: color-mix(in srgb, var(--theme-color) 50%, transparent) !important;
-}
+  // 主题颜色变体（90% 文字色 + 50% 边框色）
+  .is-theme {
+    color: color-mix(in srgb, var(--theme-color) 90%, transparent);
+    border-color: color-mix(in srgb, var(--theme-color) 50%, transparent) !important;
+  }
 
-.is-primary {
-  color: color-mix(in srgb, var(--art-primary) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-primary) 50%, transparent) !important;
-}
+  .is-primary {
+    color: color-mix(in srgb, var(--art-primary) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-primary) 50%, transparent) !important;
+  }
 
-.is-secondary {
-  color: color-mix(in srgb, var(--art-secondary) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-secondary) 50%, transparent) !important;
-}
+  .is-secondary {
+    color: color-mix(in srgb, var(--art-secondary) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-secondary) 50%, transparent) !important;
+  }
 
-.is-error {
-  color: color-mix(in srgb, var(--art-error) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-error) 50%, transparent) !important;
-}
+  .is-error {
+    color: color-mix(in srgb, var(--art-error) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-error) 50%, transparent) !important;
+  }
 
-.is-info {
-  color: color-mix(in srgb, var(--art-info) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-info) 50%, transparent) !important;
-}
+  .is-info {
+    color: color-mix(in srgb, var(--art-info) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-info) 50%, transparent) !important;
+  }
 
-.is-success {
-  color: color-mix(in srgb, var(--art-success) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-success) 50%, transparent) !important;
-}
+  .is-success {
+    color: color-mix(in srgb, var(--art-success) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-success) 50%, transparent) !important;
+  }
 
-.is-warning {
-  color: color-mix(in srgb, var(--art-warning) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-warning) 50%, transparent) !important;
-}
+  .is-warning {
+    color: color-mix(in srgb, var(--art-warning) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-warning) 50%, transparent) !important;
+  }
 
-.is-danger {
-  color: color-mix(in srgb, var(--art-danger) 90%, transparent);
-  border-color: color-mix(in srgb, var(--art-danger) 50%, transparent) !important;
-}
+  .is-danger {
+    color: color-mix(in srgb, var(--art-danger) 90%, transparent);
+    border-color: color-mix(in srgb, var(--art-danger) 50%, transparent) !important;
+  }
 </style>

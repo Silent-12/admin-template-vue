@@ -32,11 +32,7 @@
       <div class="notification-panel__scroll scrollbar-thin">
         <!-- 通知 -->
         <ul v-show="barActiveIndex === 0">
-          <li
-            v-for="(item, index) in noticeList"
-            :key="index"
-            class="notification-item flex-c c-p"
-          >
+          <li v-for="(item, index) in noticeList" :key="index" class="notification-item flex-c c-p">
             <div
               class="notification-item__icon flex-cc"
               :class="[getNoticeStyle(item.type).iconClass]"
@@ -55,11 +51,7 @@
 
         <!-- 消息 -->
         <ul v-show="barActiveIndex === 1">
-          <li
-            v-for="(item, index) in msgList"
-            :key="index"
-            class="notification-item flex-c c-p"
-          >
+          <li v-for="(item, index) in msgList" :key="index" class="notification-item flex-c c-p">
             <div class="notification-item__avatar-box">
               <img :src="item.avatar" class="notification-item__avatar" />
             </div>
@@ -72,21 +64,14 @@
 
         <!-- 待办 -->
         <ul v-show="barActiveIndex === 2">
-          <li
-            v-for="(item, index) in pendingList"
-            :key="index"
-            class="pending-item box-border"
-          >
+          <li v-for="(item, index) in pendingList" :key="index" class="pending-item box-border">
             <h4>{{ item.title }}</h4>
             <p class="pending-item__time">{{ item.time }}</p>
           </li>
         </ul>
 
         <!-- 空状态 -->
-        <div
-          v-show="currentTabIsEmpty"
-          class="notification-empty"
-        >
+        <div v-show="currentTabIsEmpty" class="notification-empty">
           <ArtSvgIcon icon="system-uicons:inbox" class="notification-empty__icon" />
           <p class="notification-empty__text"
             >{{ $t('notice.text[0]') }}{{ barList[barActiveIndex].name }}</p
@@ -439,7 +424,9 @@
     transform-origin: top; // origin-top
     will-change: top, left; // will-change-[top,left]
     // !shadow-xl
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
 
     @media (max-width: 640px) {
       top: 65px; // max-[640px]:top-[65px]

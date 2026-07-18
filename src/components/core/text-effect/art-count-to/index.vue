@@ -1,9 +1,6 @@
 <!-- 数字滚动 -->
 <template>
-  <span
-    class="count-to"
-    :class="isRunning ? 'is-running' : ''"
-  >
+  <span class="count-to" :class="isRunning ? 'is-running' : ''">
     {{ formattedValue }}
   </span>
 </template>
@@ -310,16 +307,16 @@
 </script>
 
 <style scoped lang="scss">
-// 数字滚动容器（text-g-900 tabular-nums）
-.count-to {
-  color: var(--art-gray-900); // text-g-900
-  font-variant-numeric: tabular-nums; // tabular-nums
-}
+  // 数字滚动容器（text-g-900 tabular-nums）
+  .count-to {
+    color: var(--art-gray-900); // text-g-900
+    font-variant-numeric: tabular-nums; // tabular-nums
+  }
 
-// 运行中状态（transition-opacity duration-300 ease-in-out）
-.count-to.is-running {
-  transition-property: opacity; // transition-opacity
-  transition-duration: 300ms; // duration-300
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); // ease-in-out
-}
+  // 运行中状态（transition-opacity duration-300 ease-in-out）
+  .count-to.is-running {
+    transition-property: opacity; // transition-opacity
+    transition-duration: 300ms; // duration-300
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); // ease-in-out
+  }
 </style>

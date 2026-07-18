@@ -160,44 +160,44 @@
 </script>
 
 <style lang="scss" scoped>
-// 新用户卡片容器（p-5 h-128 overflow-hidden mb-5 max-sm:mb-4）
-.new-user-card {
-  padding: 1.25rem; // p-5
-  height: 32rem; // h-128
-  overflow: hidden; // overflow-hidden
-  margin-bottom: 1.25rem; // mb-5
+  // 新用户卡片容器（p-5 h-128 overflow-hidden mb-5 max-sm:mb-4）
+  .new-user-card {
+    padding: 1.25rem; // p-5
+    height: 32rem; // h-128
+    overflow: hidden; // overflow-hidden
+    margin-bottom: 1.25rem; // mb-5
 
-  @media (max-width: 39.99rem) {
-    // max-sm:mb-4
-    margin-bottom: 1rem;
+    @media (max-width: 39.99rem) {
+      // max-sm:mb-4
+      margin-bottom: 1rem;
+    }
+
+    // 单选按钮选中态（保留原有 :deep 规则）
+    :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+      color: var(--el-color-primary) !important;
+      background: transparent !important;
+    }
   }
 
-  // 单选按钮选中态（保留原有 :deep 规则）
-  :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
-    color: var(--el-color-primary) !important;
-    background: transparent !important;
+  // 增长率文字（text-success）
+  .new-user-success {
+    color: var(--art-success);
   }
-}
 
-// 增长率文字（text-success）
-.new-user-success {
-  color: var(--art-success);
-}
+  // 表格（w-full）
+  .new-user-table {
+    width: 100%;
+  }
 
-// 表格（w-full）
-.new-user-table {
-  width: 100%;
-}
+  // 头像（size-9 rounded-lg）
+  .new-user-avatar {
+    width: 2.25rem; // size-9
+    height: 2.25rem; // size-9
+    border-radius: 0.5rem; // rounded-lg
+  }
 
-// 头像（size-9 rounded-lg）
-.new-user-avatar {
-  width: 2.25rem; // size-9
-  height: 2.25rem; // size-9
-  border-radius: 0.5rem; // rounded-lg
-}
-
-// 用户名（ml-2）
-.new-user-username {
-  margin-left: 0.5rem; // ml-2
-}
+  // 用户名（ml-2）
+  .new-user-username {
+    margin-left: 0.5rem; // ml-2
+  }
 </style>

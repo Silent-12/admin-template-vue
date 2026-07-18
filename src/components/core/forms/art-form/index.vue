@@ -70,10 +70,7 @@
           </ElFormItem>
         </ElCol>
         <ElCol :xs="24" :sm="24" :md="span" :lg="span" :xl="span" class="form-action-col">
-          <div
-            class="flex-c form-action-buttons"
-            :style="actionButtonsStyle"
-          >
+          <div class="flex-c form-action-buttons" :style="actionButtonsStyle">
             <div class="form-button-group">
               <ElButton v-if="showReset" class="reset-button" @click="handleReset" v-ripple>
                 {{ t('table.form.reset') }}
@@ -507,52 +504,52 @@
 </script>
 
 <style scoped lang="scss">
-// 表单容器
-.form-section {
-  padding-left: 1rem; // px-4
-  padding-right: 1rem; // px-4
-  padding-bottom: 0; // pb-0
-  padding-top: 1rem; // pt-4
+  // 表单容器
+  .form-section {
+    padding-left: 1rem; // px-4
+    padding-right: 1rem; // px-4
+    padding-bottom: 0; // pb-0
+    padding-top: 1rem; // pt-4
 
-  @media (min-width: 48rem) {
-    padding-left: 1rem; // md:px-4
-    padding-right: 1rem; // md:px-4
-    padding-top: 1rem; // md:pt-4
+    @media (min-width: 48rem) {
+      padding-left: 1rem; // md:px-4
+      padding-right: 1rem; // md:px-4
+      padding-top: 1rem; // md:pt-4
+    }
   }
-}
 
-// 表单行
-.form-row {
-  display: flex; // flex
-  flex-wrap: wrap; // flex-wrap
-}
-
-// 操作按钮列
-.form-action-col {
-  max-width: 100%; // max-w-full
-  flex: 1 1 0%; // flex-1
-}
-
-// 操作按钮容器
-.form-action-buttons {
-  margin-bottom: 0.75rem; // mb-3
-  flex-wrap: wrap; // flex-wrap
-  justify-content: flex-end; // justify-end
-
-  @media (min-width: 48rem) {
-    flex-direction: row; // md:flex-row
-    align-items: stretch; // md:items-stretch
-    gap: 0.5rem; // md:gap-2
+  // 表单行
+  .form-row {
+    display: flex; // flex
+    flex-wrap: wrap; // flex-wrap
   }
-}
 
-// 按钮组
-.form-button-group {
-  display: flex; // flex
-  gap: 0.5rem; // gap-2
-
-  @media (min-width: 48rem) {
-    justify-content: center; // md:justify-center
+  // 操作按钮列
+  .form-action-col {
+    max-width: 100%; // max-w-full
+    flex: 1 1 0%; // flex-1
   }
-}
+
+  // 操作按钮容器
+  .form-action-buttons {
+    margin-bottom: 0.75rem; // mb-3
+    flex-wrap: wrap; // flex-wrap
+    justify-content: flex-end; // justify-end
+
+    @media (min-width: 48rem) {
+      flex-direction: row; // md:flex-row
+      align-items: stretch; // md:items-stretch
+      gap: 0.5rem; // md:gap-2
+    }
+  }
+
+  // 按钮组
+  .form-button-group {
+    display: flex; // flex
+    gap: 0.5rem; // gap-2
+
+    @media (min-width: 48rem) {
+      justify-content: center; // md:justify-center
+    }
+  }
 </style>

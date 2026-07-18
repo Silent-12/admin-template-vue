@@ -9,11 +9,7 @@
 
     <div class="todo-list-scroll">
       <ElScrollbar>
-        <div
-          class="todo-list-item flex-cb"
-          v-for="(item, index) in list"
-          :key="index"
-        >
+        <div class="todo-list-item flex-cb" v-for="(item, index) in list" :key="index">
           <div>
             <p class="todo-list-username">{{ item.username }}</p>
             <p class="todo-list-date">{{ item.date }}</p>
@@ -71,51 +67,51 @@
 </script>
 
 <style scoped lang="scss">
-// 待办列表容器（h-128 p-5 mb-5 max-sm:mb-4）
-.todo-list {
-  height: 32rem; // h-128
-  padding: 1.25rem; // p-5
-  margin-bottom: 1.25rem; // mb-5
+  // 待办列表容器（h-128 p-5 mb-5 max-sm:mb-4）
+  .todo-list {
+    height: 32rem; // h-128
+    padding: 1.25rem; // p-5
+    margin-bottom: 1.25rem; // mb-5
 
-  @media (max-width: 39.99rem) {
-    // max-sm:mb-4
-    margin-bottom: 1rem;
+    @media (max-width: 39.99rem) {
+      // max-sm:mb-4
+      margin-bottom: 1rem;
+    }
   }
-}
 
-// 待处理数字（text-danger）
-.todo-list-danger {
-  color: var(--art-danger);
-}
-
-// 可滚动区域（h-[calc(100%-40px)] overflow-auto）
-.todo-list-scroll {
-  height: calc(100% - 40px);
-  overflow: auto;
-}
-
-// 单个待办项（flex-cb h-17.5 border-b border-g-300 text-sm last:border-b-0）
-.todo-list-item {
-  height: 4.375rem; // h-17.5
-  border-bottom: 1px solid var(--art-gray-300); // border-b border-g-300
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-
-  &:last-child {
-    // last:border-b-0
-    border-bottom: 0;
+  // 待处理数字（text-danger）
+  .todo-list-danger {
+    color: var(--art-danger);
   }
-}
 
-// 待办用户名（text-sm）
-.todo-list-username {
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-}
+  // 可滚动区域（h-[calc(100%-40px)] overflow-auto）
+  .todo-list-scroll {
+    height: calc(100% - 40px);
+    overflow: auto;
+  }
 
-// 待办日期（text-g-500 mt-1）
-.todo-list-date {
-  margin-top: 0.25rem; // mt-1
-  color: var(--art-gray-500); // text-g-500
-}
+  // 单个待办项（flex-cb h-17.5 border-b border-g-300 text-sm last:border-b-0）
+  .todo-list-item {
+    height: 4.375rem; // h-17.5
+    border-bottom: 1px solid var(--art-gray-300); // border-b border-g-300
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+
+    &:last-child {
+      // last:border-b-0
+      border-bottom: 0;
+    }
+  }
+
+  // 待办用户名（text-sm）
+  .todo-list-username {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+  }
+
+  // 待办日期（text-g-500 mt-1）
+  .todo-list-date {
+    margin-top: 0.25rem; // mt-1
+    color: var(--art-gray-500); // text-g-500
+  }
 </style>

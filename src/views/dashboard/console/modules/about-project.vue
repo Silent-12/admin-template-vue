@@ -44,83 +44,83 @@
 </script>
 
 <style scoped lang="scss">
-// 项目介绍卡片容器（p-5 mb-5 max-sm:mb-4）
-.about-project {
-  padding: 1.25rem; // p-5
-  margin-bottom: 1.25rem; // mb-5
+  // 项目介绍卡片容器（p-5 mb-5 max-sm:mb-4）
+  .about-project {
+    padding: 1.25rem; // p-5
+    margin-bottom: 1.25rem; // mb-5
 
-  @media (max-width: 39.99rem) {
-    // max-sm:mb-4
-    margin-bottom: 1rem;
-  }
-}
-
-// 标题（text-2xl font-medium）
-.about-project-title {
-  font-size: 1.5rem; // text-2xl
-  line-height: 2rem; // text-2xl
-  font-weight: 500; // font-medium
-}
-
-// 描述文字（text-g-700 mt-1）
-.about-project-desc {
-  margin-top: 0.25rem; // mt-1
-  color: var(--art-gray-700); // text-g-700
-}
-
-// 链接列表容器（flex flex-wrap gap-3.5 max-w-150 mt-9）
-.about-project-links {
-  display: flex; // flex
-  flex-wrap: wrap; // flex-wrap
-  gap: 0.875rem; // gap-3.5
-  max-width: 37.5rem; // max-w-150
-  margin-top: 2.25rem; // mt-9
-}
-
-// 单个链接项（w-60 h-12.5 px-3.5 border border-g-300 rounded-lg text-sm bg-g-100 duration-300 hover:-translate-y-1 max-sm:w-full）
-.about-project-link {
-  width: 15rem; // w-60
-  height: 3.125rem; // h-12.5
-  padding-left: 0.875rem; // px-3.5
-  padding-right: 0.875rem; // px-3.5
-  border: 1px solid var(--art-gray-300); // border border-g-300
-  border-radius: 0.5rem; // rounded-lg
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-  background: var(--art-gray-100); // bg-g-100
-  // 还原 duration-300 + hover:-translate-y-1 的过渡效果
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover {
-    // hover:-translate-y-1
-    transform: translateY(-0.25rem);
+    @media (max-width: 39.99rem) {
+      // max-sm:mb-4
+      margin-bottom: 1rem;
+    }
   }
 
-  @media (max-width: 39.99rem) {
-    // max-sm:w-full
-    width: 100%;
+  // 标题（text-2xl font-medium）
+  .about-project-title {
+    font-size: 1.5rem; // text-2xl
+    line-height: 2rem; // text-2xl
+    font-weight: 500; // font-medium
   }
-}
 
-// 链接文字（text-g-700）
-.about-project-link-label {
-  color: var(--art-gray-700); // text-g-700
-}
-
-// 链接箭头图标（text-lg text-g-600）
-.about-project-link-icon {
-  font-size: 1.125rem; // text-lg
-  line-height: 1.75rem; // text-lg
-  color: var(--art-gray-600); // text-g-600
-}
-
-// 右侧插图（w-75 max-md:!hidden）
-.about-project-img {
-  width: 18.75rem; // w-75
-
-  @media (max-width: 47.99rem) {
-    // max-md:!hidden
-    display: none !important;
+  // 描述文字（text-g-700 mt-1）
+  .about-project-desc {
+    margin-top: 0.25rem; // mt-1
+    color: var(--art-gray-700); // text-g-700
   }
-}
+
+  // 链接列表容器（flex flex-wrap gap-3.5 max-w-150 mt-9）
+  .about-project-links {
+    display: flex; // flex
+    flex-wrap: wrap; // flex-wrap
+    gap: 0.875rem; // gap-3.5
+    max-width: 37.5rem; // max-w-150
+    margin-top: 2.25rem; // mt-9
+  }
+
+  // 单个链接项（w-60 h-12.5 px-3.5 border border-g-300 rounded-lg text-sm bg-g-100 duration-300 hover:-translate-y-1 max-sm:w-full）
+  .about-project-link {
+    width: 15rem; // w-60
+    height: 3.125rem; // h-12.5
+    padding-left: 0.875rem; // px-3.5
+    padding-right: 0.875rem; // px-3.5
+    border: 1px solid var(--art-gray-300); // border border-g-300
+    border-radius: 0.5rem; // rounded-lg
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+    background: var(--art-gray-100); // bg-g-100
+    // 还原 duration-300 + hover:-translate-y-1 的过渡效果
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      // hover:-translate-y-1
+      transform: translateY(-0.25rem);
+    }
+
+    @media (max-width: 39.99rem) {
+      // max-sm:w-full
+      width: 100%;
+    }
+  }
+
+  // 链接文字（text-g-700）
+  .about-project-link-label {
+    color: var(--art-gray-700); // text-g-700
+  }
+
+  // 链接箭头图标（text-lg text-g-600）
+  .about-project-link-icon {
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+    color: var(--art-gray-600); // text-g-600
+  }
+
+  // 右侧插图（w-75 max-md:!hidden）
+  .about-project-img {
+    width: 18.75rem; // w-75
+
+    @media (max-width: 47.99rem) {
+      // max-md:!hidden
+      display: none !important;
+    }
+  }
 </style>

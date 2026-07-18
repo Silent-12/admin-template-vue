@@ -2,11 +2,7 @@
 <template>
   <div class="menu-right">
     <Transition name="context-menu" @before-enter="onBeforeEnter" @after-leave="onAfterLeave">
-      <div
-        v-show="visible"
-        :style="menuStyle"
-        class="context-menu art-card-xs"
-      >
+      <div v-show="visible" :style="menuStyle" class="context-menu art-card-xs">
         <ul class="menu-list" :style="menuListStyle">
           <template v-for="item in menuItems" :key="item.key">
             <!-- 普通菜单项 -->
@@ -17,36 +13,18 @@
               :style="menuItemStyle"
               @click="handleMenuClick(item)"
             >
-              <ArtSvgIcon
-                v-if="item.icon"
-                class="menu-item-icon"
-                :icon="item.icon"
-              />
+              <ArtSvgIcon v-if="item.icon" class="menu-item-icon" :icon="item.icon" />
               <span class="menu-label">{{ item.label }}</span>
             </li>
 
             <!-- 子菜单 -->
-            <li
-              v-else
-              class="menu-item submenu flex-c c-p"
-              :style="menuItemStyle"
-            >
+            <li v-else class="menu-item submenu flex-c c-p" :style="menuItemStyle">
               <div class="submenu-title flex-c">
-                <ArtSvgIcon
-                  v-if="item.icon"
-                  class="menu-item-icon"
-                  :icon="item.icon"
-                />
+                <ArtSvgIcon v-if="item.icon" class="menu-item-icon" :icon="item.icon" />
                 <span class="menu-label">{{ item.label }}</span>
-                <ArtSvgIcon
-                  icon="ri:arrow-right-s-line"
-                  class="submenu-arrow"
-                />
+                <ArtSvgIcon icon="ri:arrow-right-s-line" class="submenu-arrow" />
               </div>
-              <ul
-                class="submenu-list art-card-xs"
-                :style="submenuListStyle"
-              >
+              <ul class="submenu-list art-card-xs" :style="submenuListStyle">
                 <li
                   v-for="child in item.children"
                   :key="child.key"
@@ -55,11 +33,7 @@
                   :style="menuItemStyle"
                   @click="handleMenuClick(child)"
                 >
-                  <ArtSvgIcon
-                    v-if="child.icon"
-                    class="menu-item-icon-child"
-                    :icon="child.icon"
-                  />
+                  <ArtSvgIcon v-if="child.icon" class="menu-item-icon-child" :icon="child.icon" />
                   <span class="menu-label">{{ child.label }}</span>
                 </li>
               </ul>
@@ -360,8 +334,8 @@
     border-radius: 0.25rem; // rounded
     font-size: 0.75rem; // text-xs
     line-height: 1rem; // text-xs
-    transition-property: color, background-color, border-color, outline-color,
-      text-decoration-color, fill, stroke; // transition-colors
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
     transition-duration: 150ms; // duration-150
 
     &:hover {

@@ -89,55 +89,55 @@
 </script>
 
 <style scoped lang="scss">
-// 进度条卡片容器
-.progress-card {
-  height: 8rem; // h-32 (32 * 0.25rem)
-  display: flex; // flex
-  flex-direction: column; // flex-col
-  justify-content: center; // justify-center
-  padding-left: 1.25rem; // px-5
-  padding-right: 1.25rem; // px-5
-}
+  // 进度条卡片容器
+  .progress-card {
+    height: 8rem; // h-32 (32 * 0.25rem)
+    display: flex; // flex
+    flex-direction: column; // flex-col
+    justify-content: center; // justify-center
+    padding-left: 1.25rem; // px-5
+    padding-right: 1.25rem; // px-5
+  }
 
-// 头部（flex-c 提供了 display:flex; align-items:center）
-.card-header {
-  margin-bottom: 0.875rem; // mb-3.5
-}
+  // 头部（flex-c 提供了 display:flex; align-items:center）
+  .card-header {
+    margin-bottom: 0.875rem; // mb-3.5
+  }
 
-// 图标容器（flex-cc 提供了 display:flex; align-items:center; justify-content:center）
-.icon-wrapper {
-  width: 2.75rem; // size-11 (11 * 0.25rem)
-  height: 2.75rem; // size-11
-  background: var(--art-gray-300); // bg-g-300
-  font-size: 1.25rem; // text-xl
-  line-height: 1.75rem; // text-xl
-  border-radius: 0.5rem; // rounded-lg
-}
+  // 图标容器（flex-cc 提供了 display:flex; align-items:center; justify-content:center）
+  .icon-wrapper {
+    width: 2.75rem; // size-11 (11 * 0.25rem)
+    height: 2.75rem; // size-11
+    background: var(--art-gray-300); // bg-g-300
+    font-size: 1.25rem; // text-xl
+    line-height: 1.75rem; // text-xl
+    border-radius: 0.5rem; // rounded-lg
+  }
 
-// 图标 svg
-.icon-svg {
-  font-size: 1.5rem; // text-2xl
-  line-height: 2rem; // text-2xl
-}
+  // 图标 svg
+  .icon-svg {
+    font-size: 1.5rem; // text-2xl
+    line-height: 2rem; // text-2xl
+  }
 
-// 数值文本
-.card-value {
-  display: block; // block
-  margin-bottom: 0.25rem; // mb-1
-  font-size: 1.5rem; // text-2xl
-  line-height: 2rem; // text-2xl
-  font-weight: 600; // font-semibold
-}
+  // 数值文本
+  .card-value {
+    display: block; // block
+    margin-bottom: 0.25rem; // mb-1
+    font-size: 1.5rem; // text-2xl
+    line-height: 2rem; // text-2xl
+    font-weight: 600; // font-semibold
+  }
 
-// 标题
-.card-title {
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
-  color: var(--art-gray-500); // text-g-500
-}
+  // 标题
+  .card-title {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+    color: var(--art-gray-500); // text-g-500
+  }
 
-// ElProgress 进度条外层背景色（穿透到子组件）
-.progress-bar :deep(.el-progress-bar__outer) {
-  background: rgb(240 240 240); // [&_.el-progress-bar__outer]:bg-[rgb(240_240_240)]
-}
+  // ElProgress 进度条外层背景色（穿透到子组件）
+  .progress-bar :deep(.el-progress-bar__outer) {
+    background: rgb(240 240 240); // [&_.el-progress-bar__outer]:bg-[rgb(240_240_240)]
+  }
 </style>

@@ -21,10 +21,7 @@
           </div>
         </div>
         <div class="btn palette-btn c-p flex-cc tad-300">
-          <ArtSvgIcon
-            icon="ri:palette-line"
-            class="palette-icon"
-          />
+          <ArtSvgIcon icon="ri:palette-line" class="palette-icon" />
         </div>
       </div>
       <ElDropdown
@@ -33,10 +30,7 @@
         popper-class="langDropDownStyle"
       >
         <div class="btn language-btn c-p flex-cc tad-300">
-          <ArtSvgIcon
-            icon="ri:translate-2"
-            class="translate-icon"
-          />
+          <ArtSvgIcon icon="ri:translate-2" class="translate-icon" />
         </div>
         <template #dropdown>
           <ElDropdownMenu>
@@ -46,7 +40,11 @@
                 :class="{ 'is-selected': locale === lang.value }"
               >
                 <span class="menu-txt">{{ lang.label }}</span>
-                <ArtSvgIcon icon="ri:check-fill" class="lang-check-icon" v-if="locale === lang.value" />
+                <ArtSvgIcon
+                  icon="ri:check-fill"
+                  class="lang-check-icon"
+                  v-if="locale === lang.value"
+                />
               </ElDropdownItem>
             </div>
           </ElDropdownMenu>
@@ -57,10 +55,7 @@
         class="btn theme-btn c-p flex-cc tad-300"
         @click="themeAnimation"
       >
-        <ArtSvgIcon
-          :icon="isDark ? 'ri:sun-fill' : 'ri:moon-line'"
-          class="theme-icon"
-        />
+        <ArtSvgIcon :icon="isDark ? 'ri:sun-fill' : 'ri:moon-line'" class="theme-icon" />
       </div>
     </div>
   </div>
@@ -244,8 +239,8 @@
     font-size: 1.25rem; // text-xl
     line-height: 1.75rem; // text-xl
     color: var(--art-gray-800); // text-g-800
-    transition-property: color, background-color, border-color, outline-color,
-      text-decoration-color, fill, stroke; // transition-colors
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
     transition-duration: 300ms; // duration-300
   }
 
@@ -253,8 +248,8 @@
   .translate-icon {
     font-size: 19px; // text-[19px]
     color: var(--art-gray-800); // text-g-800
-    transition-property: color, background-color, border-color, outline-color,
-      text-decoration-color, fill, stroke; // transition-colors
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
     transition-duration: 300ms; // duration-300
   }
 
@@ -269,8 +264,8 @@
     font-size: 1.25rem; // text-xl
     line-height: 1.75rem; // text-xl
     color: var(--art-gray-800); // text-g-800
-    transition-property: color, background-color, border-color, outline-color,
-      text-decoration-color, fill, stroke; // transition-colors
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
     transition-duration: 300ms; // duration-300
   }
 

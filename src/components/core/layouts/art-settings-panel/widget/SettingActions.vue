@@ -233,19 +233,19 @@
 </script>
 
 <style scoped lang="scss">
-// 设置操作按钮容器
-.setting-actions {
-  display: flex; // flex
-  gap: 2rem; // gap-8
-  margin-top: 2.5rem; // mt-10
-  padding-top: 1.25rem; // pt-5
-  border-top: 1px solid var(--default-border); // border-t border-[var(--default-border)]
-  background: var(--art-bg-color); // bg-[var(--art-bg-color)]
-}
+  // 设置操作按钮容器
+  .setting-actions {
+    display: flex; // flex
+    gap: 2rem; // gap-8
+    margin-top: 2.5rem; // mt-10
+    padding-top: 1.25rem; // pt-5
+    border-top: 1px solid var(--default-border); // border-t border-[var(--default-border)]
+    background: var(--art-bg-color); // bg-[var(--art-bg-color)]
+  }
 
-// 操作按钮（自适应宽度 + 固定高度）
-.action-button {
-  flex: 1 1 0%; // flex-1
-  height: 2rem !important; // !h-8
-}
+  // 操作按钮（自适应宽度 + 固定高度）
+  .action-button {
+    flex: 1 1 0%; // flex-1
+    height: 2rem !important; // !h-8
+  }
 </style>

@@ -12,19 +12,12 @@
     popper-style="padding: 5px 16px;"
   >
     <template #reference>
-      <img
-        class="user-avatar c-p"
-        src="@imgs/user/avatar.webp"
-        alt="avatar"
-      />
+      <img class="user-avatar c-p" src="@imgs/user/avatar.webp" alt="avatar" />
     </template>
     <template #default>
       <div class="user-menu">
         <div class="user-menu__header flex-c">
-          <img
-            class="user-menu__avatar"
-            src="@imgs/user/avatar.webp"
-          />
+          <img class="user-menu__avatar" src="@imgs/user/avatar.webp" />
           <div class="user-menu__info">
             <span class="user-menu__name">{{ userInfo.userName }}</span>
             <span class="user-menu__email">{{ userInfo.email }}</span>
@@ -267,7 +260,9 @@
 
     &:hover {
       // hover:shadow-xl
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      box-shadow:
+        0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1);
     }
   }
 </style>

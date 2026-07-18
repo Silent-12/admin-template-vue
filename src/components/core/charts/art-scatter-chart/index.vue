@@ -115,9 +115,9 @@
 </script>
 
 <style scoped lang="scss">
-// 图表容器
-.chart-container {
-  position: relative; // relative
-  width: 100%; // w-full
-}
+  // 图表容器
+  .chart-container {
+    position: relative; // relative
+    width: 100%; // w-full
+  }
 </style>

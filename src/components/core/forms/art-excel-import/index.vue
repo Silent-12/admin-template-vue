@@ -62,8 +62,8 @@
 </script>
 
 <style scoped lang="scss">
-// 容器以行内块方式展示
-.excel-import {
-  display: inline-block; // inline-block
-}
+  // 容器以行内块方式展示
+  .excel-import {
+    display: inline-block; // inline-block
+  }
 </style>

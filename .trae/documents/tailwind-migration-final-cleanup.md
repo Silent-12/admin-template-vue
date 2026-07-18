@@ -1,6 +1,7 @@
 # Tailwind CSS → SCSS 迁移：收尾阶段计划
 
 > 本计划承接前序已完成的部分（阶段 0-7 主体迁移），聚焦于：
+>
 > 1. 阶段 7 查漏补缺：修复 3 个在 `render 函数 h()` 与动态 `class` 中仍残留 Tailwind 原生类的文件
 > 2. 阶段 8：彻底移除 Tailwind CSS 依赖
 > 3. 阶段 9：最终验证
@@ -10,6 +11,7 @@
 ## 一、当前状态分析
 
 ### 1.1 已完成的工作
+
 - **阶段 0（SCSS 基础设施）**：
   - 创建 [theme.scss](file:///e:/hulihan/admin-template-pro/src/assets/styles/core/theme.scss)，迁移了 `:root` 与 `.dark` 块的所有 CSS 变量
   - 创建 [utilities.scss](file:///e:/hulihan/admin-template-pro/src/assets/styles/core/utilities.scss)，迁移了 `flex-c / flex-b / flex-cc / flex-cb / tad-200 / tad-300 / border-full-d / border-b-d / border-t-d / border-l-d / border-r-d / c-p / rounded-custom-xs / rounded-custom-sm / art-card-header` 等自定义工具类
@@ -23,7 +25,7 @@
 通过 Grep 全局搜索 `class:\s*['"][^'"]*\b(ml-|mr-|...)` 发现，以下 3 个文件在 **render 函数 `h()` 或动态 class 字符串** 中仍残留 Tailwind 原子类（之前子代理主要搜索 `template` 中的 `class="..."`，未覆盖这些场景）：
 
 | 文件 | 位置 | 残留内容 |
-|------|------|----------|
+| --- | --- | --- |
 | [menu-dialog.vue](file:///e:/hulihan/admin-template-pro/src/views/system/menu/modules/menu-dialog.vue) | 第 67 行 | `class: 'ml-0.5 cursor-help'`（第 59 行已改为 `label-tooltip`） |
 | [system/user/index.vue](file:///e:/hulihan/admin-template-pro/src/views/system/user/index.vue) | 第 132、138 行 | `class: 'size-9.5 rounded-md'`、`class: 'ml-2'` |
 | [art-button-table/index.vue](file:///e:/hulihan/admin-template-pro/src/components/core/forms/art-button-table/index.vue) | 第 5、39-42 行 | 模板：`'inline-flex items-center justify-center min-w-8 h-8 px-2.5 mr-2.5 text-sm c-p rounded-md align-middle'`；动态类：`'bg-theme/12 text-theme'` 等 4 个 |
@@ -31,7 +33,7 @@
 ### 1.3 Tailwind 依赖现状
 
 | 文件 | 行号 | 内容 |
-|------|------|------|
+| --- | --- | --- |
 | [main.ts](file:///e:/hulihan/admin-template-pro/src/main.ts) | 第 6 行 | `import '@styles/core/tailwind.css'` |
 | [vite.config.ts](file:///e:/hulihan/admin-template-pro/vite.config.ts) | 第 11 行 | `import tailwindcss from '@tailwindcss/vite'` |
 | [vite.config.ts](file:///e:/hulihan/admin-template-pro/vite.config.ts) | 第 70 行 | `tailwindcss(),` |
@@ -39,6 +41,7 @@
 | [tailwind.css](file:///e:/hulihan/admin-template-pro/src/assets/styles/core/tailwind.css) | 整个文件 | 含 `@import 'tailwindcss'`、`@theme`、`@utility`、`@layer` 等指令（已迁移至 theme.scss / utilities.scss） |
 
 ### 1.4 关键变量溯源
+
 - `--main-color: var(--el-color-primary)` 定义在 [el-ui.scss](file:///e:/hulihan/admin-template-pro/src/assets/styles/core/el-ui.scss) 第 5 行
 - `--theme-color: var(--main-color)` 定义在 [theme.scss](file:///e:/hulihan/admin-template-pro/src/assets/styles/core/theme.scss) 第 11 行
 - 因此原 Tailwind `bg-theme` / `text-theme` → `var(--theme-color)`
@@ -49,7 +52,7 @@
 ## 二、迁移规则与映射约定（沿用前序阶段）
 
 | Tailwind 类 | SCSS 等价 |
-|-------------|----------|
+| --- | --- |
 | `ml-0.5` | `margin-left: 0.125rem` |
 | `ml-2` | `margin-left: 0.5rem` |
 | `cursor-help` | `cursor: help` |
@@ -78,6 +81,7 @@
 **修改 1**：第 67 行，将 `class: 'ml-0.5 cursor-help'` 改为 `class: 'help-icon'`
 
 **修改 2**：在文件末尾 `</script>` 标签后追加 scoped scss 块：
+
 ```scss
 <style scoped lang="scss">
 // 带 tooltip 的表单标签容器（原 flex items-center）
@@ -103,6 +107,7 @@
 **修改 2**：第 138 行，`class: 'ml-2'` → `class: 'user-info'`
 
 **修改 3**：在文件末尾 `</script>` 标签后追加 scoped scss 块：
+
 ```scss
 <style scoped lang="scss">
 // 用户头像（原 size-9.5 rounded-md）
@@ -126,12 +131,15 @@
 **文件**：[src/components/core/forms/art-button-table/index.vue](file:///e:/hulihan/admin-template-pro/src/components/core/forms/art-button-table/index.vue)
 
 **修改 1**：模板第 5 行，将 Tailwind 原子类替换为单一 BEM 类名（保留全局 `c-p`）：
+
 ```vue
 'class: 'art-button-table c-p',
 ```
+
 即将原 `'inline-flex items-center justify-center min-w-8 h-8 px-2.5 mr-2.5 text-sm c-p rounded-md align-middle'` 改为 `'art-button-table c-p'`。
 
 **修改 2**：第 39-42 行的动态颜色类，将 Tailwind 透明度类替换为语义化 class 名：
+
 ```ts
 add: { icon: 'ri:add-fill', class: 'art-btn-theme' },
 edit: { icon: 'ri:pencil-line', class: 'art-btn-secondary' },
@@ -140,6 +148,7 @@ view: { icon: 'ri:eye-line', class: 'art-btn-info' },
 ```
 
 **修改 3**：在文件末尾 `</script>` 标签后追加 scoped scss 块：
+
 ```scss
 <style scoped lang="scss">
 // 表格按钮基础样式（原 inline-flex items-center justify-center min-w-8 h-8 px-2.5 mr-2.5 text-sm rounded-md align-middle）
@@ -223,6 +232,7 @@ view: { icon: 'ri:eye-line', class: 'art-btn-info' },
 ## 四、验证步骤（阶段 9）
 
 ### 4.1 静态验证
+
 1. **Grep 残留检查**：在 `src/` 下搜索以下模式，确认无残留：
    - `@apply|@reference|@theme|@utility|@custom-variant`（Tailwind 指令）
    - `@tailwindcss/vite|from 'tailwindcss'`（依赖导入）
@@ -232,11 +242,14 @@ view: { icon: 'ri:eye-line', class: 'art-btn-info' },
 2. **文件存在性检查**：确认 `src/assets/styles/core/tailwind.css` 已删除。
 
 ### 4.2 构建验证
+
 1. 执行 `pnpm dev` 启动开发服务器，确认无编译错误、无运行时错误。
 2. 执行 `pnpm build` 确认生产构建通过。
 
 ### 4.3 视觉回归验证（人工）
+
 重点检查以下页面/组件：
+
 - **菜单管理**：菜单弹窗中带问号图标的表单标签（验证 `.label-tooltip` 和 `.help-icon`）
 - **用户管理**：表格中用户头像与用户名/邮箱的布局（验证 `.user-avatar` 和 `.user-info`）
 - **任意含表格操作的页面**：增删改查按钮的颜色（验证 `.art-btn-theme` 等 4 个动态颜色类）
@@ -257,7 +270,7 @@ view: { icon: 'ri:eye-line', class: 'art-btn-info' },
 ## 六、改动文件清单
 
 | # | 文件 | 操作 |
-|---|------|------|
+| --- | --- | --- |
 | 1 | src/views/system/menu/modules/menu-dialog.vue | 修改（第 67 行 + 追加 style 块） |
 | 2 | src/views/system/user/index.vue | 修改（第 132、138 行 + 追加 style 块） |
 | 3 | src/components/core/forms/art-button-table/index.vue | 修改（第 5、39-42 行 + 追加 style 块） |

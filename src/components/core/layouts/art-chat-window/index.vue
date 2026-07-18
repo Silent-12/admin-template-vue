@@ -21,10 +21,7 @@
       </div>
       <div class="chat-body">
         <!-- 聊天消息区域 -->
-        <div
-          class="chat-messages border-t-d"
-          ref="messageContainer"
-        >
+        <div class="chat-messages border-t-d" ref="messageContainer">
           <template v-for="(message, index) in messages" :key="index">
             <div
               class="chat-message"
@@ -33,11 +30,15 @@
               <ElAvatar :size="32" :src="message.avatar" class="chat-message__avatar" />
               <div
                 class="chat-message__content"
-                :class="message.isMe ? 'chat-message__content--end' : 'chat-message__content--start'"
+                :class="
+                  message.isMe ? 'chat-message__content--end' : 'chat-message__content--start'
+                "
               >
                 <div
                   class="chat-message__meta"
-                  :class="message.isMe ? 'chat-message__meta--reverse' : 'chat-message__meta--normal'"
+                  :class="
+                    message.isMe ? 'chat-message__meta--reverse' : 'chat-message__meta--normal'
+                  "
                 >
                   <span class="chat-message__sender">{{ message.sender }}</span>
                   <span class="chat-message__time">{{ message.time }}</span>
@@ -75,7 +76,9 @@
               <ArtSvgIcon icon="ri:image-line" class="chat-input__icon c-p" />
               <ArtSvgIcon icon="ri:emotion-happy-line" class="chat-input__icon c-p" />
             </div>
-            <ElButton type="primary" @click="sendMessage" v-ripple class="chat-input__send">发送</ElButton>
+            <ElButton type="primary" @click="sendMessage" v-ripple class="chat-input__send"
+              >发送</ElButton
+            >
           </div>
         </div>
       </div>

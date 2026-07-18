@@ -30,7 +30,7 @@
               <ElInput
                 class="custom-height"
                 v-model.trim="formData.password"
-                :placeholder="$t('register.placeholder.password)"
+                :placeholder="$t('register.placeholder.password')"
                 type="password"
                 autocomplete="off"
                 show-password

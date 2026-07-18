@@ -16,13 +16,12 @@
         <!-- 系统信息  -->
         <div class="header-bar__system flex-c c-p" @click="toHome" v-if="isTopMenu">
           <ArtLogo class="header-bar__logo" />
-          <p v-if="width >= 1400" class="header-bar__system-name">{{ AppConfig.systemInfo.name }}</p>
+          <p v-if="width >= 1400" class="header-bar__system-name">{{
+            AppConfig.systemInfo.name
+          }}</p>
         </div>
 
-        <ArtLogo
-          class="header-bar__logo-hidden"
-          @click="toHome"
-        />
+        <ArtLogo class="header-bar__logo-hidden" @click="toHome" />
 
         <!-- 菜单按钮 -->
         <ArtIconButton
@@ -80,7 +79,10 @@
         <ArtIconButton
           v-if="shouldShowFullscreen"
           :icon="isFullscreen ? 'ri:fullscreen-exit-line' : 'ri:fullscreen-fill'"
-          :class="[!isFullscreen ? 'full-screen-btn' : 'exit-full-screen-btn', 'header-bar__fullscreen-btn']"
+          :class="[
+            !isFullscreen ? 'full-screen-btn' : 'exit-full-screen-btn',
+            'header-bar__fullscreen-btn'
+          ]"
           @click="toggleFullScreen"
         />
 

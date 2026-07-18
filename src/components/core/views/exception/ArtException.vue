@@ -55,61 +55,61 @@
 </script>
 
 <style scoped lang="scss">
-// 异常页根容器（!border-0 !bg-transparent min-h-screen）
-.exception-page {
-  border: 0 !important; // !border-0
-  background: transparent !important; // !bg-transparent
-  min-height: 100vh; // min-h-screen
-}
-
-// 内部布局（max-md:!block max-md:text-center）
-.exception-inner {
-  @media (max-width: 47.99rem) {
-    // max-md:!block
-    display: block !important;
-    // max-md:text-center
-    text-align: center;
+  // 异常页根容器（!border-0 !bg-transparent min-h-screen）
+  .exception-page {
+    border: 0 !important; // !border-0
+    background: transparent !important; // !bg-transparent
+    min-height: 100vh; // min-h-screen
   }
-}
 
-// 异常图片（!w-100）
-.exception-img {
-  width: 25rem !important; // !w-100
-}
-
-// 文本区域（ml-15 w-75 + max-md:*）
-.exception-text {
-  margin-left: 3.75rem; // ml-15
-  width: 18.75rem; // w-75
-
-  @media (max-width: 47.99rem) {
-    // max-md:mx-auto
-    margin-left: auto;
-    margin-right: auto;
-    // max-md:mt-10
-    margin-top: 2.5rem;
-    // max-md:w-full
-    width: 100%;
-    // max-md:text-center
-    text-align: center;
+  // 内部布局（max-md:!block max-md:text-center）
+  .exception-inner {
+    @media (max-width: 47.99rem) {
+      // max-md:!block
+      display: block !important;
+      // max-md:text-center
+      text-align: center;
+    }
   }
-}
 
-// 描述文本（text-xl leading-7 text-g-600 max-md:text-lg）
-.exception-desc {
-  font-size: 1.25rem; // text-xl
-  line-height: 1.75rem; // leading-7
-  color: var(--art-gray-600); // text-g-600
-
-  @media (max-width: 47.99rem) {
-    // max-md:text-lg
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+  // 异常图片（!w-100）
+  .exception-img {
+    width: 25rem !important; // !w-100
   }
-}
 
-// 按钮（mt-5）
-.exception-btn {
-  margin-top: 1.25rem; // mt-5
-}
+  // 文本区域（ml-15 w-75 + max-md:*）
+  .exception-text {
+    margin-left: 3.75rem; // ml-15
+    width: 18.75rem; // w-75
+
+    @media (max-width: 47.99rem) {
+      // max-md:mx-auto
+      margin-left: auto;
+      margin-right: auto;
+      // max-md:mt-10
+      margin-top: 2.5rem;
+      // max-md:w-full
+      width: 100%;
+      // max-md:text-center
+      text-align: center;
+    }
+  }
+
+  // 描述文本（text-xl leading-7 text-g-600 max-md:text-lg）
+  .exception-desc {
+    font-size: 1.25rem; // text-xl
+    line-height: 1.75rem; // leading-7
+    color: var(--art-gray-600); // text-g-600
+
+    @media (max-width: 47.99rem) {
+      // max-md:text-lg
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+  }
+
+  // 按钮（mt-5）
+  .exception-btn {
+    margin-top: 1.25rem; // mt-5
+  }
 </style>

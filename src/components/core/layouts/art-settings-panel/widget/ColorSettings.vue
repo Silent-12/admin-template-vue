@@ -35,45 +35,45 @@
 </script>
 
 <style scoped lang="scss">
-// 小节标题间距（覆盖 SectionTitle 默认 mt-7.5）
-.color-section-title {
-  margin-top: 2.5rem; // mt-10
-}
-
-// 颜色列表外层（负右外边距，溢出容器）
-.color-list-wrapper {
-  margin-right: -1rem; // -mr-4
-}
-
-// 颜色列表（自动换行）
-.color-list {
-  display: flex; // flex
-  flex-wrap: wrap; // flex-wrap
-}
-
-// 单个颜色块
-.color-item {
-  display: flex; // flex
-  align-items: center; // items-center
-  justify-content: center; // justify-center
-  width: 23px; // size-[23px]
-  height: 23px; // size-[23px]
-  margin-right: 1rem; // mr-4
-  margin-bottom: 0.625rem; // mb-2.5
-  cursor: pointer; // cursor-pointer
-  border-radius: 9999px; // rounded-full
-  transition-property: all; // transition-all
-  transition-duration: 200ms; // duration-200
-
-  &:hover {
-    opacity: 0.85; // hover:opacity-85
+  // 小节标题间距（覆盖 SectionTitle 默认 mt-7.5）
+  .color-section-title {
+    margin-top: 2.5rem; // mt-10
   }
-}
 
-// 选中态对勾图标
-.color-check-icon {
-  font-size: 1rem; // text-base
-  line-height: 1.5rem; // text-base
-  color: #fff !important; // !text-white
-}
+  // 颜色列表外层（负右外边距，溢出容器）
+  .color-list-wrapper {
+    margin-right: -1rem; // -mr-4
+  }
+
+  // 颜色列表（自动换行）
+  .color-list {
+    display: flex; // flex
+    flex-wrap: wrap; // flex-wrap
+  }
+
+  // 单个颜色块
+  .color-item {
+    display: flex; // flex
+    align-items: center; // items-center
+    justify-content: center; // justify-center
+    width: 23px; // size-[23px]
+    height: 23px; // size-[23px]
+    margin-right: 1rem; // mr-4
+    margin-bottom: 0.625rem; // mb-2.5
+    cursor: pointer; // cursor-pointer
+    border-radius: 9999px; // rounded-full
+    transition-property: all; // transition-all
+    transition-duration: 200ms; // duration-200
+
+    &:hover {
+      opacity: 0.85; // hover:opacity-85
+    }
+  }
+
+  // 选中态对勾图标
+  .color-check-icon {
+    font-size: 1rem; // text-base
+    line-height: 1.5rem; // text-base
+    color: #fff !important; // !text-white
+  }
 </style>

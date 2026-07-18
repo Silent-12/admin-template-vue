@@ -24,8 +24,8 @@
 </script>
 
 <style scoped lang="scss">
-// 图标默认内联显示（原 Tailwind inline 类）
-.art-svg-icon {
-  display: inline;
-}
+  // 图标默认内联显示（原 Tailwind inline 类）
+  .art-svg-icon {
+    display: inline;
+  }
 </style>

@@ -71,22 +71,22 @@
 </script>
 
 <style scoped lang="scss">
-// 更多按钮样式
-.more-button {
-  width: 2rem !important; // !size-8
-  height: 2rem !important; // !size-8
-  background: var(--art-gray-200); // bg-g-200
-  font-size: 0.875rem; // text-sm
-  line-height: 1.25rem; // text-sm
+  // 更多按钮样式
+  .more-button {
+    width: 2rem !important; // !size-8
+    height: 2rem !important; // !size-8
+    background: var(--art-gray-200); // bg-g-200
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
 
-  // 暗黑模式背景（45% 透明度）
-  .dark & {
-    background: color-mix(in oklab, var(--art-gray-300) 45%, transparent); // dark:bg-g-300/45
+    // 暗黑模式背景（45% 透明度）
+    .dark & {
+      background: color-mix(in oklab, var(--art-gray-300) 45%, transparent); // dark:bg-g-300/45
+    }
   }
-}
 
-// 下拉项内容布局
-.dropdown-item-content {
-  gap: 0.5rem; // gap-2
-}
+  // 下拉项内容布局
+  .dropdown-item-content {
+    gap: 0.5rem; // gap-2
+  }
 </style>

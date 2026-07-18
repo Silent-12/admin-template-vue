@@ -32,11 +32,7 @@
           <div class="tags-section">
             <h3 class="tags-title">标签</h3>
             <div class="tags-list">
-              <div
-                v-for="item in lableList"
-                :key="item"
-                class="tag-item"
-              >
+              <div v-for="item in lableList" :key="item" class="tag-item">
                 {{ item }}
               </div>
             </div>

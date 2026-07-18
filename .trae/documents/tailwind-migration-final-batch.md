@@ -3,6 +3,7 @@
 ## 概述
 
 完成剩余 3 个布局组件的 Tailwind CSS → SCSS 迁移工作：
+
 1. `art-page-content/index.vue`（template 已迁移，缺 style 块）
 2. `art-screen-lock/index.vue`（未迁移）
 3. `art-work-tab/index.vue`（未迁移，含动态 `:class` 绑定与复杂 google-tab 样式）
@@ -10,11 +11,13 @@
 ## 当前状态分析
 
 ### 文件 1：art-page-content/index.vue
+
 - **状态**：template 已迁移完成（`.layout-content--full-page` / `.route-info-debug` / `.transition-mask` 已替换原 Tailwind 类）
 - **缺失**：尚无 `<style scoped lang="scss">` 块定义这三个类的样式
 - **保留全局类**：`border-full-d`
 
 ### 文件 2：art-screen-lock/index.vue
+
 - **状态**：template 仍使用大量 Tailwind 类，已有 `<style lang="scss" scoped>` 块（含 `.unlock-content` / `.animate-fade-in` / `.shake-animation` / keyframes）
 - **需迁移的 template Tailwind 类**（按区块）：
   - 开发者工具警告覆盖层：`fixed top-0 left-0 z-[999999] flex-cc w-full h-full text-white bg-gradient-to-br from-[#1e1e1e] to-black animate-fade-in`
@@ -25,6 +28,7 @@
 - **保留已有类**：`animate-fade-in`（已定义 keyframes）、`unlock-content`
 
 ### 文件 3：art-work-tab/index.vue
+
 - **状态**：template 使用大量 Tailwind 类 + 动态 `:class` 绑定，已有 `<style scoped>`（**非 scss**）块含复杂 `.google-tab` 规则
 - **需迁移的 template Tailwind 类**：
   - 容器：`box-border flex-b w-full px-5 mb-3 select-none max-sm:px-[15px]` + 动态 `py-1 border-b border-[var(--art-card-border)]` / `pt-1 pb-0 border-b border-[var(--art-card-border)]`
@@ -48,6 +52,7 @@
 **改动**：在 `</script>` 后追加 `<style scoped lang="scss">` 块。
 
 **新增 SCSS 规则**：
+
 ```scss
 <style scoped lang="scss">
   // 路由信息调试显示框（原: px-2 py-1.5 mb-3 text-sm text-g-500 bg-g-200 rounded-md）
@@ -88,7 +93,7 @@
 **改动 1**：template 中为元素添加语义化 class（保留 `flex-cc`/`flex-c`/`c-p`/`animate-fade-in`）。
 
 | 原始 Tailwind 类 | 新增语义类 | 保留全局类 |
-|---|---|---|
+| --- | --- | --- |
 | `fixed top-0 left-0 z-[999999] flex-cc w-full h-full text-white bg-gradient-to-br from-[#1e1e1e] to-black animate-fade-in` | `devtools-warning` | `flex-cc` `animate-fade-in` |
 | `p-5 text-center select-none` | `devtools-warning__content` | - |
 | `mb-7.5 text-5xl` | `devtools-warning__icon` | - |
@@ -113,6 +118,7 @@
 **改动 2**：在已有 `<style lang="scss" scoped>` 块中追加新语义类的 SCSS 规则。
 
 **关键映射**：
+
 - `bg-gradient-to-br from-[#1e1e1e] to-black` → `background-image: linear-gradient(to bottom right, #1e1e1e, #000);`
 - `text-danger` → `color: var(--art-danger);`
 - `text-gray-400` → `color: var(--art-gray-400);`（项目灰色变量，暗黑模式自动切换）
@@ -135,7 +141,7 @@
 **改动 1**：template 中为元素添加语义化 class，转换动态 `:class` 绑定。
 
 | 元素 | 原 Tailwind 类 | 新增语义类 | 保留全局类 | 动态类处理 |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 容器 div | `box-border flex-b w-full px-5 mb-3 select-none max-sm:px-[15px]` | `work-tab` | `flex-b` | `tabStyle==='tab-card'` → `work-tab--card`；`tabStyle==='tab-google'` → `work-tab--google` |
 | 滚动容器 | `w-full overflow-hidden` | `work-tab__scroll` | - | - |
 | ul | `float-left whitespace-nowrap !bg-transparent flex` | `work-tab__list` | - | `tabStyle==='tab-google'` → `work-tab__list--google`（替代 `pl-1`） |
@@ -148,20 +154,18 @@
 | 下拉图标 | `text-2xl text-g-700` | `work-tab__dropdown-icon` | - | - |
 
 **li 元素 `:class` 绑定调整**：
+
 ```html
 <!-- 原 -->
-:class="[
-  item.path === activeTab ? 'activ-tab !text-theme' : 'text-g-600 dark:text-g-800',
-  tabStyle === 'tab-google' ? 'google-tab relative !h-8 !leading-8 !border-none' : ''
-]"
+:class="[ item.path === activeTab ? 'activ-tab !text-theme' : 'text-g-600 dark:text-g-800', tabStyle
+=== 'tab-google' ? 'google-tab relative !h-8 !leading-8 !border-none' : '' ]"
 <!-- 改为 -->
-:class="[
-  item.path === activeTab ? 'activ-tab' : '',
-  tabStyle === 'tab-google' ? 'google-tab' : ''
+:class="[ item.path === activeTab ? 'activ-tab' : '', tabStyle === 'tab-google' ? 'google-tab' : ''
 ]"
 ```
 
 **图标 `:class` 绑定调整**：
+
 ```html
 <!-- 原 -->
 :class="item.path === activeTab ? 'text-theme' : 'text-g-600'"
@@ -171,15 +175,16 @@
 **改动 2**：将 `<style scoped>` 改为 `<style scoped lang="scss">`，保留全部已有 `.google-tab` 规则，追加新语义类规则，修正媒体查询选择器。
 
 **新增 SCSS 规则**（关键部分）：
+
 ```scss
 // 工作台标签页容器
 .work-tab {
   box-sizing: border-box;
   width: 100%;
-  padding-left: 1.25rem;  // px-5
+  padding-left: 1.25rem; // px-5
   padding-right: 1.25rem;
   margin-bottom: 0.75rem; // mb-3
-  user-select: none;      // select-none
+  user-select: none; // select-none
 
   // max-sm:px-[15px]
   @media (max-width: 39.99rem) {
@@ -223,9 +228,9 @@
 // 单个标签项
 .work-tab__item {
   display: inline-flex;
-  height: 2rem;            // h-8
-  margin-right: 0.375rem;  // mr-1.5
-  font-size: 0.75rem;      // text-xs
+  height: 2rem; // h-8
+  margin-right: 0.375rem; // mr-1.5
+  font-size: 0.75rem; // text-xs
   line-height: 1rem;
   color: var(--art-gray-600); // text-g-600（默认非激活）
 
@@ -247,9 +252,9 @@
 
 // 标签图标
 .work-tab__item-icon {
-  font-size: 1rem;        // text-base
+  font-size: 1rem; // text-base
   line-height: 1.5rem;
-  margin-right: 0.25rem;  // mr-1
+  margin-right: 0.25rem; // mr-1
   color: var(--art-gray-600); // 默认非激活
 
   // 激活状态
@@ -266,9 +271,9 @@
 // 关闭按钮
 .work-tab__close {
   position: relative;
-  margin-left: 0.125rem;  // ml-0.5
-  padding: 0.25rem;       // p-1
-  border-radius: 9999px;  // rounded-full
+  margin-left: 0.125rem; // ml-0.5
+  padding: 0.25rem; // p-1
+  border-radius: 9999px; // rounded-full
 
   &:hover {
     background: var(--art-gray-200); // hover:bg-g-200
@@ -277,7 +282,7 @@
 
 // 关闭图标
 .work-tab__close-icon {
-  font-size: 10px;        // text-[10px]
+  font-size: 10px; // text-[10px]
   color: var(--art-gray-600);
 }
 
@@ -287,9 +292,9 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 1px;             // w-px
-  height: 1rem;           // h-4
-  margin-top: auto;       // my-auto
+  width: 1px; // w-px
+  height: 1rem; // h-4
+  margin-top: auto; // my-auto
   margin-bottom: auto;
   background: var(--art-gray-400); // bg-g-400
   transition-property: opacity;
@@ -300,9 +305,9 @@
 .work-tab__dropdown {
   position: relative;
   top: 0;
-  width: 2rem;            // size-8
+  width: 2rem; // size-8
   height: 2rem;
-  line-height: 2rem;      // leading-8
+  line-height: 2rem; // leading-8
   text-align: center;
 
   &:hover {
@@ -312,13 +317,14 @@
 
 // 下拉图标
 .work-tab__dropdown-icon {
-  font-size: 1.5rem;      // text-2xl
+  font-size: 1.5rem; // text-2xl
   line-height: 2rem;
   color: var(--art-gray-700); // text-g-700
 }
 ```
 
 **修正现有媒体查询**：
+
 ```scss
 // 原: .box-border.flex.justify-between（迁移后选择器失效）
 // 改: .work-tab
@@ -351,6 +357,7 @@
 ## 验证步骤
 
 每个文件迁移完成后：
+
 1. **语法检查**：确认 `<style scoped lang="scss">` 块无 SCSS 语法错误
 2. **类引用一致性**：template 中的 class 与 SCSS 中定义的类名一一对应
 3. **全局类保留**：确认 `flex-c`/`flex-b`/`flex-cc`/`flex-cb`/`c-p`/`tad-200`/`border-*-d`/`art-card-xs`/`rounded-custom-*` 等全局类未被移入 scoped SCSS
@@ -359,7 +366,4 @@
 6. **暗黑模式**：确认 `dark:` 变体已转为 `.dark &` 嵌套
 7. **响应式**：确认 `max-sm:` 等已转为 `@media` 查询
 
-全部完成后：
-8. 启动 dev 服务器，检查锁屏、解锁、工作台标签页、页面内容切换等功能正常
-9. 检查暗黑模式下各组件显示正常
-10. 检查响应式布局（移动端/桌面端）工作台标签页显示正常
+全部完成后：8. 启动 dev 服务器，检查锁屏、解锁、工作台标签页、页面内容切换等功能正常 9. 检查暗黑模式下各组件显示正常 10. 检查响应式布局（移动端/桌面端）工作台标签页显示正常
