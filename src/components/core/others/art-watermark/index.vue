@@ -2,7 +2,7 @@
 <template>
   <div
     v-if="watermarkVisible"
-    class="fixed left-0 top-0 h-screen w-screen pointer-events-none"
+    class="watermark-container"
     :style="{ zIndex: zIndex }"
   >
     <ElWatermark
@@ -62,3 +62,15 @@
     zIndex: 3100
   })
 </script>
+
+<style scoped lang="scss">
+// 水印容器（fixed left-0 top-0 h-screen w-screen pointer-events-none）
+.watermark-container {
+  position: fixed; // fixed
+  left: 0; // left-0
+  top: 0; // top-0
+  height: 100vh; // h-screen
+  width: 100vw; // w-screen
+  pointer-events: none; // pointer-events-none
+}
+</style>

@@ -1,15 +1,15 @@
 <template>
-  <div class="flex w-full h-screen">
+  <div class="forget-container">
     <LoginLeftView />
 
-    <div class="relative flex-1">
+    <div class="forget-right-side">
       <AuthTopBar />
 
       <div class="auth-right-wrap">
         <div class="form">
           <h3 class="title">{{ $t('forgetPassword.title') }}</h3>
           <p class="sub-title">{{ $t('forgetPassword.subTitle') }}</p>
-          <div class="mt-5">
+          <div class="input-wrap">
             <span class="input-label" v-if="showInputLabel">账号</span>
             <ElInput
               class="custom-height"
@@ -20,7 +20,7 @@
 
           <div style="margin-top: 15px">
             <ElButton
-              class="w-full custom-height"
+              class="submit-btn custom-height"
               type="primary"
               @click="register"
               :loading="loading"
@@ -31,7 +31,7 @@
           </div>
 
           <div style="margin-top: 15px">
-            <ElButton class="w-full custom-height" plain @click="toLogin">
+            <ElButton class="submit-btn custom-height" plain @click="toLogin">
               {{ $t('forgetPassword.backBtnText') }}
             </ElButton>
           </div>
@@ -57,6 +57,29 @@
   }
 </script>
 
-<style scoped>
-  @import '../login/style.css';
+<style scoped lang="scss">
+  @import '../login/style.scss';
+
+  /* 忘记密码页根容器 */
+  .forget-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+
+  /* 右侧区域容器 */
+  .forget-right-side {
+    position: relative;
+    flex: 1 1 0%;
+  }
+
+  /* 输入框外层间距 */
+  .input-wrap {
+    margin-top: 1.25rem;
+  }
+
+  /* 提交按钮宽度 */
+  .submit-btn {
+    width: 100%;
+  }
 </style>

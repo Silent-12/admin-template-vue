@@ -56,7 +56,7 @@
    */
   const createLabelTooltip = (label: string, tooltip: string) => {
     return () =>
-      h('span', { class: 'flex items-center' }, [
+      h('span', { class: 'label-tooltip' }, [
         h('span', label),
         h(
           ElTooltip,
@@ -64,7 +64,7 @@
             content: tooltip,
             placement: 'top'
           },
-          () => h(ElIcon, { class: 'ml-0.5 cursor-help' }, () => h(QuestionFilled))
+          () => h(ElIcon, { class: 'help-icon' }, () => h(QuestionFilled))
         )
       ])
   }
@@ -382,3 +382,17 @@
     }
   )
 </script>
+
+<style scoped lang="scss">
+// 带 tooltip 的表单标签容器（原 flex items-center）
+.label-tooltip {
+  display: flex;
+  align-items: center;
+}
+
+// 帮助图标（原 ml-0.5 cursor-help）
+.help-icon {
+  margin-left: 0.125rem;
+  cursor: help;
+}
+</style>

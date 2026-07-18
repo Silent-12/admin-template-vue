@@ -1,6 +1,6 @@
 <!-- 图标组件 -->
 <template>
-  <Icon v-if="icon" :icon="icon" v-bind="bindAttrs" class="art-svg-icon inline" />
+  <Icon v-if="icon" :icon="icon" v-bind="bindAttrs" class="art-svg-icon" />
 </template>
 
 <script setup lang="ts">
@@ -22,3 +22,10 @@
     style: (attrs.style as string) || ''
   }))
 </script>
+
+<style scoped lang="scss">
+// 图标默认内联显示（原 Tailwind inline 类）
+.art-svg-icon {
+  display: inline;
+}
+</style>

@@ -1,16 +1,12 @@
 <template>
   <div>
-    <SectionTitle :title="$t('setting.box.title')" class="mt-10" />
-    <div class="box-border flex-cb p-1 mt-5 rounded-lg bg-g-200">
+    <SectionTitle :title="$t('setting.box.title')" class="box-section-title" />
+    <div class="box-style-container flex-cb">
       <div
         v-for="option in boxStyleOptions"
         :key="option.value"
-        class="w-[calc(50%-3px)] h-8.5 leading-8.5 text-sm text-center c-p select-none rounded-md transition-all duration-200"
-        :class="
-          isActive(option.type)
-            ? 'text-g-800 bg-[var(--default-box-color)] dark:!text-white dark:bg-g-300'
-            : 'hover:text-g-800 hover:bg-black/[0.04] dark:hover:bg-black/20'
-        "
+        class="box-style-option c-p"
+        :class="{ 'is-active': isActive(option.type) }"
         @click="boxStyleHandlers.setBoxMode(option.type)"
       >
         {{ option.label }}
@@ -36,3 +32,62 @@
     return type === 'border-mode' ? boxBorderMode.value : !boxBorderMode.value
   }
 </script>
+
+<style scoped lang="scss">
+// 小节标题间距（覆盖 SectionTitle 默认 mt-7.5）
+.box-section-title {
+  margin-top: 2.5rem; // mt-10
+}
+
+// 盒子样式切换容器
+.box-style-container {
+  box-sizing: border-box; // box-border
+  padding: 0.25rem; // p-1
+  margin-top: 1.25rem; // mt-5
+  border-radius: 0.5rem; // rounded-lg
+  background: var(--art-gray-200); // bg-g-200
+}
+
+// 单个盒子样式选项
+.box-style-option {
+  width: calc(50% - 3px); // w-[calc(50%-3px)]
+  height: 2.125rem; // h-8.5
+  font-size: 0.875rem; // text-sm
+  line-height: 2.125rem; // leading-8.5（与高度一致，垂直居中）
+  text-align: center; // text-center
+  user-select: none; // select-none
+  border-radius: 0.375rem; // rounded-md
+  transition-property: all; // transition-all
+  transition-duration: 200ms; // duration-200
+
+  // 未激活态：悬停高亮
+  &:not(.is-active) {
+    &:hover {
+      color: var(--art-gray-800); // hover:text-g-800
+      background: rgba(0, 0, 0, 0.04); // hover:bg-black/[0.04]
+    }
+  }
+
+  // 激活态
+  &.is-active {
+    color: var(--art-gray-800); // text-g-800
+    background: var(--default-box-color); // bg-[var(--default-box-color)]
+  }
+}
+
+// 暗黑模式样式覆盖
+.dark {
+  .box-style-option {
+    &.is-active {
+      color: #fff !important; // dark:!text-white
+      background: var(--art-gray-300); // dark:bg-g-300
+    }
+
+    &:not(.is-active) {
+      &:hover {
+        background: rgba(0, 0, 0, 0.2); // dark:hover:bg-black/20
+      }
+    }
+  }
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="box-border w-full h-full" v-loading="isLoading">
+  <div class="iframe-container" v-loading="isLoading">
     <iframe
       ref="iframeRef"
       :src="iframeUrl"
       frameborder="0"
-      class="w-full h-full min-h-[calc(100vh-120px)] border-none"
+      class="iframe-view"
       @load="handleIframeLoad"
     ></iframe>
   </div>
@@ -40,3 +40,20 @@
     isLoading.value = false
   }
 </script>
+
+<style scoped lang="scss">
+  /* iframe 外层容器 */
+  .iframe-container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* iframe 元素：铺满容器并保留底部留白 */
+  .iframe-view {
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 120px);
+    border: none;
+  }
+</style>

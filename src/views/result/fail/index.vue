@@ -8,11 +8,11 @@
     <template #content>
       <p>您提交的内容有如下错误：</p>
       <p>
-        <ArtSvgIcon icon="ri:close-circle-line" class="text-red-500 mr-1" />
+        <ArtSvgIcon icon="ri:close-circle-line" class="error-icon" />
         <span>您的账户已被冻结</span>
       </p>
       <p>
-        <ArtSvgIcon icon="ri:close-circle-line" class="text-red-500 mr-1" />
+        <ArtSvgIcon icon="ri:close-circle-line" class="error-icon" />
         <span>您的账户还不具备申请资格</span>
       </p>
     </template>
@@ -26,3 +26,11 @@
 <script setup lang="ts">
   defineOptions({ name: 'ResultFail' })
 </script>
+
+<style scoped lang="scss">
+  /* 错误图标（红色 + 右侧间距） */
+  .error-icon {
+    margin-right: 0.25rem;
+    color: #ef4444;
+  }
+</style>

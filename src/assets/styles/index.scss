@@ -1,6 +1,12 @@
 // 重置默认样式
 @use './core/reset.scss';
 
+// 主题变量（亮色 / 暗黑模式 CSS 变量，从 tailwind.css 迁移）
+@use './core/theme.scss';
+
+// 全局工具类（flex-c / border-*-d / c-p / art-card-header 等，从 tailwind.css 迁移）
+@use './core/utilities.scss';
+
 // 应用全局样式
 @use './core/app.scss';
 

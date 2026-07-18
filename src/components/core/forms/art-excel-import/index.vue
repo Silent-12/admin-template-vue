@@ -1,6 +1,6 @@
 <!-- 导入 Excel 文件 -->
 <template>
-  <div class="inline-block">
+  <div class="excel-import">
     <ElUpload
       :auto-upload="false"
       accept=".xlsx, .xls"
@@ -60,3 +60,10 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+// 容器以行内块方式展示
+.excel-import {
+  display: inline-block; // inline-block
+}
+</style>

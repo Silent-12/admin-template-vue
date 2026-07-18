@@ -1,6 +1,6 @@
 <!-- 水平菜单 -->
 <template>
-  <div class="flex-1 overflow-hidden">
+  <div class="horizontal-menu-wrap">
     <ElMenu
       :ellipsis="true"
       mode="horizontal"
@@ -11,7 +11,7 @@
       :show-timeout="50"
       :hide-timeout="50"
       popper-class="horizontal-menu-popper"
-      class="w-full border-none"
+      class="horizontal-menu"
     >
       <HorizontalSubmenu
         v-for="item in filteredMenuItems"
@@ -90,7 +90,19 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  // 菜单外层容器：flex-1 overflow-hidden
+  .horizontal-menu-wrap {
+    flex: 1 1 0%;
+    overflow: hidden;
+  }
+
+  // 水平菜单：w-full border-none
+  .horizontal-menu {
+    width: 100%;
+    border: none;
+  }
+
   /* Remove el-menu bottom border */
   :deep(.el-menu) {
     border-bottom: none !important;

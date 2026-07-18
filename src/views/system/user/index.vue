@@ -129,13 +129,13 @@
           formatter: (row) => {
             return h('div', { class: 'user flex-c' }, [
               h(ElImage, {
-                class: 'size-9.5 rounded-md',
+                class: 'user-avatar',
                 src: row.avatar,
                 previewSrcList: [row.avatar],
                 // 图片预览是否插入至 body 元素上，用于解决表格内部图片预览样式异常
                 previewTeleported: true
               }),
-              h('div', { class: 'ml-2' }, [
+              h('div', { class: 'user-info' }, [
                 h('p', { class: 'user-name' }, row.userName),
                 h('p', { class: 'email' }, row.userEmail)
               ])
@@ -257,3 +257,17 @@
     console.log('选中行数据:', selectedRows.value)
   }
 </script>
+
+<style scoped lang="scss">
+// 用户头像（原 size-9.5 rounded-md）
+.user-avatar {
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 0.375rem;
+}
+
+// 用户名与邮箱容器（原 ml-2）
+.user-info {
+  margin-left: 0.5rem;
+}
+</style>

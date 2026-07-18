@@ -35,7 +35,7 @@
       ref="handler"
       :style="handlerStyle"
     >
-      <ArtSvgIcon :icon="value ? successIcon : handlerIcon" class="text-g-600"></ArtSvgIcon>
+      <ArtSvgIcon :icon="value ? successIcon : handlerIcon" class="dv_handler_icon"></ArtSvgIcon>
     </div>
   </div>
 </template>
@@ -359,6 +359,11 @@
       .el-icon-circle-check {
         margin-top: 9px;
         color: #6c6;
+      }
+
+      // 滑块图标颜色
+      .dv_handler_icon {
+        color: var(--art-gray-600); // text-g-600
       }
     }
 

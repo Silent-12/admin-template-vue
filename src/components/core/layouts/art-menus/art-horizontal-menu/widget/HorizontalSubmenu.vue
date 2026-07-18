@@ -1,8 +1,8 @@
 <template>
-  <ElSubMenu v-if="hasChildren" :index="item.path || item.meta.title" class="!p-0">
+  <ElSubMenu v-if="hasChildren" :index="item.path || item.meta.title" class="horizontal-submenu">
     <template #title>
-      <ArtSvgIcon :icon="item.meta.icon" :color="theme?.iconColor" class="mr-1 text-lg" />
-      <span class="text-md">{{ formatMenuTitle(item.meta.title) }}</span>
+      <ArtSvgIcon :icon="item.meta.icon" :color="theme?.iconColor" class="submenu-icon" />
+      <span class="submenu-title">{{ formatMenuTitle(item.meta.title) }}</span>
       <div v-if="item.meta.showBadge" class="art-badge art-badge-horizontal" />
       <div v-if="item.meta.showTextBadge" class="art-text-badge">
         {{ item.meta.showTextBadge }}
@@ -29,10 +29,10 @@
     <ArtSvgIcon
       :icon="item.meta.icon"
       :color="theme?.iconColor"
-      class="mr-1 text-lg"
+      class="submenu-icon"
       :style="{ color: theme.iconColor }"
     />
-    <span class="text-md">{{ formatMenuTitle(item.meta.title) }}</span>
+    <span class="submenu-title">{{ formatMenuTitle(item.meta.title) }}</span>
     <div
       v-if="item.meta.showBadge"
       class="art-badge"
@@ -99,7 +99,25 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  // 子菜单容器：!p-0
+  .horizontal-submenu {
+    padding: 0 !important;
+  }
+
+  // 子菜单/菜单项图标：mr-1 text-lg
+  .submenu-icon {
+    margin-right: 0.25rem; // mr-1
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+  }
+
+  // 子菜单/菜单项标题：text-md
+  .submenu-title {
+    font-size: 1rem; // text-md
+    line-height: 1.5rem; // text-md
+  }
+
   :deep(.el-sub-menu__title .el-sub-menu__icon-arrow) {
     right: 10px !important;
   }

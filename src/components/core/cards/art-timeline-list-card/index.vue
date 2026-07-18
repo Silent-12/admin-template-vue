@@ -1,12 +1,12 @@
 <!-- 时间轴列表卡片 -->
 <template>
-  <div class="art-card p-5">
-    <div class="pb-3.5">
-      <p class="text-lg font-medium">{{ title }}</p>
-      <p class="text-sm text-g-600">{{ subtitle }}</p>
+  <div class="art-card timeline-list-card">
+    <div class="card-header">
+      <p class="card-title">{{ title }}</p>
+      <p class="card-subtitle">{{ subtitle }}</p>
     </div>
     <ElScrollbar :style="{ height: maxHeight }">
-      <ElTimeline class="!pl-0.5">
+      <ElTimeline class="timeline-custom">
         <ElTimelineItem
           v-for="item in list"
           :key="item.time"
@@ -15,10 +15,10 @@
           :color="item.status"
           :center="true"
         >
-          <div class="flex-c gap-3">
-            <div class="flex-c gap-2">
-              <span class="text-sm">{{ item.content }}</span>
-              <span v-if="item.code" class="text-sm text-theme"> #{{ item.code }} </span>
+          <div class="item-content flex-c">
+            <div class="item-inner flex-c">
+              <span class="item-text">{{ item.content }}</span>
+              <span v-if="item.code" class="item-code"> #{{ item.code }} </span>
             </div>
           </div>
         </ElTimelineItem>
@@ -67,3 +67,57 @@
   // 计算最大高度
   const maxHeight = computed(() => `${ITEM_HEIGHT * props.maxCount}px`)
 </script>
+
+<style scoped lang="scss">
+// 时间轴列表卡片容器
+.timeline-list-card {
+  padding: 1.25rem; // p-5
+}
+
+// 卡片头部
+.card-header {
+  padding-bottom: 0.875rem; // pb-3.5
+}
+
+// 标题
+.card-title {
+  font-size: 1.125rem; // text-lg
+  line-height: 1.75rem; // text-lg
+  font-weight: 500; // font-medium
+}
+
+// 副标题
+.card-subtitle {
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+  color: var(--art-gray-600); // text-g-600
+}
+
+// ElTimeline 自定义内边距（保留 !important 以覆盖 el-timeline 默认 padding）
+.timeline-custom {
+  padding-left: 0.125rem !important; // !pl-0.5 (0.5 * 0.25rem)
+}
+
+// 内容行（flex-c 提供了 display:flex; align-items:center）
+.item-content {
+  gap: 0.75rem; // gap-3
+}
+
+// 内容内层（flex-c 提供了 display:flex; align-items:center）
+.item-inner {
+  gap: 0.5rem; // gap-2
+}
+
+// 内容文本
+.item-text {
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+}
+
+// 代码标识
+.item-code {
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+  color: var(--theme-color); // text-theme
+}
+</style>

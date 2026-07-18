@@ -4,30 +4,30 @@
     <!-- 开发者工具警告覆盖层 -->
     <div
       v-if="showDevToolsWarning"
-      class="fixed top-0 left-0 z-[999999] flex-cc w-full h-full text-white bg-gradient-to-br from-[#1e1e1e] to-black animate-fade-in"
+      class="dev-tools-warning flex-cc animate-fade-in"
     >
-      <div class="p-5 text-center select-none">
-        <div class="mb-7.5 text-5xl">🔒</div>
-        <h1 class="m-0 mb-5 text-3xl font-semibold text-danger">系统已锁定</h1>
-        <p class="max-w-125 m-0 text-lg leading-relaxed text-white">
+      <div class="dev-tools-warning__content">
+        <div class="dev-tools-warning__icon">🔒</div>
+        <h1 class="dev-tools-warning__title">系统已锁定</h1>
+        <p class="dev-tools-warning__desc">
           检测到开发者工具已打开<br />
           为了系统安全，请关闭开发者工具后继续使用
         </p>
-        <div class="mt-7.5 text-sm text-gray-400">Security Lock Activated</div>
+        <div class="dev-tools-warning__footer">Security Lock Activated</div>
       </div>
     </div>
 
     <!-- 锁屏弹窗 -->
     <div v-if="!isLock">
       <ElDialog v-model="visible" :width="370" :show-close="false" @open="handleDialogOpen">
-        <div class="flex-c flex-col">
-          <img class="w-16 h-16 rounded-full" src="@imgs/user/avatar.webp" alt="用户头像" />
-          <div class="mt-7.5 mb-3.5 text-base font-medium">{{ userInfo.userName }}</div>
+        <div class="lock-dialog__body flex-c">
+          <img class="lock-dialog__avatar" src="@imgs/user/avatar.webp" alt="用户头像" />
+          <div class="lock-dialog__username">{{ userInfo.userName }}</div>
           <ElForm
             ref="formRef"
             :model="formData"
             :rules="rules"
-            class="w-[90%]"
+            class="lock-dialog__form"
             @submit.prevent="handleLock"
           >
             <ElFormItem prop="password">
@@ -38,7 +38,7 @@
                 :show-password="true"
                 autocomplete="new-password"
                 ref="lockInputRef"
-                class="w-full mt-9"
+                class="lock-dialog__input"
                 @keyup.enter="handleLock"
               >
                 <template #suffix>
@@ -48,7 +48,7 @@
                 </template>
               </ElInput>
             </ElFormItem>
-            <ElButton type="primary" class="w-full mt-0.5" @click="handleLock" v-ripple>
+            <ElButton type="primary" class="lock-dialog__submit" @click="handleLock" v-ripple>
               {{ $t('lockScreen.lock.btnText') }}
             </ElButton>
           </ElForm>
@@ -58,16 +58,16 @@
 
     <!-- 解锁界面 -->
     <div v-else class="unlock-content">
-      <div class="flex-c flex-col w-80">
-        <img class="w-16 h-16 mt-5 rounded-full" src="@imgs/user/avatar.webp" alt="用户头像" />
-        <div class="mt-3 mb-3.5 text-base font-medium">
+      <div class="unlock-content__body flex-c">
+        <img class="unlock-content__avatar" src="@imgs/user/avatar.webp" alt="用户头像" />
+        <div class="unlock-content__username">
           {{ userInfo.userName }}
         </div>
         <ElForm
           ref="unlockFormRef"
           :model="unlockForm"
           :rules="rules"
-          class="w-full !px-2.5"
+          class="unlock-content__form"
           @submit.prevent="handleUnlock"
         >
           <ElFormItem prop="password">
@@ -78,7 +78,7 @@
               :show-password="true"
               autocomplete="new-password"
               ref="unlockInputRef"
-              class="mt-5"
+              class="unlock-content__input"
             >
               <template #suffix>
                 <ElIcon class="c-p" @click="handleUnlock">
@@ -88,13 +88,13 @@
             </ElInput>
           </ElFormItem>
 
-          <ElButton type="primary" class="w-full mt-2" @click="handleUnlock" v-ripple>
+          <ElButton type="primary" class="unlock-content__submit" @click="handleUnlock" v-ripple>
             {{ $t('lockScreen.unlock.btnText') }}
           </ElButton>
-          <div class="w-full text-center">
+          <div class="unlock-content__back-wrapper">
             <ElButton
               text
-              class="mt-2.5 !text-g-600 hover:!text-theme hover:!bg-transparent"
+              class="unlock-content__back-btn"
               @click="toLogin"
             >
               {{ $t('lockScreen.unlock.backBtnText') }}
@@ -455,6 +455,103 @@
     border-radius: 10px;
   }
 
+  // ==================== 开发者工具警告覆盖层 ====================
+  // fixed top-0 left-0 z-[999999] flex-cc w-full h-full text-white
+  // bg-gradient-to-br from-[#1e1e1e] to-black
+  // 保留全局工具类 flex-cc
+  .dev-tools-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999; // z-[999999]
+    width: 100%; // w-full
+    height: 100%; // h-full
+    color: #fff; // text-white
+    background-image: linear-gradient(to bottom right, #1e1e1e, #000); // bg-gradient-to-br from-[#1e1e1e] to-black
+
+    // p-5 text-center select-none
+    &__content {
+      padding: 1.25rem; // p-5
+      text-align: center;
+      user-select: none; // select-none
+    }
+
+    // mb-7.5 text-5xl
+    &__icon {
+      margin-bottom: 1.875rem; // mb-7.5
+      font-size: 3rem; // text-5xl
+      line-height: 1;
+    }
+
+    // m-0 mb-5 text-3xl font-semibold text-danger
+    &__title {
+      margin: 0 0 1.25rem; // m-0 mb-5
+      font-size: 1.875rem; // text-3xl
+      line-height: 2.25rem;
+      font-weight: 600; // font-semibold
+      color: var(--art-danger); // text-danger
+    }
+
+    // max-w-125 m-0 text-lg leading-relaxed text-white
+    &__desc {
+      max-width: 31.25rem; // max-w-125
+      margin: 0; // m-0
+      font-size: 1.125rem; // text-lg
+      line-height: 1.625; // leading-relaxed
+      color: #fff; // text-white
+    }
+
+    // mt-7.5 text-sm text-gray-400
+    &__footer {
+      margin-top: 1.875rem; // mt-7.5
+      font-size: 0.875rem; // text-sm
+      line-height: 1.25rem;
+      color: #9ca3af; // text-gray-400（Tailwind 原生色板）
+    }
+  }
+
+  // ==================== 锁屏弹窗 ====================
+  .lock-dialog {
+    // flex-col（与全局工具类 flex-c 组合使用）
+    &__body {
+      flex-direction: column; // flex-col
+    }
+
+    // w-16 h-16 rounded-full
+    &__avatar {
+      width: 4rem; // w-16
+      height: 4rem; // h-16
+      border-radius: 9999px; // rounded-full
+    }
+
+    // mt-7.5 mb-3.5 text-base font-medium
+    &__username {
+      margin-top: 1.875rem; // mt-7.5
+      margin-bottom: 0.875rem; // mb-3.5
+      font-size: 1rem; // text-base
+      line-height: 1.5rem;
+      font-weight: 500; // font-medium
+    }
+
+    // w-[90%]
+    &__form {
+      width: 90%;
+    }
+
+    // w-full mt-9
+    &__input {
+      width: 100%; // w-full
+      margin-top: 2.25rem; // mt-9
+    }
+
+    // w-full mt-0.5
+    &__submit {
+      width: 100%; // w-full
+      margin-top: 0.125rem; // mt-0.5
+    }
+  }
+
+  // ==================== 解锁界面 ====================
   .unlock-content {
     position: fixed;
     inset: 0;
@@ -467,6 +564,64 @@
     background-image: url('@imgs/lock/bg_light.webp');
     background-size: cover;
     transition: transform 0.3s ease-in-out;
+
+    // flex-col w-80（与全局工具类 flex-c 组合使用）
+    &__body {
+      flex-direction: column; // flex-col
+      width: 20rem; // w-80
+    }
+
+    // w-16 h-16 mt-5 rounded-full
+    &__avatar {
+      width: 4rem; // w-16
+      height: 4rem; // h-16
+      margin-top: 1.25rem; // mt-5
+      border-radius: 9999px; // rounded-full
+    }
+
+    // mt-3 mb-3.5 text-base font-medium
+    &__username {
+      margin-top: 0.75rem; // mt-3
+      margin-bottom: 0.875rem; // mb-3.5
+      font-size: 1rem; // text-base
+      line-height: 1.5rem;
+      font-weight: 500; // font-medium
+    }
+
+    // w-full !px-2.5
+    &__form {
+      width: 100%; // w-full
+      padding-left: 0.625rem !important; // !px-2.5
+      padding-right: 0.625rem !important;
+    }
+
+    // mt-5
+    &__input {
+      margin-top: 1.25rem; // mt-5
+    }
+
+    // w-full mt-2
+    &__submit {
+      width: 100%; // w-full
+      margin-top: 0.5rem; // mt-2
+    }
+
+    // w-full text-center
+    &__back-wrapper {
+      width: 100%; // w-full
+      text-align: center;
+    }
+
+    // mt-2.5 !text-g-600 hover:!text-theme hover:!bg-transparent
+    &__back-btn {
+      margin-top: 0.625rem; // mt-2.5
+      color: var(--art-gray-600) !important; // !text-g-600
+
+      &:hover {
+        color: var(--theme-color) !important; // hover:!text-theme
+        background: transparent !important; // hover:!bg-transparent
+      }
+    }
   }
 
   .dark {

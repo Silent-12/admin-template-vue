@@ -2,16 +2,16 @@
 <template>
   <div
     v-if="showWorkTab"
-    class="box-border flex-b w-full px-5 mb-3 select-none max-sm:px-[15px]"
+    class="work-tab flex-b"
     :class="[
-      tabStyle === 'tab-card' ? 'py-1 border-b border-[var(--art-card-border)]' : '',
-      tabStyle === 'tab-google' ? 'pt-1 pb-0 border-b border-[var(--art-card-border)]' : ''
+      tabStyle === 'tab-card' ? 'work-tab--card' : '',
+      tabStyle === 'tab-google' ? 'work-tab--google' : ''
     ]"
   >
-    <div class="w-full overflow-hidden" ref="scrollRef">
+    <div class="work-tab__scroll" ref="scrollRef">
       <ul
-        class="float-left whitespace-nowrap !bg-transparent flex"
-        :class="[tabStyle === 'tab-google' ? 'pl-1' : '']"
+        class="work-tab__list"
+        :class="[tabStyle === 'tab-google' ? 'work-tab__list--google' : '']"
         ref="tabsRef"
         :style="{
           transform: `translateX(${scrollState.translateX}px)`,
@@ -19,10 +19,12 @@
         }"
       >
         <li
-          class="art-card-xs inline-flex flex-cc h-8 mr-1.5 text-xs c-p hover:text-theme group"
+          class="work-tab__item art-card-xs flex-cc c-p"
           :class="[
-            item.path === activeTab ? 'activ-tab !text-theme' : 'text-g-600 dark:text-g-800',
-            tabStyle === 'tab-google' ? 'google-tab relative !h-8 !leading-8 !border-none' : ''
+            item.path === activeTab
+              ? 'work-tab__item--active activ-tab'
+              : 'work-tab__item--inactive',
+            tabStyle === 'tab-google' ? 'google-tab' : ''
           ]"
           :style="{
             padding: item.fixedTab ? '0 10px' : '0 8px 0 12px',
@@ -41,35 +43,34 @@
           <ArtSvgIcon
             v-show="item.icon"
             :icon="item.icon"
-            class="text-base mr-1 group-hover:text-theme"
-            :class="item.path === activeTab ? 'text-theme' : 'text-g-600'"
+            class="work-tab__item-icon"
           />
           {{ item.customTitle || formatMenuTitle(item.title) }}
           <span
             v-if="list.length > 1 && !item.fixedTab"
-            class="inline-flex flex-cc relative ml-0.5 p-1 rounded-full tad-200 hover:bg-g-200"
+            class="work-tab__close flex-cc tad-200"
             @click.stop="closeWorktab('current', item.path)"
           >
-            <ArtSvgIcon icon="ri:close-large-fill" class="text-[10px] text-g-600" />
+            <ArtSvgIcon icon="ri:close-large-fill" class="work-tab__close-icon" />
           </span>
           <div
             v-if="tabStyle === 'tab-google'"
-            class="line absolute top-0 bottom-0 left-0 w-px h-4 my-auto bg-g-400 transition-opacity duration-150"
+            class="line"
           />
         </li>
       </ul>
     </div>
 
-    <div class="flex">
+    <div class="work-tab__actions">
       <div
-        class="flex-cc art-card-xs relative top-0 size-8 leading-8 text-center c-p tad-200 hover:!bg-hover-color"
+        class="work-tab__menu-btn flex-cc art-card-xs c-p tad-200"
         :style="{
           borderRadius: 'calc(var(--custom-radius) / 2.5 + 0px)',
           marginTop: tabStyle === 'tab-google' ? '-2px' : ''
         }"
         @click="(e: MouseEvent) => showMenu(e, activeTab)"
       >
-        <ArtSvgIcon icon="iconamoon:arrow-down-2-thin" class="text-2xl text-g-700" />
+        <ArtSvgIcon icon="iconamoon:arrow-down-2-thin" class="work-tab__menu-icon" />
       </div>
     </div>
 
@@ -479,104 +480,284 @@
   )
 </script>
 
-<style scoped>
-  .google-tab.activ-tab {
-    color: var(--theme-color) !important;
-    background-color: var(--el-color-primary-light-9) !important;
-    border-bottom: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+<style scoped lang="scss">
+  // ==================== 标签页容器 ====================
+  // box-border flex-b w-full px-5 mb-3 select-none max-sm:px-[15px]
+  // 保留全局工具类 flex-b
+  .work-tab {
+    box-sizing: border-box;
+    width: 100%; // w-full
+    padding-left: 1.25rem; // px-5
+    padding-right: 1.25rem;
+    margin-bottom: 0.75rem; // mb-3
+    user-select: none; // select-none
+
+    // tab-card: py-1 border-b border-[var(--art-card-border)]
+    &--card {
+      padding-top: 0.25rem; // py-1
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--art-card-border);
+    }
+
+    // tab-google: pt-1 pb-0 border-b border-[var(--art-card-border)]
+    &--google {
+      padding-top: 0.25rem; // pt-1
+      padding-bottom: 0; // pb-0
+      border-bottom: 1px solid var(--art-card-border);
+    }
   }
 
-  .google-tab.activ-tab::before,
-  .google-tab.activ-tab::after {
+  // 滚动容器：w-full overflow-hidden
+  .work-tab__scroll {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  // 标签列表：float-left whitespace-nowrap !bg-transparent flex
+  .work-tab__list {
+    display: flex;
+    float: left;
+    white-space: nowrap;
+    background: transparent !important;
+
+    // tab-google: pl-1
+    &--google {
+      padding-left: 0.25rem; // pl-1
+    }
+  }
+
+  // ==================== 标签项 ====================
+  // art-card-xs inline-flex flex-cc h-8 mr-1.5 text-xs c-p hover:text-theme group
+  // 保留全局工具类 flex-cc c-p art-card-xs
+  .work-tab__item {
+    display: inline-flex;
+    height: 2rem; // h-8
+    margin-right: 0.375rem; // mr-1.5
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+
+    // hover:text-theme + group-hover:text-theme（作用于 icon）
+    &:hover {
+      color: var(--theme-color);
+
+      .work-tab__item-icon {
+        color: var(--theme-color);
+      }
+    }
+
+    // 激活状态：!text-theme
+    &--active {
+      color: var(--theme-color) !important;
+
+      .work-tab__item-icon {
+        color: var(--theme-color);
+      }
+    }
+
+    // 非激活状态：text-g-600 dark:text-g-800
+    &--inactive {
+      color: var(--art-gray-600);
+
+      .work-tab__item-icon {
+        color: var(--art-gray-600);
+      }
+
+      // 暗黑模式
+      .dark & {
+        color: var(--art-gray-800);
+
+        .work-tab__item-icon {
+          color: var(--art-gray-800);
+        }
+      }
+    }
+  }
+
+  // 标签图标：text-base mr-1
+  .work-tab__item-icon {
+    margin-right: 0.25rem; // mr-1
+    font-size: 1rem; // text-base
+    line-height: 1.5rem;
+  }
+
+  // 关闭按钮：inline-flex flex-cc relative ml-0.5 p-1 rounded-full hover:bg-g-200
+  // 保留全局工具类 flex-cc tad-200
+  .work-tab__close {
+    position: relative;
+    display: inline-flex;
+    margin-left: 0.125rem; // ml-0.5
+    padding: 0.25rem; // p-1
+    border-radius: 9999px; // rounded-full
+
+    &:hover {
+      background: var(--art-gray-200); // hover:bg-g-200
+    }
+  }
+
+  // 关闭图标：text-[10px] text-g-600
+  .work-tab__close-icon {
+    font-size: 10px; // text-[10px]
+    color: var(--art-gray-600);
+  }
+
+  // ==================== 装饰线（google-tab 内） ====================
+  // absolute top-0 bottom-0 left-0 w-px h-4 my-auto bg-g-400 transition-opacity duration-150
+  .work-tab .line {
     position: absolute;
+    top: 0;
     bottom: 0;
-    width: 20px;
-    height: 20px;
-    content: '';
-    border-radius: 50%;
-    box-shadow: 0 0 0 30px var(--el-color-primary-light-9);
+    left: 0;
+    width: 1px; // w-px
+    height: 1rem; // h-4
+    margin-top: auto; // my-auto
+    margin-bottom: auto;
+    background: var(--art-gray-400); // bg-g-400
+    transition-property: opacity; // transition-opacity
+    transition-duration: 150ms; // duration-150
   }
 
-  .google-tab.activ-tab::before {
-    left: -20px;
-    clip-path: inset(50% -10px 0 50%);
+  // ==================== 右侧操作区 ====================
+  // flex
+  .work-tab__actions {
+    display: flex;
   }
 
-  .google-tab.activ-tab::after {
-    right: -20px;
-    clip-path: inset(50% 50% 0 -10px);
+  // 菜单按钮：flex-cc art-card-xs relative top-0 size-8 leading-8 text-center hover:!bg-hover-color
+  // 保留全局工具类 flex-cc c-p tad-200 art-card-xs
+  .work-tab__menu-btn {
+    position: relative;
+    top: 0;
+    width: 2rem; // size-8
+    height: 2rem; // size-8
+    line-height: 2rem; // leading-8
+    text-align: center;
+
+    &:hover {
+      background: var(--art-hover-color) !important; // hover:!bg-hover-color
+    }
   }
 
+  // 菜单图标：text-2xl text-g-700
+  .work-tab__menu-icon {
+    font-size: 1.5rem; // text-2xl
+    line-height: 2rem;
+    color: var(--art-gray-700); // text-g-700
+  }
+
+  // ==================== Google 风格标签 ====================
+  // google-tab relative !h-8 !leading-8 !border-none
+  .google-tab {
+    position: relative;
+    height: 2rem !important; // !h-8
+    line-height: 2rem !important; // !leading-8
+    border: none !important; // !border-none
+
+    // 激活状态
+    &.activ-tab {
+      color: var(--theme-color) !important;
+      background-color: var(--el-color-primary-light-9) !important;
+      border-bottom: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+
+      &::before,
+      &::after {
+        position: absolute;
+        bottom: 0;
+        width: 20px;
+        height: 20px;
+        content: '';
+        border-radius: 50%;
+        box-shadow: 0 0 0 30px var(--el-color-primary-light-9);
+      }
+
+      &::before {
+        left: -20px;
+        clip-path: inset(50% -10px 0 50%);
+      }
+
+      &::after {
+        right: -20px;
+        clip-path: inset(50% 50% 0 -10px);
+      }
+    }
+
+    // 非激活 hover 状态
+    &:not(.activ-tab):hover {
+      box-sizing: border-box;
+      color: var(--art-gray-600) !important;
+      background-color: var(--art-gray-200) !important;
+      border-bottom: 1px solid var(--default-box-color) !important;
+      border-radius: calc(var(--custom-radius) / 2.5 + 4px) !important;
+    }
+
+    // 装饰线显隐
+    &:hover .line,
+    &.activ-tab .line,
+    &:first-child .line {
+      opacity: 0;
+    }
+
+    &:hover + .google-tab .line,
+    &.activ-tab + .google-tab .line {
+      opacity: 0;
+    }
+
+    // 伪元素基础样式
+    &::before,
+    &::after {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      content: '';
+      border-radius: 50%;
+      box-shadow: 0 0 0 30px transparent;
+    }
+
+    &::before {
+      left: -20px;
+      clip-path: inset(50% -10px 0 50%);
+    }
+
+    &::after {
+      right: -20px;
+      clip-path: inset(50% 50% 0 -10px);
+    }
+
+    // 图标 hover
+    i:hover {
+      color: var(--art-gray-700);
+      background: var(--art-gray-300);
+    }
+  }
+
+  // 暗黑模式下 google-tab 激活状态
   .dark .google-tab.activ-tab {
     color: var(--art-gray-800) !important;
     background-color: var(--art-hover-color) !important;
+
+    &::before,
+    &::after {
+      box-shadow: 0 0 0 30px var(--art-hover-color);
+    }
   }
 
-  .dark .google-tab.activ-tab::before,
-  .dark .google-tab.activ-tab::after {
-    box-shadow: 0 0 0 30px var(--art-hover-color);
-  }
-
-  .google-tab:not(.activ-tab):hover {
-    box-sizing: border-box;
-    color: var(--art-gray-600) !important;
-    background-color: var(--art-gray-200) !important;
-    border-bottom: 1px solid var(--default-box-color) !important;
-    border-radius: calc(var(--custom-radius) / 2.5 + 4px) !important;
-  }
-
+  // 暗黑模式下 google-tab 非激活 hover 状态
   .dark .google-tab:not(.activ-tab):hover {
     background-color: var(--art-hover-color) !important;
   }
 
-  .google-tab:hover .line,
-  .google-tab.activ-tab .line,
-  .google-tab:first-child .line {
-    opacity: 0;
-  }
-
-  .google-tab:hover + .google-tab .line,
-  .google-tab.activ-tab + .google-tab .line {
-    opacity: 0;
-  }
-
-  .google-tab::before,
-  .google-tab::after {
-    position: absolute;
-    bottom: 0;
-    width: 20px;
-    height: 20px;
-    content: '';
-    border-radius: 50%;
-    box-shadow: 0 0 0 30px transparent;
-  }
-
-  .google-tab::before {
-    left: -20px;
-    clip-path: inset(50% -10px 0 50%);
-  }
-
-  .google-tab::after {
-    right: -20px;
-    clip-path: inset(50% 50% 0 -10px);
-  }
-
-  .google-tab i:hover {
-    color: var(--art-gray-700);
-    background: var(--art-gray-300);
-  }
-
+  // ==================== 响应式 ====================
   @media only screen and (width <= 768px) {
-    .box-border.flex.justify-between {
+    .work-tab {
       padding-right: 0.625rem;
       padding-left: 0.625rem;
     }
   }
 
   @media only screen and (width <= 640px) {
-    .box-border.flex.justify-between {
+    .work-tab {
       padding-right: 0.9375rem;
       padding-left: 0.9375rem;
     }

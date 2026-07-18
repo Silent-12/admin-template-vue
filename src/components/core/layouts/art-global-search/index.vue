@@ -16,26 +16,24 @@
         @blur="searchBlur"
         ref="searchInput"
         :prefix-icon="Search"
-        class="h-12"
+        class="search-input"
       >
         <template #suffix>
-          <div
-            class="h-4.5 flex-cc rounded border border-g-300 dark:!bg-g-200/50 !bg-box px-1.5 text-g-500"
-          >
+          <div class="search-input__suffix flex-cc">
             <ArtSvgIcon icon="fluent:arrow-enter-left-20-filled" />
           </div>
         </template>
       </ElInput>
-      <ElScrollbar class="mt-5" max-height="370px" ref="searchResultScrollbar" always>
-        <div class="result w-full" v-show="searchResult.length">
+      <ElScrollbar class="search-scrollbar" max-height="370px" ref="searchResultScrollbar" always>
+        <div class="result search-result" v-show="searchResult.length">
           <div
-            class="box !mt-0 c-p text-base leading-none"
+            class="box search-result__item c-p"
             v-for="(item, index) in searchResult"
             :key="index"
           >
             <div
-              class="mt-2 h-12 flex-cb rounded-custom-sm bg-g-200/80 px-4 text-sm text-g-700"
-              :class="isHighlighted(index) ? 'highlighted !bg-theme/70 !text-white' : ''"
+              class="search-result__inner flex-cb rounded-custom-sm"
+              :class="isHighlighted(index) ? 'search-result__inner--highlighted' : ''"
               @click="searchGoPage(item)"
               @mouseenter="highlightOnHover(index)"
             >
@@ -46,15 +44,15 @@
         </div>
 
         <div v-show="!searchVal && searchResult.length === 0 && historyResult.length > 0">
-          <p class="text-xs text-g-500">{{ $t('search.historyTitle') }}</p>
-          <div class="mt-1.5 w-full">
+          <p class="search-history__title">{{ $t('search.historyTitle') }}</p>
+          <div class="search-history__list">
             <div
-              class="box mt-2 h-12 c-p flex-cb rounded-custom-sm bg-g-200/80 px-4 text-sm text-g-800"
+              class="box search-history__item c-p flex-cb rounded-custom-sm"
               v-for="(item, index) in historyResult"
               :key="index"
               :class="
                 historyHIndex === index
-                  ? 'highlighted !bg-theme/70 !text-white [&_.selected-icon]:!text-white'
+                  ? 'search-history__item--highlighted'
                   : ''
               "
               @click="searchGoPage(item)"
@@ -62,10 +60,10 @@
             >
               {{ formatMenuTitle(item.meta.title) }}
               <div
-                class="size-5 selected-icon select-none rounded-full text-g-500 flex-cc c-p"
+                class="selected-icon search-history__delete flex-cc c-p"
                 @click.stop="deleteHistory(index)"
               >
-                <ArtSvgIcon icon="ri:close-large-fill" class="text-xs" />
+                <ArtSvgIcon icon="ri:close-large-fill" class="search-history__delete-icon" />
               </div>
             </div>
           </div>
@@ -73,19 +71,19 @@
       </ElScrollbar>
 
       <template #footer>
-        <div class="dialog-footer box-border flex-c border-t-d pt-4.5 pb-1">
+        <div class="dialog-footer box-border flex-c border-t-d">
           <div class="flex-cc">
             <ArtSvgIcon icon="fluent:arrow-enter-left-20-filled" class="keyboard" />
-            <span class="mr-3.5 text-xs text-g-700">{{ $t('search.selectKeydown') }}</span>
+            <span class="dialog-footer__text">{{ $t('search.selectKeydown') }}</span>
           </div>
           <div class="flex-c">
             <ArtSvgIcon icon="ri:arrow-up-wide-fill" class="keyboard" />
             <ArtSvgIcon icon="ri:arrow-down-wide-fill" class="keyboard" />
-            <span class="mr-3.5 text-xs text-g-700">{{ $t('search.switchKeydown') }}</span>
+            <span class="dialog-footer__text">{{ $t('search.switchKeydown') }}</span>
           </div>
           <div class="flex-c">
-            <i class="keyboard !w-8 flex-cc"><p class="text-[10px] font-medium">ESC</p></i>
-            <span class="mr-3.5 text-xs text-g-700">{{ $t('search.exitKeydown') }}</span>
+            <i class="keyboard keyboard--esc flex-cc"><p class="keyboard__esc-text">ESC</p></i>
+            <span class="dialog-footer__text">{{ $t('search.exitKeydown') }}</span>
           </div>
         </div>
       </template>
@@ -410,22 +408,167 @@
       background-color: #252526;
     }
   }
-</style>
 
-<style scoped>
-  @reference '@styles/core/tailwind.css';
+  // ==================== 搜索输入框 ====================
+  // h-12
+  .search-input {
+    height: 3rem; // h-12
 
+    // 后缀容器：h-4.5 flex-cc rounded border border-g-300 dark:!bg-g-200/50 !bg-box px-1.5 text-g-500
+    // 保留全局工具类 flex-cc
+    &__suffix {
+      height: 1.125rem; // h-4.5
+      padding-left: 0.375rem; // px-1.5
+      padding-right: 0.375rem;
+      border: 1px solid var(--art-gray-300); // border border-g-300
+      border-radius: 0.25rem; // rounded
+      color: var(--art-gray-500);
+      background: var(--default-box-color) !important; // !bg-box
+
+      // dark:!bg-g-200/50
+      .dark & {
+        background: color-mix(in srgb, var(--art-gray-200) 50%, transparent) !important;
+      }
+    }
+  }
+
+  // ==================== 滚动区 ====================
+  // mt-5
+  .search-scrollbar {
+    margin-top: 1.25rem; // mt-5
+  }
+
+  // ==================== 搜索结果 ====================
+  // w-full
+  .search-result {
+    width: 100%; // w-full
+
+    // box !mt-0 c-p text-base leading-none
+    &__item {
+      margin-top: 0 !important; // !mt-0
+      font-size: 1rem; // text-base
+      line-height: 1; // leading-none
+    }
+
+    // mt-2 h-12 flex-cb rounded-custom-sm bg-g-200/80 px-4 text-sm text-g-700
+    // 保留全局工具类 flex-cb rounded-custom-sm
+    &__inner {
+      height: 3rem; // h-12
+      margin-top: 0.5rem; // mt-2
+      padding-left: 1rem; // px-4
+      padding-right: 1rem;
+      font-size: 0.875rem; // text-sm
+      line-height: 1.25rem;
+      color: var(--art-gray-700);
+      background: color-mix(in srgb, var(--art-gray-200) 80%, transparent); // bg-g-200/80
+
+      // highlighted !bg-theme/70 !text-white
+      &--highlighted {
+        background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
+        color: #fff !important;
+      }
+    }
+  }
+
+  // ==================== 历史搜索 ====================
+  // text-xs text-g-500
+  .search-history__title {
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+    color: var(--art-gray-500);
+  }
+
+  // mt-1.5 w-full
+  .search-history__list {
+    margin-top: 0.375rem; // mt-1.5
+    width: 100%; // w-full
+  }
+
+  // box mt-2 h-12 c-p flex-cb rounded-custom-sm bg-g-200/80 px-4 text-sm text-g-800
+  // 保留全局工具类 c-p flex-cb rounded-custom-sm
+  .search-history__item {
+    height: 3rem; // h-12
+    margin-top: 0.5rem; // mt-2
+    padding-left: 1rem; // px-4
+    padding-right: 1rem;
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem;
+    color: var(--art-gray-800);
+    background: color-mix(in srgb, var(--art-gray-200) 80%, transparent); // bg-g-200/80
+
+    // highlighted !bg-theme/70 !text-white [&_.selected-icon]:!text-white
+    &--highlighted {
+      background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
+      color: #fff !important;
+
+      // [&_.selected-icon]:!text-white
+      .selected-icon {
+        color: #fff !important;
+      }
+    }
+  }
+
+  // 删除按钮：size-5 selected-icon select-none rounded-full text-g-500 flex-cc c-p
+  // 保留全局工具类 flex-cc c-p
+  .search-history__delete {
+    width: 1.25rem; // size-5
+    height: 1.25rem;
+    user-select: none; // select-none
+    border-radius: 9999px; // rounded-full
+    color: var(--art-gray-500);
+  }
+
+  // 删除图标：text-xs
+  .search-history__delete-icon {
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+  }
+
+  // ==================== 对话框底部 ====================
+  // box-border flex-c border-t-d pt-4.5 pb-1
+  // 保留全局工具类 flex-c border-t-d
+  .dialog-footer {
+    box-sizing: border-box;
+    padding-top: 1.125rem; // pt-4.5
+    padding-bottom: 0.25rem; // pb-1
+
+    // mr-3.5 text-xs text-g-700
+    &__text {
+      margin-right: 0.875rem; // mr-3.5
+      font-size: 0.75rem; // text-xs
+      line-height: 1rem;
+      color: var(--art-gray-700);
+    }
+  }
+
+  // ==================== 键盘按键样式（原 @apply 展开） ====================
+  // 原: @apply mr-2 box-border h-5 w-5.5 rounded border border-g-400 px-1 text-g-500
+  //      shadow-[0_2px_0_var(--default-border-dashed)] last-of-type:mr-1.5;
   .keyboard {
-    @apply mr-2 
-    box-border
-    h-5 
-    w-5.5
-    rounded
-    border 
-    border-g-400 
-    px-1 
-    text-g-500
-    shadow-[0_2px_0_var(--default-border-dashed)] 
-    last-of-type:mr-1.5;
+    box-sizing: border-box; // box-border
+    width: 1.375rem; // w-5.5
+    height: 1.25rem; // h-5
+    margin-right: 0.5rem; // mr-2
+    padding-left: 0.25rem; // px-1
+    padding-right: 0.25rem;
+    border: 1px solid var(--art-gray-400); // border border-g-400
+    border-radius: 0.25rem; // rounded
+    color: var(--art-gray-500);
+    box-shadow: 0 2px 0 var(--default-border-dashed); // shadow-[0_2px_0_var(--default-border-dashed)]
+
+    &:last-of-type {
+      margin-right: 0.375rem; // last-of-type:mr-1.5
+    }
+  }
+
+  // ESC 键宽度覆盖：!w-8
+  .keyboard--esc {
+    width: 2rem !important; // !w-8
+  }
+
+  // ESC 文字：text-[10px] font-medium
+  .keyboard__esc-text {
+    font-size: 10px; // text-[10px]
+    font-weight: 500; // font-medium
   }
 </style>

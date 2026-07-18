@@ -2,7 +2,7 @@
 <template>
   <div>
     <ElDropdown v-if="hasAnyAuthItem">
-      <ArtIconButton icon="ri:more-2-fill" class="!size-8 bg-g-200 dark:bg-g-300/45 text-sm" />
+      <ArtIconButton icon="ri:more-2-fill" class="more-button" />
       <template #dropdown>
         <ElDropdownMenu>
           <template v-for="item in list" :key="item.key">
@@ -11,7 +11,7 @@
               :disabled="item.disabled"
               @click="handleClick(item)"
             >
-              <div class="flex-c gap-2" :style="{ color: item.color }">
+              <div class="flex-c dropdown-item-content" :style="{ color: item.color }">
                 <ArtSvgIcon v-if="item.icon" :icon="item.icon" />
                 <span>{{ item.label }}</span>
               </div>
@@ -69,3 +69,24 @@
     emit('click', item)
   }
 </script>
+
+<style scoped lang="scss">
+// 更多按钮样式
+.more-button {
+  width: 2rem !important; // !size-8
+  height: 2rem !important; // !size-8
+  background: var(--art-gray-200); // bg-g-200
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+
+  // 暗黑模式背景（45% 透明度）
+  .dark & {
+    background: color-mix(in oklab, var(--art-gray-300) 45%, transparent); // dark:bg-g-300/45
+  }
+}
+
+// 下拉项内容布局
+.dropdown-item-content {
+  gap: 0.5rem; // gap-2
+}
+</style>

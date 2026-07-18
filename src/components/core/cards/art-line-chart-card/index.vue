@@ -1,30 +1,30 @@
 <!-- 折线图卡片 -->
 <template>
-  <div class="art-card relative overflow-hidden" :style="{ height: `${height}rem` }">
-    <div class="mb-2.5 flex-b items-start p-5">
+  <div class="art-card line-chart-card" :style="{ height: `${height}rem` }">
+    <div class="card-header flex-b">
       <div>
-        <p class="text-2xl font-medium leading-none">
+        <p class="card-value">
           {{ value }}
         </p>
-        <p class="mt-1 text-sm text-g-500">{{ label }}</p>
+        <p class="card-label">{{ label }}</p>
       </div>
       <div
-        class="text-sm font-medium"
+        class="card-percentage"
         :class="[
-          percentage > 0 ? 'text-success' : 'text-danger',
-          isMiniChart ? 'absolute bottom-5' : ''
+          percentage > 0 ? 'is-positive' : 'is-negative',
+          isMiniChart ? 'is-mini' : ''
         ]"
       >
         {{ percentage > 0 ? '+' : '' }}{{ percentage }}%
       </div>
-      <div v-if="date" class="absolute bottom-5 right-5 text-xs text-g-500">
+      <div v-if="date" class="card-date">
         {{ date }}
       </div>
     </div>
     <div
       ref="chartRef"
-      class="absolute bottom-0 left-0 right-0 box-border w-full"
-      :class="isMiniChart ? '!absolute !top-5 !right-5 !bottom-auto !left-auto !h-15 !w-4/10' : ''"
+      class="chart-container"
+      :class="isMiniChart ? 'is-mini' : ''"
       :style="{ height: isMiniChart ? '60px' : `calc(${height}rem - 5rem)` }"
     ></div>
   </div>
@@ -124,3 +124,88 @@
     }
   })
 </script>
+
+<style scoped lang="scss">
+// 折线图卡片容器
+.line-chart-card {
+  position: relative; // relative
+  overflow: hidden; // overflow-hidden
+}
+
+// 卡片头部（flex-b 提供了 display:flex; justify-content:space-between）
+.card-header {
+  align-items: flex-start; // items-start
+  margin-bottom: 0.625rem; // mb-2.5
+  padding: 1.25rem; // p-5
+}
+
+// 数值文本
+.card-value {
+  font-size: 1.5rem; // text-2xl
+  line-height: 1; // leading-none 覆盖 text-2xl 的 line-height
+  font-weight: 500; // font-medium
+}
+
+// 标签文本
+.card-label {
+  margin-top: 0.25rem; // mt-1
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+  color: var(--art-gray-500); // text-g-500
+}
+
+// 百分比文本
+.card-percentage {
+  position: relative;
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+  font-weight: 500; // font-medium
+
+  // 正数显示为成功色
+  &.is-positive {
+    color: var(--art-success); // text-success
+  }
+
+  // 负数显示为危险色
+  &.is-negative {
+    color: var(--art-danger); // text-danger
+  }
+
+  // 迷你图表时的定位
+  &.is-mini {
+    position: absolute; // absolute
+    bottom: 1.25rem; // bottom-5
+  }
+}
+
+// 日期
+.card-date {
+  position: absolute; // absolute
+  bottom: 1.25rem; // bottom-5
+  right: 1.25rem; // right-5
+  font-size: 0.75rem; // text-xs
+  line-height: 1rem; // text-xs
+  color: var(--art-gray-500); // text-g-500
+}
+
+// 图表容器
+.chart-container {
+  position: absolute; // absolute
+  bottom: 0; // bottom-0
+  left: 0; // left-0
+  right: 0; // right-0
+  box-sizing: border-box; // box-border
+  width: 100%; // w-full
+
+  // 迷你图表定位（保留 !important 以覆盖默认定位）
+  &.is-mini {
+    position: absolute !important; // !absolute
+    top: 1.25rem !important; // !top-5
+    right: 1.25rem !important; // !right-5
+    bottom: auto !important; // !bottom-auto
+    left: auto !important; // !left-auto
+    height: 3.75rem !important; // !h-15 (15 * 0.25rem)
+    width: 40% !important; // !w-4/10
+  }
+}
+</style>

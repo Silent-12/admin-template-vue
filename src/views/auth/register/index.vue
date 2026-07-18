@@ -1,9 +1,9 @@
 <!-- 注册页面 -->
 <template>
-  <div class="flex w-full h-screen">
+  <div class="register-container">
     <LoginLeftView />
 
-    <div class="relative flex-1">
+    <div class="register-right-side">
       <AuthTopBar />
 
       <div class="auth-right-wrap">
@@ -11,7 +11,7 @@
           <h3 class="title">{{ $t('register.title') }}</h3>
           <p class="sub-title">{{ $t('register.subTitle') }}</p>
           <ElForm
-            class="mt-7.5"
+            class="register-form"
             ref="formRef"
             :model="formData"
             :rules="rules"
@@ -30,7 +30,7 @@
               <ElInput
                 class="custom-height"
                 v-model.trim="formData.password"
-                :placeholder="$t('register.placeholder.password')"
+                :placeholder="$t('register.placeholder.password)"
                 type="password"
                 autocomplete="off"
                 show-password
@@ -62,7 +62,7 @@
 
             <div style="margin-top: 15px">
               <ElButton
-                class="w-full custom-height"
+                class="submit-btn custom-height"
                 type="primary"
                 @click="register"
                 :loading="loading"
@@ -72,9 +72,9 @@
               </ElButton>
             </div>
 
-            <div class="mt-5 text-sm text-g-600">
+            <div class="action-row has-account-row">
               <span>{{ $t('register.hasAccount') }}</span>
-              <RouterLink class="text-theme" :to="{ name: 'Login' }">{{
+              <RouterLink class="link-theme" :to="{ name: 'Login' }">{{
                 $t('register.toLogin')
               }}</RouterLink>
             </div>
@@ -235,6 +235,42 @@
   }
 </script>
 
-<style scoped>
-  @import '../login/style.css';
+<style scoped lang="scss">
+  @import '../login/style.scss';
+
+  /* 注册页根容器 */
+  .register-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+
+  /* 右侧区域容器 */
+  .register-right-side {
+    position: relative;
+    flex: 1 1 0%;
+  }
+
+  /* 注册表单顶部间距 */
+  .register-form {
+    margin-top: 1.875rem;
+  }
+
+  /* 操作行（有账号） */
+  .action-row {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--art-gray-600);
+  }
+
+  /* 主题色链接 */
+  .link-theme {
+    color: var(--theme-color);
+  }
+
+  /* 提交按钮宽度 */
+  .submit-btn {
+    width: 100%;
+  }
 </style>

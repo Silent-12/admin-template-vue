@@ -1,6 +1,6 @@
 <!-- 混合菜单 -->
 <template>
-  <div class="relative box-border flex-c w-full overflow-hidden">
+  <div class="mixed-menu flex-c">
     <!-- 左侧滚动按钮 -->
     <div v-show="showLeftArrow" class="button-arrow" @click="scroll('left')">
       <ElIcon>
@@ -16,25 +16,20 @@
       @scroll="handleScroll"
       @wheel="handleWheel"
     >
-      <div class="box-border flex-c flex-shrink-0 flex-nowrap h-15 whitespace-nowrap">
+      <div class="scroll-content flex-c">
         <template v-for="item in processedMenuList" :key="item.meta.title">
           <div
             v-if="!item.meta.isHide"
-            class="menu-item relative flex-shrink-0 h-10 px-3 text-sm flex-c c-p hover:text-theme"
-            :class="{
-              'menu-item-active text-theme': item.isActive
-            }"
+            class="menu-item flex-c c-p"
+            :class="{ 'menu-item-active': item.isActive }"
             @click="handleMenuJump(item, true)"
           >
             <ArtSvgIcon
               :icon="item.meta.icon"
-              class="text-lg text-g-700 dark:text-g-800 mr-1"
-              :class="item.isActive && '!text-theme'"
+              class="menu-item-icon"
+              :class="{ 'is-active': item.isActive }"
             />
-            <span
-              class="text-md text-g-700 dark:text-g-800"
-              :class="item.isActive && '!text-theme'"
-            >
+            <span class="menu-item-title" :class="{ 'is-active': item.isActive }">
               {{ item.formattedTitle }}
             </span>
             <div v-if="item.meta.showBadge" class="art-badge art-badge-mixed" />
@@ -44,7 +39,7 @@
     </ElScrollbar>
 
     <!-- 右侧滚动按钮 -->
-    <div v-show="showRightArrow" class="button-arrow right-2" @click="scroll('right')">
+    <div v-show="showRightArrow" class="button-arrow button-arrow-right" @click="scroll('right')">
       <ElIcon>
         <ArrowRight />
       </ElIcon>
@@ -224,29 +219,111 @@
   onMounted(initScrollState)
 </script>
 
-<style scoped>
-  @reference '@styles/core/tailwind.css';
-
-  .button-arrow {
-    @apply absolute 
-    top-1/2
-    z-2 
-    flex
-    items-center
-    justify-center
-    size-7.5
-    text-g-600 
-    cursor-pointer
-    rounded 
-    transition-all
-    duration-300
-    -translate-y-1/2 
-    hover:text-g-900 
-    hover:bg-g-200;
+<style scoped lang="scss">
+  // 混合菜单容器：relative box-border w-full overflow-hidden
+  .mixed-menu {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
   }
-</style>
 
-<style scoped>
+  // 滚动内容容器：box-border flex-shrink-0 flex-nowrap h-15 whitespace-nowrap
+  .scroll-content {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    height: 3.75rem; // h-15
+    white-space: nowrap;
+  }
+
+  // 菜单项：relative flex-shrink-0 h-10 px-3 text-sm hover:text-theme
+  .menu-item {
+    position: relative;
+    flex-shrink: 0;
+    height: 2.5rem; // h-10
+    padding-right: 0.75rem; // px-3
+    padding-left: 0.75rem; // px-3
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem; // text-sm
+
+    &:hover {
+      color: var(--theme-color); // hover:text-theme
+    }
+
+    // 激活状态：text-theme
+    &.menu-item-active {
+      color: var(--theme-color);
+    }
+  }
+
+  // 菜单项图标：text-lg text-g-700 dark:text-g-800 mr-1
+  .menu-item-icon {
+    margin-right: 0.25rem; // mr-1
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+    color: var(--art-gray-700); // text-g-700
+
+    // 暗黑模式：dark:text-g-800
+    .dark & {
+      color: var(--art-gray-800);
+    }
+
+    // 激活状态：!text-theme
+    &.is-active {
+      color: var(--theme-color) !important;
+    }
+  }
+
+  // 菜单项标题：text-md text-g-700 dark:text-g-800
+  .menu-item-title {
+    font-size: 1rem; // text-md
+    line-height: 1.5rem; // text-md
+    color: var(--art-gray-700); // text-g-700
+
+    // 暗黑模式：dark:text-g-800
+    .dark & {
+      color: var(--art-gray-800);
+    }
+
+    // 激活状态：!text-theme
+    &.is-active {
+      color: var(--theme-color) !important;
+    }
+  }
+
+  // 滚动按钮（左右通用）：
+  // absolute top-1/2 z-2 flex items-center justify-center size-7.5
+  // text-g-600 cursor-pointer rounded transition-all duration-300 -translate-y-1/2
+  // hover:text-g-900 hover:bg-g-200
+  .button-arrow {
+    position: absolute;
+    top: 50%; // top-1/2
+    z-index: 2; // z-2
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.875rem; // size-7.5
+    height: 1.875rem; // size-7.5
+    color: var(--art-gray-600); // text-g-600
+    cursor: pointer;
+    border-radius: 0.25rem; // rounded
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); // Tailwind 默认
+    transform: translateY(-50%); // -translate-y-1/2
+
+    &:hover {
+      color: var(--art-gray-900); // hover:text-g-900
+      background: var(--art-gray-200); // hover:bg-g-200
+    }
+  }
+
+  // 右侧滚动按钮：right-2
+  .button-arrow-right {
+    right: 0.5rem; // right-2
+  }
+
   :deep(.el-scrollbar__bar.is-horizontal) {
     bottom: 5px;
     display: none;

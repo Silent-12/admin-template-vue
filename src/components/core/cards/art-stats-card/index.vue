@@ -1,18 +1,19 @@
 <!-- 统计卡片 -->
 <template>
-  <div
-    class="art-card h-32 flex-c px-5 transition-transform duration-200 hover:-translate-y-0.5"
-    :class="boxStyle"
-  >
-    <div v-if="icon" class="mr-4 size-11 flex-cc rounded-lg text-xl text-white" :class="iconStyle">
+  <div class="art-card stats-card flex-c" :class="boxStyle">
+    <div
+      v-if="icon"
+      class="icon-wrapper flex-cc"
+      :class="iconStyle"
+    >
       <ArtSvgIcon :icon="icon"></ArtSvgIcon>
     </div>
-    <div class="flex-1">
-      <p class="m-0 text-lg font-medium" :style="{ color: textColor }" v-if="title">
+    <div class="text-container">
+      <p class="card-title" :style="{ color: textColor }" v-if="title">
         {{ title }}
       </p>
       <ArtCountTo
-        class="m-0 text-2xl font-medium"
+        class="card-count"
         v-if="count !== undefined"
         :target="count"
         :duration="2000"
@@ -20,14 +21,14 @@
         :separator="separator"
       />
       <p
-        class="mt-1 text-sm text-g-500 opacity-90"
+        class="card-description"
         :style="{ color: textColor }"
         v-if="description"
         >{{ description }}</p
       >
     </div>
     <div v-if="showArrow">
-      <ArtSvgIcon icon="ri:arrow-right-s-line" class="text-xl text-g-500" />
+      <ArtSvgIcon icon="ri:arrow-right-s-line" class="arrow-icon" />
     </div>
   </div>
 </template>
@@ -65,3 +66,68 @@
     separator: ','
   })
 </script>
+
+<style scoped lang="scss">
+// 统计卡片容器（flex-c 提供了 display:flex; align-items:center）
+.stats-card {
+  height: 8rem; // h-32 (32 * 0.25rem)
+  padding-left: 1.25rem; // px-5
+  padding-right: 1.25rem; // px-5
+  transition-property: transform; // transition-transform
+  transition-duration: 200ms; // duration-200
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); // 默认 ease
+
+  // 鼠标悬停时上移
+  &:hover {
+    transform: translateY(-0.125rem); // hover:-translate-y-0.5 (-0.5 * 0.25rem)
+  }
+}
+
+// 图标容器（flex-cc 提供了 display:flex; align-items:center; justify-content:center）
+.icon-wrapper {
+  margin-right: 1rem; // mr-4
+  width: 2.75rem; // size-11 (11 * 0.25rem)
+  height: 2.75rem; // size-11
+  border-radius: 0.5rem; // rounded-lg
+  font-size: 1.25rem; // text-xl
+  line-height: 1.75rem; // text-xl
+  color: #fff; // text-white
+}
+
+// 文本容器
+.text-container {
+  flex: 1 1 0%; // flex-1
+}
+
+// 标题
+.card-title {
+  margin: 0; // m-0
+  font-size: 1.125rem; // text-lg
+  line-height: 1.75rem; // text-lg
+  font-weight: 500; // font-medium
+}
+
+// 数值
+.card-count {
+  margin: 0; // m-0
+  font-size: 1.5rem; // text-2xl
+  line-height: 2rem; // text-2xl
+  font-weight: 500; // font-medium
+}
+
+// 描述
+.card-description {
+  margin-top: 0.25rem; // mt-1
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+  color: var(--art-gray-500); // text-g-500
+  opacity: 0.9; // opacity-90
+}
+
+// 箭头图标
+.arrow-icon {
+  font-size: 1.25rem; // text-xl
+  line-height: 1.75rem; // text-xl
+  color: var(--art-gray-500); // text-g-500
+}
+</style>

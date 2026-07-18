@@ -1,28 +1,26 @@
 <!-- 顶部栏 -->
 <template>
   <div
-    class="w-full bg-[var(--default-bg-color)]"
-    :class="[
-      tabStyle === 'tab-card' || tabStyle === 'tab-google' ? 'mb-5 max-sm:mb-3 !bg-box' : ''
-    ]"
+    class="header-bar"
+    :class="{
+      'header-bar--card': tabStyle === 'tab-card' || tabStyle === 'tab-google'
+    }"
   >
     <div
-      class="relative box-border flex-b h-15 leading-15 select-none"
-      :class="[
-        tabStyle === 'tab-card' || tabStyle === 'tab-google'
-          ? 'border-b border-[var(--art-card-border)]'
-          : ''
-      ]"
+      class="header-bar__inner flex-b"
+      :class="{
+        'header-bar__inner--bordered': tabStyle === 'tab-card' || tabStyle === 'tab-google'
+      }"
     >
-      <div class="flex-c flex-1 min-w-0 leading-15" style="display: flex">
+      <div class="header-bar__left flex-c">
         <!-- 系统信息  -->
-        <div class="flex-c c-p" @click="toHome" v-if="isTopMenu">
-          <ArtLogo class="pl-4.5" />
-          <p v-if="width >= 1400" class="my-0 mx-2 ml-2 text-lg">{{ AppConfig.systemInfo.name }}</p>
+        <div class="header-bar__system flex-c c-p" @click="toHome" v-if="isTopMenu">
+          <ArtLogo class="header-bar__logo" />
+          <p v-if="width >= 1400" class="header-bar__system-name">{{ AppConfig.systemInfo.name }}</p>
         </div>
 
         <ArtLogo
-          class="!hidden pl-3.5 overflow-hidden align-[-0.15em] fill-current"
+          class="header-bar__logo-hidden"
           @click="toHome"
         />
 
@@ -30,7 +28,7 @@
         <ArtIconButton
           v-if="isLeftMenu && shouldShowMenuButton"
           icon="ri:menu-2-fill"
-          class="ml-3 max-sm:ml-[7px]"
+          class="header-bar__menu-btn"
           @click="visibleMenu"
         />
 
@@ -38,14 +36,14 @@
         <ArtIconButton
           v-if="shouldShowRefreshButton"
           icon="ri:refresh-line"
-          class="!ml-3 refresh-btn max-sm:!hidden"
+          class="refresh-btn header-bar__refresh-btn"
           :style="{ marginLeft: !isLeftMenu ? '10px' : '0' }"
           @click="reload"
         />
 
         <!-- 快速入口 -->
         <ArtFastEnter v-if="shouldShowFastEnter && width >= headerBarFastEnterMinWidth">
-          <ArtIconButton icon="ri:function-line" class="ml-3" />
+          <ArtIconButton icon="ri:function-line" class="header-bar__fast-enter-btn" />
         </ArtFastEnter>
 
         <!-- 面包屑 -->
@@ -60,21 +58,21 @@
         <ArtMixedMenu v-if="isTopLeftMenu" :list="menuList" />
       </div>
 
-      <div class="flex-c gap-2.5">
+      <div class="header-bar__right flex-c">
         <!-- 搜索 -->
         <div
           v-if="shouldShowGlobalSearch"
-          class="flex-cb w-40 h-9 px-2.5 c-p border border-g-400 rounded-custom-sm max-md:!hidden"
+          class="search-box flex-cb c-p rounded-custom-sm"
           @click="openSearchDialog"
         >
-          <div class="flex-c">
-            <ArtSvgIcon icon="ri:search-line" class="text-sm text-g-500" />
-            <span class="ml-1 text-xs font-normal text-g-500">{{ $t('topBar.search.title') }}</span>
+          <div class="search-box__left flex-c">
+            <ArtSvgIcon icon="ri:search-line" class="search-box__icon" />
+            <span class="search-box__text">{{ $t('topBar.search.title') }}</span>
           </div>
-          <div class="flex-c h-5 px-1.5 text-g-500/80 border border-g-400 rounded">
-            <ArtSvgIcon v-if="isWindows" icon="vaadin:ctrl-a" class="text-sm" />
-            <ArtSvgIcon v-else icon="ri:command-fill" class="text-xs" />
-            <span class="ml-0.5 text-xs">k</span>
+          <div class="search-box__shortcut flex-c">
+            <ArtSvgIcon v-if="isWindows" icon="vaadin:ctrl-a" class="search-box__shortcut-icon" />
+            <ArtSvgIcon v-else icon="ri:command-fill" class="search-box__shortcut-icon-mac" />
+            <span class="search-box__shortcut-key">k</span>
           </div>
         </div>
 
@@ -82,8 +80,7 @@
         <ArtIconButton
           v-if="shouldShowFullscreen"
           :icon="isFullscreen ? 'ri:fullscreen-exit-line' : 'ri:fullscreen-fill'"
-          :class="[!isFullscreen ? 'full-screen-btn' : 'exit-full-screen-btn', 'ml-3']"
-          class="max-md:!hidden"
+          :class="[!isFullscreen ? 'full-screen-btn' : 'exit-full-screen-btn', 'header-bar__fullscreen-btn']"
           @click="toggleFullScreen"
         />
 
@@ -93,7 +90,7 @@
           popper-class="langDropDownStyle"
           v-if="shouldShowLanguage"
         >
-          <ArtIconButton icon="ri:translate-2" class="language-btn text-[19px]" />
+          <ArtIconButton icon="ri:translate-2" class="language-btn header-bar__language-btn" />
           <template #dropdown>
             <ElDropdownMenu>
               <div v-for="item in languageOptions" :key="item.value" class="lang-btn-item">
@@ -113,20 +110,20 @@
         <ArtIconButton
           v-if="shouldShowNotification"
           icon="ri:notification-2-line"
-          class="notice-button relative"
+          class="notice-button header-bar__notice-btn"
           @click="visibleNotice"
         >
-          <div class="absolute top-2 right-2 size-1.5 !bg-danger rounded-full"></div>
+          <div class="notice-dot"></div>
         </ArtIconButton>
 
         <!-- 聊天按钮 -->
         <ArtIconButton
           v-if="shouldShowChat"
           icon="ri:message-3-line"
-          class="chat-button relative"
+          class="chat-button header-bar__chat-btn"
           @click="openChat"
         >
-          <div class="breathing-dot absolute top-2 right-2 size-1.5 !bg-success rounded-full"></div>
+          <div class="breathing-dot chat-dot"></div>
         </ArtIconButton>
 
         <!-- 设置按钮 -->
@@ -480,6 +477,207 @@
   @media screen and (width <= 640px) {
     .btn-box {
       width: 40px;
+    }
+  }
+
+  // ==================== 顶部栏容器 ====================
+  // w-full bg-[var(--default-bg-color)]
+  .header-bar {
+    width: 100%;
+    background: var(--default-bg-color);
+
+    // tab-card / tab-google 模式下：mb-5 max-sm:mb-3 !bg-box
+    &--card {
+      margin-bottom: 1.25rem;
+      background: var(--default-box-color) !important;
+
+      @media (max-width: 39.99rem) {
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+
+  // relative box-border flex-b h-15 leading-15 select-none
+  // 保留全局工具类 flex-b
+  .header-bar__inner {
+    position: relative;
+    box-sizing: border-box;
+    height: 3.75rem;
+    line-height: 3.75rem;
+    user-select: none;
+
+    // tab-card / tab-google 模式下：border-b border-[var(--art-card-border)]
+    &--bordered {
+      border-bottom: 1px solid var(--art-card-border);
+    }
+  }
+
+  // flex-c flex-1 min-w-0 leading-15
+  // 保留全局工具类 flex-c
+  .header-bar__left {
+    flex: 1 1 0%;
+    min-width: 0;
+    line-height: 3.75rem;
+  }
+
+  // 系统信息区
+  .header-bar__system {
+    // 保留全局工具类 flex-c c-p
+  }
+
+  // 系统名称 my-0 mx-2 ml-2 text-lg
+  .header-bar__system-name {
+    margin-top: 0;
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+    margin-left: 0.5rem;
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem; // text-lg
+  }
+
+  // 主 Logo（系统信息区） pl-4.5
+  .header-bar__logo {
+    padding-left: 1.125rem; // pl-4.5
+  }
+
+  // 隐藏的备用 Logo：!hidden pl-3.5 overflow-hidden align-[-0.15em] fill-current
+  .header-bar__logo-hidden {
+    display: none !important;
+    padding-left: 0.875rem; // pl-3.5
+    overflow: hidden;
+    vertical-align: -0.15em;
+    fill: currentColor;
+  }
+
+  // 菜单按钮：ml-3 max-sm:ml-[7px]
+  .header-bar__menu-btn {
+    margin-left: 0.75rem;
+
+    @media (max-width: 39.99rem) {
+      margin-left: 7px;
+    }
+  }
+
+  // 刷新按钮：!ml-3 refresh-btn max-sm:!hidden
+  .header-bar__refresh-btn {
+    margin-left: 0.75rem !important;
+
+    @media (max-width: 39.99rem) {
+      display: none !important;
+    }
+  }
+
+  // 快速入口按钮：ml-3
+  .header-bar__fast-enter-btn {
+    margin-left: 0.75rem;
+  }
+
+  // ==================== 右侧操作区 ====================
+  // flex-c gap-2.5
+  // 保留全局工具类 flex-c
+  .header-bar__right {
+    gap: 0.625rem; // gap-2.5
+  }
+
+  // 全屏按钮：ml-3 max-md:!hidden
+  .header-bar__fullscreen-btn {
+    margin-left: 0.75rem;
+
+    @media (max-width: 47.99rem) {
+      display: none !important;
+    }
+  }
+
+  // 国际化按钮：text-[19px]
+  .header-bar__language-btn {
+    font-size: 19px;
+  }
+
+  // 通知按钮与聊天按钮：relative
+  .header-bar__notice-btn,
+  .header-bar__chat-btn {
+    position: relative;
+  }
+
+  // 通知红点：absolute top-2 right-2 size-1.5 !bg-danger rounded-full
+  .notice-dot {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 0.375rem; // size-1.5
+    height: 0.375rem;
+    border-radius: 9999px; // rounded-full
+    background: var(--art-danger) !important;
+  }
+
+  // 聊天绿点：absolute top-2 right-2 size-1.5 !bg-success rounded-full
+  .chat-dot {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background: var(--art-success) !important;
+  }
+
+  // ==================== 搜索框 ====================
+  // flex-cb w-40 h-9 px-2.5 c-p border border-g-400 rounded-custom-sm max-md:!hidden
+  // 保留全局工具类 flex-cb c-p rounded-custom-sm
+  .search-box {
+    width: 10rem; // w-40
+    height: 2.25rem; // h-9
+    padding-left: 0.625rem; // px-2.5
+    padding-right: 0.625rem;
+    border: 1px solid var(--art-gray-400); // border border-g-400
+
+    @media (max-width: 47.99rem) {
+      display: none !important;
+    }
+
+    // 搜索图标 text-sm text-g-500
+    &__icon {
+      font-size: 0.875rem; // text-sm
+      line-height: 1.25rem;
+      color: var(--art-gray-500);
+    }
+
+    // 搜索文字 ml-1 text-xs font-normal text-g-500
+    &__text {
+      margin-left: 0.25rem; // ml-1
+      font-size: 0.75rem; // text-xs
+      line-height: 1rem;
+      font-weight: 400; // font-normal
+      color: var(--art-gray-500);
+    }
+
+    // 快捷键容器 flex-c h-5 px-1.5 text-g-500/80 border border-g-400 rounded
+    &__shortcut {
+      height: 1.25rem; // h-5
+      padding-left: 0.375rem; // px-1.5
+      padding-right: 0.375rem;
+      border: 1px solid var(--art-gray-400);
+      border-radius: 0.25rem; // rounded
+      color: color-mix(in srgb, var(--art-gray-500) 80%, transparent); // text-g-500/80
+    }
+
+    // Windows 快捷键图标 text-sm
+    &__shortcut-icon {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+    // Mac 快捷键图标 text-xs
+    &__shortcut-icon-mac {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+
+    // 快捷键文字 ml-0.5 text-xs
+    &__shortcut-key {
+      margin-left: 0.125rem; // ml-0.5
+      font-size: 0.75rem;
+      line-height: 1rem;
     }
   }
 </style>

@@ -2,7 +2,7 @@
 <template>
   <div
     ref="chartRef"
-    class="relative w-full"
+    class="chart-container"
     :style="{ height: props.height }"
     v-loading="props.loading"
   >
@@ -131,3 +131,11 @@
       }
     })
 </script>
+
+<style scoped lang="scss">
+// 图表容器
+.chart-container {
+  position: relative; // relative
+  width: 100%; // w-full
+}
+</style>

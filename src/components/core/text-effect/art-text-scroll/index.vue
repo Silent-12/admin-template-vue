@@ -2,29 +2,29 @@
 <template>
   <div
     ref="containerRef"
-    class="relative overflow-hidden rounded-custom-sm border flex-c box-border text-sm"
+    class="text-scroll-container rounded-custom-sm flex-c"
     :class="themeClasses"
     :style="containerStyle"
   >
-    <div class="flex-cc absolute left-0 h-full w-9 z-10" :style="{ backgroundColor: bgColor }">
-      <ArtSvgIcon icon="ri:volume-down-line" class="text-lg" />
+    <div class="text-scroll-icon-left flex-cc" :style="{ backgroundColor: bgColor }">
+      <ArtSvgIcon icon="ri:volume-down-line" class="icon-volume" />
     </div>
 
     <div
       ref="contentRef"
-      class="whitespace-nowrap inline-block transition-opacity duration-600 [&_a]:text-danger [&_a:hover]:underline [&_a:hover]:text-danger/80 px-9"
-      :class="[contentClass, { 'opacity-0': !isReady, 'opacity-100': isReady }]"
+      class="text-scroll-content"
+      :class="[contentClass, { 'is-hidden': !isReady, 'is-visible': isReady }]"
       :style="contentStyle"
       @click="handleContentClick"
     >
       <!-- 原始内容 -->
-      <span ref="textRef" class="inline-block">
+      <span ref="textRef" class="text-scroll-text">
         <slot>
           <span v-html="text"></span>
         </slot>
       </span>
       <!-- 克隆内容用于无缝循环 -->
-      <span v-if="shouldClone" class="inline-block" :style="cloneSpacing">
+      <span v-if="shouldClone" class="text-scroll-text" :style="cloneSpacing">
         <slot>
           <span v-html="text"></span>
         </slot>
@@ -33,11 +33,11 @@
 
     <div
       v-if="showClose"
-      class="flex-cc absolute right-0 h-full w-9 c-p"
+      class="text-scroll-close flex-cc c-p"
       :style="{ backgroundColor: bgColor }"
       @click="handleClose"
     >
-      <ArtSvgIcon icon="ri:close-fill" class="text-lg" />
+      <ArtSvgIcon icon="ri:close-fill" class="icon-close" />
     </div>
   </div>
 </template>
@@ -130,26 +130,35 @@
     return props.pauseOnHover && isHovered.value
   })
 
-  // 主题样式映射
+  // 主题样式映射（语义化类名，对应样式在 scoped scss 中定义）
   const themeClasses = computed(() => {
     const themeMap: Record<ThemeType, string> = {
-      theme: 'text-theme/90 !border-theme/50',
-      primary: 'text-primary/90 !border-primary/50',
-      secondary: 'text-secondary/90 !border-secondary/50',
-      error: 'text-error/90 !border-error/50',
-      info: 'text-info/90 !border-info/50',
-      success: 'text-success/90 !border-success/50',
-      warning: 'text-warning/90 !border-warning/50',
-      danger: 'text-danger/90 !border-danger/50'
+      theme: 'is-theme',
+      primary: 'is-primary',
+      secondary: 'is-secondary',
+      error: 'is-error',
+      info: 'is-info',
+      success: 'is-success',
+      warning: 'is-warning',
+      danger: 'is-danger'
     }
     return themeMap[props.type] || themeMap.theme
   })
 
-  // 背景色
-  const bgColor = computed(
-    () =>
-      `color-mix(in oklch, var(--color-${props.type}) ${isDark.value ? '25' : '10'}%, var(--art-color))`
-  )
+  // 背景色（根据主题类型映射到对应的 CSS 变量）
+  const bgColor = computed(() => {
+    const colorVarMap: Record<ThemeType, string> = {
+      theme: 'var(--theme-color)',
+      primary: 'var(--art-primary)',
+      secondary: 'var(--art-secondary)',
+      error: 'var(--art-error)',
+      info: 'var(--art-info)',
+      success: 'var(--art-success)',
+      warning: 'var(--art-warning)',
+      danger: 'var(--art-danger)'
+    }
+    return `color-mix(in oklch, ${colorVarMap[props.type]} ${isDark.value ? '25' : '10'}%, var(--art-color))`
+  })
 
   const containerStyle = computed(() => ({
     width: props.width,
@@ -159,7 +168,7 @@
 
   const contentClass = computed(() => {
     if (!isHorizontal.value) {
-      return 'flex flex-col'
+      return 'is-vertical'
     }
     return ''
   })
@@ -276,3 +285,129 @@
     pause()
   })
 </script>
+
+<style scoped lang="scss">
+// 文字滚动容器（relative overflow-hidden border box-border text-sm）
+.text-scroll-container {
+  position: relative; // relative
+  overflow: hidden; // overflow-hidden
+  border-width: 1px; // border
+  box-sizing: border-box; // box-border
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+}
+
+// 左侧音量图标容器（absolute left-0 h-full w-9 z-10）
+.text-scroll-icon-left {
+  position: absolute; // absolute
+  left: 0; // left-0
+  top: 0;
+  height: 100%; // h-full
+  width: 2.25rem; // w-9
+  z-index: 10; // z-10
+}
+
+// 音量图标（text-lg）
+.icon-volume {
+  font-size: 1.125rem; // text-lg
+  line-height: 1.75rem; // text-lg
+}
+
+// 文字内容容器（whitespace-nowrap inline-block transition-opacity duration-600 px-9）
+.text-scroll-content {
+  white-space: nowrap; // whitespace-nowrap
+  display: inline-block; // inline-block
+  transition-property: opacity; // transition-opacity
+  transition-duration: 600ms; // duration-600
+  padding-left: 2.25rem; // px-9
+  padding-right: 2.25rem; // px-9
+
+  // [&_a]:text-danger
+  a {
+    color: var(--art-danger);
+
+    // [&_a:hover]:underline [&_a:hover]:text-danger/80
+    &:hover {
+      text-decoration: underline;
+      color: color-mix(in srgb, var(--art-danger) 80%, transparent);
+    }
+  }
+}
+
+// 纵向滚动模式（flex flex-col）
+.text-scroll-content.is-vertical {
+  display: flex; // flex
+  flex-direction: column; // flex-col
+}
+
+// 文本片段（inline-block）
+.text-scroll-text {
+  display: inline-block; // inline-block
+}
+
+// 隐藏状态（opacity-0）
+.text-scroll-content.is-hidden {
+  opacity: 0; // opacity-0
+}
+
+// 可见状态（opacity-100）
+.text-scroll-content.is-visible {
+  opacity: 1; // opacity-100
+}
+
+// 右侧关闭按钮容器（absolute right-0 h-full w-9）
+.text-scroll-close {
+  position: absolute; // absolute
+  right: 0; // right-0
+  top: 0;
+  height: 100%; // h-full
+  width: 2.25rem; // w-9
+}
+
+// 关闭图标（text-lg）
+.icon-close {
+  font-size: 1.125rem; // text-lg
+  line-height: 1.75rem; // text-lg
+}
+
+// 主题颜色变体（90% 文字色 + 50% 边框色）
+.is-theme {
+  color: color-mix(in srgb, var(--theme-color) 90%, transparent);
+  border-color: color-mix(in srgb, var(--theme-color) 50%, transparent) !important;
+}
+
+.is-primary {
+  color: color-mix(in srgb, var(--art-primary) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-primary) 50%, transparent) !important;
+}
+
+.is-secondary {
+  color: color-mix(in srgb, var(--art-secondary) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-secondary) 50%, transparent) !important;
+}
+
+.is-error {
+  color: color-mix(in srgb, var(--art-error) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-error) 50%, transparent) !important;
+}
+
+.is-info {
+  color: color-mix(in srgb, var(--art-info) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-info) 50%, transparent) !important;
+}
+
+.is-success {
+  color: color-mix(in srgb, var(--art-success) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-success) 50%, transparent) !important;
+}
+
+.is-warning {
+  color: color-mix(in srgb, var(--art-warning) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-warning) 50%, transparent) !important;
+}
+
+.is-danger {
+  color: color-mix(in srgb, var(--art-danger) 90%, transparent);
+  border-color: color-mix(in srgb, var(--art-danger) 50%, transparent) !important;
+}
+</style>

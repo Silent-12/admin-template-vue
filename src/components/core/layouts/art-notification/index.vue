@@ -1,7 +1,7 @@
 <!-- 通知组件 -->
 <template>
   <div
-    class="art-notification-panel art-card-sm !shadow-xl"
+    class="art-notification-panel art-card-sm notification-panel"
     :style="{
       transform: show ? 'scaleY(1)' : 'scaleY(0.9)',
       opacity: show ? 1 : 0
@@ -9,18 +9,18 @@
     v-show="visible"
     @click.stop
   >
-    <div class="flex-cb px-3.5 mt-3.5">
-      <span class="text-base font-medium text-g-800">{{ $t('notice.title') }}</span>
-      <span class="text-xs text-g-800 px-1.5 py-1 c-p select-none rounded hover:bg-g-200">
+    <div class="notification-panel__header flex-cb">
+      <span class="notification-panel__title">{{ $t('notice.title') }}</span>
+      <span class="notification-panel__read-btn c-p">
         {{ $t('notice.btnRead') }}
       </span>
     </div>
 
-    <ul class="box-border flex items-end w-full h-12.5 px-3.5 border-b-d">
+    <ul class="notification-panel__tabs box-border flex border-b-d">
       <li
         v-for="(item, index) in barList"
         :key="index"
-        class="h-12 leading-12 mr-5 overflow-hidden text-[13px] text-g-700 c-p select-none"
+        class="notification-panel__tab c-p"
         :class="{ 'bar-active': barActiveIndex === index }"
         @click="changeBar(index)"
       >
@@ -28,24 +28,27 @@
       </li>
     </ul>
 
-    <div class="w-full h-[calc(100%-95px)]">
-      <div class="h-[calc(100%-60px)] overflow-y-scroll scrollbar-thin">
+    <div class="notification-panel__content">
+      <div class="notification-panel__scroll scrollbar-thin">
         <!-- 通知 -->
         <ul v-show="barActiveIndex === 0">
           <li
             v-for="(item, index) in noticeList"
             :key="index"
-            class="box-border flex-c px-3.5 py-3.5 c-p last:border-b-0 hover:bg-g-200/60"
+            class="notification-item flex-c c-p"
           >
             <div
-              class="size-9 leading-9 text-center rounded-lg flex-cc"
+              class="notification-item__icon flex-cc"
               :class="[getNoticeStyle(item.type).iconClass]"
             >
-              <ArtSvgIcon class="text-lg !bg-transparent" :icon="getNoticeStyle(item.type).icon" />
+              <ArtSvgIcon
+                class="notification-item__icon-svg"
+                :icon="getNoticeStyle(item.type).icon"
+              />
             </div>
-            <div class="w-[calc(100%-45px)] ml-3.5">
-              <h4 class="text-sm font-normal leading-5.5 text-g-900">{{ item.title }}</h4>
-              <p class="mt-1.5 text-xs text-g-500">{{ item.time }}</p>
+            <div class="notification-item__body">
+              <h4 class="notification-item__title">{{ item.title }}</h4>
+              <p class="notification-item__time">{{ item.time }}</p>
             </div>
           </li>
         </ul>
@@ -55,14 +58,14 @@
           <li
             v-for="(item, index) in msgList"
             :key="index"
-            class="box-border flex-c px-3.5 py-3.5 c-p last:border-b-0 hover:bg-g-200/60"
+            class="notification-item flex-c c-p"
           >
-            <div class="w-9 h-9">
-              <img :src="item.avatar" class="w-full h-full rounded-lg" />
+            <div class="notification-item__avatar-box">
+              <img :src="item.avatar" class="notification-item__avatar" />
             </div>
-            <div class="w-[calc(100%-45px)] ml-3.5">
-              <h4 class="text-xs font-normal leading-5.5">{{ item.title }}</h4>
-              <p class="mt-1.5 text-xs text-g-500">{{ item.time }}</p>
+            <div class="notification-item__body">
+              <h4 class="notification-item__msg-title">{{ item.title }}</h4>
+              <p class="notification-item__time">{{ item.time }}</p>
             </div>
           </li>
         </ul>
@@ -72,33 +75,33 @@
           <li
             v-for="(item, index) in pendingList"
             :key="index"
-            class="box-border px-5 py-3.5 last:border-b-0"
+            class="pending-item box-border"
           >
             <h4>{{ item.title }}</h4>
-            <p class="text-xs text-g-500">{{ item.time }}</p>
+            <p class="pending-item__time">{{ item.time }}</p>
           </li>
         </ul>
 
         <!-- 空状态 -->
         <div
           v-show="currentTabIsEmpty"
-          class="relative top-25 h-full text-g-500 text-center !bg-transparent"
+          class="notification-empty"
         >
-          <ArtSvgIcon icon="system-uicons:inbox" class="text-5xl" />
-          <p class="mt-3.5 text-xs !bg-transparent"
+          <ArtSvgIcon icon="system-uicons:inbox" class="notification-empty__icon" />
+          <p class="notification-empty__text"
             >{{ $t('notice.text[0]') }}{{ barList[barActiveIndex].name }}</p
           >
         </div>
       </div>
 
-      <div class="relative box-border w-full px-3.5">
-        <ElButton class="w-full mt-3" @click="handleViewAll" v-ripple>
+      <div class="notification-panel__footer box-border">
+        <ElButton class="notification-panel__view-all" @click="handleViewAll" v-ripple>
           {{ $t('notice.viewAll') }}
         </ElButton>
       </div>
     </div>
 
-    <div class="h-25"></div>
+    <div class="notification-panel__bottom-spacer"></div>
   </div>
 </template>
 
@@ -269,33 +272,34 @@
 
   // 样式管理
   const useNotificationStyles = () => {
+    // 通知图标样式映射（使用语义化类名，对应 SCSS 中定义）
     const noticeStyleMap: Record<NoticeType, NoticeStyle> = {
       email: {
         icon: 'ri:mail-line',
-        iconClass: 'bg-warning/12 text-warning'
+        iconClass: 'notice-icon--email'
       },
       message: {
         icon: 'ri:volume-down-line',
-        iconClass: 'bg-success/12 text-success'
+        iconClass: 'notice-icon--message'
       },
       collection: {
         icon: 'ri:heart-3-line',
-        iconClass: 'bg-danger/12 text-danger'
+        iconClass: 'notice-icon--collection'
       },
       user: {
         icon: 'ri:volume-down-line',
-        iconClass: 'bg-info/12 text-info'
+        iconClass: 'notice-icon--user'
       },
       notice: {
         icon: 'ri:notification-3-line',
-        iconClass: 'bg-theme/12 text-theme'
+        iconClass: 'notice-icon--notice'
       }
     }
 
     const getNoticeStyle = (type: NoticeType): NoticeStyle => {
       const defaultStyle: NoticeStyle = {
         icon: 'ri:arrow-right-circle-line',
-        iconClass: 'bg-theme/12 text-theme'
+        iconClass: 'notice-icon--notice'
       }
 
       return noticeStyleMap[type] || defaultStyle
@@ -417,31 +421,108 @@
   )
 </script>
 
-<style scoped>
-  @reference '@styles/core/tailwind.css';
+<style scoped lang="scss">
+  // ==================== 通知面板容器（原 @apply 展开） ====================
+  // 原: @apply absolute top-14.5 right-5 w-90 h-125 overflow-hidden transition-all
+  //      duration-300 origin-top will-change-[top,left]
+  //      max-[640px]:top-[65px] max-[640px]:right-0 max-[640px]:w-full max-[640px]:h-[80vh];
+  // 保留自定义类 art-notification-panel art-card-sm
+  .notification-panel {
+    position: absolute; // absolute
+    top: 3.625rem; // top-14.5
+    right: 1.25rem; // right-5
+    width: 22.5rem; // w-90
+    height: 31.25rem; // h-125
+    overflow: hidden;
+    transition-property: all; // transition-all
+    transition-duration: 300ms; // duration-300
+    transform-origin: top; // origin-top
+    will-change: top, left; // will-change-[top,left]
+    // !shadow-xl
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
 
-  .art-notification-panel {
-    @apply absolute 
-    top-14.5 
-    right-5 
-    w-90 
-    h-125 
-    overflow-hidden 
-    transition-all 
-    duration-300
-    origin-top 
-    will-change-[top,left] 
-    max-[640px]:top-[65px]
-    max-[640px]:right-0
-    max-[640px]:w-full 
-    max-[640px]:h-[80vh];
+    @media (max-width: 640px) {
+      top: 65px; // max-[640px]:top-[65px]
+      right: 0; // max-[640px]:right-0
+      width: 100%; // max-[640px]:w-full
+      height: 80vh; // max-[640px]:h-[80vh]
+    }
   }
 
-  .bar-active {
-    color: var(--theme-color) !important;
-    border-bottom: 2px solid var(--theme-color);
+  // ==================== 头部 ====================
+  // flex-cb px-3.5 mt-3.5
+  // 保留全局工具类 flex-cb
+  .notification-panel__header {
+    padding-left: 0.875rem; // px-3.5
+    padding-right: 0.875rem;
+    margin-top: 0.875rem; // mt-3.5
   }
 
+  // text-base font-medium text-g-800
+  .notification-panel__title {
+    font-size: 1rem; // text-base
+    line-height: 1.5rem;
+    font-weight: 500; // font-medium
+    color: var(--art-gray-800);
+  }
+
+  // text-xs text-g-800 px-1.5 py-1 c-p select-none rounded hover:bg-g-200
+  // 保留全局工具类 c-p
+  .notification-panel__read-btn {
+    padding-left: 0.375rem; // px-1.5
+    padding-right: 0.375rem;
+    padding-top: 0.25rem; // py-1
+    padding-bottom: 0.25rem;
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+    color: var(--art-gray-800);
+    user-select: none; // select-none
+    border-radius: 0.25rem; // rounded
+
+    &:hover {
+      background: var(--art-gray-200); // hover:bg-g-200
+    }
+  }
+
+  // ==================== 标签栏 ====================
+  // box-border flex items-end w-full h-12.5 px-3.5 border-b-d
+  // 保留全局工具类 border-b-d
+  .notification-panel__tabs {
+    display: flex;
+    align-items: flex-end; // items-end
+    width: 100%; // w-full
+    height: 3.125rem; // h-12.5
+    padding-left: 0.875rem; // px-3.5
+    padding-right: 0.875rem;
+    box-sizing: border-box;
+  }
+
+  // h-12 leading-12 mr-5 overflow-hidden text-[13px] text-g-700 c-p select-none
+  // 保留全局工具类 c-p
+  .notification-panel__tab {
+    height: 3rem; // h-12
+    line-height: 3rem; // leading-12
+    margin-right: 1.25rem; // mr-5
+    overflow: hidden;
+    font-size: 13px; // text-[13px]
+    color: var(--art-gray-700);
+    user-select: none; // select-none
+  }
+
+  // ==================== 内容区 ====================
+  // w-full h-[calc(100%-95px)]
+  .notification-panel__content {
+    width: 100%;
+    height: calc(100% - 95px); // h-[calc(100%-95px)]
+  }
+
+  // h-[calc(100%-60px)] overflow-y-scroll scrollbar-thin
+  .notification-panel__scroll {
+    height: calc(100% - 60px); // h-[calc(100%-60px)]
+    overflow-y: scroll;
+  }
+
+  // 自定义滚动条
   .scrollbar-thin::-webkit-scrollbar {
     width: 5px !important;
   }
@@ -452,5 +533,188 @@
 
   .dark .scrollbar-thin::-webkit-scrollbar-thumb {
     background-color: #222 !important;
+  }
+
+  // ==================== 通知/消息项 ====================
+  // box-border flex-c px-3.5 py-3.5 c-p last:border-b-0 hover:bg-g-200/60
+  // 保留全局工具类 flex-c c-p
+  .notification-item {
+    padding-left: 0.875rem; // px-3.5
+    padding-right: 0.875rem;
+    padding-top: 0.875rem; // py-3.5
+    padding-bottom: 0.875rem;
+    box-sizing: border-box;
+
+    &:last-child {
+      border-bottom: 0; // last:border-b-0
+    }
+
+    &:hover {
+      background: color-mix(in srgb, var(--art-gray-200) 60%, transparent); // hover:bg-g-200/60
+    }
+  }
+
+  // 图标容器：size-9 leading-9 text-center rounded-lg flex-cc
+  // 保留全局工具类 flex-cc
+  .notification-item__icon {
+    width: 2.25rem; // size-9
+    height: 2.25rem;
+    line-height: 2.25rem; // leading-9
+    text-align: center; // text-center
+    border-radius: 0.5rem; // rounded-lg
+  }
+
+  // 图标 SVG：text-lg !bg-transparent
+  .notification-item__icon-svg {
+    font-size: 1.125rem; // text-lg
+    line-height: 1.75rem;
+    background: transparent !important; // !bg-transparent
+  }
+
+  // 文本主体：w-[calc(100%-45px)] ml-3.5
+  .notification-item__body {
+    width: calc(100% - 45px); // w-[calc(100%-45px)]
+    margin-left: 0.875rem; // ml-3.5
+  }
+
+  // 通知标题：text-sm font-normal leading-5.5 text-g-900
+  .notification-item__title {
+    font-size: 0.875rem; // text-sm
+    line-height: 1.375rem; // leading-5.5
+    font-weight: 400; // font-normal
+    color: var(--art-gray-900);
+  }
+
+  // 消息标题：text-xs font-normal leading-5.5
+  .notification-item__msg-title {
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+    font-weight: 400; // font-normal
+    line-height: 1.375rem; // leading-5.5
+  }
+
+  // 时间：mt-1.5 text-xs text-g-500
+  .notification-item__time {
+    margin-top: 0.375rem; // mt-1.5
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+    color: var(--art-gray-500);
+  }
+
+  // 头像容器：w-9 h-9
+  .notification-item__avatar-box {
+    width: 2.25rem; // w-9
+    height: 2.25rem; // h-9
+  }
+
+  // 头像图片：w-full h-full rounded-lg
+  .notification-item__avatar {
+    width: 100%; // w-full
+    height: 100%; // h-full
+    border-radius: 0.5rem; // rounded-lg
+  }
+
+  // ==================== 待办项 ====================
+  // box-border px-5 py-3.5 last:border-b-0
+  .pending-item {
+    padding-left: 1.25rem; // px-5
+    padding-right: 1.25rem;
+    padding-top: 0.875rem; // py-3.5
+    padding-bottom: 0.875rem;
+    box-sizing: border-box;
+
+    &:last-child {
+      border-bottom: 0; // last:border-b-0
+    }
+  }
+
+  // 时间：text-xs text-g-500
+  .pending-item__time {
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+    color: var(--art-gray-500);
+  }
+
+  // ==================== 空状态 ====================
+  // relative top-25 h-full text-g-500 text-center !bg-transparent
+  .notification-empty {
+    position: relative;
+    top: 6.25rem; // top-25
+    height: 100%; // h-full
+    color: var(--art-gray-500);
+    text-align: center; // text-center
+    background: transparent !important; // !bg-transparent
+  }
+
+  // 空状态图标：text-5xl
+  .notification-empty__icon {
+    font-size: 3rem; // text-5xl
+    line-height: 1;
+  }
+
+  // 空状态文字：mt-3.5 text-xs !bg-transparent
+  .notification-empty__text {
+    margin-top: 0.875rem; // mt-3.5
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem;
+    background: transparent !important; // !bg-transparent
+  }
+
+  // ==================== 底部按钮区 ====================
+  // relative box-border w-full px-3.5
+  .notification-panel__footer {
+    position: relative;
+    width: 100%; // w-full
+    padding-left: 0.875rem; // px-3.5
+    padding-right: 0.875rem;
+    box-sizing: border-box;
+  }
+
+  // 查看全部按钮：w-full mt-3
+  .notification-panel__view-all {
+    width: 100%; // w-full
+    margin-top: 0.75rem; // mt-3
+  }
+
+  // 底部占位：h-25
+  .notification-panel__bottom-spacer {
+    height: 6.25rem; // h-25
+  }
+
+  // ==================== 标签激活状态 ====================
+  .bar-active {
+    color: var(--theme-color) !important;
+    border-bottom: 2px solid var(--theme-color);
+  }
+
+  // ==================== 通知图标类型样式（替代原 bg-*/text-* Tailwind 类） ====================
+  // 原: bg-warning/12 text-warning
+  .notice-icon--email {
+    background: color-mix(in srgb, var(--art-warning) 12%, transparent);
+    color: var(--art-warning);
+  }
+
+  // 原: bg-success/12 text-success
+  .notice-icon--message {
+    background: color-mix(in srgb, var(--art-success) 12%, transparent);
+    color: var(--art-success);
+  }
+
+  // 原: bg-danger/12 text-danger
+  .notice-icon--collection {
+    background: color-mix(in srgb, var(--art-danger) 12%, transparent);
+    color: var(--art-danger);
+  }
+
+  // 原: bg-info/12 text-info
+  .notice-icon--user {
+    background: color-mix(in srgb, var(--art-info) 12%, transparent);
+    color: var(--art-info);
+  }
+
+  // 原: bg-theme/12 text-theme
+  .notice-icon--notice {
+    background: color-mix(in srgb, var(--theme-color) 12%, transparent);
+    color: var(--theme-color);
   }
 </style>

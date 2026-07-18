@@ -1,28 +1,21 @@
 <!-- 面包屑导航 -->
 <template>
-  <nav class="ml-2.5 max-lg:!hidden" aria-label="breadcrumb">
-    <ul class="flex-c h-full">
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <ul class="breadcrumb__list flex-c">
       <li
         v-for="(item, index) in breadcrumbItems"
         :key="item.path"
-        class="box-border flex-c h-7 text-sm leading-7"
+        class="breadcrumb__item flex-c"
       >
         <div
-          :class="
-            isClickable(item, index)
-              ? 'c-p py-1 rounded tad-200 hover:bg-active-color hover:[&_span]:text-g-600'
-              : ''
-          "
+          :class="isClickable(item, index) ? 'breadcrumb__link c-p tad-200' : ''"
           @click="handleBreadcrumbClick(item, index)"
         >
-          <span
-            class="block max-w-46 overflow-hidden text-ellipsis whitespace-nowrap px-1.5 text-sm text-g-600 dark:text-g-800"
-            >{{ formatMenuTitle(item.meta?.title as string) }}</span
-          >
+          <span class="breadcrumb__text">{{ formatMenuTitle(item.meta?.title as string) }}</span>
         </div>
         <div
           v-if="!isLastItem(index) && item.meta?.title"
-          class="mx-1 text-sm not-italic text-g-500"
+          class="breadcrumb__separator"
           aria-hidden="true"
         >
           /
@@ -140,3 +133,78 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+  // ==================== 面包屑容器 ====================
+  // ml-2.5 max-lg:!hidden
+  .breadcrumb {
+    margin-left: 0.625rem; // ml-2.5
+
+    @media (max-width: 63.99rem) {
+      display: none !important; // max-lg:!hidden
+    }
+  }
+
+  // flex-c h-full
+  // 保留全局工具类 flex-c
+  .breadcrumb__list {
+    height: 100%; // h-full
+  }
+
+  // box-border flex-c h-7 text-sm leading-7
+  // 保留全局工具类 flex-c
+  .breadcrumb__item {
+    box-sizing: border-box; // box-border
+    height: 1.75rem; // h-7
+    font-size: 0.875rem; // text-sm
+    line-height: 1.75rem; // leading-7
+  }
+
+  // 可点击区域：c-p py-1 rounded tad-200
+  // hover:bg-active-color hover:[&_span]:text-g-600
+  // 保留全局工具类 c-p tad-200
+  .breadcrumb__link {
+    padding-top: 0.25rem; // py-1
+    padding-bottom: 0.25rem;
+    border-radius: 0.25rem; // rounded
+
+    &:hover {
+      background: var(--art-active-color); // hover:bg-active-color
+
+      // hover:[&_span]:text-g-600
+      .breadcrumb__text {
+        color: var(--art-gray-600);
+      }
+    }
+  }
+
+  // 文本：block max-w-46 overflow-hidden text-ellipsis whitespace-nowrap
+  // px-1.5 text-sm text-g-600 dark:text-g-800
+  .breadcrumb__text {
+    display: block;
+    max-width: 11.5rem; // max-w-46
+    padding-left: 0.375rem; // px-1.5
+    padding-right: 0.375rem;
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem;
+    color: var(--art-gray-600);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    // dark:text-g-800
+    .dark & {
+      color: var(--art-gray-800);
+    }
+  }
+
+  // 分隔符：mx-1 text-sm not-italic text-g-500
+  .breadcrumb__separator {
+    margin-left: 0.25rem; // mx-1
+    margin-right: 0.25rem;
+    font-size: 0.875rem; // text-sm
+    line-height: 1.25rem;
+    font-style: normal; // not-italic
+    color: var(--art-gray-500);
+  }
+</style>

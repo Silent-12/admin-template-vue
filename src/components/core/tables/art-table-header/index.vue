@@ -1,18 +1,18 @@
 <!-- 表格头部，包含表格大小、刷新、全屏、列设置、其他设置 -->
 <template>
-  <div class="flex-cb max-md:!block" id="art-table-header">
-    <div class="flex-wrap">
+  <div class="flex-cb table-header-root" id="art-table-header">
+    <div class="left-wrap">
       <slot name="left"></slot>
     </div>
 
-    <div class="flex-c md:justify-end max-md:mt-3 max-sm:!hidden">
+    <div class="flex-c right-wrap">
       <div
         v-if="showSearchBar != null"
         class="button"
         @click="search"
-        :class="showSearchBar ? 'active !bg-theme hover:!bg-theme/80' : ''"
+        :class="showSearchBar ? 'active' : ''"
       >
-        <ArtSvgIcon icon="ri:search-line" :class="showSearchBar ? 'text-white' : 'text-g-700'" />
+        <ArtSvgIcon icon="ri:search-line" :class="showSearchBar ? 'is-active-icon' : 'is-icon'" />
       </div>
       <div
         v-if="shouldShow('refresh')"
@@ -22,7 +22,7 @@
       >
         <ArtSvgIcon
           icon="ri:refresh-line"
-          :class="loading && isManualRefresh ? 'animate-spin text-g-600' : ''"
+          :class="loading && isManualRefresh ? 'is-loading-icon' : ''"
         />
       </div>
 
@@ -35,13 +35,10 @@
             <div
               v-for="item in tableSizeOptions"
               :key="item.value"
-              class="table-size-btn-item [&_.el-dropdown-menu__item]:!mb-[3px] last:[&_.el-dropdown-menu__item]:!mb-0"
+              class="table-size-btn-item"
+              :class="{ 'is-current-size': tableSize === item.value }"
             >
-              <ElDropdownItem
-                :key="item.value"
-                :command="item.value"
-                :class="tableSize === item.value ? '!bg-g-300/55' : ''"
-              >
+              <ElDropdownItem :key="item.value" :command="item.value">
                 {{ item.label }}
               </ElDropdownItem>
             </div>
@@ -76,19 +73,19 @@
                 :class="{ 'fixed-column': item.fixed }"
               >
                 <div
-                  class="drag-icon mr-2 h-4.5 flex-cc text-g-500"
-                  :class="item.fixed ? 'cursor-default text-g-300' : 'cursor-move'"
+                  class="drag-icon flex-cc"
+                  :class="item.fixed ? 'is-fixed' : 'is-movable'"
                 >
                   <ArtSvgIcon
                     :icon="item.fixed ? 'ri:unpin-line' : 'ri:drag-move-2-fill'"
-                    class="text-base"
+                    class="drag-icon-svg"
                   />
                 </div>
                 <ElCheckbox
                   :model-value="getColumnVisibility(item)"
                   @update:model-value="(val) => updateColumnVisibility(item, val)"
                   :disabled="item.disabled"
-                  class="flex-1 min-w-0 [&_.el-checkbox__label]:overflow-hidden [&_.el-checkbox__label]:text-ellipsis [&_.el-checkbox__label]:whitespace-nowrap"
+                  class="column-checkbox"
                   >{{
                     item.label || (item.type === 'selection' ? t('table.selection') : '')
                   }}</ElCheckbox
@@ -318,22 +315,151 @@
   })
 </script>
 
-<style scoped>
-  @reference '@styles/core/tailwind.css';
+<style scoped lang="scss">
+  // 表格头部根容器（max-md:!block）
+  .table-header-root {
+    @media (max-width: 47.99rem) {
+      // max-md:!block
+      display: block !important;
+    }
+  }
 
+  // 左侧插槽容器（flex-wrap）
+  .left-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  // 右侧操作区容器（md:justify-end max-md:mt-3 max-sm:!hidden）
+  .right-wrap {
+    justify-content: flex-end;
+
+    @media (max-width: 47.99rem) {
+      // max-md:mt-3
+      margin-top: 0.75rem;
+    }
+
+    @media (max-width: 39.99rem) {
+      // max-sm:!hidden
+      display: none !important;
+    }
+  }
+
+  // 操作按钮（@apply 展开后样式）
   .button {
-    @apply ml-2 
-    size-8 
-    flex 
-    items-center 
-    justify-center 
-    cursor-pointer 
-    rounded-md 
-    bg-g-300/55
-    dark:bg-g-300/40
-    text-g-700  
-    hover:bg-g-300 
-    md:ml-0 
-    md:mr-2.5;
+    margin-left: 0.5rem; // ml-2
+    width: 2rem; // size-8
+    height: 2rem; // size-8
+    display: flex; // flex
+    align-items: center; // items-center
+    justify-content: center; // justify-center
+    cursor: pointer; // cursor-pointer
+    border-radius: 0.375rem; // rounded-md
+    background-color: color-mix(
+      in srgb,
+      var(--art-gray-300) 55%,
+      transparent
+    ); // bg-g-300/55
+    color: var(--art-gray-700); // text-g-700
+
+    &:hover {
+      background-color: var(--art-gray-300); // hover:bg-g-300
+    }
+
+    // md:ml-0 md:mr-2.5
+    @media (min-width: 48rem) {
+      margin-left: 0; // md:ml-0
+      margin-right: 0.625rem; // md:mr-2.5
+    }
+
+    // dark:bg-g-300/40
+    .dark & {
+      background-color: color-mix(in srgb, var(--art-gray-300) 40%, transparent);
+    }
+  }
+
+  // 搜索按钮激活态（!bg-theme hover:!bg-theme/80）
+  .button.active {
+    background-color: var(--theme-color) !important;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--theme-color) 80%, transparent) !important;
+    }
+  }
+
+  // 搜索图标激活态（text-white）
+  .button :deep(.is-active-icon) {
+    color: #fff;
+  }
+
+  // 搜索图标默认态（text-g-700）
+  .button :deep(.is-icon) {
+    color: var(--art-gray-700);
+  }
+
+  // 刷新按钮加载中图标（animate-spin text-g-600）
+  .button :deep(.is-loading-icon) {
+    color: var(--art-gray-600);
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  // 表格大小选项容器（[&_.el-dropdown-menu__item]:!mb-[3px] last:[&_.el-dropdown-menu__item]:!mb-0）
+  .table-size-btn-item {
+    :deep(.el-dropdown-menu__item) {
+      margin-bottom: 3px !important;
+    }
+
+    &:last-child :deep(.el-dropdown-menu__item) {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  // 当前选中的表格大小（!bg-g-300/55）
+  .table-size-btn-item.is-current-size {
+    :deep(.el-dropdown-menu__item) {
+      background-color: color-mix(in srgb, var(--art-gray-300) 55%, transparent) !important;
+    }
+  }
+
+  // 列选项拖拽图标（mr-2 h-4.5 text-g-500）
+  .drag-icon {
+    margin-right: 0.5rem; // mr-2
+    height: 1.125rem; // h-4.5
+    color: var(--art-gray-500); // text-g-500
+
+    // 固定列状态（cursor-default text-g-300）
+    &.is-fixed {
+      cursor: default;
+      color: var(--art-gray-300);
+    }
+
+    // 可拖拽状态（cursor-move）
+    &.is-movable {
+      cursor: move;
+    }
+  }
+
+  // 拖拽图标 svg（text-base）
+  .drag-icon :deep(.drag-icon-svg) {
+    font-size: 1rem; // text-base
+    line-height: 1.5rem; // text-base
+  }
+
+  // 列复选框（flex-1 min-w-0 + label overflow 处理）
+  .column-checkbox {
+    flex: 1 1 0%; // flex-1
+    min-width: 0; // min-w-0
+
+    :deep(.el-checkbox__label) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 </style>

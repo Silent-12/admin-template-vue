@@ -1,43 +1,41 @@
 <!-- 个人中心页面 -->
 <template>
-  <div class="w-full h-full p-0 bg-transparent border-none shadow-none">
-    <div class="relative flex-b mt-2.5 max-md:block max-md:mt-1">
-      <div class="w-112 mr-5 max-md:w-full max-md:mr-0">
-        <div class="art-card-sm relative p-9 pb-6 overflow-hidden text-center">
-          <img class="absolute top-0 left-0 w-full h-50 object-cover" src="@imgs/user/bg.webp" />
-          <img
-            class="relative z-10 w-20 h-20 mt-30 mx-auto object-cover border-2 border-white rounded-full"
-            src="@imgs/user/avatar.webp"
-          />
-          <h2 class="mt-5 text-xl font-normal">{{ userInfo.userName }}</h2>
-          <p class="mt-5 text-sm">专注于用户体验跟视觉设计</p>
+  <div class="user-center-root">
+    <div class="user-center-wrap flex-b">
+      <!-- 左侧：个人资料卡片 -->
+      <div class="profile-col">
+        <div class="profile-card art-card-sm">
+          <img class="profile-bg" src="@imgs/user/bg.webp" />
+          <img class="profile-avatar" src="@imgs/user/avatar.webp" />
+          <h2 class="profile-name">{{ userInfo.userName }}</h2>
+          <p class="profile-desc">专注于用户体验跟视觉设计</p>
 
-          <div class="w-75 mx-auto mt-7.5 text-left">
-            <div class="mt-2.5">
-              <ArtSvgIcon icon="ri:mail-line" class="text-g-700" />
-              <span class="ml-2 text-sm">jdkjjfnndf@mall.com</span>
+          <div class="profile-info">
+            <div class="info-row">
+              <ArtSvgIcon icon="ri:mail-line" class="info-icon" />
+              <span class="info-text">jdkjjfnndf@mall.com</span>
             </div>
-            <div class="mt-2.5">
-              <ArtSvgIcon icon="ri:user-3-line" class="text-g-700" />
-              <span class="ml-2 text-sm">交互专家</span>
+            <div class="info-row">
+              <ArtSvgIcon icon="ri:user-3-line" class="info-icon" />
+              <span class="info-text">交互专家</span>
             </div>
-            <div class="mt-2.5">
-              <ArtSvgIcon icon="ri:map-pin-line" class="text-g-700" />
-              <span class="ml-2 text-sm">广东省深圳市</span>
+            <div class="info-row">
+              <ArtSvgIcon icon="ri:map-pin-line" class="info-icon" />
+              <span class="info-text">广东省深圳市</span>
             </div>
-            <div class="mt-2.5">
-              <ArtSvgIcon icon="ri:dribbble-fill" class="text-g-700" />
-              <span class="ml-2 text-sm">字节跳动－某某平台部－UED</span>
+            <div class="info-row">
+              <ArtSvgIcon icon="ri:dribbble-fill" class="info-icon" />
+              <span class="info-text">字节跳动－某某平台部－UED</span>
             </div>
           </div>
 
-          <div class="mt-10">
-            <h3 class="text-sm font-medium">标签</h3>
-            <div class="flex flex-wrap justify-center mt-3.5">
+          <div class="tags-section">
+            <h3 class="tags-title">标签</h3>
+            <div class="tags-list">
               <div
                 v-for="item in lableList"
                 :key="item"
-                class="py-1 px-1.5 mr-2.5 mb-2.5 text-xs border border-g-300 rounded"
+                class="tag-item"
               >
                 {{ item }}
               </div>
@@ -45,13 +43,15 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 overflow-hidden max-md:w-full max-md:mt-3.5">
+
+      <!-- 右侧：设置区域 -->
+      <div class="settings-col">
         <div class="art-card-sm">
-          <h1 class="p-4 text-xl font-normal border-b border-g-300">基本设置</h1>
+          <h1 class="card-title">基本设置</h1>
 
           <ElForm
             :model="form"
-            class="box-border p-5 [&>.el-row_.el-form-item]:w-[calc(50%-10px)] [&>.el-row_.el-input]:w-full [&>.el-row_.el-select]:w-full"
+            class="settings-form"
             ref="ruleFormRef"
             :rules="rules"
             label-width="86px"
@@ -61,7 +61,7 @@
               <ElFormItem label="姓名" prop="realName">
                 <ElInput v-model="form.realName" :disabled="!isEdit" />
               </ElFormItem>
-              <ElFormItem label="性别" prop="sex" class="ml-5">
+              <ElFormItem label="性别" prop="sex" class="form-item-ml">
                 <ElSelect v-model="form.sex" placeholder="Select" :disabled="!isEdit">
                   <ElOption
                     v-for="item in options"
@@ -77,7 +77,7 @@
               <ElFormItem label="昵称" prop="nikeName">
                 <ElInput v-model="form.nikeName" :disabled="!isEdit" />
               </ElFormItem>
-              <ElFormItem label="邮箱" prop="email" class="ml-5">
+              <ElFormItem label="邮箱" prop="email" class="form-item-ml">
                 <ElInput v-model="form.email" :disabled="!isEdit" />
               </ElFormItem>
             </ElRow>
@@ -86,27 +86,27 @@
               <ElFormItem label="手机" prop="mobile">
                 <ElInput v-model="form.mobile" :disabled="!isEdit" />
               </ElFormItem>
-              <ElFormItem label="地址" prop="address" class="ml-5">
+              <ElFormItem label="地址" prop="address" class="form-item-ml">
                 <ElInput v-model="form.address" :disabled="!isEdit" />
               </ElFormItem>
             </ElRow>
 
-            <ElFormItem label="个人介绍" prop="des" class="h-32">
+            <ElFormItem label="个人介绍" prop="des" class="form-item-tall">
               <ElInput type="textarea" :rows="4" v-model="form.des" :disabled="!isEdit" />
             </ElFormItem>
 
-            <div class="flex-c justify-end [&_.el-button]:!w-27.5">
-              <ElButton type="primary" class="w-22.5" v-ripple @click="edit">
+            <div class="flex-c button-row">
+              <ElButton type="primary" v-ripple @click="edit">
                 {{ isEdit ? '保存' : '编辑' }}
               </ElButton>
             </div>
           </ElForm>
         </div>
 
-        <div class="art-card-sm my-5">
-          <h1 class="p-4 text-xl font-normal border-b border-g-300">更改密码</h1>
+        <div class="art-card-sm pwd-card">
+          <h1 class="card-title">更改密码</h1>
 
-          <ElForm :model="pwdForm" class="box-border p-5" label-width="86px" label-position="top">
+          <ElForm :model="pwdForm" class="settings-form" label-width="86px" label-position="top">
             <ElFormItem label="当前密码" prop="password">
               <ElInput
                 v-model="pwdForm.password"
@@ -134,8 +134,8 @@
               />
             </ElFormItem>
 
-            <div class="flex-c justify-end [&_.el-button]:!w-27.5">
-              <ElButton type="primary" class="w-22.5" v-ripple @click="editPwd">
+            <div class="flex-c button-row">
+              <ElButton type="primary" v-ripple @click="editPwd">
                 {{ isEditPwd ? '保存' : '编辑' }}
               </ElButton>
             </div>
@@ -245,3 +245,205 @@
     isEditPwd.value = !isEditPwd.value
   }
 </script>
+
+<style scoped lang="scss">
+  /* 根容器：透明背景无边框 */
+  .user-center-root {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* 主体布局容器 */
+  .user-center-wrap {
+    position: relative;
+    margin-top: 0.625rem;
+  }
+
+  /* 左侧个人资料卡片列 */
+  .profile-col {
+    width: 28rem;
+    margin-right: 1.25rem;
+  }
+
+  /* 个人资料卡片 */
+  .profile-card {
+    position: relative;
+    padding: 2.25rem 2.25rem 1.5rem;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* 顶部背景图 */
+  .profile-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12.5rem;
+    object-fit: cover;
+  }
+
+  /* 头像 */
+  .profile-avatar {
+    position: relative;
+    z-index: 10;
+    width: 5rem;
+    height: 5rem;
+    margin-top: 7.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    border: 2px solid white;
+    border-radius: 9999px;
+  }
+
+  /* 用户名 */
+  .profile-name {
+    margin-top: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+  }
+
+  /* 简介 */
+  .profile-desc {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  /* 资料信息容器 */
+  .profile-info {
+    width: 18.75rem;
+    margin: 1.875rem auto 0;
+    text-align: left;
+  }
+
+  /* 信息行 */
+  .info-row {
+    margin-top: 0.625rem;
+  }
+
+  /* 信息图标颜色 */
+  .info-icon {
+    color: var(--art-gray-700);
+  }
+
+  /* 信息文字 */
+  .info-text {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  /* 标签区域 */
+  .tags-section {
+    margin-top: 2.5rem;
+  }
+
+  /* 标签标题 */
+  .tags-title {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  /* 标签列表 */
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.875rem;
+  }
+
+  /* 标签项 */
+  .tag-item {
+    padding: 0.25rem 0.375rem;
+    margin-right: 0.625rem;
+    margin-bottom: 0.625rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    border: 1px solid var(--art-gray-300);
+    border-radius: 0.25rem;
+  }
+
+  /* 右侧设置列 */
+  .settings-col {
+    flex: 1 1 0%;
+    overflow: hidden;
+  }
+
+  /* 卡片标题 */
+  .card-title {
+    padding: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    border-bottom: 1px solid var(--art-gray-300);
+  }
+
+  /* 设置表单容器 */
+  .settings-form {
+    box-sizing: border-box;
+    padding: 1.25rem;
+
+    /* 表单项宽度（一行两个，留 10px 间距） */
+    :deep(.el-row .el-form-item) {
+      width: calc(50% - 10px);
+    }
+
+    /* 输入框 / 选择器宽度铺满 */
+    :deep(.el-row .el-input),
+    :deep(.el-row .el-select) {
+      width: 100%;
+    }
+  }
+
+  /* 表单项左间距（右侧列） */
+  .form-item-ml {
+    margin-left: 1.25rem;
+  }
+
+  /* 个人介绍表单项高度 */
+  .form-item-tall {
+    height: 8rem;
+  }
+
+  /* 按钮行 */
+  .button-row {
+    justify-content: flex-end;
+
+    /* 按钮统一宽度 */
+    :deep(.el-button) {
+      width: 6.875rem !important;
+    }
+  }
+
+  /* 密码卡片上下间距 */
+  .pwd-card {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* 响应式 max-md: 最大宽度 47.99rem（768px），单列布局 */
+  @media (max-width: 47.99rem) {
+    .user-center-wrap {
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .profile-col {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    .settings-col {
+      width: 100%;
+      margin-top: 0.875rem;
+    }
+  }
+</style>

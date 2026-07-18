@@ -36,13 +36,13 @@
                 }"
               >
                 <ArtSvgIcon
-                  class="menu-icon text-g-700 dark:text-g-800"
+                  class="menu-icon dual-menu-icon"
                   :icon="menu.meta.icon"
                   :style="{
                     marginBottom: dualMenuShowText ? '5px' : '0'
                   }"
                 />
-                <span v-if="dualMenuShowText" class="text-md text-g-700">
+                <span v-if="dualMenuShowText" class="dual-menu-text">
                   {{ $t(menu.meta.title) }}
                 </span>
                 <div v-if="menu.meta.showBadge" class="art-badge art-badge-dual" />
@@ -53,7 +53,7 @@
       </ElScrollbar>
 
       <ArtIconButton
-        class="switch-btn size-10"
+        class="switch-btn dual-switch-btn"
         icon="ri:arrow-left-right-fill"
         @click="toggleDualMenuMode"
       />
@@ -114,7 +114,7 @@
       <!-- 双列菜单右侧折叠按钮 -->
       <div class="dual-menu-collapse-btn" v-if="isDualMenu" @click="toggleMenuVisibility">
         <ArtSvgIcon
-          class="text-g-500/70"
+          class="dual-collapse-icon"
           :icon="menuOpen ? 'ri:arrow-left-wide-fill' : 'ri:arrow-right-wide-fill'"
         />
       </div>
@@ -350,6 +350,34 @@
 
 <style lang="scss" scoped>
   @use './style';
+
+  // 双列菜单图标颜色：text-g-700 dark:text-g-800
+  .dual-menu-icon {
+    color: var(--art-gray-700); // text-g-700
+
+    // 暗黑模式：dark:text-g-800
+    .dark & {
+      color: var(--art-gray-800);
+    }
+  }
+
+  // 双列菜单文字：text-md text-g-700
+  .dual-menu-text {
+    font-size: 1rem; // text-md
+    line-height: 1.5rem; // text-md
+    color: var(--art-gray-700); // text-g-700
+  }
+
+  // 双列菜单切换按钮尺寸：size-10
+  .dual-switch-btn {
+    width: 2.5rem; // size-10
+    height: 2.5rem; // size-10
+  }
+
+  // 双列菜单折叠按钮图标：text-g-500/70
+  .dual-collapse-icon {
+    color: color-mix(in srgb, var(--art-gray-500) 70%, transparent); // text-g-500/70
+  }
 </style>
 
 <style lang="scss">

@@ -5,71 +5,62 @@
       <div
         v-show="visible"
         :style="menuStyle"
-        class="context-menu art-card-xs !shadow-xl min-w-[var(--menu-width)] w-[var(--menu-width)]"
+        class="context-menu art-card-xs"
       >
-        <ul class="menu-list m-0 list-none" :style="menuListStyle">
+        <ul class="menu-list" :style="menuListStyle">
           <template v-for="item in menuItems" :key="item.key">
             <!-- 普通菜单项 -->
             <li
               v-if="!item.children"
-              class="menu-item relative flex-c c-p select-none rounded text-xs transition-colors duration-150 hover:bg-g-200"
+              class="menu-item flex-c c-p"
               :class="{ 'is-disabled': item.disabled, 'has-line': item.showLine }"
               :style="menuItemStyle"
               @click="handleMenuClick(item)"
             >
               <ArtSvgIcon
                 v-if="item.icon"
-                class="mr-2 shrink-0 text-base text-g-800"
+                class="menu-item-icon"
                 :icon="item.icon"
               />
-              <span
-                class="menu-label flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-g-800"
-                >{{ item.label }}</span
-              >
+              <span class="menu-label">{{ item.label }}</span>
             </li>
 
             <!-- 子菜单 -->
             <li
               v-else
-              class="menu-item submenu relative flex-c c-p select-none rounded text-xs transition-colors duration-150 hover:bg-g-200"
+              class="menu-item submenu flex-c c-p"
               :style="menuItemStyle"
             >
-              <div class="submenu-title flex-c w-full">
+              <div class="submenu-title flex-c">
                 <ArtSvgIcon
                   v-if="item.icon"
-                  class="mr-2 shrink-0 text-base text-g-800"
+                  class="menu-item-icon"
                   :icon="item.icon"
                 />
-                <span
-                  class="menu-label flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-g-800"
-                  >{{ item.label }}</span
-                >
+                <span class="menu-label">{{ item.label }}</span>
                 <ArtSvgIcon
                   icon="ri:arrow-right-s-line"
-                  class="ubmenu-arrow ml-auto mr-0 text-base text-g-500 transition-transform duration-150"
+                  class="submenu-arrow"
                 />
               </div>
               <ul
-                class="submenu-list art-card-xs absolute left-full top-0 z-[2001] hidden w-max min-w-max list-none !shadow-xl"
+                class="submenu-list art-card-xs"
                 :style="submenuListStyle"
               >
                 <li
                   v-for="child in item.children"
                   :key="child.key"
-                  class="menu-item relative mx-1.5 flex-c c-p select-none rounded text-xs transition-colors duration-150 hover:bg-g-200"
+                  class="menu-item menu-item-child flex-c c-p"
                   :class="{ 'is-disabled': child.disabled, 'has-line': child.showLine }"
                   :style="menuItemStyle"
                   @click="handleMenuClick(child)"
                 >
                   <ArtSvgIcon
                     v-if="child.icon"
-                    class="r-2 shrink-0 text-base text-g-800 mr-1"
+                    class="menu-item-icon-child"
                     :icon="child.icon"
                   />
-                  <span
-                    class="menu-label flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-g-800"
-                    >{{ child.label }}</span
-                  >
+                  <span class="menu-label">{{ child.label }}</span>
                 </li>
               </ul>
             </li>
@@ -341,10 +332,41 @@
   })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .menu-right {
     --menu-width: v-bind('props.menuWidth + "px"');
     --border-radius: v-bind('props.borderRadius + "px"');
+  }
+
+  // 上下文菜单容器（!shadow-xl + min-w-[var(--menu-width)] + w-[var(--menu-width)]）
+  .context-menu {
+    min-width: var(--menu-width);
+    width: var(--menu-width);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  // 菜单列表（m-0 list-none）
+  .menu-list {
+    margin: 0;
+    list-style: none;
+  }
+
+  // 菜单项通用样式（relative select-none rounded text-xs transition-colors duration-150 hover:bg-g-200）
+  .menu-item {
+    position: relative;
+    user-select: none;
+    border-radius: 0.25rem; // rounded
+    font-size: 0.75rem; // text-xs
+    line-height: 1rem; // text-xs
+    transition-property: color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke; // transition-colors
+    transition-duration: 150ms; // duration-150
+
+    &:hover {
+      background-color: var(--art-gray-200); // hover:bg-g-200
+    }
   }
 
   .menu-item.has-line {
@@ -377,6 +399,70 @@
 
   .menu-item.is-disabled .menu-label {
     color: var(--el-text-color-disabled) !important;
+  }
+
+  // 菜单项图标（mr-2 shrink-0 text-base text-g-800）
+  .menu-item-icon {
+    margin-right: 0.5rem; // mr-2
+    flex-shrink: 0; // shrink-0
+    font-size: 1rem; // text-base
+    line-height: 1.5rem; // text-base
+    color: var(--art-gray-800); // text-g-800
+  }
+
+  // 子菜单项图标（mr-1 其余同上）
+  .menu-item-icon-child {
+    margin-right: 0.25rem; // mr-1
+    flex-shrink: 0; // shrink-0
+    font-size: 1rem; // text-base
+    line-height: 1.5rem; // text-base
+    color: var(--art-gray-800); // text-g-800
+  }
+
+  // 菜单标签（flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-g-800）
+  .menu-label {
+    flex: 1 1 0%; // flex-1
+    overflow: hidden; // overflow-hidden
+    text-overflow: ellipsis; // text-ellipsis
+    white-space: nowrap; // whitespace-nowrap
+    color: var(--art-gray-800); // text-g-800
+  }
+
+  // 子菜单标题容器（w-full）
+  .submenu-title {
+    width: 100%; // w-full
+  }
+
+  // 子菜单箭头图标（ml-auto mr-0 text-base text-g-500 transition-transform duration-150）
+  .submenu-arrow {
+    margin-left: auto; // ml-auto
+    margin-right: 0; // mr-0
+    font-size: 1rem; // text-base
+    line-height: 1.5rem; // text-base
+    color: var(--art-gray-500); // text-g-500
+    transition-property: transform; // transition-transform
+    transition-duration: 150ms; // duration-150
+  }
+
+  // 子菜单列表（absolute left-full top-0 z-[2001] hidden w-max min-w-max list-none !shadow-xl）
+  .submenu-list {
+    position: absolute; // absolute
+    left: 100%; // left-full
+    top: 0; // top-0
+    z-index: 2001; // z-[2001]
+    display: none; // hidden
+    width: max-content; // w-max
+    min-width: max-content; // min-w-max
+    list-style: none; // list-none
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1); // !shadow-xl
+  }
+
+  // 子级菜单项（mx-1.5）
+  .menu-item-child {
+    margin-left: 0.375rem; // mx-1.5
+    margin-right: 0.375rem; // mx-1.5
   }
 
   .menu-item.submenu:hover .submenu-list {

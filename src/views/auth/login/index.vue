@@ -1,9 +1,9 @@
 <!-- 登录页面 -->
 <template>
-  <div class="flex w-full h-screen">
+  <div class="login-container">
     <LoginLeftView />
 
-    <div class="relative flex-1">
+    <div class="login-right-side">
       <AuthTopBar />
 
       <div class="auth-right-wrap">
@@ -49,10 +49,10 @@
             </ElFormItem>
 
             <!-- 推拽验证 -->
-            <div class="relative pb-5 mt-6">
+            <div class="drag-verify-wrap">
               <div
-                class="relative z-[2] overflow-hidden select-none rounded-lg border border-transparent tad-300"
-                :class="{ '!border-[#FF4E4F]': !isPassing && isClickPass }"
+                class="drag-verify-inner tad-300"
+                :class="{ 'is-error': !isPassing && isClickPass }"
               >
                 <ArtDragVerify
                   ref="dragVerify"
@@ -65,26 +65,23 @@
                   handlerBg="var(--default-box-color)"
                 />
               </div>
-              <p
-                class="absolute top-0 z-[1] px-px mt-2 text-xs text-[#f56c6c] tad-300"
-                :class="{ 'translate-y-10': !isPassing && isClickPass }"
-              >
+              <p class="drag-verify-tip tad-300" :class="{ 'is-show': !isPassing && isClickPass }">
                 {{ $t('login.placeholder.slider') }}
               </p>
             </div>
 
-            <div class="flex-cb mt-2 text-sm">
+            <div class="flex-cb action-row remember-row">
               <ElCheckbox v-model="formData.rememberPassword">{{
                 $t('login.rememberPwd')
               }}</ElCheckbox>
-              <RouterLink class="text-theme" :to="{ name: 'ForgetPassword' }">{{
+              <RouterLink class="link-theme" :to="{ name: 'ForgetPassword' }">{{
                 $t('login.forgetPwd')
               }}</RouterLink>
             </div>
 
             <div style="margin-top: 30px">
               <ElButton
-                class="w-full custom-height"
+                class="submit-btn custom-height"
                 type="primary"
                 @click="handleSubmit"
                 :loading="loading"
@@ -94,9 +91,9 @@
               </ElButton>
             </div>
 
-            <div class="mt-5 text-sm text-gray-600">
+            <div class="action-row no-account-row">
               <span>{{ $t('login.noAccount') }}</span>
-              <RouterLink class="text-theme" :to="{ name: 'Register' }">{{
+              <RouterLink class="link-theme" :to="{ name: 'Register' }">{{
                 $t('login.register')
               }}</RouterLink>
             </div>
@@ -273,11 +270,90 @@
   }
 </script>
 
-<style scoped>
-  @import './style.css';
-</style>
+<style scoped lang="scss">
+  @import './style.scss';
 
-<style lang="scss" scoped>
+  /* 登录页根容器 */
+  .login-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+
+  /* 右侧区域容器 */
+  .login-right-side {
+    position: relative;
+    flex: 1 1 0%;
+  }
+
+  /* 拖拽验证外层 */
+  .drag-verify-wrap {
+    position: relative;
+    padding-bottom: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  /* 拖拽验证容器 */
+  .drag-verify-inner {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+
+    /* 验证失败时显示红色边框 */
+    &.is-error {
+      border-color: #ff4e4f !important;
+    }
+  }
+
+  /* 拖拽验证提示文案 */
+  .drag-verify-tip {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    margin-top: 0.5rem;
+    padding-left: 1px;
+    padding-right: 1px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #f56c6c;
+
+    /* 验证失败时下移显示 */
+    &.is-show {
+      transform: translateY(2.5rem);
+    }
+  }
+
+  /* 操作行（记住密码 / 没有账号）共用样式 */
+  .action-row {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  /* 记住密码行 */
+  .remember-row {
+    margin-top: 0.5rem;
+  }
+
+  /* 没有账号行 */
+  .no-account-row {
+    margin-top: 1.25rem;
+    color: var(--art-gray-600);
+  }
+
+  /* 主题色链接 */
+  .link-theme {
+    color: var(--theme-color);
+  }
+
+  /* 提交按钮宽度 */
+  .submit-btn {
+    width: 100%;
+  }
+
+  /* Element Plus 选择器高度调整 */
   :deep(.el-select__wrapper) {
     height: 40px !important;
   }

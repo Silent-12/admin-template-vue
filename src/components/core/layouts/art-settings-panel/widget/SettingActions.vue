@@ -1,12 +1,10 @@
 <!-- 设置操作按钮 -->
 <template>
-  <div
-    class="mt-10 flex gap-8 border-t border-[var(--default-border)] bg-[var(--art-bg-color)] pt-5"
-  >
-    <ElButton type="primary" class="flex-1 !h-8" @click="handleCopyConfig">
+  <div class="setting-actions">
+    <ElButton type="primary" class="action-button" @click="handleCopyConfig">
       {{ $t('setting.actions.copyConfig') }}
     </ElButton>
-    <ElButton type="danger" plain class="flex-1 !h-8" @click="handleResetConfig">
+    <ElButton type="danger" plain class="action-button" @click="handleResetConfig">
       {{ $t('setting.actions.resetConfig') }}
     </ElButton>
   </div>
@@ -233,3 +231,21 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+// 设置操作按钮容器
+.setting-actions {
+  display: flex; // flex
+  gap: 2rem; // gap-8
+  margin-top: 2.5rem; // mt-10
+  padding-top: 1.25rem; // pt-5
+  border-top: 1px solid var(--default-border); // border-t border-[var(--default-border)]
+  background: var(--art-bg-color); // bg-[var(--art-bg-color)]
+}
+
+// 操作按钮（自适应宽度 + 固定高度）
+.action-button {
+  flex: 1 1 0%; // flex-1
+  height: 2rem !important; // !h-8
+}
+</style>

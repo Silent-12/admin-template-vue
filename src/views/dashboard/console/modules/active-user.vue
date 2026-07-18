@@ -1,22 +1,22 @@
 <template>
-  <div class="art-card h-105 p-4 box-border mb-5 max-sm:mb-4">
+  <div class="art-card active-user">
     <ArtBarChart
-      class="box-border p-2"
+      class="active-user-chart"
       barWidth="50%"
       height="13.7rem"
       :showAxisLine="false"
       :data="chartData"
       :xAxisData="xAxisLabels"
     />
-    <div class="ml-1">
-      <h3 class="mt-5 text-lg font-medium">用户概述</h3>
-      <p class="mt-1 text-sm">比上周 <span class="text-success font-medium">+23%</span></p>
-      <p class="mt-1 text-sm">我们为您创建了多个选项，可将它们组合在一起并定制为像素完美的页面</p>
+    <div class="active-user-info">
+      <h3 class="active-user-title">用户概述</h3>
+      <p class="active-user-desc">比上周 <span class="active-user-up">+23%</span></p>
+      <p class="active-user-desc">我们为您创建了多个选项，可将它们组合在一起并定制为像素完美的页面</p>
     </div>
-    <div class="flex-b mt-2">
-      <div class="flex-1" v-for="(item, index) in list" :key="index">
-        <p class="text-2xl text-g-900">{{ item.num }}</p>
-        <p class="text-xs text-g-500">{{ item.name }}</p>
+    <div class="active-user-stats flex-b">
+      <div class="active-user-stat-item" v-for="(item, index) in list" :key="index">
+        <p class="active-user-stat-num">{{ item.num }}</p>
+        <p class="active-user-stat-name">{{ item.name }}</p>
       </div>
     </div>
   </div>
@@ -45,3 +45,74 @@
     { name: '周同比', num: '+5%' }
   ]
 </script>
+
+<style scoped lang="scss">
+// 活跃用户卡片容器（h-105 p-4 box-border mb-5 max-sm:mb-4）
+.active-user {
+  height: 26.25rem; // h-105
+  padding: 1rem; // p-4
+  box-sizing: border-box; // box-border
+  margin-bottom: 1.25rem; // mb-5
+
+  @media (max-width: 39.99rem) {
+    // max-sm:mb-4
+    margin-bottom: 1rem;
+  }
+}
+
+// 柱状图（box-border p-2）
+.active-user-chart {
+  box-sizing: border-box; // box-border
+  padding: 0.5rem; // p-2
+}
+
+// 信息块（ml-1）
+.active-user-info {
+  margin-left: 0.25rem; // ml-1
+}
+
+// 标题（mt-5 text-lg font-medium）
+.active-user-title {
+  margin-top: 1.25rem; // mt-5
+  font-size: 1.125rem; // text-lg
+  line-height: 1.75rem; // text-lg
+  font-weight: 500; // font-medium
+}
+
+// 描述文字（mt-1 text-sm）
+.active-user-desc {
+  margin-top: 0.25rem; // mt-1
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+}
+
+// 上升百分比（text-success font-medium）
+.active-user-up {
+  color: var(--art-success); // text-success
+  font-weight: 500; // font-medium
+}
+
+// 统计数据行（mt-2）
+.active-user-stats {
+  margin-top: 0.5rem; // mt-2
+}
+
+// 单个统计项（flex-1）
+.active-user-stat-item {
+  flex: 1 1 0%; // flex-1
+}
+
+// 统计数值（text-2xl text-g-900）
+.active-user-stat-num {
+  font-size: 1.5rem; // text-2xl
+  line-height: 2rem; // text-2xl
+  color: var(--art-gray-900); // text-g-900
+}
+
+// 统计名称（text-xs text-g-500）
+.active-user-stat-name {
+  font-size: 0.75rem; // text-xs
+  line-height: 1rem; // text-xs
+  color: var(--art-gray-500); // text-g-500
+}
+</style>

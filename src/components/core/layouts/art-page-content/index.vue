@@ -1,6 +1,10 @@
 <!-- 布局内容 -->
 <template>
-  <div class="layout-content" :class="{ 'overflow-auto': isFullPage }" :style="containerStyle">
+  <div
+    class="layout-content"
+    :class="{ 'layout-content--full-page': isFullPage }"
+    :style="containerStyle"
+  >
     <div id="app-content-header">
       <!-- 节日滚动 -->
       <ArtFestivalTextScroll v-if="!isFullPage" />
@@ -8,7 +12,7 @@
       <!-- 路由信息调试 -->
       <div
         v-if="isOpenRouteInfo === 'true'"
-        class="px-2 py-1.5 mb-3 text-sm text-g-500 bg-g-200 border-full-d rounded-md"
+        class="route-info-debug border-full-d"
       >
         router meta：{{ route.meta }}
       </div>
@@ -42,7 +46,7 @@
     <Teleport to="body">
       <div
         v-show="showTransitionMask"
-        class="fixed top-0 left-0 z-[2000] w-screen h-screen pointer-events-none bg-box"
+        class="transition-mask"
       />
     </Teleport>
   </div>
@@ -131,3 +135,33 @@
     })
   })
 </script>
+
+<style scoped lang="scss">
+// 全屏页面模式：原 overflow-auto
+.layout-content--full-page {
+  overflow: auto;
+}
+
+// 路由信息调试条：原 px-2 py-1.5 mb-3 text-sm text-g-500 bg-g-200 rounded-md
+.route-info-debug {
+  padding: 0.375rem 0.5rem; // py-1.5 px-2
+  margin-bottom: 0.75rem; // mb-3
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem;
+  color: var(--art-gray-500); // text-g-500
+  background: var(--art-gray-200); // bg-g-200
+  border-radius: 0.375rem; // rounded-md
+}
+
+// 全屏切换过渡遮罩：原 fixed top-0 left-0 z-[2000] w-screen h-screen pointer-events-none bg-box
+.transition-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: var(--default-box-color); // bg-box
+}
+</style>

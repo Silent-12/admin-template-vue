@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-cb mb-4 last:mb-2" :class="{ 'mobile-hide': config.mobileHide }">
-    <span class="text-sm">{{ config.label }}</span>
+  <div class="setting-item flex-cb" :class="{ 'mobile-hide': config.mobileHide }">
+    <span class="setting-label">{{ config.label }}</span>
 
     <!-- 开关类型 -->
     <ElSwitch v-if="config.type === 'switch'" :model-value="modelValue" @change="handleChange" />
@@ -49,7 +49,8 @@
     style?: Record<string, string>
     controlsPosition?: '' | 'right'
     options?:
-      Array<{ value: any; label: string }> | ComputedRef<Array<{ value: any; label: string }>>
+      | Array<{ value: any; label: string }>
+      | ComputedRef<Array<{ value: any; label: string }>>
   }
 
   interface Props {
@@ -91,10 +92,26 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @media screen and (width <= 768px) {
-    .mobile-hide {
-      display: none !important;
-    }
+<style scoped lang="scss">
+// 设置项容器
+.setting-item {
+  margin-bottom: 1rem; // mb-4
+
+  &:last-child {
+    margin-bottom: 0.5rem; // last:mb-2
   }
+}
+
+// 设置项标签文本
+.setting-label {
+  font-size: 0.875rem; // text-sm
+  line-height: 1.25rem; // text-sm
+}
+
+// 移动端隐藏
+@media screen and (width <= 768px) {
+  .mobile-hide {
+    display: none !important;
+  }
+}
 </style>

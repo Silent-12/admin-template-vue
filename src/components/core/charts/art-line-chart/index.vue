@@ -2,7 +2,7 @@
 <template>
   <div
     ref="chartRef"
-    class="relative w-[calc(100%+10px)]"
+    class="chart-container"
     :style="{ height: props.height }"
     v-loading="props.loading"
   >
@@ -369,3 +369,11 @@
     clearAnimationTimers()
   })
 </script>
+
+<style scoped lang="scss">
+// 图表容器
+.chart-container {
+  position: relative; // relative
+  width: calc(100% + 10px); // w-[calc(100%+10px)]
+}
+</style>

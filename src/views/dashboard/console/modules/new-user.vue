@@ -1,9 +1,9 @@
 <template>
-  <div class="art-card p-5 h-128 overflow-hidden mb-5 max-sm:mb-4">
+  <div class="art-card new-user-card">
     <div class="art-card-header">
       <div class="title">
         <h4>新用户</h4>
-        <p>这个月增长<span class="text-success">+20%</span></p>
+        <p>这个月增长<span class="new-user-success">+20%</span></p>
       </div>
       <ElRadioGroup v-model="radio2">
         <ElRadioButton value="本月" label="本月"></ElRadioButton>
@@ -12,7 +12,7 @@
       </ElRadioGroup>
     </div>
     <ArtTable
-      class="w-full"
+      class="new-user-table"
       :data="tableData"
       style="width: 100%"
       size="large"
@@ -24,8 +24,8 @@
         <ElTableColumn label="头像" prop="avatar" width="150px">
           <template #default="scope">
             <div style="display: flex; align-items: center">
-              <img class="size-9 rounded-lg" :src="scope.row.avatar" alt="avatar" />
-              <span class="ml-2">{{ scope.row.username }}</span>
+              <img class="new-user-avatar" :src="scope.row.avatar" alt="avatar" />
+              <span class="new-user-username">{{ scope.row.username }}</span>
             </div>
           </template>
         </ElTableColumn>
@@ -160,10 +160,44 @@
 </script>
 
 <style lang="scss" scoped>
-  .art-card {
-    :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
-      color: var(--el-color-primary) !important;
-      background: transparent !important;
-    }
+// 新用户卡片容器（p-5 h-128 overflow-hidden mb-5 max-sm:mb-4）
+.new-user-card {
+  padding: 1.25rem; // p-5
+  height: 32rem; // h-128
+  overflow: hidden; // overflow-hidden
+  margin-bottom: 1.25rem; // mb-5
+
+  @media (max-width: 39.99rem) {
+    // max-sm:mb-4
+    margin-bottom: 1rem;
   }
+
+  // 单选按钮选中态（保留原有 :deep 规则）
+  :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
+    color: var(--el-color-primary) !important;
+    background: transparent !important;
+  }
+}
+
+// 增长率文字（text-success）
+.new-user-success {
+  color: var(--art-success);
+}
+
+// 表格（w-full）
+.new-user-table {
+  width: 100%;
+}
+
+// 头像（size-9 rounded-lg）
+.new-user-avatar {
+  width: 2.25rem; // size-9
+  height: 2.25rem; // size-9
+  border-radius: 0.5rem; // rounded-lg
+}
+
+// 用户名（ml-2）
+.new-user-username {
+  margin-left: 0.5rem; // ml-2
+}
 </style>
