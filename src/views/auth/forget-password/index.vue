@@ -58,7 +58,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import '../login/style.scss';
+  @import '../login/style';
 
   /* 忘记密码页根容器 */
   .forget-container {

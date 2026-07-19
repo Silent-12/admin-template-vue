@@ -1,8 +1,8 @@
 <!-- 菜单管理页面 -->
 <template>
-  <div class="menu-page art-full-height">
+  <div class="menu-page ao-full-height">
     <!-- 搜索栏 -->
-    <ArtSearchBar
+    <AoSearchBar
       v-model="formFilters"
       :items="formItems"
       :showExpand="false"
@@ -10,9 +10,9 @@
       @search="handleSearch"
     />
 
-    <ElCard class="art-table-card">
+    <ElCard class="ao-table-card">
       <!-- 表格头部 -->
-      <ArtTableHeader
+      <AoTableHeader
         :showZebra="false"
         :loading="loading"
         v-model:columns="columnChecks"
@@ -24,9 +24,9 @@
             {{ isExpanded ? '收起' : '展开' }}
           </ElButton>
         </template>
-      </ArtTableHeader>
+      </AoTableHeader>
 
-      <ArtTable
+      <AoTable
         ref="tableRef"
         rowKey="path"
         :loading="loading"
@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
   import { formatMenuTitle } from '@/utils/router'
-  import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
+  import AoButtonTable from '@/components/core/forms/ao-button-table/index.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { AppRouteRecord } from '@/types/router'
   import MenuDialog from './modules/menu-dialog.vue'
@@ -199,11 +199,11 @@
 
         if (row.meta?.isAuthButton) {
           return h('div', buttonStyle, [
-            h(ArtButtonTable, {
+            h(AoButtonTable, {
               type: 'edit',
               onClick: () => handleEditAuth(row)
             }),
-            h(ArtButtonTable, {
+            h(AoButtonTable, {
               type: 'delete',
               onClick: () => handleDeleteAuth()
             })
@@ -211,16 +211,16 @@
         }
 
         return h('div', buttonStyle, [
-          h(ArtButtonTable, {
+          h(AoButtonTable, {
             type: 'add',
             onClick: () => handleAddAuth(),
             title: '新增权限'
           }),
-          h(ArtButtonTable, {
+          h(AoButtonTable, {
             type: 'edit',
             onClick: () => handleEditMenu(row)
           }),
-          h(ArtButtonTable, {
+          h(AoButtonTable, {
             type: 'delete',
             onClick: () => handleDeleteMenu()
           })

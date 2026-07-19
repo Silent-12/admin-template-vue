@@ -4,7 +4,7 @@
     <div class="user-center-wrap flex-b">
       <!-- 左侧：个人资料卡片 -->
       <div class="profile-col">
-        <div class="profile-card art-card-sm">
+        <div class="profile-card ao-card-sm">
           <img class="profile-bg" src="@imgs/user/bg.webp" />
           <img class="profile-avatar" src="@imgs/user/avatar.webp" />
           <h2 class="profile-name">{{ userInfo.userName }}</h2>
@@ -12,19 +12,19 @@
 
           <div class="profile-info">
             <div class="info-row">
-              <ArtSvgIcon icon="ri:mail-line" class="info-icon" />
+              <AoSvgIcon icon="ri:mail-line" class="info-icon" />
               <span class="info-text">jdkjjfnndf@mall.com</span>
             </div>
             <div class="info-row">
-              <ArtSvgIcon icon="ri:user-3-line" class="info-icon" />
+              <AoSvgIcon icon="ri:user-3-line" class="info-icon" />
               <span class="info-text">交互专家</span>
             </div>
             <div class="info-row">
-              <ArtSvgIcon icon="ri:map-pin-line" class="info-icon" />
+              <AoSvgIcon icon="ri:map-pin-line" class="info-icon" />
               <span class="info-text">广东省深圳市</span>
             </div>
             <div class="info-row">
-              <ArtSvgIcon icon="ri:dribbble-fill" class="info-icon" />
+              <AoSvgIcon icon="ri:dribbble-fill" class="info-icon" />
               <span class="info-text">字节跳动－某某平台部－UED</span>
             </div>
           </div>
@@ -42,7 +42,7 @@
 
       <!-- 右侧：设置区域 -->
       <div class="settings-col">
-        <div class="art-card-sm">
+        <div class="ao-card-sm">
           <h1 class="card-title">基本设置</h1>
 
           <ElForm
@@ -99,7 +99,7 @@
           </ElForm>
         </div>
 
-        <div class="art-card-sm pwd-card">
+        <div class="ao-card-sm pwd-card">
           <h1 class="card-title">更改密码</h1>
 
           <ElForm :model="pwdForm" class="settings-form" label-width="86px" label-position="top">
@@ -166,7 +166,7 @@
     mobile: '18888888888',
     address: '广东省深圳市宝安区西乡街道101栋201',
     sex: '2',
-    des: 'Art Design Pro 是一款兼具设计美学与高效开发的后台系统.'
+    des: 'Ao Design Pro 是一款兼具设计美学与高效开发的后台系统.'
   })
 
   /**
@@ -290,8 +290,8 @@
     width: 5rem;
     height: 5rem;
     margin-top: 7.5rem;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
     object-fit: cover;
     border: 2px solid white;
     border-radius: 9999px;
@@ -301,8 +301,8 @@
   .profile-name {
     margin-top: 1.25rem;
     font-size: 1.25rem;
-    line-height: 1.75rem;
     font-weight: 400;
+    line-height: 1.75rem;
   }
 
   /* 简介 */
@@ -326,7 +326,7 @@
 
   /* 信息图标颜色 */
   .info-icon {
-    color: var(--art-gray-700);
+    color: var(--ao-gray-700);
   }
 
   /* 信息文字 */
@@ -344,8 +344,8 @@
   /* 标签标题 */
   .tags-title {
     font-size: 0.875rem;
-    line-height: 1.25rem;
     font-weight: 500;
+    line-height: 1.25rem;
   }
 
   /* 标签列表 */
@@ -363,7 +363,7 @@
     margin-bottom: 0.625rem;
     font-size: 0.75rem;
     line-height: 1rem;
-    border: 1px solid var(--art-gray-300);
+    border: 1px solid var(--ao-gray-300);
     border-radius: 0.25rem;
   }
 
@@ -377,9 +377,9 @@
   .card-title {
     padding: 1rem;
     font-size: 1.25rem;
-    line-height: 1.75rem;
     font-weight: 400;
-    border-bottom: 1px solid var(--art-gray-300);
+    line-height: 1.75rem;
+    border-bottom: 1px solid var(--ao-gray-300);
   }
 
   /* 设置表单容器 */
@@ -426,7 +426,7 @@
   }
 
   /* 响应式 max-md: 最大宽度 47.99rem（768px），单列布局 */
-  @media (max-width: 47.99rem) {
+  @media (width <= 47.99rem) {
     .user-center-wrap {
       display: block;
       margin-top: 0.25rem;

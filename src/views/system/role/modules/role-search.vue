@@ -1,5 +1,5 @@
 <template>
-  <ArtSearchBar
+  <AoSearchBar
     ref="searchBarRef"
     v-model="formData"
     :items="formItems"
@@ -7,7 +7,7 @@
     @reset="handleReset"
     @search="handleSearch"
   >
-  </ArtSearchBar>
+  </AoSearchBar>
 </template>
 
 <script setup lang="ts">

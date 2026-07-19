@@ -1,5 +1,5 @@
 <template>
-  <div class="art-card about-project flex-b">
+  <div class="ao-card about-project flex-b">
     <div>
       <h2 class="about-project-title">关于项目</h2>
       <p class="about-project-desc">{{ systemName }} 是一款兼具设计美学与高效开发的后台系统</p>
@@ -13,7 +13,7 @@
           @click="goPage(link.url)"
         >
           <span class="about-project-link-label">{{ link.label }}</span>
-          <ArtSvgIcon icon="ri:arrow-right-s-line" class="about-project-link-icon" />
+          <AoSvgIcon icon="ri:arrow-right-s-line" class="about-project-link-icon" />
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
     padding: 1.25rem; // p-5
     margin-bottom: 1.25rem; // mb-5
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -58,14 +58,14 @@
   // 标题（text-2xl font-medium）
   .about-project-title {
     font-size: 1.5rem; // text-2xl
-    line-height: 2rem; // text-2xl
     font-weight: 500; // font-medium
+    line-height: 2rem; // text-2xl
   }
 
   // 描述文字（text-g-700 mt-1）
   .about-project-desc {
     margin-top: 0.25rem; // mt-1
-    color: var(--art-gray-700); // text-g-700
+    color: var(--ao-gray-700); // text-g-700
   }
 
   // 链接列表容器（flex flex-wrap gap-3.5 max-w-150 mt-9）
@@ -81,13 +81,13 @@
   .about-project-link {
     width: 15rem; // w-60
     height: 3.125rem; // h-12.5
-    padding-left: 0.875rem; // px-3.5
     padding-right: 0.875rem; // px-3.5
-    border: 1px solid var(--art-gray-300); // border border-g-300
-    border-radius: 0.5rem; // rounded-lg
+    padding-left: 0.875rem; // px-3.5
     font-size: 0.875rem; // text-sm
     line-height: 1.25rem; // text-sm
-    background: var(--art-gray-100); // bg-g-100
+    background: var(--ao-gray-100); // bg-g-100
+    border: 1px solid var(--ao-gray-300); // border border-g-300
+    border-radius: 0.5rem; // rounded-lg
     // 还原 duration-300 + hover:-translate-y-1 的过渡效果
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -96,7 +96,7 @@
       transform: translateY(-0.25rem);
     }
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:w-full
       width: 100%;
     }
@@ -104,21 +104,21 @@
 
   // 链接文字（text-g-700）
   .about-project-link-label {
-    color: var(--art-gray-700); // text-g-700
+    color: var(--ao-gray-700); // text-g-700
   }
 
   // 链接箭头图标（text-lg text-g-600）
   .about-project-link-icon {
     font-size: 1.125rem; // text-lg
     line-height: 1.75rem; // text-lg
-    color: var(--art-gray-600); // text-g-600
+    color: var(--ao-gray-600); // text-g-600
   }
 
   // 右侧插图（w-75 max-md:!hidden）
   .about-project-img {
     width: 18.75rem; // w-75
 
-    @media (max-width: 47.99rem) {
+    @media (width <= 47.99rem) {
       // max-md:!hidden
       display: none !important;
     }

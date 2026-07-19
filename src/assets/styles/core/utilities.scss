@@ -80,7 +80,7 @@
 /* ==================== Custom Component Classes ==================== */
 
 // Art Card Header 组件样式
-.art-card-header {
+.ao-card-header {
   display: flex;
   justify-content: space-between;
   padding-right: 1.5rem;
@@ -91,14 +91,14 @@
       font-size: 1.125rem;
       line-height: 1.75rem;
       font-weight: 500;
-      color: var(--art-gray-900);
+      color: var(--ao-gray-900);
     }
 
     p {
       margin-top: 0.25rem;
       font-size: 0.875rem;
       line-height: 1.25rem;
-      color: var(--art-gray-600);
+      color: var(--ao-gray-600);
 
       span {
         margin-left: 0.5rem;

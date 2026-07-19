@@ -230,7 +230,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import './style.scss';
+  @import './style';
 
   /* 登录页根容器 */
   .login-container {
@@ -259,7 +259,7 @@
   /* 没有账号行 */
   .no-account-row {
     margin-top: 1.25rem;
-    color: var(--art-gray-600);
+    color: var(--ao-gray-600);
   }
 
   /* 主题色链接 */

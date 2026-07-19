@@ -1,25 +1,25 @@
 <!-- 用户管理页面 -->
-<!-- art-full-height 自动计算出页面剩余高度 -->
-<!-- art-table-card 一个符合系统样式的 class，同时自动撑满剩余高度 -->
+<!-- ao-full-height 自动计算出页面剩余高度 -->
+<!-- ao-table-card 一个符合系统样式的 class，同时自动撑满剩余高度 -->
 <!-- 更多 useTable 使用示例请移步至 功能示例 下面的高级表格示例或者查看官方文档 -->
 <!-- useTable 文档：https://www.artd.pro/docs/zh/guide/hooks/use-table.html -->
 <template>
-  <div class="user-page art-full-height">
+  <div class="user-page ao-full-height">
     <!-- 搜索栏 -->
     <UserSearch v-model="searchForm" @search="handleSearch" @reset="resetSearchParams"></UserSearch>
 
-    <ElCard class="art-table-card">
+    <ElCard class="ao-table-card">
       <!-- 表格头部 -->
-      <ArtTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
+      <AoTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
         <template #left>
           <ElSpace wrap>
             <ElButton @click="showDialog('add')" v-ripple>新增用户</ElButton>
           </ElSpace>
         </template>
-      </ArtTableHeader>
+      </AoTableHeader>
 
       <!-- 表格 -->
-      <ArtTable
+      <AoTable
         :loading="loading"
         :data="data"
         :columns="columns"
@@ -28,7 +28,7 @@
         @pagination:size-change="handleSizeChange"
         @pagination:current-change="handleCurrentChange"
       >
-      </ArtTable>
+      </AoTable>
 
       <!-- 用户弹窗 -->
       <UserDialog
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-  import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
+  import AoButtonTable from '@/components/core/forms/ao-button-table/index.vue'
   import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetUserList } from '@/api/system-manage'
@@ -169,11 +169,11 @@
           fixed: 'right', // 固定列
           formatter: (row) =>
             h('div', [
-              h(ArtButtonTable, {
+              h(AoButtonTable, {
                 type: 'edit',
                 onClick: () => showDialog('edit', row)
               }),
-              h(ArtButtonTable, {
+              h(AoButtonTable, {
                 type: 'delete',
                 onClick: () => deleteUser(row)
               })

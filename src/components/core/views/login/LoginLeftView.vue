@@ -2,7 +2,7 @@
 <template>
   <div class="login-left-view">
     <div class="logo">
-      <ArtLogo class="icon" size="46" />
+      <AoLogo class="icon" size="46" />
       <h1 class="title">{{ AppConfig.systemInfo.name }}</h1>
     </div>
 
@@ -135,13 +135,13 @@
       h1 {
         font-size: 24px;
         font-weight: 400;
-        color: var(--art-gray-900) !important;
+        color: var(--ao-gray-900) !important;
       }
 
       p {
         margin-top: 10px;
         font-size: 14px;
-        color: var(--art-gray-600) !important;
+        color: var(--ao-gray-600) !important;
       }
     }
 
@@ -161,11 +161,17 @@
 
           @if $direction == 'up' {
             transform: translateY(30px) rotate($rotation);
-          } @else if $direction == 'down' {
+          }
+
+ @else if $direction == 'down' {
             transform: translateY(-30px) rotate($rotation);
-          } @else if $direction == 'left' {
+          }
+
+ @else if $direction == 'left' {
             transform: translateX(-30px) rotate($rotation);
-          } @else if $direction == 'right' {
+          }
+
+ @else if $direction == 'right' {
             transform: translateX(30px) rotate($rotation);
           }
         }
@@ -175,7 +181,9 @@
 
           @if $direction == 'up' or $direction == 'down' {
             transform: translateY(0) rotate($rotation);
-          } @else {
+          }
+
+ @else {
             transform: translateX(0) rotate($rotation);
           }
         }

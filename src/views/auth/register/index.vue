@@ -236,7 +236,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import '../login/style.scss';
+  @import '../login/style';
 
   /* 注册页根容器 */
   .register-container {
@@ -261,7 +261,7 @@
     margin-top: 1.25rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
-    color: var(--art-gray-600);
+    color: var(--ao-gray-600);
   }
 
   /* 主题色链接 */

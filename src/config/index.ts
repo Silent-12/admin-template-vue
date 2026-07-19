@@ -38,7 +38,7 @@ import { headerBarConfig } from './modules/headerBar'
 const appConfig: SystemConfig = {
   // 系统信息
   systemInfo: {
-    name: 'Art Design Pro' // 系统名称
+    name: 'Ao Design Pro' // 系统名称
   },
   // 系统主题
   systemThemeStyles: {
@@ -84,7 +84,7 @@ const appConfig: SystemConfig = {
     {
       theme: MenuThemeEnum.DESIGN,
       background: '#FFFFFF',
-      systemNameColor: 'var(--art-gray-800)',
+      systemNameColor: 'var(--ao-gray-800)',
       iconColor: '#6B6B6B',
       textColor: '#29343D',
       img: configImages.menuStyles.design
@@ -100,7 +100,7 @@ const appConfig: SystemConfig = {
     {
       theme: MenuThemeEnum.LIGHT,
       background: '#ffffff',
-      systemNameColor: 'var(--art-gray-800)',
+      systemNameColor: 'var(--ao-gray-800)',
       iconColor: '#6B6B6B',
       textColor: '#29343D',
       img: configImages.menuStyles.light

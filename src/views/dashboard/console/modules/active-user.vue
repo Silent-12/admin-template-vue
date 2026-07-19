@@ -1,6 +1,6 @@
 <template>
-  <div class="art-card active-user">
-    <ArtBarChart
+  <div class="ao-card active-user">
+    <AoBarChart
       class="active-user-chart"
       barWidth="50%"
       height="13.7rem"
@@ -51,12 +51,12 @@
 <style scoped lang="scss">
   // 活跃用户卡片容器（h-105 p-4 box-border mb-5 max-sm:mb-4）
   .active-user {
+    box-sizing: border-box; // box-border
     height: 26.25rem; // h-105
     padding: 1rem; // p-4
-    box-sizing: border-box; // box-border
     margin-bottom: 1.25rem; // mb-5
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -77,8 +77,8 @@
   .active-user-title {
     margin-top: 1.25rem; // mt-5
     font-size: 1.125rem; // text-lg
-    line-height: 1.75rem; // text-lg
     font-weight: 500; // font-medium
+    line-height: 1.75rem; // text-lg
   }
 
   // 描述文字（mt-1 text-sm）
@@ -90,8 +90,8 @@
 
   // 上升百分比（text-success font-medium）
   .active-user-up {
-    color: var(--art-success); // text-success
     font-weight: 500; // font-medium
+    color: var(--ao-success); // text-success
   }
 
   // 统计数据行（mt-2）
@@ -108,13 +108,13 @@
   .active-user-stat-num {
     font-size: 1.5rem; // text-2xl
     line-height: 2rem; // text-2xl
-    color: var(--art-gray-900); // text-g-900
+    color: var(--ao-gray-900); // text-g-900
   }
 
   // 统计名称（text-xs text-g-500）
   .active-user-stat-name {
     font-size: 0.75rem; // text-xs
     line-height: 1rem; // text-xs
-    color: var(--art-gray-500); // text-g-500
+    color: var(--ao-gray-500); // text-g-500
   }
 </style>

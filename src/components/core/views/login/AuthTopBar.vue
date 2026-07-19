@@ -2,7 +2,7 @@
 <template>
   <div class="auth-top-bar flex-cb flex-c">
     <div class="logo-section flex-cc">
-      <ArtLogo class="icon" size="46" />
+      <AoLogo class="icon" size="46" />
       <h1 class="logo-title">{{ AppConfig.systemInfo.name }}</h1>
     </div>
 
@@ -17,11 +17,11 @@
             :style="{ background: color, '--index': index }"
             @click="changeThemeColor(color)"
           >
-            <ArtSvgIcon v-if="color === systemThemeColor" icon="ri:check-fill" class="check-icon" />
+            <AoSvgIcon v-if="color === systemThemeColor" icon="ri:check-fill" class="check-icon" />
           </div>
         </div>
         <div class="btn palette-btn c-p flex-cc tad-300">
-          <ArtSvgIcon icon="ri:palette-line" class="palette-icon" />
+          <AoSvgIcon icon="ri:palette-line" class="palette-icon" />
         </div>
       </div>
       <ElDropdown
@@ -30,7 +30,7 @@
         popper-class="langDropDownStyle"
       >
         <div class="btn language-btn c-p flex-cc tad-300">
-          <ArtSvgIcon icon="ri:translate-2" class="translate-icon" />
+          <AoSvgIcon icon="ri:translate-2" class="translate-icon" />
         </div>
         <template #dropdown>
           <ElDropdownMenu>
@@ -40,7 +40,7 @@
                 :class="{ 'is-selected': locale === lang.value }"
               >
                 <span class="menu-txt">{{ lang.label }}</span>
-                <ArtSvgIcon
+                <AoSvgIcon
                   icon="ri:check-fill"
                   class="lang-check-icon"
                   v-if="locale === lang.value"
@@ -55,7 +55,7 @@
         class="btn theme-btn c-p flex-cc tad-300"
         @click="themeAnimation"
       >
-        <ArtSvgIcon :icon="isDark ? 'ri:sun-fill' : 'ri:moon-line'" class="theme-icon" />
+        <AoSvgIcon :icon="isDark ? 'ri:sun-fill' : 'ri:moon-line'" class="theme-icon" />
       </div>
     </div>
   </div>
@@ -99,12 +99,12 @@
   // 顶部条根容器（absolute w-full top-4.5 z-10 !justify-end max-[1180px]:!justify-between）
   .auth-top-bar {
     position: absolute; // absolute
-    width: 100%; // w-full
     top: 1.125rem; // top-4.5
     z-index: 10; // z-10
     justify-content: flex-end !important; // !justify-end
+    width: 100%; // w-full
 
-    @media (max-width: 1180px) {
+    @media (width <= 1180px) {
       // max-[1180px]:!justify-between
       justify-content: space-between !important;
     }
@@ -115,12 +115,12 @@
     display: none !important; // !hidden
     margin-left: 0.5rem; // ml-2
 
-    @media (max-width: 1180px) {
+    @media (width <= 1180px) {
       // max-[1180px]:!flex
       display: flex !important;
     }
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:ml-6
       margin-left: 1.5rem;
     }
@@ -128,9 +128,9 @@
 
   // Logo 标题（text-xl ont-mediumf ml-2，保留原 ont-mediumf typo 不修复）
   .logo-title {
+    margin-left: 0.5rem; // ml-2
     font-size: 1.25rem; // text-xl
     line-height: 1.75rem; // text-xl
-    margin-left: 0.5rem; // ml-2
   }
 
   // 操作区容器（gap-1.5 mr-2 max-sm:mr-5）
@@ -138,7 +138,7 @@
     gap: 0.375rem; // gap-1.5
     margin-right: 0.5rem; // mr-2
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mr-5
       margin-right: 1.25rem;
     }
@@ -148,7 +148,7 @@
   .color-picker-expandable {
     position: relative; // relative
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:!hidden
       display: none !important;
     }
@@ -157,18 +157,15 @@
   // 颜色点容器（absolute right-0 rounded-full gap-2 rounded-5 px-2.5 py-2 pr-9 pl-2.5 opacity-0）
   .color-dots {
     position: absolute; // absolute
-    right: 0; // right-0
     top: 0;
-    border-radius: 9999px; // rounded-full
+    right: 0; // right-0
     gap: 0.5rem; // gap-2
-    padding-left: 0.625rem; // pl-2.5
-    padding-right: 2.25rem; // pr-9
-    padding-top: 0.5rem; // py-2
-    padding-bottom: 0.5rem; // py-2
-    opacity: 0; // opacity-0
+    padding: 0.5rem 2.25rem 0.5rem 0.625rem; // py-2 // pr-9 // py-2 // pl-2.5
     pointer-events: none;
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 12px var(--art-gray-300);
+    border-radius: 9999px; // rounded-full
+    box-shadow: 0 2px 12px var(--ao-gray-300);
+    opacity: 0; // opacity-0
     transition:
       opacity 0.3s ease,
       transform 0.3s ease;
@@ -181,8 +178,8 @@
     width: 1.25rem; // size-5
     height: 1.25rem; // size-5
     border-radius: 9999px; // rounded-full
-    opacity: 0; // opacity-0
     box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    opacity: 0; // opacity-0
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transition-delay: calc(var(--index) * 0.05s);
     transform: translateX(20px) scale(0.8);
@@ -205,7 +202,7 @@
   }
 
   .dark .color-dots {
-    background-color: var(--art-gray-200);
+    background-color: var(--ao-gray-200);
     box-shadow: none;
   }
 
@@ -238,19 +235,19 @@
   .palette-icon {
     font-size: 1.25rem; // text-xl
     line-height: 1.75rem; // text-xl
-    color: var(--art-gray-800); // text-g-800
+    color: var(--ao-gray-800); // text-g-800
+    transition-duration: 300ms; // duration-300
     transition-property:
       color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
-    transition-duration: 300ms; // duration-300
   }
 
   // 翻译图标（text-[19px] text-g-800 transition-colors duration-300）
   .translate-icon {
     font-size: 19px; // text-[19px]
-    color: var(--art-gray-800); // text-g-800
+    color: var(--ao-gray-800); // text-g-800
+    transition-duration: 300ms; // duration-300
     transition-property:
       color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
-    transition-duration: 300ms; // duration-300
   }
 
   // 语言勾选图标（text-base）
@@ -263,14 +260,14 @@
   .theme-icon {
     font-size: 1.25rem; // text-xl
     line-height: 1.75rem; // text-xl
-    color: var(--art-gray-800); // text-g-800
+    color: var(--ao-gray-800); // text-g-800
+    transition-duration: 300ms; // duration-300
     transition-property:
       color, background-color, border-color, outline-color, text-decoration-color, fill, stroke; // transition-colors
-    transition-duration: 300ms; // duration-300
   }
 
   // 调色板按钮 hover 时图标颜色（v-bind 主题色）
-  .color-picker-expandable:hover .palette-btn :deep(.art-svg-icon) {
+  .color-picker-expandable:hover .palette-btn :deep(.ao-svg-icon) {
     color: v-bind(color);
   }
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <div class="art-card sales-overview">
-    <div class="art-card-header">
+  <div class="ao-card sales-overview">
+    <div class="ao-card-header">
       <div class="title">
         <h4>访问量</h4>
         <p>今年增长<span class="sales-overview-success">+15%</span></p>
       </div>
     </div>
-    <ArtLineChart
+    <AoLineChart
       height="calc(100% - 56px)"
       :data="data"
       :xAxisData="xAxisData"
@@ -49,7 +49,7 @@
     padding: 1.25rem; // p-5
     margin-bottom: 1.25rem; // mb-5
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -57,6 +57,6 @@
 
   // 增长率文字（text-success）
   .sales-overview-success {
-    color: var(--art-success);
+    color: var(--ao-success);
   }
 </style>

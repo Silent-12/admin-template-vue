@@ -1,6 +1,6 @@
 <template>
-  <div class="art-card todo-list">
-    <div class="art-card-header">
+  <div class="ao-card todo-list">
+    <div class="ao-card-header">
       <div class="title">
         <h4>代办事项</h4>
         <p>待处理<span class="todo-list-danger">3</span></p>
@@ -73,7 +73,7 @@
     padding: 1.25rem; // p-5
     margin-bottom: 1.25rem; // mb-5
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -81,7 +81,7 @@
 
   // 待处理数字（text-danger）
   .todo-list-danger {
-    color: var(--art-danger);
+    color: var(--ao-danger);
   }
 
   // 可滚动区域（h-[calc(100%-40px)] overflow-auto）
@@ -93,9 +93,9 @@
   // 单个待办项（flex-cb h-17.5 border-b border-g-300 text-sm last:border-b-0）
   .todo-list-item {
     height: 4.375rem; // h-17.5
-    border-bottom: 1px solid var(--art-gray-300); // border-b border-g-300
     font-size: 0.875rem; // text-sm
     line-height: 1.25rem; // text-sm
+    border-bottom: 1px solid var(--ao-gray-300); // border-b border-g-300
 
     &:last-child {
       // last:border-b-0
@@ -112,6 +112,6 @@
   // 待办日期（text-g-500 mt-1）
   .todo-list-date {
     margin-top: 0.25rem; // mt-1
-    color: var(--art-gray-500); // text-g-500
+    color: var(--ao-gray-500); // text-g-500
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="art-card new-user-card">
-    <div class="art-card-header">
+  <div class="ao-card new-user-card">
+    <div class="ao-card-header">
       <div class="title">
         <h4>新用户</h4>
         <p>这个月增长<span class="new-user-success">+20%</span></p>
@@ -11,7 +11,7 @@
         <ElRadioButton value="今年" label="今年"></ElRadioButton>
       </ElRadioGroup>
     </div>
-    <ArtTable
+    <AoTable
       class="new-user-table"
       :data="tableData"
       style="width: 100%"
@@ -48,7 +48,7 @@
           </template>
         </ElTableColumn>
       </template>
-    </ArtTable>
+    </AoTable>
   </div>
 </template>
 
@@ -87,7 +87,7 @@
       age: 22,
       percentage: 60,
       pro: 0,
-      color: 'var(--art-primary)',
+      color: 'var(--ao-primary)',
       avatar: avatar1
     },
     {
@@ -97,7 +97,7 @@
       age: 21,
       percentage: 20,
       pro: 0,
-      color: 'var(--art-secondary)',
+      color: 'var(--ao-secondary)',
       avatar: avatar2
     },
     {
@@ -107,7 +107,7 @@
       age: 23,
       percentage: 60,
       pro: 0,
-      color: 'var(--art-warning)',
+      color: 'var(--ao-warning)',
       avatar: avatar3
     },
     {
@@ -117,7 +117,7 @@
       age: 28,
       percentage: 50,
       pro: 0,
-      color: 'var(--art-info)',
+      color: 'var(--ao-info)',
       avatar: avatar4
     },
     {
@@ -127,7 +127,7 @@
       age: 26,
       percentage: 70,
       pro: 0,
-      color: 'var(--art-error)',
+      color: 'var(--ao-error)',
       avatar: avatar5
     },
     {
@@ -137,7 +137,7 @@
       age: 25,
       percentage: 90,
       pro: 0,
-      color: 'var(--art-success)',
+      color: 'var(--ao-success)',
       avatar: avatar6
     }
   ])
@@ -162,12 +162,12 @@
 <style lang="scss" scoped>
   // 新用户卡片容器（p-5 h-128 overflow-hidden mb-5 max-sm:mb-4）
   .new-user-card {
-    padding: 1.25rem; // p-5
     height: 32rem; // h-128
-    overflow: hidden; // overflow-hidden
+    padding: 1.25rem; // p-5
     margin-bottom: 1.25rem; // mb-5
+    overflow: hidden; // overflow-hidden
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -181,7 +181,7 @@
 
   // 增长率文字（text-success）
   .new-user-success {
-    color: var(--art-success);
+    color: var(--ao-success);
   }
 
   // 表格（w-full）

@@ -1,9 +1,9 @@
 <template>
   <ElRow :gutter="20" class="card-list-row">
     <ElCol v-for="(item, index) in dataList" :key="index" :sm="12" :md="6" :lg="6">
-      <div class="card-list-item art-card">
+      <div class="card-list-item ao-card">
         <span class="card-list-des">{{ item.des }}</span>
-        <ArtCountTo class="card-list-num" :target="item.num" :duration="1300" />
+        <AoCountTo class="card-list-num" :target="item.num" :duration="1300" />
         <div class="card-list-change flex-c">
           <span class="card-list-change-label">较上周</span>
           <span
@@ -16,7 +16,7 @@
           </span>
         </div>
         <div class="card-list-icon-wrapper flex-cc">
-          <ArtSvgIcon :icon="item.icon" class="card-list-icon" />
+          <AoSvgIcon :icon="item.icon" class="card-list-icon" />
         </div>
       </div>
     </ElCol>
@@ -86,11 +86,11 @@
     flex-direction: column; // flex-col
     justify-content: center; // justify-center
     height: 8.75rem; // h-35
-    padding-left: 1.25rem; // px-5
     padding-right: 1.25rem; // px-5
+    padding-left: 1.25rem; // px-5
     margin-bottom: 1.25rem; // mb-5
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -98,9 +98,9 @@
 
   // 描述文字（text-g-700 text-sm）
   .card-list-des {
-    color: var(--art-gray-700); // text-g-700
     font-size: 0.875rem; // text-sm
     line-height: 1.25rem; // text-sm
+    color: var(--ao-gray-700); // text-g-700
   }
 
   // 数字（text-[26px] font-medium mt-2）
@@ -119,39 +119,39 @@
   .card-list-change-label {
     font-size: 0.75rem; // text-xs
     line-height: 1rem; // text-xs
-    color: var(--art-gray-600); // text-g-600
+    color: var(--ao-gray-600); // text-g-600
   }
 
   // 变化数值（ml-1 text-xs font-semibold）
   .card-list-change-value {
     margin-left: 0.25rem; // ml-1
     font-size: 0.75rem; // text-xs
-    line-height: 1rem; // text-xs
     font-weight: 600; // font-semibold
+    line-height: 1rem; // text-xs
   }
 
   // 上升（text-success）
   .card-list-change-up {
-    color: var(--art-success);
+    color: var(--ao-success);
   }
 
   // 下降（text-danger）
   .card-list-change-down {
-    color: var(--art-danger);
+    color: var(--ao-danger);
   }
 
   // 图标外层容器（absolute top-0 bottom-0 right-5 m-auto size-12.5 rounded-xl bg-theme/10）
   .card-list-icon-wrapper {
     position: absolute; // absolute
     top: 0; // top-0
-    bottom: 0; // bottom-0
     right: 1.25rem; // right-5
-    margin: auto; // m-auto
+    bottom: 0; // bottom-0
     width: 3.125rem; // size-12.5
     height: 3.125rem; // size-12.5
-    border-radius: 0.75rem; // rounded-xl
+    margin: auto; // m-auto
     // bg-theme/10：主题色 10% 透明度
     background: color-mix(in srgb, var(--theme-color) 10%, transparent);
+    border-radius: 0.75rem; // rounded-xl
   }
 
   // 图标（text-xl text-theme）

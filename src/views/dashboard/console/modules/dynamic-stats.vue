@@ -1,6 +1,6 @@
 <template>
-  <div class="art-card dynamic-stats">
-    <div class="art-card-header">
+  <div class="ao-card dynamic-stats">
+    <div class="ao-card-header">
       <div class="title">
         <h4>动态</h4>
         <p>新增<span class="dynamic-stats-success">+6</span></p>
@@ -81,7 +81,7 @@
     padding: 1.25rem; // p-5
     margin-bottom: 1.25rem; // mb-5
 
-    @media (max-width: 39.99rem) {
+    @media (width <= 39.99rem) {
       // max-sm:mb-4
       margin-bottom: 1rem;
     }
@@ -89,7 +89,7 @@
 
   // 新增数（text-success）
   .dynamic-stats-success {
-    color: var(--art-success);
+    color: var(--ao-success);
   }
 
   // 滚动区域（h-9/10 mt-2 overflow-hidden）
@@ -103,10 +103,10 @@
   // 说明：原 leading-17.5 与容器等高，使单行文字垂直居中；line-height 取 4.375rem
   .dynamic-stats-item {
     height: 4.375rem; // h-17.5
-    line-height: 4.375rem; // leading-17.5（与高度一致，实现垂直居中）
-    border-bottom: 1px solid var(--art-gray-300); // border-b border-g-300
-    font-size: 0.875rem; // text-sm
     overflow: hidden; // overflow-hidden
+    font-size: 0.875rem; // text-sm
+    line-height: 4.375rem; // leading-17.5（与高度一致，实现垂直居中）
+    border-bottom: 1px solid var(--ao-gray-300); // border-b border-g-300
 
     &:last-child {
       // last:border-b-0
@@ -116,15 +116,15 @@
 
   // 用户名（text-g-800 font-medium）
   .dynamic-stats-username {
-    color: var(--art-gray-800); // text-g-800
     font-weight: 500; // font-medium
+    color: var(--ao-gray-800); // text-g-800
   }
 
   // 动态类型（mx-2 text-g-600）
   .dynamic-stats-type {
-    margin-left: 0.5rem; // mx-2
     margin-right: 0.5rem; // mx-2
-    color: var(--art-gray-600); // text-g-600
+    margin-left: 0.5rem; // mx-2
+    color: var(--ao-gray-600); // text-g-600
   }
 
   // 目标对象（text-theme）

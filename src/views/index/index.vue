@@ -2,20 +2,20 @@
 <template>
   <div class="app-layout">
     <aside id="app-sidebar">
-      <ArtSidebarMenu />
+      <AoSidebarMenu />
     </aside>
 
     <main id="app-main">
       <div id="app-header">
-        <ArtHeaderBar />
+        <AoHeaderBar />
       </div>
       <div id="app-content">
-        <ArtPageContent />
+        <AoPageContent />
       </div>
     </main>
 
     <div id="app-global">
-      <ArtGlobalComponent />
+      <AoGlobalComponent />
     </div>
   </div>
 </template>

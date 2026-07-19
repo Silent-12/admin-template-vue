@@ -100,7 +100,7 @@ textarea {
 
 /*滚动条的轨道*/
 ::-webkit-scrollbar-track {
-  background-color: var(--art-gray-200);
+  background-color: var(--ao-gray-200);
 }
 
 /*滚动条的滑块按钮*/
@@ -127,6 +127,6 @@ textarea {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--art-gray-300) !important;
+    background-color: var(--ao-gray-300) !important;
   }
 }
