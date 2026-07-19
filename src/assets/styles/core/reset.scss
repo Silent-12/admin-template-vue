@@ -55,12 +55,25 @@ ul {
   list-style: none;
 }
 
-/* 图片/媒体元素默认为块级且无间隙 */
+/* 媒体元素默认为块级（原 Tailwind preflight）*/
+/* 注意：max-width: 100% 仅对 img/video 生效，不能应用于 svg，否则窄容器内图标会被缩小 */
 img,
+svg,
 video,
-svg {
+canvas,
+audio,
+iframe,
+embed,
+object {
   display: block;
+  vertical-align: middle;
+}
+
+/* 仅 img/video 限制最大宽度 */
+img,
+video {
   max-width: 100%;
+  height: auto;
 }
 
 /* 链接默认颜色继承 */
