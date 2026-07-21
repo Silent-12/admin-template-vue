@@ -1,6 +1,6 @@
 ---
 name: commit-msg
-description: Generate a single-line commit message based on Conventional Commits by reading the project's git staged area and recent commit style, then execute the commit locally. Use when the user asks for a commit message, says "msg", "commit msg", "写提交信息", or wants one-line text that covers all staged changes. Output should match the repository's existing commit style and summarize all staged changes in one line.
+description: Generate a single-line Chinese commit message based on Conventional Commits by reading the project's git staged area, then execute the commit locally. Use when the user asks for a commit message, says "msg", "commit msg", "写提交信息", or wants one-line text that covers all staged changes. Output should follow standard Conventional Commits and summarize all staged changes in one line.
 ---
 
 # Commit Message 生成规范
@@ -9,7 +9,7 @@ description: Generate a single-line commit message based on Conventional Commits
 
 **一、准确概括提交内容** — 基于当前 **git 暂存区** 生成一行 commit message，覆盖本次提交包含的全部改动。
 
-**二、保持仓库风格一致** — 优先贴近仓库已有提交习惯，而不是机械套模板。
+**二、遵循中文规范** — 优先使用标准 Conventional Commits 语义和格式，并用中文撰写 subject，而不是依赖最近一次提交风格。
 
 ## 核心原则
 
@@ -40,7 +40,7 @@ description: Generate a single-line commit message based on Conventional Commits
 
 ## 执行步骤
 
-### 1. 读取 git 状态、暂存区和最近提交
+### 1. 读取 git 状态和暂存区
 
 必须先获取以下信息，再生成 message。不要猜测，也不要只凭文件名写。
 
@@ -50,13 +50,11 @@ description: Generate a single-line commit message based on Conventional Commits
 git status --short
 git diff --cached --stat
 git diff --cached
-git log --oneline -10
 ```
 
 - `git status --short`：确认哪些文件已 stage，是否还有未 stage 内容。
 - `git diff --cached --stat`：快速把握改动范围。
 - `git diff --cached`：查看实际提交内容，这是生成 message 的依据。
-- `git log --oneline -10`：检查仓库最近的提交风格、语言、type/scope 习惯。
 
 ### 2. 先判断是否能生成
 
@@ -73,9 +71,9 @@ git log --oneline -10
 2. 识别**主要影响范围**：模块名、目录名、功能区域等。
 3. 若包含多个文件或多类小改动，用一个更高层级的概括覆盖全部，不要逐项拼接成长句。
 
-### 4. 对齐仓库风格
+### 4. 对齐标准规范
 
-优先模仿仓库近期写法。常见形式：
+优先使用标准 Conventional Commits 形式。常见格式：
 
 ```text
 <type>(<scope>): <subject>
@@ -89,8 +87,9 @@ git log --oneline -10
 
 注意：
 
-- 不要强行把所有提交都写成严格的 Conventional Commits。
-- 如果仓库已有更自然的写法（如缺少 scope 或使用不同分隔符），优先贴近仓库已有习惯。
+- 不要为了贴合历史提交而偏离标准 Conventional Commits。
+- 如果无法确定 scope，允许省略 scope，但 type 和 subject 仍应保持规范。
+- subject 使用中文表达，确保简洁、准确、可直接用于提交。
 
 ### 5. 生成一行 message
 
@@ -126,15 +125,15 @@ git commit -m "<生成的 commit message>"
 
 scope 为可选。例如：
 
-- `feat(login): add OAuth2 authentication support`
-- `fix: correct null pointer in data parsing`
-- `docs: update API usage examples`
-- `refactor(core): extract shared validation logic`
-- `chore: upgrade dependencies to latest versions`
+- `feat(login): 新增 OAuth2 登录支持`
+- `fix: 修复数据解析中的空指针问题`
+- `docs: 更新 API 使用示例`
+- `refactor(core): 提取共享校验逻辑`
+- `chore: 升级依赖版本`
 
 ### 标题规则
 
-- 使用祈使语气，写现在要做什么，如 `add` / `fix` / `update` / `remove`
+- 使用祈使语气，写现在要做什么，如 `新增` / `修复` / `更新` / `重构`
 - 首字母**不要大写**
 - 结尾**不要句号**
 - 尽量控制在 **72 个字符内**
