@@ -260,14 +260,17 @@
 
 <style scoped lang="scss">
   // 用户头像（原 size-9.5 rounded-md）
-  .user-avatar {
+  // 使用 :deep() 穿透子组件，因为 formatter 中的 VNode 在 AoTable/ElTableColumn 内部渲染，
+  // scoped 属性可能无法正确传递到 ElImage 根元素，导致 .user-avatar 样式不生效
+  :deep(.user-avatar) {
     width: 2.375rem;
     height: 2.375rem;
     border-radius: 0.375rem;
   }
 
   // 用户名与邮箱容器（原 ml-2）
-  .user-info {
+  // 同样使用 :deep() 穿透，原因同上：formatter 中的 VNode 在子组件内渲染
+  :deep(.user-info) {
     margin-left: 0.5rem;
   }
 </style>
