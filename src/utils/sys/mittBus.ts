@@ -13,7 +13,7 @@
  * ## 使用场景
  *
  * - 跨层级组件通信
- * - 全局功能触发（设置、搜索、锁屏等）
+ * - 全局功能触发（设置、搜索等）
  * - 特效触发（烟花效果）
  * - 避免 props 层层传递
  *
@@ -35,7 +35,6 @@
  * - triggerFireworks: 触发烟花效果（可选图片URL）
  * - openSetting: 打开设置面板
  * - openSearchDialog: 打开搜索对话框
- * - openLockScreen: 打开锁屏
  *
  * @module utils/sys/mittBus
  * @author Art Design Pro Team
@@ -50,8 +49,6 @@ type Events = {
   openSetting: void
   // 打开搜索对话框事件 - 无参数
   openSearchDialog: void
-  // 打开锁屏事件 - 无参数
-  openLockScreen: void
 }
 
 // 创建类型安全的事件总线实例
