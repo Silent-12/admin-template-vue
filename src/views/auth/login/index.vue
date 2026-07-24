@@ -52,9 +52,6 @@
               <ElCheckbox v-model="formData.rememberPassword">{{
                 $t('login.rememberPwd')
               }}</ElCheckbox>
-              <RouterLink class="link-theme" :to="{ name: 'ForgetPassword' }">{{
-                $t('login.forgetPwd')
-              }}</RouterLink>
             </div>
 
             <div style="margin-top: 30px">
@@ -67,13 +64,6 @@
               >
                 {{ $t('login.btnText') }}
               </ElButton>
-            </div>
-
-            <div class="action-row no-account-row">
-              <span>{{ $t('login.noAccount') }}</span>
-              <RouterLink class="link-theme" :to="{ name: 'Register' }">{{
-                $t('login.register')
-              }}</RouterLink>
             </div>
           </ElForm>
         </div>
@@ -245,7 +235,7 @@
     flex: 1 1 0%;
   }
 
-  /* 操作行（记住密码 / 没有账号）共用样式 */
+  /* 操作行样式 */
   .action-row {
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -254,12 +244,6 @@
   /* 记住密码行 */
   .remember-row {
     margin-top: 0.5rem;
-  }
-
-  /* 没有账号行 */
-  .no-account-row {
-    margin-top: 1.25rem;
-    color: var(--ao-gray-600);
   }
 
   /* 主题色链接 */
