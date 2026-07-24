@@ -207,11 +207,6 @@
       "title": "Dashboard",
       "console": "Console"
     },
-    "result": {
-      "title": "Result Page",
-      "success": "Success",
-      "fail": "Fail"
-    },
     "exception": {
       "title": "Exception",
       "forbidden": "403",
