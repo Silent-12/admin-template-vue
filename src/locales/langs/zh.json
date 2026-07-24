@@ -116,7 +116,7 @@
   "worktab": {
     "btn": {
       "refresh": "刷新",
-      "fixed": "固定",
+      "fixed": "固定当前标签",
       "unfixed": "取消固定",
       "closeLeft": "关闭左侧",
       "closeRight": "关闭右侧",

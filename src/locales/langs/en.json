@@ -116,8 +116,8 @@
   "worktab": {
     "btn": {
       "refresh": "Refresh",
-      "fixed": "Fixed",
-      "unfixed": "Unfixed",
+      "fixed": "Pin current tab",
+      "unfixed": "Unpin current tab",
       "closeLeft": "Close left",
       "closeRight": "Close right",
       "closeOther": "Close other",
