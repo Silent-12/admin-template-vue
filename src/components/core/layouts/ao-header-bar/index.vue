@@ -118,16 +118,6 @@
           <div class="notice-dot"></div>
         </AoIconButton>
 
-        <!-- 聊天按钮 -->
-        <AoIconButton
-          v-if="shouldShowChat"
-          icon="ri:message-3-line"
-          class="chat-button header-bar__chat-btn"
-          @click="openChat"
-        >
-          <div class="breathing-dot chat-dot"></div>
-        </AoIconButton>
-
         <!-- 设置按钮 -->
         <div v-if="shouldShowSettings">
           <ElPopover :visible="showSettingGuide" placement="bottom-start" :width="190" :offset="0">
@@ -205,7 +195,6 @@
     shouldShowGlobalSearch,
     shouldShowFullscreen,
     shouldShowNotification,
-    shouldShowChat,
     shouldShowLanguage,
     shouldShowSettings,
     shouldShowThemeToggle,
@@ -333,13 +322,6 @@
   const visibleNotice = (): void => {
     showNotice.value = !showNotice.value
   }
-
-  /**
-   * 打开聊天窗口
-   */
-  const openChat = (): void => {
-    mittBus.emit('openChat')
-  }
 </script>
 
 <style lang="scss" scoped>
@@ -418,23 +400,6 @@
     }
   }
 
-  @keyframes breathing {
-    0% {
-      opacity: 0.4;
-      transform: scale(0.9);
-    }
-
-    50% {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-
-    100% {
-      opacity: 0.4;
-      transform: scale(0.9);
-    }
-  }
-
   /* Hover animation classes */
   .refresh-btn:hover :deep(.ao-svg-icon) {
     animation: rotate180 0.5s;
@@ -458,15 +423,6 @@
 
   .notice-button:hover :deep(.ao-svg-icon) {
     animation: shake 0.5s ease-in-out;
-  }
-
-  .chat-button:hover :deep(.ao-svg-icon) {
-    animation: shake 0.5s ease-in-out;
-  }
-
-  /* Breathing animation for chat dot */
-  .breathing-dot {
-    animation: breathing 1.5s ease-in-out infinite;
   }
 
   /* iPad breakpoint adjustments */
@@ -592,9 +548,8 @@
     font-size: 19px;
   }
 
-  // 通知按钮与聊天按钮：relative
-  .header-bar__notice-btn,
-  .header-bar__chat-btn {
+  // 通知按钮：relative
+  .header-bar__notice-btn {
     position: relative;
   }
 
@@ -607,17 +562,6 @@
     height: 0.375rem;
     background: var(--ao-danger) !important;
     border-radius: 9999px; // rounded-full
-  }
-
-  // 聊天绿点：absolute top-2 right-2 size-1.5 !bg-success rounded-full
-  .chat-dot {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 0.375rem;
-    height: 0.375rem;
-    background: var(--ao-success) !important;
-    border-radius: 9999px;
   }
 
   // ==================== 搜索框 ====================

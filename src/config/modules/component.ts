@@ -46,14 +46,6 @@ export const globalComponentsConfig: GlobalComponentConfig[] = [
     enabled: true
   },
   {
-    name: '聊天窗口',
-    key: 'chat-window',
-    component: defineAsyncComponent(
-      () => import('@/components/core/layouts/ao-chat-window/index.vue')
-    ),
-    enabled: true
-  },
-  {
     name: '礼花效果',
     key: 'fireworks-effect',
     component: defineAsyncComponent(
