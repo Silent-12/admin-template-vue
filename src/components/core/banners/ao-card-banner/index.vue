@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
   // 导入默认图标
-  import defaultIcon from '@imgs/3d/icon1.webp'
+  import defaultIcon from '@imgs/draw/draw1.png'
 
   defineOptions({ name: 'AoCardBanner' })
 

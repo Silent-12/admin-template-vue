@@ -9,7 +9,7 @@
 ## 二、用户决策（Phase 2 已确认）
 
 | 共享资源 | 决策 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | ThemeSvg | **保留** | 仍被 `LoginLeftView.vue`、`AoException.vue` 使用 |
 | `constants/links.ts` 的 WEB_LINKS | **彻底删除并内联** | 将 URL 内联到 `fastEnter.ts` 和 `about-project.vue` |
 | ECharts 插件 + 图表类型定义 | **一并删除** | 含 `plugins/echarts.ts`、`plugins/index.ts`、`types/component/chart.ts`、`package.json` echarts 依赖、`vite.config.ts` echarts manualChunks |
@@ -19,7 +19,7 @@
 ### 3.1 待删除资源引用情况
 
 | 资源 | 外部引用 | 处理方式 |
-|---|---|---|
+| --- | --- | --- |
 | `cards/` 8 个组件 | 仅 `cards/` 内部互相引用（如 AoStatsCard 用 AoCountTo） | 整目录删除 |
 | `charts/` 8 个组件 | 仅自身引用 `useChart` + `plugins/echarts` | 整目录删除 |
 | AoFestivalTextScroll | [ao-page-content/index.vue:10](file:///e:/hulihan/admin-template-pro/src/components/core/layouts/ao-page-content/index.vue#L10) | 删除目录 + 清理引用行 |
@@ -50,7 +50,7 @@
 ### A. 整个目录删除（10 个目录）
 
 | # | 路径 | 内容 | Why |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 | `src/components/core/cards/` | 8 个卡片组件（AoBarChartCard、AoDataListCard、AoDonutChartCard、AoImageCard、AoLineChartCard、AoProgressCard、AoStatsCard、AoTimelineListCard） | 用户要求全部移除 |
 | 2 | `src/components/core/charts/` | 8 个图表组件（AoBarChart、AoDualBarCompareChart、AoHBarChart、AoKLineChart、AoLineChart、AoRadarChart、AoRingChart、AoScatterChart） | 用户要求全部移除 |
 | 3 | `src/components/core/text-effect/ao-festival-text-scroll/` | AoFestivalTextScroll 组件 | 用户要求移除 |
@@ -61,21 +61,21 @@
 
 ### B. 单文件删除（6 个文件）
 
-| # | 路径 | Why |
-|---|---|---|
-| 1 | `src/utils/sys/console.ts` | 控制台 ASCII 欢迎信息，用户要求移除 |
-| 2 | `src/utils/constants/links.ts` | WEB_LINKS 常量，内联到使用处后删除 |
-| 3 | `src/hooks/core/useChart.ts` | 图表 Hook，用户要求移除 |
-| 4 | `src/plugins/echarts.ts` | ECharts 插件，用户决策一并删除 |
-| 5 | `src/plugins/index.ts` | 插件聚合导出，删除 echarts 后变空 |
-| 6 | `src/types/component/chart.ts` | 图表类型定义，用户决策一并删除 |
+| #   | 路径                           | Why                                 |
+| --- | ------------------------------ | ----------------------------------- |
+| 1   | `src/utils/sys/console.ts`     | 控制台 ASCII 欢迎信息，用户要求移除 |
+| 2   | `src/utils/constants/links.ts` | WEB_LINKS 常量，内联到使用处后删除  |
+| 3   | `src/hooks/core/useChart.ts`   | 图表 Hook，用户要求移除             |
+| 4   | `src/plugins/echarts.ts`       | ECharts 插件，用户决策一并删除      |
+| 5   | `src/plugins/index.ts`         | 插件聚合导出，删除 echarts 后变空   |
+| 6   | `src/types/component/chart.ts` | 图表类型定义，用户决策一并删除      |
 
 > `src/types/component/index.ts` 保留（目录非空）。`src/plugins/` 目录在删除两个文件后可保留空目录或一并删除（建议保留目录骨架，未来扩展用）。
 
 ### C. 保留资源（不删除）
 
 | 路径 | 原因 |
-|---|---|
+| --- | --- |
 | `src/components/core/theme/theme-svg/` | ThemeSvg 仍被 LoginLeftView + AoException 使用，用户决策保留 |
 
 ## 五、引用清理清单（How）
@@ -83,6 +83,7 @@
 ### 5.1 聚合导出文件清理
 
 **文件 1**：[src/utils/index.ts](file:///e:/hulihan/admin-template-pro/src/utils/index.ts)
+
 - 移除第 33-34 行：
   ```ts
   // socket 相关
@@ -90,10 +91,12 @@
   ```
 
 **文件 2**：[src/utils/constants/index.ts](file:///e:/hulihan/admin-template-pro/src/utils/constants/index.ts)
+
 - 移除第 8 行：`export * from './links'`
 - 删除后该文件只剩头部注释，可考虑直接删除整个 `constants/` 目录（若 `links.ts` 是唯一文件）。执行时确认。
 
 **文件 3**：[src/hooks/index.ts](file:///e:/hulihan/admin-template-pro/src/hooks/index.ts)
+
 - 移除第 28-29 行：
   ```ts
   // 图表相关
@@ -103,29 +106,34 @@
 ### 5.2 入口文件清理
 
 **文件**：[src/main.ts](file:///e:/hulihan/admin-template-pro/src/main.ts)
+
 - 移除第 7 行：`import '@utils/sys/console.ts'  // 控制台输出内容`
 
 ### 5.3 布局组件清理
 
 **文件**：[src/components/core/layouts/ao-page-content/index.vue](file:///e:/hulihan/admin-template-pro/src/components/core/layouts/ao-page-content/index.vue)
+
 - 移除第 9-10 行（注释 + 标签）：
   ```vue
-        <!-- 节日滚动 -->
-        <AoFestivalTextScroll v-if="!isFullPage" />
+  <!-- 节日滚动 -->
+  <AoFestivalTextScroll v-if="!isFullPage" />
   ```
 
 ### 5.4 WEB_LINKS 内联（用户确认彻底删除）
 
 **文件 1**：[src/config/fastEnter.ts](file:///e:/hulihan/admin-template-pro/src/config/fastEnter.ts)
+
 - 移除第 5 行：`import { WEB_LINKS } from '@/utils/constants'`
 - 第 29 行：`link: WEB_LINKS.DOCS` → `link: 'https://www.artd.pro/docs/zh/'`
 - 第 38 行：`link: WEB_LINKS.COMMUNITY` → `link: 'https://www.artd.pro/docs/zh/community/communicate.html'`
 - 第 47 行：`link: WEB_LINKS.BILIBILI` → `link: 'https://space.bilibili.com/425500936?spm_id_from=333.1007.0.0'`
 
 **文件 2**：`src/config/modules/fastEnter.ts`（执行时先 Read 确认内容）
+
 - 若引用 WEB_LINKS，按同样方式内联
 
 **文件 3**：[src/views/dashboard/console/modules/about-project.vue](file:///e:/hulihan/admin-template-pro/src/views/dashboard/console/modules/about-project.vue)
+
 - 移除第 26 行：`import { WEB_LINKS } from '@/utils/constants'`
 - 第 31 行：`{ label: '项目官网', url: WEB_LINKS.DOCS }` → `url: 'https://www.artd.pro/docs/zh/'`
 - 第 32 行：`{ label: '文档', url: WEB_LINKS.INTRODUCE }` → `url: 'https://www.artd.pro/docs/zh/guide/introduce.html'`
@@ -135,10 +143,12 @@
 ### 5.5 依赖与构建配置清理
 
 **文件 1**：[package.json](file:///e:/hulihan/admin-template-pro/package.json)
+
 - 移除第 59 行：`"echarts": "^6.0.0",`
 - 执行 `pnpm install` 同步 lockfile
 
 **文件 2**：[vite.config.ts](file:///e:/hulihan/admin-template-pro/vite.config.ts)
+
 - 移除第 112 行附近的 echarts 相关 manualChunks 配置（`'echarts/components'`、`'echarts/core'`、`'echarts/charts'`、`'echarts/renderers'` 等）。执行时 Read 该文件 100-130 行确认完整范围。
 
 ### 5.6 自动生成文件
@@ -158,8 +168,7 @@
 
 ## 目录结构
 
-按子目录分类（banners/base/layouts/forms/media/others/tables/text-effect/theme/views/widget），
-每个组件给出：组件名、路径链接、功能描述、主要 props。
+按子目录分类（banners/base/layouts/forms/media/others/tables/text-effect/theme/views/widget），每个组件给出：组件名、路径链接、功能描述、主要 props。
 
 ## 备注
 
@@ -203,7 +212,7 @@
 ## 八、验证步骤
 
 | # | 命令/操作 | 目的 |
-|---|---|---|
+| --- | --- | --- |
 | 1 | `pnpm run lint` | ESLint 检查无新增错误 |
 | 2 | `pnpm run lint:stylelint` | Stylelint 检查（涉及样式改动） |
 | 3 | `pnpm run lint:prettier` | Prettier 格式检查 |
@@ -218,11 +227,13 @@
 ## 九、假设与决策
 
 ### 假设
+
 - `src/config/modules/fastEnter.ts` 与 `src/config/fastEnter.ts` 是不同文件，均引用 WEB_LINKS，执行时 Read 确认。
 - 项目无其他业务页面使用 echarts（已通过 Grep 确认仅 charts/cards/useChart 使用）。
 - `src/types/component/index.ts` 不导出 chart.ts 内容（执行时 Read 确认；若导出需清理）。
 
 ### 决策
+
 - ThemeSvg 保留，文档中标注「保留（仅供 LoginLeftView / AoException 使用）」。
 - WEB_LINKS 彻底删除，URL 内联到 2 个使用文件。
 - echarts 依赖、插件、类型、构建配置一并清理。
@@ -232,5 +243,6 @@
 ## 十、删除报告（执行完成后输出）
 
 按 SKILL.md 第七步格式输出，包含：
+
 - 删除的页面/组件/Hook/API/Store/Type/常量/样式/图片数量
 - 检查结果：未发现遗留引用、未发现死代码、项目可正常编译、无新增 TS/ESLint 错误
