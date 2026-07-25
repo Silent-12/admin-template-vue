@@ -6,9 +6,6 @@
     :style="containerStyle"
   >
     <div id="app-content-header">
-      <!-- 节日滚动 -->
-      <AoFestivalTextScroll v-if="!isFullPage" />
-
       <!-- 路由信息调试 -->
       <div v-if="isOpenRouteInfo === 'true'" class="route-info-debug border-full-d">
         router meta：{{ route.meta }}

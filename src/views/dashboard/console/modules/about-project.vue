@@ -23,15 +23,14 @@
 
 <script setup lang="ts">
   import AppConfig from '@/config'
-  import { WEB_LINKS } from '@/utils/constants'
 
   const systemName = AppConfig.systemInfo.name
 
   const linkList = [
-    { label: '项目官网', url: WEB_LINKS.DOCS },
-    { label: '文档', url: WEB_LINKS.INTRODUCE },
-    { label: 'Github', url: WEB_LINKS.GITHUB_HOME },
-    { label: '哔哩哔哩', url: WEB_LINKS.BILIBILI }
+    { label: '项目官网', url: 'https://www.artd.pro/docs/zh/' },
+    { label: '文档', url: 'https://www.artd.pro/docs/zh/guide/introduce.html' },
+    { label: 'Github', url: 'https://github.com/Daymychen/art-design-pro' },
+    { label: '哔哩哔哩', url: 'https://space.bilibili.com/425500936?spm_id_from=333.1007.0.0' }
   ]
 
   /**

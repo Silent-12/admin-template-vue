@@ -107,10 +107,6 @@ export default ({ mode }: { mode: string }) => {
     // 依赖预构建：避免运行时重复请求与转换，提升首次加载速度
     optimizeDeps: {
       include: [
-        'echarts/core',
-        'echarts/charts',
-        'echarts/components',
-        'echarts/renderers',
         'xlsx',
         'xgplayer',
         'crypto-js',

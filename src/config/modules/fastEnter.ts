@@ -2,7 +2,6 @@
  * 快速入口配置
  * 包含：应用列表、快速链接等配置
  */
-import { WEB_LINKS } from '@/utils/constants'
 import type { FastEnterConfig } from '@/types/config'
 
 const fastEnterConfig: FastEnterConfig = {
@@ -44,7 +43,7 @@ const fastEnterConfig: FastEnterConfig = {
       iconColor: '#ffb100',
       enabled: true,
       order: 5,
-      link: WEB_LINKS.DOCS
+      link: 'https://www.artd.pro/docs/zh/'
     },
     {
       name: '技术支持',
@@ -53,7 +52,7 @@ const fastEnterConfig: FastEnterConfig = {
       iconColor: '#ff6b6b',
       enabled: true,
       order: 6,
-      link: WEB_LINKS.COMMUNITY
+      link: 'https://www.artd.pro/docs/zh/community/communicate.html'
     },
     {
       name: '更新日志',
@@ -71,7 +70,7 @@ const fastEnterConfig: FastEnterConfig = {
       iconColor: '#FB7299',
       enabled: true,
       order: 8,
-      link: WEB_LINKS.BILIBILI
+      link: 'https://space.bilibili.com/425500936?spm_id_from=333.1007.0.0'
     }
   ],
   // 快速链接
