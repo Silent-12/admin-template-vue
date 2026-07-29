@@ -28,12 +28,6 @@
 
   /** 枚举映射表 */
   const ENUM_MAPS = {
-    menuType: {
-      left: 'MenuTypeEnum.LEFT',
-      top: 'MenuTypeEnum.TOP',
-      'top-left': 'MenuTypeEnum.TOP_LEFT',
-      'dual-menu': 'MenuTypeEnum.DUAL_MENU'
-    },
     systemTheme: {
       auto: 'SystemThemeEnum.AUTO',
       light: 'SystemThemeEnum.LIGHT',
@@ -59,10 +53,8 @@
   }
 
   const CONFIG_ITEMS: ConfigItem[] = [
-    { comment: '菜单类型', key: 'menuType', enumMap: ENUM_MAPS.menuType },
     { comment: '菜单展开宽度', key: 'menuOpenWidth' },
     { comment: '菜单是否展开', key: 'menuOpen' },
-    { comment: '双菜单是否显示文本', key: 'dualMenuShowText' },
     { comment: '系统主题类型', key: 'systemThemeType', enumMap: ENUM_MAPS.systemTheme },
     { comment: '系统主题模式', key: 'systemThemeMode', enumMap: ENUM_MAPS.systemTheme },
     { comment: '菜单风格', key: 'menuThemeType', enumMap: ENUM_MAPS.menuTheme },
@@ -166,10 +158,7 @@
       const config = SETTING_DEFAULT_CONFIG
 
       // 菜单相关
-      settingStore.switchMenuLayouts(config.menuType)
       settingStore.setMenuOpenWidth(config.menuOpenWidth)
-      settingStore.setMenuOpen(config.menuOpen)
-      settingStore.setDualMenuShowText(config.dualMenuShowText)
 
       // 主题相关 - 使用 switchThemeStyles 确保正确处理 AUTO 模式
       switchThemeStyles(config.systemThemeMode)

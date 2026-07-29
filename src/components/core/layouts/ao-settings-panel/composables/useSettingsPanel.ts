@@ -3,9 +3,8 @@ import { useSettingStore } from '@/store/modules/setting'
 import { storeToRefs } from 'pinia'
 import { useBreakpoints } from '@vueuse/core'
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuTypeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum } from '@/enums/appEnum'
 import { mittBus } from '@/utils/sys'
-import { StorageConfig } from '@/utils'
 import { useTheme } from '@/hooks/core/useTheme'
 import { useCeremony } from '@/hooks/core/useCeremony'
 import { useSettingsState } from './useSettingsState'
@@ -16,7 +15,7 @@ import { useSettingsHandlers } from './useSettingsHandlers'
  */
 export function useSettingsPanel() {
   const settingStore = useSettingStore()
-  const { systemThemeType, systemThemeMode, menuType } = storeToRefs(settingStore)
+  const { systemThemeType, systemThemeMode } = storeToRefs(settingStore)
 
   // Composables
   const { openFestival, cleanup } = useCeremony()
@@ -30,26 +29,6 @@ export function useSettingsPanel() {
   // 使用 VueUse breakpoints 优化性能
   const breakpoints = useBreakpoints({ tablet: 1000 })
   const isMobile = breakpoints.smaller('tablet')
-
-  // 记录窗口宽度变化前的菜单类型
-  const getStoredDesktopMenuType = (): MenuTypeEnum | undefined => {
-    const storedMenuType = localStorage.getItem(StorageConfig.RESPONSIVE_MENU_TYPE_KEY)
-    return Object.values(MenuTypeEnum).includes(storedMenuType as MenuTypeEnum)
-      ? (storedMenuType as MenuTypeEnum)
-      : undefined
-  }
-
-  const setStoredDesktopMenuType = (type: MenuTypeEnum) => {
-    localStorage.setItem(StorageConfig.RESPONSIVE_MENU_TYPE_KEY, type)
-  }
-
-  const clearStoredDesktopMenuType = () => {
-    localStorage.removeItem(StorageConfig.RESPONSIVE_MENU_TYPE_KEY)
-  }
-
-  const storedDesktopMenuType = getStoredDesktopMenuType()
-  const beforeMenuType = ref<MenuTypeEnum | undefined>(storedDesktopMenuType)
-  const hasChangedMenu = ref(Boolean(storedDesktopMenuType))
 
   // 计算属性
   const systemThemeColor = computed(() => settingStore.systemThemeColor as string)
@@ -96,28 +75,8 @@ export function useSettingsPanel() {
       isMobile,
       (mobile: boolean) => {
         if (mobile) {
-          // 切换到移动端布局
-          if (!hasChangedMenu.value) {
-            beforeMenuType.value = menuType.value
-            if (menuType.value !== MenuTypeEnum.LEFT) {
-              setStoredDesktopMenuType(menuType.value)
-              useSettingsState().switchMenuLayouts(MenuTypeEnum.LEFT)
-              hasChangedMenu.value = true
-            }
-          }
-
           settingStore.setMenuOpen(false)
         } else {
-          // 恢复桌面端布局
-          if (hasChangedMenu.value && beforeMenuType.value) {
-            if (menuType.value === MenuTypeEnum.LEFT) {
-              useSettingsState().switchMenuLayouts(beforeMenuType.value)
-            }
-
-            clearStoredDesktopMenuType()
-            hasChangedMenu.value = false
-          }
-
           settingStore.setMenuOpen(true)
         }
       },

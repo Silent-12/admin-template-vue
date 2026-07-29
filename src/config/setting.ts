@@ -21,20 +21,16 @@
  */
 
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum, MenuTypeEnum, ContainerWidthEnum } from '@/enums/appEnum'
+import { SystemThemeEnum, MenuThemeEnum, ContainerWidthEnum } from '@/enums/appEnum'
 
 /**
  * 系统设置默认值配置
  */
 export const SETTING_DEFAULT_CONFIG = {
-  /** 菜单类型 */
-  menuType: MenuTypeEnum.LEFT,
   /** 菜单展开宽度 */
   menuOpenWidth: 230,
   /** 菜单是否展开 */
   menuOpen: true,
-  /** 双菜单是否显示文本 */
-  dualMenuShowText: false,
   /** 系统主题类型 */
   systemThemeType: SystemThemeEnum.AUTO,
   /** 系统主题模式 */

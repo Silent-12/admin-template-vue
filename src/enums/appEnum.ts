@@ -3,7 +3,6 @@
  *
  * ## 主要功能
  *
- * - 菜单类型枚举（左侧、顶部、混合、双栏）
  * - 主题类型枚举（亮色、暗色、自动）
  * - 菜单主题枚举（设计、亮色、暗色）
  * - 语言类型枚举（中文、英文）
@@ -13,20 +12,6 @@
  * @module enums/appEnum
  * @author Art Design Pro Team
  */
-
-/**
- * 菜单类型
- */
-export enum MenuTypeEnum {
-  /** 左侧菜单 */
-  LEFT = 'left',
-  /** 顶部菜单 */
-  TOP = 'top',
-  /** 顶部+左侧菜单 */
-  TOP_LEFT = 'top-left',
-  /** 双栏菜单 */
-  DUAL_MENU = 'dual-menu'
-}
 
 /**
  * 系统主题

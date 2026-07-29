@@ -23,22 +23,18 @@
 <script setup lang="ts">
   import AppConfig from '@/config'
   import SectionTitle from './SectionTitle.vue'
-  import { MenuTypeEnum, type MenuThemeEnum } from '@/enums/appEnum'
+  import type { MenuThemeEnum } from '@/enums/appEnum'
   import { useSettingStore } from '@/store/modules/setting'
 
   const menuThemeList = AppConfig.themeList
   const settingStore = useSettingStore()
-  const { menuThemeType, menuType, isDark } = storeToRefs(settingStore)
-  const isTopMenu = computed(() => menuType.value === MenuTypeEnum.TOP)
-  const isDualMenu = computed(() => menuType.value === MenuTypeEnum.DUAL_MENU)
+  const { menuThemeType, isDark } = storeToRefs(settingStore)
 
-  const disabled = computed(() => isTopMenu.value || isDualMenu.value || isDark.value)
+  const disabled = computed(() => isDark.value)
 
   // 菜单样式切换
   const switchMenuStyles = (theme: MenuThemeEnum) => {
-    if (isDualMenu.value || isTopMenu.value || isDark.value) {
-      return
-    }
+    if (isDark.value) return
     settingStore.switchMenuStyles(theme)
   }
 </script>

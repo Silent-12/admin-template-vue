@@ -6,7 +6,6 @@
  * ## 主要功能
  *
  * - 主题设置类型
- * - 菜单布局类型
  * - 节日配置类型
  * - 系统基础配置类型
  * - 快速入口配置类型
@@ -24,7 +23,7 @@
  * @author Art Design Pro Team
  */
 
-import { MenuTypeEnum, SystemThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum } from '@/enums/appEnum'
 import { MenuThemeType, SystemThemeTypes } from '@/types/store'
 
 // 主题设置
@@ -41,18 +40,6 @@ export interface ThemeSetting {
   rightLineColor: string
   /** 主题图片 */
   img: string
-}
-
-// 菜单布局
-export interface MenuLayout {
-  /** 布局名称 */
-  name: string
-  /** 菜单类型值 */
-  value: MenuTypeEnum
-  /** 布局预览图 */
-  img: string
-  /** 布局描述 */
-  description?: string
 }
 
 // 节日配置
@@ -132,8 +119,6 @@ export interface SystemConfig {
   systemThemeStyles: SystemThemeTypes
   // 设置主题列表
   settingThemeList: ThemeSetting[]
-  // 菜单布局列表
-  menuLayoutList: MenuLayout[]
   // 主题列表
   themeList: MenuThemeType[]
   // 暗色菜单样式

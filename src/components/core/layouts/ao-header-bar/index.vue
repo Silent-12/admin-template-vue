@@ -13,19 +13,11 @@
       }"
     >
       <div class="header-bar__left flex-c">
-        <!-- 系统信息  -->
-        <div class="header-bar__system flex-c c-p" @click="toHome" v-if="isTopMenu">
-          <AoLogo class="header-bar__logo" />
-          <p v-if="width >= 1400" class="header-bar__system-name">{{
-            AppConfig.systemInfo.name
-          }}</p>
-        </div>
-
         <AoLogo class="header-bar__logo-hidden" @click="toHome" />
 
         <!-- 菜单按钮 -->
         <AoIconButton
-          v-if="isLeftMenu && shouldShowMenuButton"
+          v-if="shouldShowMenuButton"
           icon="ri:menu-2-fill"
           class="header-bar__menu-btn"
           @click="visibleMenu"
@@ -36,7 +28,6 @@
           v-if="shouldShowRefreshButton"
           icon="ri:refresh-line"
           class="refresh-btn header-bar__refresh-btn"
-          :style="{ marginLeft: !isLeftMenu ? '10px' : '0' }"
           @click="reload"
         />
 
@@ -46,15 +37,7 @@
         </AoFastEnter>
 
         <!-- 面包屑 -->
-        <AoBreadcrumb
-          v-if="(shouldShowBreadcrumb && isLeftMenu) || (shouldShowBreadcrumb && isDualMenu)"
-        />
-
-        <!-- 顶部菜单 -->
-        <AoHorizontalMenu v-if="isTopMenu" :list="menuList" />
-
-        <!-- 混合菜单-顶部 -->
-        <AoMixedMenu v-if="isTopLeftMenu" :list="menuList" />
+        <AoBreadcrumb v-if="shouldShowBreadcrumb" />
       </div>
 
       <div class="header-bar__right flex-c">
@@ -161,11 +144,9 @@
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
   import { useFullscreen, useWindowSize } from '@vueuse/core'
-  import { LanguageEnum, MenuTypeEnum } from '@/enums/appEnum'
+  import { LanguageEnum } from '@/enums/appEnum'
   import { useSettingStore } from '@/store/modules/setting'
   import { useUserStore } from '@/store/modules/user'
-  import { useMenuStore } from '@/store/modules/menu'
-  import AppConfig from '@/config'
   import { languageOptions } from '@/locales'
   import { mittBus } from '@/utils/sys'
   import { themeAnimation } from '@/utils/ui/animation'
@@ -184,7 +165,6 @@
 
   const settingStore = useSettingStore()
   const userStore = useUserStore()
-  const menuStore = useMenuStore()
 
   // 顶部栏功能配置
   const {
@@ -201,20 +181,13 @@
     fastEnterMinWidth: headerBarFastEnterMinWidth
   } = useHeaderBar()
 
-  const { menuOpen, systemThemeColor, showSettingGuide, menuType, isDark, tabStyle } =
+  const { menuOpen, systemThemeColor, showSettingGuide, isDark, tabStyle } =
     storeToRefs(settingStore)
 
   const { language } = storeToRefs(userStore)
-  const { menuList } = storeToRefs(menuStore)
 
   const showNotice = ref(false)
   const notice = ref(null)
-
-  // 菜单类型判断
-  const isLeftMenu = computed(() => menuType.value === MenuTypeEnum.LEFT)
-  const isDualMenu = computed(() => menuType.value === MenuTypeEnum.DUAL_MENU)
-  const isTopMenu = computed(() => menuType.value === MenuTypeEnum.TOP)
-  const isTopLeftMenu = computed(() => menuType.value === MenuTypeEnum.TOP_LEFT)
 
   const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
@@ -476,23 +449,6 @@
     flex: 1 1 0%;
     min-width: 0;
     line-height: 3.75rem;
-  }
-
-  // 系统信息区
-  .header-bar__system {
-    // 保留全局工具类 flex-c c-p
-  }
-
-  // 系统名称 my-0 mx-2 ml-2 text-lg
-  .header-bar__system-name {
-    margin: 0 0.5rem;
-    font-size: 1.125rem; // text-lg
-    line-height: 1.75rem; // text-lg
-  }
-
-  // 主 Logo（系统信息区） pl-4.5
-  .header-bar__logo {
-    padding-left: 1.125rem; // pl-4.5
   }
 
   // 隐藏的备用 Logo：!hidden pl-3.5 overflow-hidden align-[-0.15em] fill-current

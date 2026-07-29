@@ -93,10 +93,7 @@ export function useSettingsConfig() {
     mainColors: AppConfig.systemMainColor,
 
     // 主题风格选项
-    themeList: AppConfig.settingThemeList,
-
-    // 菜单布局选项
-    menuLayoutList: AppConfig.menuLayoutList
+    themeList: AppConfig.settingThemeList
   }
 
   // 基础设置项配置

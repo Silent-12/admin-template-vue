@@ -5,7 +5,6 @@
  *
  * ## 主要功能
  *
- * - 菜单布局配置（左侧、顶部、混合、双栏）
  * - 主题管理（亮色、暗色、自动）
  * - 菜单主题样式配置
  * - 界面显示开关（面包屑、标签页、语言切换等）
@@ -34,7 +33,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { MenuThemeType } from '@/types/store'
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum, MenuTypeEnum, ContainerWidthEnum } from '@/enums/appEnum'
+import { SystemThemeEnum, MenuThemeEnum, ContainerWidthEnum } from '@/enums/appEnum'
 import { setElementThemeColor } from '@/utils/ui'
 import { useCeremony } from '@/hooks/core/useCeremony'
 import { StorageConfig } from '@/utils'
@@ -48,14 +47,10 @@ export const useSettingStore = defineStore(
   'settingStore',
   () => {
     // 菜单相关设置
-    /** 菜单类型 */
-    const menuType = ref(SETTING_DEFAULT_CONFIG.menuType)
     /** 菜单展开宽度 */
     const menuOpenWidth = ref(SETTING_DEFAULT_CONFIG.menuOpenWidth)
     /** 菜单是否展开 */
     const menuOpen = ref(SETTING_DEFAULT_CONFIG.menuOpen)
-    /** 双菜单是否显示文本 */
-    const dualMenuShowText = ref(SETTING_DEFAULT_CONFIG.dualMenuShowText)
 
     // 主题相关设置
     /** 系统主题类型 */
@@ -158,14 +153,6 @@ export const useSettingStore = defineStore(
     const isShowFireworks = computed((): boolean => {
       return festivalDate.value === useCeremony().currentFestivalData.value?.date ? false : true
     })
-
-    /**
-     * 切换菜单布局
-     * @param type 菜单类型
-     */
-    const switchMenuLayouts = (type: MenuTypeEnum) => {
-      menuType.value = type
-    }
 
     /**
      * 设置菜单展开宽度
@@ -371,12 +358,7 @@ export const useSettingStore = defineStore(
       festivalDate.value = date
     }
 
-    const setDualMenuShowText = (show: boolean) => {
-      dualMenuShowText.value = show
-    }
-
     return {
-      menuType,
       menuOpenWidth,
       systemThemeType,
       systemThemeMode,
@@ -403,14 +385,12 @@ export const useSettingStore = defineStore(
       holidayFireworksLoaded,
       showFestivalText,
       festivalDate,
-      dualMenuShowText,
       containerWidth,
       getMenuTheme,
       isDark,
       getMenuOpenWidth,
       getCustomRadius,
       isShowFireworks,
-      switchMenuLayouts,
       setMenuOpenWidth,
       setGlopTheme,
       switchMenuStyles,
@@ -437,8 +417,7 @@ export const useSettingStore = defineStore(
       setCustomRadius,
       setholidayFireworksLoaded,
       setShowFestivalText,
-      setFestivalDate,
-      setDualMenuShowText
+      setFestivalDate
     }
   },
   {
