@@ -161,7 +161,9 @@ html.dark .el-card {
 // el-message 样式优化
 .el-message {
   background-color: var(--default-box-color) !important;
-  border: 0 !important;
+  border: none !important;
+  border-radius: 8px;
+  padding: 9px 12px;
   box-shadow:
     0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 3px 6px -4px rgba(0, 0, 0, 0.12),
