@@ -72,6 +72,10 @@
   border: 1px solid var(--ao-card-border);
 }
 
+.ao-card-xs {
+  border-radius: calc(var(--custom-radius) + -4px);
+}
+
 // 元素全屏
 .el-full-screen {
   position: fixed;
