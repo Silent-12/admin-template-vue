@@ -1,32 +1,20 @@
-// 自定义四点旋转SVG
+// 自定义圆圈线条旋转 SVG（带开口的圆环，持续旋转）
 export const fourDotsSpinnerSvg = `
   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
     <style>
-      .spinner {
+      .ring-spinner {
+        fill: none;
+        stroke: var(--theme-color);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-dasharray: 75 100;
         transform-origin: 20px 20px;
-        animation: rotate 1.6s linear infinite;
+        animation: ring-spin 1s linear infinite;
       }
-      .dot {
-        fill: var(--theme-color);
-        animation: fade 1.6s infinite;
-      }
-      .dot:nth-child(1) { animation-delay: 0s; }
-      .dot:nth-child(2) { animation-delay: 0.5s; }
-      .dot:nth-child(3) { animation-delay: 1s; }
-      .dot:nth-child(4) { animation-delay: 1.5s; }
-      @keyframes rotate {
+      @keyframes ring-spin {
         100% { transform: rotate(360deg); }
       }
-      @keyframes fade {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-      }
     </style>
-    <g class="spinner">
-      <circle class="dot" cx="20" cy="8" r="4"/>
-      <circle class="dot" cx="32" cy="20" r="4"/>
-      <circle class="dot" cx="20" cy="32" r="4"/>
-      <circle class="dot" cx="8" cy="20" r="4"/>
-    </g>
+    <circle class="ring-spinner" cx="20" cy="20" r="16"/>
   </svg>
 `
