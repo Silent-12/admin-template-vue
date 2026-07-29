@@ -111,9 +111,9 @@ const appConfig: SystemConfig = {
   ],
   // 系统主色
   systemMainColor: [
+    '#1D84FF',
     '#0052d9',
     '#B48DF3',
-    '#1D84FF',
     '#60C041',
     '#38C0FC',
     '#F9901F',
