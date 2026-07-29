@@ -49,7 +49,6 @@
   }
 
   const CONFIG_ITEMS: ConfigItem[] = [
-    { comment: '菜单展开宽度', key: 'menuOpenWidth' },
     { comment: '菜单是否展开', key: 'menuOpen' },
     { comment: '系统主题类型', key: 'systemThemeType', enumMap: ENUM_MAPS.systemTheme },
     { comment: '系统主题模式', key: 'systemThemeMode', enumMap: ENUM_MAPS.systemTheme },
@@ -65,11 +64,7 @@
     { comment: '是否显示设置引导', key: 'showSettingGuide' },
     { comment: '是否显示水印', key: 'watermarkVisible' },
     { comment: '是否唯一展开', key: 'uniqueOpened' },
-    { comment: '是否色弱模式', key: 'colorWeak' },
     { comment: '是否刷新', key: 'refresh' },
-    { comment: '页面过渡效果', key: 'pageTransition' },
-    { comment: '标签页样式', key: 'tabStyle' },
-    { comment: '自定义圆角', key: 'customRadius' },
     { comment: '节日日期', key: 'festivalDate', forceValue: '' }
   ]
 
@@ -148,9 +143,6 @@
     try {
       const config = SETTING_DEFAULT_CONFIG
 
-      // 菜单相关
-      settingStore.setMenuOpenWidth(config.menuOpenWidth)
-
       // 主题相关 - 使用 switchThemeStyles 确保正确处理 AUTO 模式
       switchThemeStyles(config.systemThemeMode)
 
@@ -187,12 +179,6 @@
       toggleIfDifferent(settingStore.uniqueOpened, config.uniqueOpened, () =>
         settingStore.setUniqueOpened()
       )
-      toggleIfDifferent(settingStore.colorWeak, config.colorWeak, () => settingStore.setColorWeak())
-
-      // 样式设置
-      settingStore.setPageTransition(config.pageTransition)
-      settingStore.setTabStyle(config.tabStyle)
-      settingStore.setCustomRadius(config.customRadius)
 
       // 节日相关
       settingStore.setFestivalDate(config.festivalDate)

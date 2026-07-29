@@ -8,8 +8,7 @@
  * - 主题管理（亮色、暗色、自动）
  * - 菜单主题样式配置
  * - 界面显示开关（面包屑、标签页、语言切换等）
- * - 功能开关（手风琴模式、色弱模式、水印等）
- * - 样式配置（圆角、页面过渡）
+ * - 功能开关（手风琴模式、水印等）
  * - 节日功能配置
  * - Element Plus 主题色动态设置
  *
@@ -47,8 +46,6 @@ export const useSettingStore = defineStore(
   'settingStore',
   () => {
     // 菜单相关设置
-    /** 菜单展开宽度 */
-    const menuOpenWidth = ref(SETTING_DEFAULT_CONFIG.menuOpenWidth)
     /** 菜单是否展开 */
     const menuOpen = ref(SETTING_DEFAULT_CONFIG.menuOpen)
 
@@ -85,18 +82,8 @@ export const useSettingStore = defineStore(
     // 功能设置
     /** 是否唯一展开 */
     const uniqueOpened = ref(SETTING_DEFAULT_CONFIG.uniqueOpened)
-    /** 是否色弱模式 */
-    const colorWeak = ref(SETTING_DEFAULT_CONFIG.colorWeak)
     /** 是否刷新 */
     const refresh = ref(SETTING_DEFAULT_CONFIG.refresh)
-
-    // 样式设置
-    /** 页面过渡效果 */
-    const pageTransition = ref(SETTING_DEFAULT_CONFIG.pageTransition)
-    /** 标签页样式 */
-    const tabStyle = ref(SETTING_DEFAULT_CONFIG.tabStyle)
-    /** 自定义圆角 */
-    const customRadius = ref(SETTING_DEFAULT_CONFIG.customRadius)
 
     // 节日相关
     /** 节日日期 */
@@ -123,27 +110,12 @@ export const useSettingStore = defineStore(
     })
 
     /**
-     * 获取菜单展开宽度
-     */
-    const getMenuOpenWidth = computed((): string => {
-      return menuOpenWidth.value + 'px' || SETTING_DEFAULT_CONFIG.menuOpenWidth + 'px'
-    })
-
-    /**
      * 是否显示烟花
      * 根据当前日期和节日日期判断是否显示烟花效果
      */
     const isShowFireworks = computed((): boolean => {
       return festivalDate.value === useCeremony().currentFestivalData.value?.date ? false : true
     })
-
-    /**
-     * 设置菜单展开宽度
-     * @param width 宽度值
-     */
-    const setMenuOpenWidth = (width: number) => {
-      menuOpenWidth.value = width
-    }
 
     /**
      * 设置全局主题
@@ -231,13 +203,6 @@ export const useSettingStore = defineStore(
     }
 
     /**
-     * 切换色弱模式
-     */
-    const setColorWeak = () => {
-      colorWeak.value = !colorWeak.value
-    }
-
-    /**
      * 隐藏设置引导
      */
     const hideSettingGuide = () => {
@@ -249,22 +214,6 @@ export const useSettingStore = defineStore(
      */
     const openSettingGuide = () => {
       showSettingGuide.value = true
-    }
-
-    /**
-     * 设置页面过渡效果
-     * @param transition 过渡效果名称
-     */
-    const setPageTransition = (transition: string) => {
-      pageTransition.value = transition
-    }
-
-    /**
-     * 设置标签页样式
-     * @param style 样式名称
-     */
-    const setTabStyle = (style: string) => {
-      tabStyle.value = style
     }
 
     /**
@@ -290,21 +239,11 @@ export const useSettingStore = defineStore(
       watermarkVisible.value = visible
     }
 
-    /**
-     * 设置自定义圆角
-     * @param radius 圆角值
-     */
-    const setCustomRadius = (radius: string) => {
-      customRadius.value = radius
-      document.documentElement.style.setProperty('--custom-radius', `${radius}rem`)
-    }
-
     const setFestivalDate = (date: string) => {
       festivalDate.value = date
     }
 
     return {
-      menuOpenWidth,
       systemThemeType,
       systemThemeMode,
       menuThemeType,
@@ -317,20 +256,14 @@ export const useSettingStore = defineStore(
       showWorkTab,
       showLanguage,
       showNprogress,
-      colorWeak,
       showSettingGuide,
-      pageTransition,
-      tabStyle,
       menuOpen,
       refresh,
       watermarkVisible,
-      customRadius,
       festivalDate,
       getMenuTheme,
       isDark,
-      getMenuOpenWidth,
       isShowFireworks,
-      setMenuOpenWidth,
       setGlopTheme,
       switchMenuStyles,
       setElementTheme,
@@ -342,15 +275,11 @@ export const useSettingStore = defineStore(
       setWorkTab,
       setLanguage,
       setNprogress,
-      setColorWeak,
       hideSettingGuide,
       openSettingGuide,
-      setPageTransition,
-      setTabStyle,
       setMenuOpen,
       reload,
       setWatermarkVisible,
-      setCustomRadius,
       setFestivalDate
     }
   },

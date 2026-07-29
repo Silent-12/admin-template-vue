@@ -49,7 +49,7 @@
 
   const route = useRoute()
   const { containerMinHeight } = useAutoLayoutHeight()
-  const { pageTransition, refresh } = storeToRefs(useSettingStore())
+  const { refresh } = storeToRefs(useSettingStore())
   const { keepAliveExclude } = storeToRefs(useWorktabStore())
 
   const isRefresh = shallowRef(true)
@@ -63,11 +63,11 @@
   const isFullPage = computed(() => route.matched.some((r) => r.meta?.isFullPage))
   const prevIsFullPage = ref(isFullPage.value)
 
-  // 切换动画名称：首次加载、从全屏返回时不使用动画
+  // 切换动画名称：固定为 slide-left，首次加载、从全屏返回时不使用动画
   const actualTransition = computed(() => {
     if (isFirstLoad.value) return ''
     if (prevIsFullPage.value && !isFullPage.value) return ''
-    return pageTransition.value
+    return 'slide-left'
   })
 
   // 监听全屏状态变化，显示过渡遮罩

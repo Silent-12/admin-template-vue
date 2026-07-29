@@ -9,55 +9,6 @@ import { headerBarConfig } from '@/config/modules/headerBar'
 export function useSettingsConfig() {
   const { t } = useI18n()
 
-  // 标签页风格选项
-  const tabStyleOptions = computed(() => [
-    {
-      value: 'tab-default',
-      label: t('setting.tabStyle.default')
-    },
-    {
-      value: 'tab-card',
-      label: t('setting.tabStyle.card')
-    },
-    {
-      value: 'tab-google',
-      label: t('setting.tabStyle.google')
-    }
-  ])
-
-  // 页面切换动画选项
-  const pageTransitionOptions = computed(() => [
-    {
-      value: '',
-      label: t('setting.transition.list.none')
-    },
-    {
-      value: 'fade',
-      label: t('setting.transition.list.fade')
-    },
-    {
-      value: 'slide-left',
-      label: t('setting.transition.list.slideLeft')
-    },
-    {
-      value: 'slide-bottom',
-      label: t('setting.transition.list.slideBottom')
-    },
-    {
-      value: 'slide-top',
-      label: t('setting.transition.list.slideTop')
-    }
-  ])
-
-  // 圆角大小选项
-  const customRadiusOptions = [
-    { value: '0', label: '0' },
-    { value: '0.25', label: '0.25' },
-    { value: '0.5', label: '0.5' },
-    { value: '0.75', label: '0.75' },
-    { value: '1', label: '1' }
-  ]
-
   // 从配置文件获取的选项
   const configOptions = {
     // 主题色彩选项
@@ -129,56 +80,10 @@ export function useSettingsConfig() {
         headerBarKey: null // 不依赖headerBar配置
       },
       {
-        key: 'colorWeak',
-        label: t('setting.basics.list.weakMode'),
-        type: 'switch' as const,
-        handler: 'colorWeak',
-        headerBarKey: null // 不依赖headerBar配置
-      },
-      {
         key: 'watermarkVisible',
         label: t('setting.basics.list.watermark'),
         type: 'switch' as const,
         handler: 'watermark',
-        headerBarKey: null // 不依赖headerBar配置
-      },
-      {
-        key: 'menuOpenWidth',
-        label: t('setting.basics.list.menuWidth'),
-        type: 'input-number' as const,
-        handler: 'menuOpenWidth',
-        min: 180,
-        max: 320,
-        step: 10,
-        style: { width: '120px' },
-        controlsPosition: 'right' as const,
-        headerBarKey: null // 不依赖headerBar配置
-      },
-      {
-        key: 'tabStyle',
-        label: t('setting.basics.list.tabStyle'),
-        type: 'select' as const,
-        handler: 'tabStyle',
-        options: tabStyleOptions.value,
-        style: { width: '120px' },
-        headerBarKey: null // 不依赖headerBar配置
-      },
-      {
-        key: 'pageTransition',
-        label: t('setting.basics.list.pageTransition'),
-        type: 'select' as const,
-        handler: 'pageTransition',
-        options: pageTransitionOptions.value,
-        style: { width: '120px' },
-        headerBarKey: null // 不依赖headerBar配置
-      },
-      {
-        key: 'customRadius',
-        label: t('setting.basics.list.borderRadius'),
-        type: 'select' as const,
-        handler: 'customRadius',
-        options: customRadiusOptions,
-        style: { width: '120px' },
         headerBarKey: null // 不依赖headerBar配置
       }
     ]
@@ -203,9 +108,6 @@ export function useSettingsConfig() {
 
   return {
     // 选项配置
-    tabStyleOptions,
-    pageTransitionOptions,
-    customRadiusOptions,
     configOptions,
 
     // 设置项配置

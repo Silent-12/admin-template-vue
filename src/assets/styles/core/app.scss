@@ -23,12 +23,6 @@
   }
 }
 
-// 色弱模式
-.color-weak {
-  filter: invert(80%);
-  -webkit-filter: invert(80%);
-}
-
 #noop {
   display: none;
 }
@@ -74,6 +68,7 @@
 .ao-card,
 .ao-card-sm,
 .ao-card-xs {
+  background: var(--default-box-color);
   border: 1px solid var(--ao-card-border);
 }
 

@@ -7,7 +7,6 @@ import { SystemThemeEnum } from '@/enums/appEnum'
 import { mittBus } from '@/utils/sys'
 import { useTheme } from '@/hooks/core/useTheme'
 import { useCeremony } from '@/hooks/core/useCeremony'
-import { useSettingsState } from './useSettingsState'
 import { useSettingsHandlers } from './useSettingsHandlers'
 
 /**
@@ -20,7 +19,6 @@ export function useSettingsPanel() {
   // Composables
   const { openFestival } = useCeremony()
   const { setSystemTheme, setSystemAutoTheme } = useTheme()
-  const { initColorWeak } = useSettingsState()
   const { domOperations } = useSettingsHandlers()
 
   // 响应式状态
@@ -156,7 +154,6 @@ export function useSettingsPanel() {
       mittBus.on('openSetting', openSetting)
       themeHandlers.initSystemColor()
       themeCleanup = themeHandlers.listenerSystemTheme()
-      initColorWeak()
 
       themeHandlers.initSystemTheme()
       openFestival()

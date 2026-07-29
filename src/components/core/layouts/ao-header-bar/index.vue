@@ -1,17 +1,7 @@
 <!-- 顶部栏 -->
 <template>
-  <div
-    class="header-bar"
-    :class="{
-      'header-bar--card': tabStyle === 'tab-card' || tabStyle === 'tab-google'
-    }"
-  >
-    <div
-      class="header-bar__inner flex-b"
-      :class="{
-        'header-bar__inner--bordered': tabStyle === 'tab-card' || tabStyle === 'tab-google'
-      }"
-    >
+  <div class="header-bar">
+    <div class="header-bar__inner flex-b">
       <div class="header-bar__left flex-c">
         <AoLogo class="header-bar__logo-hidden" @click="toHome" />
 
@@ -181,8 +171,7 @@
     fastEnterMinWidth: headerBarFastEnterMinWidth
   } = useHeaderBar()
 
-  const { menuOpen, systemThemeColor, showSettingGuide, isDark, tabStyle } =
-    storeToRefs(settingStore)
+  const { menuOpen, systemThemeColor, showSettingGuide, isDark } = storeToRefs(settingStore)
 
   const { language } = storeToRefs(userStore)
 
@@ -416,16 +405,6 @@
   .header-bar {
     width: 100%;
     background: var(--default-bg-color);
-
-    // tab-card / tab-google 模式下：mb-5 max-sm:mb-3 !bg-box
-    &--card {
-      margin-bottom: 1.25rem;
-      background: var(--default-box-color) !important;
-
-      @media (width <= 39.99rem) {
-        margin-bottom: 0.75rem;
-      }
-    }
   }
 
   // relative box-border flex-b h-15 leading-15 select-none
@@ -436,11 +415,6 @@
     height: 3.75rem;
     line-height: 3.75rem;
     user-select: none;
-
-    // tab-card / tab-google 模式下：border-b border-[var(--ao-card-border)]
-    &--bordered {
-      border-bottom: 1px solid var(--ao-card-border);
-    }
   }
 
   // flex-c flex-1 min-w-0 leading-15

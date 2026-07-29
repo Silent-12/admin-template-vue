@@ -64,26 +64,7 @@
         "breadcrumb": "Show crumb navigation",
         "language": "Show multilingual selection",
         "progressBar": "Show top progress bar",
-        "weakMode": "Color Weakness Mode",
-        "watermark": "Global watermark",
-        "menuWidth": "Menu width",
-        "tabStyle": "Tab style",
-        "pageTransition": "Page animation",
-        "borderRadius": "Custom radius"
-      }
-    },
-    "tabStyle": {
-      "default": "Default",
-      "card": "Card",
-      "google": "Chrome"
-    },
-    "transition": {
-      "list": {
-        "none": "None",
-        "fade": "Fade",
-        "slideLeft": "Slide Left",
-        "slideBottom": "Slide Bottom",
-        "slideTop": "Slide Top"
+        "watermark": "Global watermark"
       }
     },
     "actions": {

@@ -33,12 +33,7 @@
     showWorkTab,
     showLanguage,
     showNprogress,
-    colorWeak,
-    watermarkVisible,
-    menuOpenWidth,
-    tabStyle,
-    pageTransition,
-    customRadius
+    watermarkVisible
   } = storeToRefs(settingStore)
 
   // 创建设置值映射
@@ -51,12 +46,7 @@
     showWorkTab,
     showLanguage,
     showNprogress,
-    colorWeak,
-    watermarkVisible,
-    menuOpenWidth,
-    tabStyle,
-    pageTransition,
-    customRadius
+    watermarkVisible
   }
 
   // 获取设置值的方法

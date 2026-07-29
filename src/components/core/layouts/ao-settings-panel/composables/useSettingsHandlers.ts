@@ -8,22 +8,6 @@ export function useSettingsHandlers() {
 
   // DOM 操作相关
   const domOperations = {
-    // 设置HTML类名
-    setHtmlClass: (className: string, add: boolean) => {
-      const el = document.getElementsByTagName('html')[0]
-      if (add) {
-        el.classList.add(className)
-      } else {
-        el.classList.remove(className)
-      }
-    },
-
-    // 设置根元素属性
-    setRootAttribute: (attribute: string, value: string) => {
-      const el = document.documentElement
-      el.setAttribute(attribute, value)
-    },
-
     // 设置body类名
     setBodyClass: (className: string, add: boolean) => {
       const el = document.getElementsByTagName('body')[0]
@@ -40,19 +24,6 @@ export function useSettingsHandlers() {
     return () => {
       storeMethod()
       callback?.()
-    }
-  }
-
-  // 通用值变更处理器
-  const createValueHandler = <T>(
-    storeMethod: (value: T) => void,
-    callback?: (value: T) => void
-  ) => {
-    return (value: T) => {
-      if (value !== undefined && value !== null) {
-        storeMethod(value)
-        callback?.(value)
-      }
     }
   }
 
@@ -82,35 +53,9 @@ export function useSettingsHandlers() {
     // 显示进度条
     nprogress: createToggleHandler(() => settingStore.setNprogress()),
 
-    // 色弱模式
-    colorWeak: createToggleHandler(
-      () => settingStore.setColorWeak(),
-      () => {
-        domOperations.setHtmlClass('color-weak', settingStore.colorWeak)
-      }
-    ),
-
     // 水印显示
     watermark: createToggleHandler(() =>
       settingStore.setWatermarkVisible(!settingStore.watermarkVisible)
-    ),
-
-    // 菜单展开宽度
-    menuOpenWidth: createValueHandler<number>((width: number) =>
-      settingStore.setMenuOpenWidth(width)
-    ),
-
-    // 标签页风格
-    tabStyle: createValueHandler<string>((style: string) => settingStore.setTabStyle(style)),
-
-    // 页面切换动画
-    pageTransition: createValueHandler<string>((transition: string) =>
-      settingStore.setPageTransition(transition)
-    ),
-
-    // 圆角大小
-    customRadius: createValueHandler<string>((radius: string) =>
-      settingStore.setCustomRadius(radius)
     )
   }
 
@@ -127,7 +72,6 @@ export function useSettingsHandlers() {
     domOperations,
     basicHandlers,
     colorHandlers,
-    createToggleHandler,
-    createValueHandler
+    createToggleHandler
   }
 }

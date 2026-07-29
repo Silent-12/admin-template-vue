@@ -80,7 +80,7 @@
   const router = useRouter()
   const settingStore = useSettingStore()
 
-  const { getMenuOpenWidth, uniqueOpened, menuOpen, getMenuTheme } = storeToRefs(settingStore)
+  const { uniqueOpened, menuOpen, getMenuTheme } = storeToRefs(settingStore)
 
   // 组件内部状态
   const defaultOpenedMenus = ref<string[]>([])
@@ -89,9 +89,6 @@
 
   // 使用 VueUse 的窗口尺寸监听
   const { width } = useWindowSize()
-
-  // 菜单宽度相关
-  const menuopenwidth = computed(() => getMenuOpenWidth.value)
 
   // 移动端屏幕判断（使用 computed 避免重复计算）
   const isMobileScreen = computed(() => width.value < MOBILE_BREAKPOINT)
@@ -205,7 +202,7 @@
   .layout-sidebar {
     // 展开的宽度
     .el-menu:not(.el-menu--collapse) {
-      width: v-bind(menuopenwidth);
+      width: 220px;
     }
 
     // 折叠后宽度

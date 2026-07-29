@@ -1,17 +1,9 @@
 <!-- 标签页 -->
 <template>
-  <div
-    v-if="showWorkTab"
-    class="work-tab flex-b"
-    :class="[
-      tabStyle === 'tab-card' ? 'work-tab--card' : '',
-      tabStyle === 'tab-google' ? 'work-tab--google' : ''
-    ]"
-  >
+  <div v-if="showWorkTab" class="work-tab flex-b">
     <div class="work-tab__scroll" ref="scrollRef">
       <ul
         class="work-tab__list"
-        :class="[tabStyle === 'tab-google' ? 'work-tab__list--google' : '']"
         ref="tabsRef"
         :style="{
           transform: `translateX(${scrollState.translateX}px)`,
@@ -23,16 +15,9 @@
           :class="[
             item.path === activeTab
               ? 'work-tab__item--active activ-tab'
-              : 'work-tab__item--inactive',
-            tabStyle === 'tab-google' ? 'google-tab' : ''
+              : 'work-tab__item--inactive'
           ]"
-          :style="{
-            padding: item.fixedTab ? '0 10px' : '0 8px 0 12px',
-            borderRadius:
-              tabStyle === 'tab-google'
-                ? 'calc(var(--custom-radius) / 2.5 + 4px) !important'
-                : 'calc(var(--custom-radius) / 2.5 + 2px) !important'
-          }"
+          :style="{ padding: item.fixedTab ? '0 10px' : '0 8px 0 12px' }"
           v-for="(item, index) in list"
           :key="item.path"
           :ref="item.path"
@@ -49,7 +34,6 @@
           >
             <AoSvgIcon icon="ri:close-large-fill" class="work-tab__close-icon" />
           </span>
-          <div v-if="tabStyle === 'tab-google'" class="line" />
         </li>
       </ul>
     </div>
@@ -57,10 +41,6 @@
     <div class="work-tab__actions">
       <div
         class="work-tab__menu-btn flex-cc ao-card-xs c-p tad-200"
-        :style="{
-          borderRadius: 'calc(var(--custom-radius) / 2.5 + 0px)',
-          marginTop: tabStyle === 'tab-google' ? '-2px' : ''
-        }"
         @click="(e: MouseEvent) => showMenu(e, activeTab)"
       >
         <AoSvgIcon icon="iconamoon:arrow-down-2-thin" class="work-tab__menu-icon" />
@@ -114,7 +94,7 @@
   const router = useRouter()
   const { currentRoute } = router
   const settingStore = useSettingStore()
-  const { tabStyle, showWorkTab } = storeToRefs(settingStore)
+  const { showWorkTab } = storeToRefs(settingStore)
 
   // DOM 引用
   const scrollRef = ref<HTMLElement | null>(null)
@@ -484,20 +464,6 @@
     padding-left: 1.25rem; // px-5
     margin-bottom: 0.75rem; // mb-3
     user-select: none; // select-none
-
-    // tab-card: py-1 border-b border-[var(--ao-card-border)]
-    &--card {
-      padding-top: 0.25rem; // py-1
-      padding-bottom: 0.25rem;
-      border-bottom: 1px solid var(--ao-card-border);
-    }
-
-    // tab-google: pt-1 pb-0 border-b border-[var(--ao-card-border)]
-    &--google {
-      padding-top: 0.25rem; // pt-1
-      padding-bottom: 0; // pb-0
-      border-bottom: 1px solid var(--ao-card-border);
-    }
   }
 
   // 滚动容器：w-full overflow-hidden
@@ -512,11 +478,6 @@
     float: left;
     white-space: nowrap;
     background: transparent !important;
-
-    // tab-google: pl-1
-    &--google {
-      padding-left: 0.25rem; // pl-1
-    }
   }
 
   // ==================== 标签项 ====================
@@ -528,6 +489,7 @@
     margin-right: 0.375rem; // mr-1.5
     font-size: 0.75rem; // text-xs
     line-height: 1rem;
+    border-radius: calc(var(--custom-radius) / 2.5 + 2px) !important;
 
     // hover:text-theme + group-hover:text-theme（作用于 icon）
     &:hover {
@@ -593,22 +555,6 @@
     color: var(--ao-gray-600);
   }
 
-  // ==================== 装饰线（google-tab 内） ====================
-  // absolute top-0 bottom-0 left-0 w-px h-4 my-auto bg-g-400 transition-opacity duration-150
-  .work-tab .line {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 1px; // w-px
-    height: 1rem; // h-4
-    margin-top: auto; // my-auto
-    margin-bottom: auto;
-    background: var(--ao-gray-400); // bg-g-400
-    transition-duration: 150ms; // duration-150
-    transition-property: opacity; // transition-opacity
-  }
-
   // ==================== 右侧操作区 ====================
   // flex
   .work-tab__actions {
@@ -624,6 +570,7 @@
     height: 2rem; // size-8
     line-height: 2rem; // leading-8
     text-align: center;
+    border-radius: calc(var(--custom-radius) / 2.5);
 
     &:hover {
       background: var(--ao-hover-color) !important; // hover:!bg-hover-color
@@ -635,110 +582,6 @@
     font-size: 1.5rem; // text-2xl
     line-height: 2rem;
     color: var(--ao-gray-700); // text-g-700
-  }
-
-  // ==================== Google 风格标签 ====================
-  // google-tab relative !h-8 !leading-8 !border-none
-  .google-tab {
-    position: relative;
-    height: 2rem !important; // !h-8
-    line-height: 2rem !important; // !leading-8
-    border: none !important; // !border-none
-
-    // 激活状态
-    &.activ-tab {
-      color: var(--theme-color) !important;
-      background-color: var(--el-color-primary-light-9) !important;
-      border-bottom: 0 !important;
-      border-bottom-right-radius: 0 !important;
-      border-bottom-left-radius: 0 !important;
-
-      &::before,
-      &::after {
-        position: absolute;
-        bottom: 0;
-        width: 20px;
-        height: 20px;
-        content: '';
-        border-radius: 50%;
-        box-shadow: 0 0 0 30px var(--el-color-primary-light-9);
-      }
-
-      &::before {
-        left: -20px;
-        clip-path: inset(50% -10px 0 50%);
-      }
-
-      &::after {
-        right: -20px;
-        clip-path: inset(50% 50% 0 -10px);
-      }
-    }
-
-    // 非激活 hover 状态
-    &:not(.activ-tab):hover {
-      box-sizing: border-box;
-      color: var(--ao-gray-600) !important;
-      background-color: var(--ao-gray-200) !important;
-      border-bottom: 1px solid var(--default-box-color) !important;
-      border-radius: calc(var(--custom-radius) / 2.5 + 4px) !important;
-    }
-
-    // 装饰线显隐
-    &:hover .line,
-    &.activ-tab .line,
-    &:first-child .line {
-      opacity: 0;
-    }
-
-    &:hover + .google-tab .line,
-    &.activ-tab + .google-tab .line {
-      opacity: 0;
-    }
-
-    // 伪元素基础样式
-    &::before,
-    &::after {
-      position: absolute;
-      bottom: 0;
-      width: 20px;
-      height: 20px;
-      content: '';
-      border-radius: 50%;
-      box-shadow: 0 0 0 30px transparent;
-    }
-
-    &::before {
-      left: -20px;
-      clip-path: inset(50% -10px 0 50%);
-    }
-
-    &::after {
-      right: -20px;
-      clip-path: inset(50% 50% 0 -10px);
-    }
-
-    // 图标 hover
-    i:hover {
-      color: var(--ao-gray-700);
-      background: var(--ao-gray-300);
-    }
-  }
-
-  // 暗黑模式下 google-tab 激活状态
-  .dark .google-tab.activ-tab {
-    color: var(--ao-gray-800) !important;
-    background-color: var(--ao-hover-color) !important;
-
-    &::before,
-    &::after {
-      box-shadow: 0 0 0 30px var(--ao-hover-color);
-    }
-  }
-
-  // 暗黑模式下 google-tab 非激活 hover 状态
-  .dark .google-tab:not(.activ-tab):hover {
-    background-color: var(--ao-hover-color) !important;
   }
 
   // ==================== 响应式 ====================

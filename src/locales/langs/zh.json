@@ -64,26 +64,7 @@
         "breadcrumb": "显示全局面包屑导航",
         "language": "显示多语言选择",
         "progressBar": "显示顶部进度条",
-        "weakMode": "色弱模式",
-        "watermark": "全局水印",
-        "menuWidth": "菜单宽度",
-        "tabStyle": "标签页风格",
-        "pageTransition": "页面切换动画",
-        "borderRadius": "自定义圆角"
-      }
-    },
-    "tabStyle": {
-      "default": "默认",
-      "card": "卡片",
-      "google": "谷歌"
-    },
-    "transition": {
-      "list": {
-        "none": "无动画",
-        "fade": "淡入淡出",
-        "slideLeft": "左侧滑入",
-        "slideBottom": "下方滑入",
-        "slideTop": "上方滑入"
+        "watermark": "全局水印"
       }
     },
     "actions": {

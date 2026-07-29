@@ -27,8 +27,6 @@ import { SystemThemeEnum, MenuThemeEnum } from '@/enums/appEnum'
  * 系统设置默认值配置
  */
 export const SETTING_DEFAULT_CONFIG = {
-  /** 菜单展开宽度 */
-  menuOpenWidth: 230,
   /** 菜单是否展开 */
   menuOpen: true,
   /** 系统主题类型 */
@@ -59,16 +57,8 @@ export const SETTING_DEFAULT_CONFIG = {
   watermarkVisible: false,
   /** 是否唯一展开 */
   uniqueOpened: true,
-  /** 是否色弱模式 */
-  colorWeak: false,
   /** 是否刷新 */
   refresh: false,
-  /** 页面过渡效果 */
-  pageTransition: 'slide-left',
-  /** 标签页样式 */
-  tabStyle: 'tab-default',
-  /** 自定义圆角 */
-  customRadius: '0.75',
   /** 节日日期 */
   festivalDate: ''
 }
