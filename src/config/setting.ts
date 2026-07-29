@@ -58,9 +58,7 @@ export const SETTING_DEFAULT_CONFIG = {
   /** 是否唯一展开 */
   uniqueOpened: true,
   /** 是否刷新 */
-  refresh: false,
-  /** 节日日期 */
-  festivalDate: ''
+  refresh: false
 }
 
 /**

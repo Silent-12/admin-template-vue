@@ -64,8 +64,7 @@
     { comment: '是否显示设置引导', key: 'showSettingGuide' },
     { comment: '是否显示水印', key: 'watermarkVisible' },
     { comment: '是否唯一展开', key: 'uniqueOpened' },
-    { comment: '是否刷新', key: 'refresh' },
-    { comment: '节日日期', key: 'festivalDate', forceValue: '' }
+    { comment: '是否刷新', key: 'refresh' }
   ]
 
   /**
@@ -179,9 +178,6 @@
       toggleIfDifferent(settingStore.uniqueOpened, config.uniqueOpened, () =>
         settingStore.setUniqueOpened()
       )
-
-      // 节日相关
-      settingStore.setFestivalDate(config.festivalDate)
 
       location.reload()
     } catch (error) {
