@@ -1,9 +1,6 @@
 <!-- 设置操作按钮 -->
 <template>
   <div class="setting-actions">
-    <ElButton type="primary" class="action-button" @click="handleCopyConfig">
-      {{ $t('setting.actions.copyConfig') }}
-    </ElButton>
     <ElButton type="danger" plain class="action-button" @click="handleResetConfig">
       {{ $t('setting.actions.resetConfig') }}
     </ElButton>
@@ -14,7 +11,6 @@
   import { nextTick } from 'vue'
   import { useSettingStore } from '@/store/modules/setting'
   import { SETTING_DEFAULT_CONFIG } from '@/config/setting'
-  import { useClipboard } from '@vueuse/core'
   import { useI18n } from 'vue-i18n'
   import { MenuThemeEnum } from '@/enums/appEnum'
   import { useTheme } from '@/hooks/core/useTheme'
@@ -23,104 +19,7 @@
 
   const { t } = useI18n()
   const settingStore = useSettingStore()
-  const { copy, copied } = useClipboard()
   const { switchThemeStyles } = useTheme()
-
-  /** 枚举映射表 */
-  const ENUM_MAPS = {
-    systemTheme: {
-      auto: 'SystemThemeEnum.AUTO',
-      light: 'SystemThemeEnum.LIGHT',
-      dark: 'SystemThemeEnum.DARK'
-    },
-    menuTheme: {
-      design: 'MenuThemeEnum.DESIGN',
-      light: 'MenuThemeEnum.LIGHT',
-      dark: 'MenuThemeEnum.DARK'
-    }
-  } as const
-
-  /** 配置项定义 */
-  interface ConfigItem {
-    comment: string
-    key: keyof typeof settingStore
-    enumMap?: Record<string, string>
-    forceValue?: any
-  }
-
-  const CONFIG_ITEMS: ConfigItem[] = [
-    { comment: '菜单是否展开', key: 'menuOpen' },
-    { comment: '系统主题类型', key: 'systemThemeType', enumMap: ENUM_MAPS.systemTheme },
-    { comment: '系统主题模式', key: 'systemThemeMode', enumMap: ENUM_MAPS.systemTheme },
-    { comment: '菜单风格', key: 'menuThemeType', enumMap: ENUM_MAPS.menuTheme },
-    { comment: '系统主题颜色', key: 'systemThemeColor' },
-    { comment: '是否显示菜单按钮', key: 'showMenuButton' },
-    { comment: '是否显示快速入口', key: 'showFastEnter' },
-    { comment: '是否显示刷新按钮', key: 'showRefreshButton' },
-    { comment: '是否显示面包屑', key: 'showCrumbs' },
-    { comment: '是否显示工作台标签', key: 'showWorkTab' },
-    { comment: '是否显示语言切换', key: 'showLanguage' },
-    { comment: '是否显示进度条', key: 'showNprogress' },
-    { comment: '是否显示设置引导', key: 'showSettingGuide' },
-    { comment: '是否显示水印', key: 'watermarkVisible' },
-    { comment: '是否唯一展开', key: 'uniqueOpened' },
-    { comment: '是否刷新', key: 'refresh' }
-  ]
-
-  /**
-   * 将值转换为代码字符串
-   */
-  const valueToCode = (value: any, enumMap?: Record<string, string>): string => {
-    if (value === null) return 'null'
-    if (value === undefined) return 'undefined'
-
-    // 优先查找枚举映射
-    if (enumMap && typeof value === 'string' && enumMap[value]) {
-      return enumMap[value]
-    }
-
-    // 其他类型处理
-    if (typeof value === 'string') return `'${value}'`
-    if (typeof value === 'boolean' || typeof value === 'number') return String(value)
-
-    return JSON.stringify(value)
-  }
-
-  /**
-   * 生成配置代码
-   */
-  const generateConfigCode = (): string => {
-    const lines = ['export const SETTING_DEFAULT_CONFIG = {']
-
-    CONFIG_ITEMS.forEach((item) => {
-      lines.push(`  /** ${item.comment} */`)
-      const value = item.forceValue !== undefined ? item.forceValue : settingStore[item.key]
-      lines.push(`  ${String(item.key)}: ${valueToCode(value, item.enumMap)},`)
-    })
-
-    lines.push('}')
-    return lines.join('\n')
-  }
-
-  /**
-   * 复制配置到剪贴板
-   */
-  const handleCopyConfig = async () => {
-    try {
-      const configText = generateConfigCode()
-      await copy(configText)
-
-      if (copied.value) {
-        ElMessage.success({
-          message: t('setting.actions.copySuccess'),
-          duration: 3000
-        })
-      }
-    } catch (error) {
-      console.error('复制配置失败:', error)
-      ElMessage.error(t('setting.actions.copyFailed'))
-    }
-  }
 
   /**
    * 切换布尔值配置（如果当前值与默认值不同）

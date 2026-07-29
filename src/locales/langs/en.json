@@ -63,9 +63,6 @@
     },
     "actions": {
       "resetConfig": "Reset Config",
-      "copyConfig": "Copy Config",
-      "copySuccess": "Configuration copied to clipboard, paste it into src/config/setting.ts file",
-      "copyFailed": "Copy failed, please try again",
       "resetFailed": "Reset failed, please refresh the page and try again"
     }
   },
