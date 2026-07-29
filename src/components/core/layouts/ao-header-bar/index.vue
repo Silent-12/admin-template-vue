@@ -91,6 +91,14 @@
           <div class="notice-dot"></div>
         </AoIconButton>
 
+        <!-- 设置按钮 -->
+        <AoIconButton
+          v-if="shouldShowSettings"
+          icon="ri:settings-line"
+          class="setting-btn"
+          @click="openSetting"
+        />
+
         <!-- 主题切换按钮 -->
         <AoIconButton
           v-if="shouldShowThemeToggle"
@@ -147,6 +155,7 @@
     shouldShowFullscreen,
     shouldShowNotification,
     shouldShowLanguage,
+    shouldShowSettings,
     shouldShowThemeToggle,
     fastEnterMinWidth: headerBarFastEnterMinWidth
   } = useHeaderBar()
@@ -226,6 +235,13 @@
    */
   const openSearchDialog = (): void => {
     mittBus.emit('openSearchDialog')
+  }
+
+  /**
+   * 打开设置面板
+   */
+  const openSetting = (): void => {
+    mittBus.emit('openSetting')
   }
 
   /**
@@ -349,6 +365,10 @@
 
   .notice-button:hover :deep(.ao-svg-icon) {
     animation: shake 0.5s ease-in-out;
+  }
+
+  .setting-btn:hover :deep(.ao-svg-icon) {
+    animation: rotate180 0.5s;
   }
 
   /* iPad breakpoint adjustments */
