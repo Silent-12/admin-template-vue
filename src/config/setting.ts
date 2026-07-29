@@ -69,8 +69,6 @@ export const SETTING_DEFAULT_CONFIG = {
   refresh: false,
   /** 是否加载节日烟花 */
   holidayFireworksLoaded: false,
-  /** 边框模式 */
-  boxBorderMode: true,
   /** 页面过渡效果 */
   pageTransition: 'slide-left',
   /** 标签页样式 */

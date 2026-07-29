@@ -97,8 +97,6 @@ export const useSettingStore = defineStore(
     const holidayFireworksLoaded = ref(SETTING_DEFAULT_CONFIG.holidayFireworksLoaded)
 
     // 样式设置
-    /** 边框模式 */
-    const boxBorderMode = ref(SETTING_DEFAULT_CONFIG.boxBorderMode)
     /** 页面过渡效果 */
     const pageTransition = ref(SETTING_DEFAULT_CONFIG.pageTransition)
     /** 标签页样式 */
@@ -188,13 +186,6 @@ export const useSettingStore = defineStore(
     const setElementTheme = (theme: string) => {
       systemThemeColor.value = theme
       setElementThemeColor(theme)
-    }
-
-    /**
-     * 切换边框模式
-     */
-    const setBorderMode = () => {
-      boxBorderMode.value = !boxBorderMode.value
     }
 
     /**
@@ -364,7 +355,6 @@ export const useSettingStore = defineStore(
       systemThemeMode,
       menuThemeType,
       systemThemeColor,
-      boxBorderMode,
       uniqueOpened,
       showMenuButton,
       showFastEnter,
@@ -395,7 +385,6 @@ export const useSettingStore = defineStore(
       setGlopTheme,
       switchMenuStyles,
       setElementTheme,
-      setBorderMode,
       setContainerWidth,
       setUniqueOpened,
       setButton,

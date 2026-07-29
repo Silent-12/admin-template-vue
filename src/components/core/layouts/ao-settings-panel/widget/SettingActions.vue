@@ -74,7 +74,6 @@
     { comment: '是否色弱模式', key: 'colorWeak' },
     { comment: '是否刷新', key: 'refresh' },
     { comment: '是否加载节日烟花', key: 'holidayFireworksLoaded' },
-    { comment: '边框模式', key: 'boxBorderMode' },
     { comment: '页面过渡效果', key: 'pageTransition' },
     { comment: '标签页样式', key: 'tabStyle' },
     { comment: '自定义圆角', key: 'customRadius' },
@@ -201,9 +200,6 @@
       toggleIfDifferent(settingStore.colorWeak, config.colorWeak, () => settingStore.setColorWeak())
 
       // 样式设置
-      toggleIfDifferent(settingStore.boxBorderMode, config.boxBorderMode, () =>
-        settingStore.setBorderMode()
-      )
       settingStore.setPageTransition(config.pageTransition)
       settingStore.setTabStyle(config.tabStyle)
       settingStore.setCustomRadius(config.customRadius)

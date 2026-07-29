@@ -1,5 +1,4 @@
 import { useSettingStore } from '@/store/modules/setting'
-import { storeToRefs } from 'pinia'
 import type { ContainerWidthEnum } from '@/enums/appEnum'
 
 /**
@@ -116,27 +115,6 @@ export function useSettingsHandlers() {
     )
   }
 
-  // 盒子样式处理器
-  const boxStyleHandlers = {
-    // 设置盒子模式
-    setBoxMode: (type: 'border-mode' | 'shadow-mode') => {
-      const { boxBorderMode } = storeToRefs(settingStore)
-
-      // 防止重复设置
-      if (
-        (type === 'shadow-mode' && boxBorderMode.value === false) ||
-        (type === 'border-mode' && boxBorderMode.value === true)
-      ) {
-        return
-      }
-
-      setTimeout(() => {
-        domOperations.setRootAttribute('data-box-mode', type)
-        settingStore.setBorderMode()
-      }, 50)
-    }
-  }
-
   // 颜色设置处理器
   const colorHandlers = {
     // 选择主题色
@@ -158,7 +136,6 @@ export function useSettingsHandlers() {
   return {
     domOperations,
     basicHandlers,
-    boxStyleHandlers,
     colorHandlers,
     containerHandlers,
     createToggleHandler,

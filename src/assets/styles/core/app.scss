@@ -71,76 +71,10 @@
   border: 1px solid var(--ao-card-border) !important;
 }
 
-@mixin ao-card-base($border-color, $shadow: none, $radius-diff: 4px) {
-  background: var(--default-box-color);
-  border: 1px solid #{$border-color} !important;
-  border-radius: calc(var(--custom-radius) + #{$radius-diff}) !important;
-  box-shadow: #{$shadow} !important;
-
-  --el-card-border-color: var(--default-border) !important;
-}
-
 .ao-card,
 .ao-card-sm,
 .ao-card-xs {
   border: 1px solid var(--ao-card-border);
-}
-
-// 盒子边框
-[data-box-mode='border-mode'] {
-  .page-content,
-  .ao-table-card {
-    border: 1px solid var(--ao-card-border) !important;
-  }
-
-  .ao-card {
-    @include ao-card-base(var(--ao-card-border), none, 4px);
-  }
-
-  .ao-card-sm {
-    @include ao-card-base(var(--ao-card-border), none, 0px);
-  }
-
-  .ao-card-xs {
-    @include ao-card-base(var(--ao-card-border), none, -4px);
-  }
-}
-
-// 盒子阴影
-[data-box-mode='shadow-mode'] {
-  .page-content,
-  .ao-table-card {
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.04) !important;
-    border: 1px solid var(--ao-gray-200) !important;
-  }
-
-  .layout-sidebar {
-    border-right: 1px solid var(--ao-card-border) !important;
-  }
-
-  .ao-card {
-    @include ao-card-base(
-      var(--ao-gray-200),
-      (0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.08)),
-      4px
-    );
-  }
-
-  .ao-card-sm {
-    @include ao-card-base(
-      var(--ao-gray-200),
-      (0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.08)),
-      2px
-    );
-  }
-
-  .ao-card-xs {
-    @include ao-card-base(
-      var(--ao-gray-200),
-      (0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 1px -1px rgba(0, 0, 0, 0.08)),
-      -4px
-    );
-  }
 }
 
 // 元素全屏

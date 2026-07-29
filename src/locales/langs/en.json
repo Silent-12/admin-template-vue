@@ -53,10 +53,6 @@
     "color": {
       "title": "Theme Color"
     },
-    "box": {
-      "title": "Box Style",
-      "list": ["Border", "Shadow"]
-    },
     "container": {
       "title": "Container Width",
       "list": ["Full", "Boxed"]

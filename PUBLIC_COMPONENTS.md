@@ -56,7 +56,7 @@
 | AoHeaderBar | [ao-header-bar/index.vue](src/components/core/layouts/ao-header-bar/index.vue) | 顶部栏，整合 Logo、菜单按钮、刷新、快速入口、面包屑、搜索、全屏、通知、设置、用户菜单（含子组件 AoUserMenu） | 无 |
 | AoNotification | [ao-notification/index.vue](src/components/core/layouts/ao-notification/index.vue) | 通知面板，三 Tab（通知/消息/待办）切换 | `show?`、`visible?` |
 | AoPageContent | [ao-page-content/index.vue](src/components/core/layouts/ao-page-content/index.vue) | 主内容区容器，承载 RouterView、KeepAlive、页面切换动画、全屏过渡遮罩 | 无 |
-| AoSettingsPanel | [ao-settings-panel/index.vue](src/components/core/layouts/ao-settings-panel/index.vue) | 设置抽屉，聚合主题/菜单风格/主题色/盒子样式/容器宽度/基础配置等子面板 | `open?`；事件 `open`、`close` |
+| AoSettingsPanel | [ao-settings-panel/index.vue](src/components/core/layouts/ao-settings-panel/index.vue) | 设置抽屉，聚合主题/菜单风格/主题色/容器宽度/基础配置等子面板 | `open?`；事件 `open`、`close` |
 | AoWorkTab | [ao-work-tab/index.vue](src/components/core/layouts/ao-work-tab/index.vue) | 多标签页（工作标签），支持横向滚动、固定、关闭、右键菜单、Google/Card 风格 | 无 |
 | AoSidebarMenu | [ao-menus/ao-sidebar-menu/index.vue](src/components/core/layouts/ao-menus/ao-sidebar-menu/index.vue) | 左侧菜单 | 无 |
 

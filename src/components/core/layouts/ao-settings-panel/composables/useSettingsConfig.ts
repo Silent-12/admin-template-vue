@@ -73,20 +73,6 @@ export function useSettingsConfig() {
     }
   ])
 
-  // 盒子样式选项
-  const boxStyleOptions = computed(() => [
-    {
-      value: 'border-mode',
-      label: t('setting.box.list[0]'),
-      type: 'border-mode' as const
-    },
-    {
-      value: 'shadow-mode',
-      label: t('setting.box.list[1]'),
-      type: 'shadow-mode' as const
-    }
-  ])
-
   // 从配置文件获取的选项
   const configOptions = {
     // 主题色彩选项
@@ -236,7 +222,6 @@ export function useSettingsConfig() {
     pageTransitionOptions,
     customRadiusOptions,
     containerWidthOptions,
-    boxStyleOptions,
     configOptions,
 
     // 设置项配置
