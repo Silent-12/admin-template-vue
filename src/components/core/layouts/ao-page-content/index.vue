@@ -1,10 +1,6 @@
 <!-- 布局内容 -->
 <template>
-  <div
-    class="layout-content"
-    :class="{ 'layout-content--full-page': isFullPage }"
-    :style="containerStyle"
-  >
+  <div class="layout-content" :class="{ 'layout-content--full-page': isFullPage }">
     <div id="app-content-header">
       <!-- 路由信息调试 -->
       <div v-if="isOpenRouteInfo === 'true'" class="route-info-debug border-full-d">
@@ -53,7 +49,7 @@
 
   const route = useRoute()
   const { containerMinHeight } = useAutoLayoutHeight()
-  const { pageTransition, containerWidth, refresh } = storeToRefs(useSettingStore())
+  const { pageTransition, refresh } = storeToRefs(useSettingStore())
   const { keepAliveExclude } = storeToRefs(useWorktabStore())
 
   const isRefresh = shallowRef(true)
@@ -89,22 +85,6 @@
     })
   })
 
-  const containerStyle = computed((): CSSProperties =>
-    isFullPage.value
-      ? {
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100vh',
-          zIndex: 2500,
-          background: 'var(--default-bg-color)'
-        }
-      : {
-          maxWidth: containerWidth.value
-        }
-  )
-
   const contentStyle = computed((): CSSProperties => ({
     minHeight: containerMinHeight.value
   }))
@@ -128,9 +108,16 @@
 </script>
 
 <style scoped lang="scss">
-  // 全屏页面模式：原 overflow-auto
+  // 全屏页面模式
   .layout-content--full-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2500;
+    width: 100%;
+    height: 100vh;
     overflow: auto;
+    background: var(--default-bg-color);
   }
 
   // 路由信息调试条：原 px-2 py-1.5 mb-3 text-sm text-g-500 bg-g-200 rounded-md

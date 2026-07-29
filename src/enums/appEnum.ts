@@ -6,7 +6,6 @@
  * - 主题类型枚举（亮色、暗色、自动）
  * - 菜单主题枚举（设计、亮色、暗色）
  * - 语言类型枚举（中文、英文）
- * - 容器宽度枚举（全屏、固定）
  * - 菜单宽度枚举（收起宽度）
  *
  * @module enums/appEnum
@@ -53,14 +52,4 @@ export enum LanguageEnum {
   ZH = 'zh',
   /** 英文 */
   EN = 'en'
-}
-
-/**
- * 容器宽度
- */
-export enum ContainerWidthEnum {
-  /** 全屏宽度 */
-  FULL = '100%',
-  /** 固定宽度 */
-  BOXED = '1200px'
 }

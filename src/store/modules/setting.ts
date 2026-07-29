@@ -9,7 +9,7 @@
  * - 菜单主题样式配置
  * - 界面显示开关（面包屑、标签页、语言切换等）
  * - 功能开关（手风琴模式、色弱模式、水印等）
- * - 样式配置（边框、圆角、容器宽度、页面过渡）
+ * - 样式配置（圆角、页面过渡）
  * - 节日功能配置
  * - Element Plus 主题色动态设置
  *
@@ -33,7 +33,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { MenuThemeType } from '@/types/store'
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum, ContainerWidthEnum } from '@/enums/appEnum'
+import { SystemThemeEnum, MenuThemeEnum } from '@/enums/appEnum'
 import { setElementThemeColor } from '@/utils/ui'
 import { useCeremony } from '@/hooks/core/useCeremony'
 import { StorageConfig } from '@/utils'
@@ -79,22 +79,16 @@ export const useSettingStore = defineStore(
     const showNprogress = ref(SETTING_DEFAULT_CONFIG.showNprogress)
     /** 是否显示设置引导 */
     const showSettingGuide = ref(SETTING_DEFAULT_CONFIG.showSettingGuide)
-    /** 是否显示节日文本 */
-    const showFestivalText = ref(SETTING_DEFAULT_CONFIG.showFestivalText)
     /** 是否显示水印 */
     const watermarkVisible = ref(SETTING_DEFAULT_CONFIG.watermarkVisible)
 
     // 功能设置
-    /** 是否自动关闭 */
-    const autoClose = ref(SETTING_DEFAULT_CONFIG.autoClose)
     /** 是否唯一展开 */
     const uniqueOpened = ref(SETTING_DEFAULT_CONFIG.uniqueOpened)
     /** 是否色弱模式 */
     const colorWeak = ref(SETTING_DEFAULT_CONFIG.colorWeak)
     /** 是否刷新 */
     const refresh = ref(SETTING_DEFAULT_CONFIG.refresh)
-    /** 是否加载节日烟花 */
-    const holidayFireworksLoaded = ref(SETTING_DEFAULT_CONFIG.holidayFireworksLoaded)
 
     // 样式设置
     /** 页面过渡效果 */
@@ -103,8 +97,6 @@ export const useSettingStore = defineStore(
     const tabStyle = ref(SETTING_DEFAULT_CONFIG.tabStyle)
     /** 自定义圆角 */
     const customRadius = ref(SETTING_DEFAULT_CONFIG.customRadius)
-    /** 容器宽度 */
-    const containerWidth = ref(SETTING_DEFAULT_CONFIG.containerWidth)
 
     // 节日相关
     /** 节日日期 */
@@ -135,13 +127,6 @@ export const useSettingStore = defineStore(
      */
     const getMenuOpenWidth = computed((): string => {
       return menuOpenWidth.value + 'px' || SETTING_DEFAULT_CONFIG.menuOpenWidth + 'px'
-    })
-
-    /**
-     * 获取自定义圆角
-     */
-    const getCustomRadius = computed((): string => {
-      return customRadius.value + 'rem' || SETTING_DEFAULT_CONFIG.customRadius + 'rem'
     })
 
     /**
@@ -189,14 +174,6 @@ export const useSettingStore = defineStore(
     }
 
     /**
-     * 设置容器宽度
-     * @param width 容器宽度枚举值
-     */
-    const setContainerWidth = (width: ContainerWidthEnum) => {
-      containerWidth.value = width
-    }
-
-    /**
      * 切换唯一展开模式
      */
     const setUniqueOpened = () => {
@@ -215,13 +192,6 @@ export const useSettingStore = defineStore(
      */
     const setFastEnter = () => {
       showFastEnter.value = !showFastEnter.value
-    }
-
-    /**
-     * 切换自动关闭
-     */
-    const setAutoClose = () => {
-      autoClose.value = !autoClose.value
     }
 
     /**
@@ -329,22 +299,6 @@ export const useSettingStore = defineStore(
       document.documentElement.style.setProperty('--custom-radius', `${radius}rem`)
     }
 
-    /**
-     * 设置节日烟花加载状态
-     * @param isLoad 是否已加载
-     */
-    const setholidayFireworksLoaded = (isLoad: boolean) => {
-      holidayFireworksLoaded.value = isLoad
-    }
-
-    /**
-     * 设置节日文本显示
-     * @param show 是否显示
-     */
-    const setShowFestivalText = (show: boolean) => {
-      showFestivalText.value = show
-    }
-
     const setFestivalDate = (date: string) => {
       festivalDate.value = date
     }
@@ -360,7 +314,6 @@ export const useSettingStore = defineStore(
       showFastEnter,
       showRefreshButton,
       showCrumbs,
-      autoClose,
       showWorkTab,
       showLanguage,
       showNprogress,
@@ -372,24 +325,18 @@ export const useSettingStore = defineStore(
       refresh,
       watermarkVisible,
       customRadius,
-      holidayFireworksLoaded,
-      showFestivalText,
       festivalDate,
-      containerWidth,
       getMenuTheme,
       isDark,
       getMenuOpenWidth,
-      getCustomRadius,
       isShowFireworks,
       setMenuOpenWidth,
       setGlopTheme,
       switchMenuStyles,
       setElementTheme,
-      setContainerWidth,
       setUniqueOpened,
       setButton,
       setFastEnter,
-      setAutoClose,
       setShowRefreshButton,
       setCrumbs,
       setWorkTab,
@@ -404,8 +351,6 @@ export const useSettingStore = defineStore(
       reload,
       setWatermarkVisible,
       setCustomRadius,
-      setholidayFireworksLoaded,
-      setShowFestivalText,
       setFestivalDate
     }
   },

@@ -1,6 +1,5 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ContainerWidthEnum } from '@/enums/appEnum'
 import AppConfig from '@/config'
 import { headerBarConfig } from '@/config/modules/headerBar'
 
@@ -58,20 +57,6 @@ export function useSettingsConfig() {
     { value: '0.75', label: '0.75' },
     { value: '1', label: '1' }
   ]
-
-  // 容器宽度选项
-  const containerWidthOptions = computed(() => [
-    {
-      value: ContainerWidthEnum.FULL,
-      label: t('setting.container.list[0]'),
-      icon: 'icon-park-outline:auto-width'
-    },
-    {
-      value: ContainerWidthEnum.BOXED,
-      label: t('setting.container.list[1]'),
-      icon: 'ix:width'
-    }
-  ])
 
   // 从配置文件获取的选项
   const configOptions = {
@@ -221,7 +206,6 @@ export function useSettingsConfig() {
     tabStyleOptions,
     pageTransitionOptions,
     customRadiusOptions,
-    containerWidthOptions,
     configOptions,
 
     // 设置项配置

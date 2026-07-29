@@ -1,5 +1,4 @@
 import { useSettingStore } from '@/store/modules/setting'
-import type { ContainerWidthEnum } from '@/enums/appEnum'
 
 /**
  * 设置项通用处理逻辑
@@ -124,20 +123,10 @@ export function useSettingsHandlers() {
     }
   }
 
-  // 容器设置处理器
-  const containerHandlers = {
-    // 设置容器宽度
-    setWidth: (type: ContainerWidthEnum) => {
-      settingStore.setContainerWidth(type)
-      settingStore.reload()
-    }
-  }
-
   return {
     domOperations,
     basicHandlers,
     colorHandlers,
-    containerHandlers,
     createToggleHandler,
     createValueHandler
   }

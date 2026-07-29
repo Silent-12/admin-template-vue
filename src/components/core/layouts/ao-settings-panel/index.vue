@@ -10,8 +10,6 @@
       <MenuStyleSettings />
       <!-- 系统主题色 -->
       <ColorSettings />
-      <!-- 容器宽度 -->
-      <ContainerSettings />
       <!-- 基础配置 -->
       <BasicSettings />
       <!-- 操作按钮 -->
@@ -28,7 +26,6 @@
   import ThemeSettings from './widget/ThemeSettings.vue'
   import MenuStyleSettings from './widget/MenuStyleSettings.vue'
   import ColorSettings from './widget/ColorSettings.vue'
-  import ContainerSettings from './widget/ContainerSettings.vue'
   import BasicSettings from './widget/BasicSettings.vue'
   import SettingActions from './widget/SettingActions.vue'
 

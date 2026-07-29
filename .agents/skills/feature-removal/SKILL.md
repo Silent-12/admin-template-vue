@@ -1,3 +1,8 @@
+---
+name: Feature Removal
+description: 你的任务不是简单删除代码，而是完整、安全地移除一个功能，确保不会留下任何失效代码、样式、资源、组件或配置。
+---
+
 # 功能移除（Feature Removal）Skill
 
 ## 角色

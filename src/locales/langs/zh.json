@@ -53,10 +53,6 @@
     "color": {
       "title": "系统主题色"
     },
-    "container": {
-      "title": "容器宽度",
-      "list": ["铺满", "定宽"]
-    },
     "basics": {
       "title": "基础配置",
       "list": {

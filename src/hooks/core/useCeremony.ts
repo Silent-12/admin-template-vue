@@ -8,9 +8,7 @@
  *
  * 1. 节日检测 - 自动匹配当前日期与节日配置列表，支持单日和跨日期节日
  * 2. 烟花动画 - 播放节日烟花特效，支持自定义图片和触发次数
- * 3. 祝福文本 - 烟花结束后显示节日祝福文本
- * 4. 状态管理 - 记录烟花播放状态，避免重复播放
- * 5. 清理机制 - 提供清理方法，支持手动停止和重置
+ * 3. 节日文本 - 烟花结束后记录日期，避免重复播放
  *
  * ## 使用示例
  *
@@ -67,9 +65,7 @@ const FESTIVAL_CONFIG = {
  */
 export function useCeremony() {
   const settingStore = useSettingStore()
-  const { holidayFireworksLoaded, isShowFireworks } = storeToRefs(settingStore)
-
-  let fireworksInterval: { pause: () => void } | null = null
+  const { isShowFireworks } = storeToRefs(settingStore)
 
   /**
    * 检查日期是否在节日范围内
@@ -121,10 +117,7 @@ export function useCeremony() {
    * 完成烟花效果后显示文本
    */
   const showFestivalText = () => {
-    settingStore.setholidayFireworksLoaded(true)
-
     useTimeoutFn(() => {
-      settingStore.setShowFestivalText(true)
       updateFestivalDate()
     }, FESTIVAL_CONFIG.TEXT_DELAY)
   }
@@ -146,8 +139,6 @@ export function useCeremony() {
         showFestivalText()
       }
     }, FESTIVAL_CONFIG.FIREWORK_INTERVAL)
-
-    fireworksInterval = { pause }
   }
 
   /**
@@ -162,22 +153,8 @@ export function useCeremony() {
     start()
   }
 
-  /**
-   * 清理烟花效果
-   */
-  const cleanup = () => {
-    if (fireworksInterval) {
-      fireworksInterval.pause()
-      fireworksInterval = null
-    }
-    settingStore.setShowFestivalText(false)
-    updateFestivalDate()
-  }
-
   return {
     openFestival,
-    cleanup,
-    holidayFireworksLoaded,
     currentFestivalData,
     isShowFireworks
   }

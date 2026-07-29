@@ -21,7 +21,7 @@
  */
 
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum, ContainerWidthEnum } from '@/enums/appEnum'
+import { SystemThemeEnum, MenuThemeEnum } from '@/enums/appEnum'
 
 /**
  * 系统设置默认值配置
@@ -55,28 +55,20 @@ export const SETTING_DEFAULT_CONFIG = {
   showNprogress: false,
   /** 是否显示设置引导 */
   showSettingGuide: true,
-  /** 是否显示节日文本 */
-  showFestivalText: false,
   /** 是否显示水印 */
   watermarkVisible: false,
-  /** 是否自动关闭 */
-  autoClose: false,
   /** 是否唯一展开 */
   uniqueOpened: true,
   /** 是否色弱模式 */
   colorWeak: false,
   /** 是否刷新 */
   refresh: false,
-  /** 是否加载节日烟花 */
-  holidayFireworksLoaded: false,
   /** 页面过渡效果 */
   pageTransition: 'slide-left',
   /** 标签页样式 */
   tabStyle: 'tab-default',
   /** 自定义圆角 */
   customRadius: '0.75',
-  /** 容器宽度 */
-  containerWidth: ContainerWidthEnum.FULL,
   /** 节日日期 */
   festivalDate: ''
 }

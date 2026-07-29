@@ -18,7 +18,7 @@ export function useSettingsPanel() {
   const { systemThemeType, systemThemeMode } = storeToRefs(settingStore)
 
   // Composables
-  const { openFestival, cleanup } = useCeremony()
+  const { openFestival } = useCeremony()
   const { setSystemTheme, setSystemAutoTheme } = useTheme()
   const { initColorWeak } = useSettingsState()
   const { domOperations } = useSettingsHandlers()
@@ -165,7 +165,6 @@ export function useSettingsPanel() {
     const cleanupSettings = () => {
       stopWatch()
       themeCleanup?.()
-      cleanup()
     }
 
     return {
