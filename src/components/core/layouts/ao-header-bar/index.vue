@@ -91,25 +91,6 @@
           <div class="notice-dot"></div>
         </AoIconButton>
 
-        <!-- 设置按钮 -->
-        <div v-if="shouldShowSettings">
-          <ElPopover :visible="showSettingGuide" placement="bottom-start" :width="190" :offset="0">
-            <template #reference>
-              <div class="flex-cc">
-                <AoIconButton icon="ri:settings-line" class="setting-btn" @click="openSetting" />
-              </div>
-            </template>
-            <template #default>
-              <p
-                >{{ $t('topBar.guide.title')
-                }}<span :style="{ color: systemThemeColor }"> {{ $t('topBar.guide.theme') }} </span
-                >、 <span :style="{ color: systemThemeColor }"> {{ $t('topBar.guide.menu') }} </span
-                >{{ $t('topBar.guide.description') }}
-              </p>
-            </template>
-          </ElPopover>
-        </div>
-
         <!-- 主题切换按钮 -->
         <AoIconButton
           v-if="shouldShowThemeToggle"
@@ -166,12 +147,11 @@
     shouldShowFullscreen,
     shouldShowNotification,
     shouldShowLanguage,
-    shouldShowSettings,
     shouldShowThemeToggle,
     fastEnterMinWidth: headerBarFastEnterMinWidth
   } = useHeaderBar()
 
-  const { menuOpen, systemThemeColor, showSettingGuide, isDark } = storeToRefs(settingStore)
+  const { menuOpen, isDark } = storeToRefs(settingStore)
 
   const { language } = storeToRefs(userStore)
 
@@ -239,18 +219,6 @@
     locale.value = lang
     userStore.setLanguage(lang)
     reload(50)
-  }
-
-  /**
-   * 打开设置面板
-   */
-  const openSetting = (): void => {
-    mittBus.emit('openSetting')
-
-    // 隐藏设置引导提示
-    if (showSettingGuide.value) {
-      settingStore.hideSettingGuide()
-    }
   }
 
   /**
@@ -369,10 +337,6 @@
 
   .language-btn:hover :deep(.ao-svg-icon) {
     animation: moveUp 0.4s;
-  }
-
-  .setting-btn:hover :deep(.ao-svg-icon) {
-    animation: rotate180 0.5s;
   }
 
   .full-screen-btn:hover :deep(.ao-svg-icon) {

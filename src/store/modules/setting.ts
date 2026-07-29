@@ -203,20 +203,6 @@ export const useSettingStore = defineStore(
     }
 
     /**
-     * 隐藏设置引导
-     */
-    const hideSettingGuide = () => {
-      showSettingGuide.value = false
-    }
-
-    /**
-     * 显示设置引导
-     */
-    const openSettingGuide = () => {
-      showSettingGuide.value = true
-    }
-
-    /**
      * 设置菜单展开状态
      * @param open 是否展开
      */
@@ -275,8 +261,6 @@ export const useSettingStore = defineStore(
       setWorkTab,
       setLanguage,
       setNprogress,
-      hideSettingGuide,
-      openSettingGuide,
       setMenuOpen,
       reload,
       setWatermarkVisible,

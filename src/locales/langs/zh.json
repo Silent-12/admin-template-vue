@@ -21,12 +21,6 @@
     "user": {
       "userCenter": "个人中心",
       "logout": "退出登录"
-    },
-    "guide": {
-      "title": "点击这里查看",
-      "theme": "主题风格",
-      "menu": "开启顶栏菜单",
-      "description": "等更多配置"
     }
   },
   "common": {
