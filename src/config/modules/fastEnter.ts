@@ -1,6 +1,6 @@
 /**
  * 快速入口配置
- * 包含：应用列表、快速链接等配置
+ * 包含：应用列表配置
  */
 import type { FastEnterConfig } from '@/types/config'
 
@@ -19,85 +19,13 @@ const fastEnterConfig: FastEnterConfig = {
       routeName: 'Console'
     },
     {
-      name: '分析页',
-      description: '数据分析与可视化',
-      icon: 'ri:game-line',
-      iconColor: '#ff3b30',
-      enabled: true,
-      order: 2,
-      routeName: 'Analysis'
-    },
-    {
-      name: '礼花效果',
-      description: '动画特效展示',
-      icon: 'ri:loader-line',
-      iconColor: '#7A7FFF',
-      enabled: true,
-      order: 3,
-      routeName: 'Fireworks'
-    },
-    {
-      name: '官方文档',
-      description: '使用指南与开发文档',
-      icon: 'ri:bill-line',
-      iconColor: '#ffb100',
-      enabled: true,
-      order: 5,
-      link: 'https://www.artd.pro/docs/zh/'
-    },
-    {
-      name: '技术支持',
-      description: '技术支持与问题反馈',
-      icon: 'ri:user-location-line',
-      iconColor: '#ff6b6b',
-      enabled: true,
-      order: 6,
-      link: 'https://www.artd.pro/docs/zh/community/communicate.html'
-    },
-    {
       name: '更新日志',
       description: '版本更新与变更记录',
       icon: 'ri:gamepad-line',
       iconColor: '#38C0FC',
       enabled: true,
-      order: 7,
-      routeName: 'ChangeLog'
-    },
-    {
-      name: '哔哩哔哩',
-      description: '技术分享与交流',
-      icon: 'ri:bilibili-line',
-      iconColor: '#FB7299',
-      enabled: true,
-      order: 8,
-      link: 'https://space.bilibili.com/425500936?spm_id_from=333.1007.0.0'
-    }
-  ],
-  // 快速链接
-  quickLinks: [
-    {
-      name: '登录',
-      enabled: true,
-      order: 1,
-      routeName: 'Login'
-    },
-    {
-      name: '定价',
-      enabled: true,
       order: 2,
-      routeName: 'Pricing'
-    },
-    {
-      name: '个人中心',
-      enabled: true,
-      order: 3,
-      routeName: 'UserCenter'
-    },
-    {
-      name: '留言管理',
-      enabled: true,
-      order: 4,
-      routeName: 'ArticleComment'
+      routeName: 'ChangeLog'
     }
   ]
 }

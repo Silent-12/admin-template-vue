@@ -19,43 +19,25 @@
       </div>
     </template>
 
-    <div class="fast-enter__grid">
-      <div>
-        <div class="fast-enter__apps">
-          <!-- 应用列表 -->
-          <div
-            v-for="application in enabledApplications"
-            :key="application.name"
-            class="fast-enter__app c-p flex-c"
-            @click="handleApplicationClick(application)"
-          >
-            <div class="app-icon fast-enter__app-icon flex-cc">
-              <AoSvgIcon
-                class="fast-enter__app-icon-svg"
-                :icon="application.icon"
-                :style="{ color: application.iconColor }"
-              />
-            </div>
-            <div>
-              <h3 class="fast-enter__app-name">{{ application.name }}</h3>
-              <p class="fast-enter__app-desc">{{ application.description }}</p>
-            </div>
-          </div>
+    <div class="fast-enter__apps">
+      <!-- 应用列表 -->
+      <div
+        v-for="application in enabledApplications"
+        :key="application.name"
+        class="fast-enter__app c-p flex-c"
+        @click="handleApplicationClick(application)"
+      >
+        <div class="app-icon fast-enter__app-icon flex-cc">
+          <AoSvgIcon
+            class="fast-enter__app-icon-svg"
+            :icon="application.icon"
+            :style="{ color: application.iconColor }"
+          />
         </div>
-      </div>
-
-      <div class="fast-enter__links border-l-d">
-        <h3 class="fast-enter__links-title">快速链接</h3>
-        <ul>
-          <li
-            v-for="quickLink in enabledQuickLinks"
-            :key="quickLink.name"
-            class="fast-enter__link c-p"
-            @click="handleQuickLinkClick(quickLink)"
-          >
-            <span class="fast-enter__link-text">{{ quickLink.name }}</span>
-          </li>
-        </ul>
+        <div>
+          <h3 class="fast-enter__app-name">{{ application.name }}</h3>
+          <p class="fast-enter__app-desc">{{ application.description }}</p>
+        </div>
       </div>
     </div>
   </ElPopover>
@@ -63,7 +45,7 @@
 
 <script setup lang="ts">
   import { useFastEnter } from '@/hooks/core/useFastEnter'
-  import type { FastEnterApplication, FastEnterQuickLink } from '@/types/config'
+  import type { FastEnterApplication } from '@/types/config'
 
   defineOptions({ name: 'AoFastEnter' })
 
@@ -71,7 +53,7 @@
   const popoverRef = ref()
 
   // 使用快速入口配置
-  const { enabledApplications, enabledQuickLinks } = useFastEnter()
+  const { enabledApplications } = useFastEnter()
 
   /**
    * 处理导航跳转
@@ -102,14 +84,6 @@
   const handleApplicationClick = (application: FastEnterApplication): void => {
     handleNavigate(application.routeName, application.link)
   }
-
-  /**
-   * 处理快速链接点击
-   * @param quickLink 快速链接配置对象
-   */
-  const handleQuickLinkClick = (quickLink: FastEnterQuickLink): void => {
-    handleNavigate(quickLink.routeName, quickLink.link)
-  }
 </script>
 
 <style scoped lang="scss">
@@ -118,13 +92,6 @@
   // 保留全局工具类 flex-c
   .fast-enter__trigger {
     gap: 0.5rem; // gap-2
-  }
-
-  // ==================== 主网格 ====================
-  // grid grid-cols-[2fr_0.8fr]
-  .fast-enter__grid {
-    display: grid;
-    grid-template-columns: 2fr 0.8fr; // grid-cols-[2fr_0.8fr]
   }
 
   // ==================== 应用列表 ====================
@@ -194,42 +161,5 @@
     font-size: 0.75rem; // text-xs
     line-height: 1rem;
     color: var(--ao-gray-600);
-  }
-
-  // ==================== 快速链接 ====================
-  // border-l-d pl-6 pt-2
-  // 保留全局工具类 border-l-d
-  .fast-enter__links {
-    padding-top: 0.5rem; // pt-2
-    padding-left: 1.5rem; // pl-6
-  }
-
-  // 标题：mb-2.5 text-base font-medium text-g-800
-  .fast-enter__links-title {
-    margin-bottom: 0.625rem; // mb-2.5
-    font-size: 1rem; // text-base
-    font-weight: 500; // font-medium
-    line-height: 1.5rem;
-    color: var(--ao-gray-800);
-  }
-
-  // 链接项：c-p py-2 hover:[&_span]:text-theme
-  // 保留全局工具类 c-p
-  .fast-enter__link {
-    padding-top: 0.5rem; // py-2
-    padding-bottom: 0.5rem;
-
-    &:hover {
-      // hover:[&_span]:text-theme
-      .fast-enter__link-text {
-        color: var(--theme-color);
-      }
-    }
-  }
-
-  // 链接文字：text-g-600 no-underline
-  .fast-enter__link-text {
-    color: var(--ao-gray-600);
-    text-decoration-line: none; // no-underline
   }
 </style>

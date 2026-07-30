@@ -49,7 +49,7 @@
 | 组件 | 路径 | 作用 | 主要 props |
 | --- | --- | --- | --- |
 | AoBreadcrumb | [ao-breadcrumb/index.vue](src/components/core/layouts/ao-breadcrumb/index.vue) | 基于 `route.matched` 的面包屑导航 | 无 |
-| AoFastEnter | [ao-fast-enter/index.vue](src/components/core/layouts/ao-fast-enter/index.vue) | 顶部快速入口面板（ElPopover），展示应用列表 + 快速链接 | 默认插槽作为触发器 |
+| AoFastEnter | [ao-fast-enter/index.vue](src/components/core/layouts/ao-fast-enter/index.vue) | 顶部快速入口面板（ElPopover），展示应用列表 | 默认插槽作为触发器 |
 | AoFireworksEffect | [ao-fireworks-effect/index.vue](src/components/core/layouts/ao-fireworks-effect/index.vue) | 烟花/礼花 canvas 动画，支持对象池、多形状、物理参数，由 mittBus 事件触发 | 无（由 mitt 事件驱动） |
 | AoGlobalComponent | [ao-global-component/index.vue](src/components/core/layouts/ao-global-component/index.vue) | 全局组件容器，根据配置动态渲染启用的全局组件 | 无 |
 | AoGlobalSearch | [ao-global-search/index.vue](src/components/core/layouts/ao-global-search/index.vue) | 全局搜索弹窗（ElDialog），支持菜单搜索、历史记录、键盘选择 | v-model 控制显示 |
