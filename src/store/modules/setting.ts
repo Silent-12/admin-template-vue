@@ -9,7 +9,6 @@
  * - 菜单主题样式配置
  * - 界面显示开关（面包屑、标签页、语言切换等）
  * - 功能开关（手风琴模式、水印等）
- * - 节日功能配置
  * - Element Plus 主题色动态设置
  *
  * ## 使用场景
@@ -34,7 +33,6 @@ import { MenuThemeType } from '@/types/store'
 import AppConfig from '@/config'
 import { SystemThemeEnum, MenuThemeEnum } from '@/enums/appEnum'
 import { setElementThemeColor } from '@/utils/ui'
-import { useCeremony } from '@/hooks/core/useCeremony'
 import { StorageConfig } from '@/utils'
 import { SETTING_DEFAULT_CONFIG } from '@/config/setting'
 
@@ -85,10 +83,6 @@ export const useSettingStore = defineStore(
     /** 是否刷新 */
     const refresh = ref(SETTING_DEFAULT_CONFIG.refresh)
 
-    // 节日相关
-    /** 节日日期 */
-    const festivalDate = ref('')
-
     /**
      * 获取菜单主题
      * 根据当前主题类型和暗色模式返回对应的主题配置
@@ -107,14 +101,6 @@ export const useSettingStore = defineStore(
      */
     const isDark = computed((): boolean => {
       return systemThemeType.value === SystemThemeEnum.DARK
-    })
-
-    /**
-     * 是否显示烟花
-     * 根据当前日期和节日日期判断是否显示烟花效果
-     */
-    const isShowFireworks = computed((): boolean => {
-      return festivalDate.value === useCeremony().currentFestivalData.value?.date ? false : true
     })
 
     /**
@@ -225,10 +211,6 @@ export const useSettingStore = defineStore(
       watermarkVisible.value = visible
     }
 
-    const setFestivalDate = (date: string) => {
-      festivalDate.value = date
-    }
-
     return {
       systemThemeType,
       systemThemeMode,
@@ -246,10 +228,8 @@ export const useSettingStore = defineStore(
       menuOpen,
       refresh,
       watermarkVisible,
-      festivalDate,
       getMenuTheme,
       isDark,
-      isShowFireworks,
       setGlopTheme,
       switchMenuStyles,
       setElementTheme,
@@ -263,8 +243,7 @@ export const useSettingStore = defineStore(
       setNprogress,
       setMenuOpen,
       reload,
-      setWatermarkVisible,
-      setFestivalDate
+      setWatermarkVisible
     }
   },
   {
