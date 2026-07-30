@@ -49,12 +49,8 @@ export const SETTING_DEFAULT_CONFIG = {
   showWorkTab: true,
   /** 是否显示语言切换 */
   showLanguage: true,
-  /** 是否显示进度条 */
-  showNprogress: true,
   /** 是否显示设置引导 */
   showSettingGuide: true,
-  /** 是否显示水印 */
-  watermarkVisible: false,
   /** 是否唯一展开 */
   uniqueOpened: true,
   /** 是否刷新 */

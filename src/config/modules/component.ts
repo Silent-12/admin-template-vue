@@ -36,14 +36,6 @@ export const globalComponentsConfig: GlobalComponentConfig[] = [
       () => import('@/components/core/layouts/ao-global-search/index.vue')
     ),
     enabled: true
-  },
-  {
-    name: '水印效果',
-    key: 'watermark',
-    component: defineAsyncComponent(
-      () => import('@/components/core/others/ao-watermark/index.vue')
-    ),
-    enabled: true
   }
 ]
 

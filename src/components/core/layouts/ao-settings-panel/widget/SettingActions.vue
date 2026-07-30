@@ -65,13 +65,9 @@
       toggleIfDifferent(settingStore.showLanguage, config.showLanguage, () =>
         settingStore.setLanguage()
       )
-      toggleIfDifferent(settingStore.showNprogress, config.showNprogress, () =>
-        settingStore.setNprogress()
-      )
 
       // 界面显示（直接设置类方法）
       settingStore.setWorkTab(config.showWorkTab)
-      settingStore.setWatermarkVisible(config.watermarkVisible)
 
       // 功能设置
       toggleIfDifferent(settingStore.uniqueOpened, config.uniqueOpened, () =>

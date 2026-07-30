@@ -38,7 +38,6 @@
 import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 import { nextTick } from 'vue'
 import NProgress from 'nprogress'
-import { useSettingStore } from '@/store/modules/setting'
 import { useUserStore } from '@/store/modules/user'
 import { useMenuStore } from '@/store/modules/menu'
 import { setWorktab } from '@/utils/navigation'
@@ -143,13 +142,10 @@ async function handleRouteGuard(
   next: NavigationGuardNext,
   router: Router
 ): Promise<void> {
-  const settingStore = useSettingStore()
   const userStore = useUserStore()
 
   // 启动进度条
-  if (settingStore.showNprogress) {
-    NProgress.start()
-  }
+  NProgress.start()
 
   // 1. 检查登录状态
   if (!handleLoginStatus(to, userStore, next)) {

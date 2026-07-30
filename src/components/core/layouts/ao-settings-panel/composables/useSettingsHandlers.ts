@@ -48,15 +48,7 @@ export function useSettingsHandlers() {
     crumbs: createToggleHandler(() => settingStore.setCrumbs()),
 
     // 显示语言切换
-    language: createToggleHandler(() => settingStore.setLanguage()),
-
-    // 显示进度条
-    nprogress: createToggleHandler(() => settingStore.setNprogress()),
-
-    // 水印显示
-    watermark: createToggleHandler(() =>
-      settingStore.setWatermarkVisible(!settingStore.watermarkVisible)
-    )
+    language: createToggleHandler(() => settingStore.setLanguage())
   }
 
   // 颜色设置处理器

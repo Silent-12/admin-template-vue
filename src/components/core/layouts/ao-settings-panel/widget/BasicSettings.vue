@@ -31,9 +31,7 @@
     showRefreshButton,
     showCrumbs,
     showWorkTab,
-    showLanguage,
-    showNprogress,
-    watermarkVisible
+    showLanguage
   } = storeToRefs(settingStore)
 
   // 创建设置值映射
@@ -44,9 +42,7 @@
     showRefreshButton,
     showCrumbs,
     showWorkTab,
-    showLanguage,
-    showNprogress,
-    watermarkVisible
+    showLanguage
   }
 
   // 获取设置值的方法

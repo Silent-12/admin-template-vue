@@ -69,8 +69,6 @@ export interface SettingState {
   showWorkTab: boolean
   /** 是否显示语言切换 */
   showLanguage: boolean
-  /** 是否显示进度条 */
-  showNprogress: boolean
   /** 主题模式 */
   themeModel: string
 }

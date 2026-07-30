@@ -89,7 +89,6 @@
 | 组件 | 路径 | 作用 | 主要 props |
 | --- | --- | --- | --- |
 | AoMenuRight | [ao-menu-right/index.vue](src/components/core/others/ao-menu-right/index.vue) | 右键菜单 / 自定义上下文菜单，支持子菜单、禁用、分割线、动画 | `menuItems: MenuItemType[]`、`menuWidth?`、`submenuWidth?`、`itemHeight?`；事件 `select(item)` |
-| AoWatermark | [ao-watermark/index.vue](src/components/core/others/ao-watermark/index.vue) | 全局水印组件，封装 ElWatermark | `content?`、`visible?`、`fontSize?`、`fontColor?`、`rotate?`、`gapX?`、`gapY?`、`zIndex?` |
 
 ---
 

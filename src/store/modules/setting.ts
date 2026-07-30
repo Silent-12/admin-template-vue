@@ -8,7 +8,7 @@
  * - 主题管理（亮色、暗色、自动）
  * - 菜单主题样式配置
  * - 界面显示开关（面包屑、标签页、语言切换等）
- * - 功能开关（手风琴模式、水印等）
+ * - 功能开关（手风琴模式等）
  * - Element Plus 主题色动态设置
  *
  * ## 使用场景
@@ -70,12 +70,8 @@ export const useSettingStore = defineStore(
     const showWorkTab = ref(SETTING_DEFAULT_CONFIG.showWorkTab)
     /** 是否显示语言切换 */
     const showLanguage = ref(SETTING_DEFAULT_CONFIG.showLanguage)
-    /** 是否显示进度条 */
-    const showNprogress = ref(SETTING_DEFAULT_CONFIG.showNprogress)
     /** 是否显示设置引导 */
     const showSettingGuide = ref(SETTING_DEFAULT_CONFIG.showSettingGuide)
-    /** 是否显示水印 */
-    const watermarkVisible = ref(SETTING_DEFAULT_CONFIG.watermarkVisible)
 
     // 功能设置
     /** 是否唯一展开 */
@@ -182,13 +178,6 @@ export const useSettingStore = defineStore(
     }
 
     /**
-     * 切换进度条显示
-     */
-    const setNprogress = () => {
-      showNprogress.value = !showNprogress.value
-    }
-
-    /**
      * 设置菜单展开状态
      * @param open 是否展开
      */
@@ -203,14 +192,6 @@ export const useSettingStore = defineStore(
       refresh.value = !refresh.value
     }
 
-    /**
-     * 设置水印显示
-     * @param visible 是否显示
-     */
-    const setWatermarkVisible = (visible: boolean) => {
-      watermarkVisible.value = visible
-    }
-
     return {
       systemThemeType,
       systemThemeMode,
@@ -223,11 +204,9 @@ export const useSettingStore = defineStore(
       showCrumbs,
       showWorkTab,
       showLanguage,
-      showNprogress,
       showSettingGuide,
       menuOpen,
       refresh,
-      watermarkVisible,
       getMenuTheme,
       isDark,
       setGlopTheme,
@@ -240,10 +219,8 @@ export const useSettingStore = defineStore(
       setCrumbs,
       setWorkTab,
       setLanguage,
-      setNprogress,
       setMenuOpen,
-      reload,
-      setWatermarkVisible
+      reload
     }
   },
   {

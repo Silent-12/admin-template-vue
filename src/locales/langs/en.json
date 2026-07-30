@@ -56,9 +56,7 @@
         "reloadPage": "Show reload page button",
         "fastEnter": "Show fast enter",
         "breadcrumb": "Show crumb navigation",
-        "language": "Show multilingual selection",
-        "progressBar": "Show top progress bar",
-        "watermark": "Global watermark"
+        "language": "Show multilingual selection"
       }
     },
     "actions": {

@@ -71,20 +71,6 @@ export function useSettingsConfig() {
         type: 'switch' as const,
         handler: 'language',
         headerBarKey: 'language' as const
-      },
-      {
-        key: 'showNprogress',
-        label: t('setting.basics.list.progressBar'),
-        type: 'switch' as const,
-        handler: 'nprogress',
-        headerBarKey: null // 不依赖headerBar配置
-      },
-      {
-        key: 'watermarkVisible',
-        label: t('setting.basics.list.watermark'),
-        type: 'switch' as const,
-        handler: 'watermark',
-        headerBarKey: null // 不依赖headerBar配置
       }
     ]
 
