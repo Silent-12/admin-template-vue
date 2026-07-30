@@ -48,6 +48,12 @@
 
   /* Element Component Active Color */
   --ao-el-active-color: #f2f4f5;
+
+  /* Text on Theme Color */
+  --ao-text-on-theme: #ffffff;
+
+  /* Modal Overlay Background */
+  --ao-modal-overlay: rgba(0, 0, 0, 0.2);
 }
 
 /* ==================== Dark Mode Variables ==================== */
@@ -84,4 +90,10 @@
 
   /* Element Component Active Color */
   --ao-el-active-color: #2e2e38;
+
+  /* Text on Theme Color */
+  --ao-text-on-theme: #ffffff;
+
+  /* Modal Overlay Background */
+  --ao-modal-overlay: rgba(23, 23, 26, 0.6);
 }

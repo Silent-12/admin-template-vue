@@ -125,9 +125,9 @@
   import { useFullscreen, useWindowSize } from '@vueuse/core'
   import { LanguageEnum } from '@/enums/appEnum'
   import { useSettingStore } from '@/store/modules/setting'
+  import { useAppStore } from '@/store/modules/app'
   import { useUserStore } from '@/store/modules/user'
   import { languageOptions } from '@/locales'
-  import { mittBus } from '@/utils/sys'
   import { themeAnimation } from '@/utils/ui/animation'
   import { useCommon } from '@/hooks/core/useCommon'
   import { useHeaderBar } from '@/hooks/core/useHeaderBar'
@@ -143,6 +143,7 @@
   const { width } = useWindowSize()
 
   const settingStore = useSettingStore()
+  const appStore = useAppStore()
   const userStore = useUserStore()
 
   // 顶部栏功能配置
@@ -234,14 +235,14 @@
    * 打开全局搜索对话框
    */
   const openSearchDialog = (): void => {
-    mittBus.emit('openSearchDialog')
+    appStore.openGlobalSearch()
   }
 
   /**
    * 打开设置面板
    */
   const openSetting = (): void => {
-    mittBus.emit('openSetting')
+    appStore.openSettingsPanel()
   }
 
   /**

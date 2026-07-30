@@ -3,4 +3,3 @@
  */
 
 export * from './upgrade'
-export { default as mittBus } from './mittBus'

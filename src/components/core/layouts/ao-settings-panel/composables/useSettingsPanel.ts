@@ -1,10 +1,10 @@
-import { ref, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useSettingStore } from '@/store/modules/setting'
+import { useAppStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
 import { useBreakpoints } from '@vueuse/core'
 import AppConfig from '@/config'
 import { SystemThemeEnum } from '@/enums/appEnum'
-import { mittBus } from '@/utils/sys'
 import { useTheme } from '@/hooks/core/useTheme'
 import { useSettingsHandlers } from './useSettingsHandlers'
 
@@ -13,14 +13,13 @@ import { useSettingsHandlers } from './useSettingsHandlers'
  */
 export function useSettingsPanel() {
   const settingStore = useSettingStore()
+  const appStore = useAppStore()
   const { systemThemeType, systemThemeMode } = storeToRefs(settingStore)
+  const { showSettingsPanel: showDrawer } = storeToRefs(appStore)
 
   // Composables
   const { setSystemTheme, setSystemAutoTheme } = useTheme()
   const { domOperations } = useSettingsHandlers()
-
-  // 响应式状态
-  const showDrawer = ref(false)
 
   // 使用 VueUse breakpoints 优化性能
   const breakpoints = useBreakpoints({ tablet: 1000 })
@@ -111,11 +110,6 @@ export function useSettingsPanel() {
       domOperations.setBodyClass('theme-change', false)
     }
 
-    // 打开设置
-    const openSetting = () => {
-      showDrawer.value = true
-    }
-
     // 关闭设置
     const closeDrawer = () => {
       showDrawer.value = false
@@ -124,7 +118,6 @@ export function useSettingsPanel() {
     return {
       handleOpen,
       handleClose,
-      openSetting,
       closeDrawer
     }
   }
@@ -144,12 +137,10 @@ export function useSettingsPanel() {
   // 初始化设置
   const useSettingsInitializer = () => {
     const themeHandlers = useThemeHandlers()
-    const { openSetting } = useDrawerControl()
     const { stopWatch } = useResponsiveLayout()
     let themeCleanup: (() => void) | null = null
 
     const initializeSettings = () => {
-      mittBus.on('openSetting', openSetting)
       themeHandlers.initSystemColor()
       themeCleanup = themeHandlers.listenerSystemTheme()
 

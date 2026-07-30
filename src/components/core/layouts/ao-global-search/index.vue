@@ -2,7 +2,7 @@
 <template>
   <div class="layout-search">
     <ElDialog
-      v-model="showSearchDialog"
+      v-model="showGlobalSearch"
       width="600"
       :show-close="false"
       :lock-scroll="false"
@@ -89,9 +89,10 @@
 
 <script lang="ts" setup>
   import { useUserStore } from '@/store/modules/user'
+  import { useAppStore } from '@/store/modules/app'
+  import { storeToRefs } from 'pinia'
   import { AppRouteRecord } from '@/types/router'
   import { Search } from '@element-plus/icons-vue'
-  import { mittBus } from '@/utils/sys'
   import { useMenuStore } from '@/store/modules/menu'
   import { formatMenuTitle } from '@/utils/router'
   import { handleMenuJump } from '@/utils/navigation'
@@ -100,9 +101,10 @@
   defineOptions({ name: 'AoGlobalSearch' })
 
   const userStore = useUserStore()
+  const appStore = useAppStore()
   const { menuList } = storeToRefs(useMenuStore())
+  const { showGlobalSearch } = storeToRefs(appStore)
 
-  const showSearchDialog = ref(false)
   const searchVal = ref('')
   const searchResult = ref<AppRouteRecord[]>([])
   const historyMaxLength = 10
@@ -115,9 +117,15 @@
   const searchResultScrollbar = ref<ScrollbarInstance>()
   const isKeyboardNavigating = ref(false) // 新增状态：是否正在使用键盘导航
 
+  // 监听全局搜索状态变化，打开时自动聚焦输入框
+  watch(showGlobalSearch, (val) => {
+    if (val) {
+      focusInput()
+    }
+  })
+
   // 生命周期钩子
   onMounted(() => {
-    mittBus.on('openSearchDialog', openSearchDialog)
     document.addEventListener('keydown', handleKeydown)
   })
 
@@ -132,12 +140,12 @@
 
     if (isCommandKey && event.key.toLowerCase() === 'k') {
       event.preventDefault()
-      showSearchDialog.value = true
+      showGlobalSearch.value = true
       focusInput()
     }
 
     // 当搜索对话框打开时，处理方向键和回车键
-    if (showSearchDialog.value) {
+    if (showGlobalSearch.value) {
       if (event.key === 'ArrowUp') {
         event.preventDefault()
         highlightPrevious()
@@ -149,7 +157,7 @@
         selectHighlighted()
       } else if (event.key === 'Escape') {
         event.preventDefault()
-        showSearchDialog.value = false
+        showGlobalSearch.value = false
       }
     }
   }
@@ -294,7 +302,7 @@
   }
 
   const searchGoPage = (item: AppRouteRecord) => {
-    showSearchDialog.value = false
+    showGlobalSearch.value = false
     addHistory(item)
     handleMenuJump(item)
     searchVal.value = ''
@@ -334,11 +342,6 @@
   }
 
   // 对话框控制
-  const openSearchDialog = () => {
-    showSearchDialog.value = true
-    focusInput()
-  }
-
   const closeSearchDialog = () => {
     searchVal.value = ''
     searchResult.value = []
@@ -362,7 +365,7 @@
 <style lang="scss" scoped>
   .layout-search {
     :deep(.search-modal) {
-      background-color: rgb(0 0 0 / 20%);
+      background-color: var(--ao-modal-overlay);
     }
 
     :deep(.el-dialog__body) {
@@ -390,18 +393,18 @@
   .dark .layout-search {
     .el-input {
       :deep(.el-input__wrapper) {
-        background-color: #333;
-        border: 1px solid #4c4d50;
+        background-color: var(--ao-gray-300);
+        border: 1px solid var(--ao-gray-400);
       }
     }
 
     :deep(.search-modal) {
-      background-color: rgb(23 23 26 / 60%);
+      background-color: var(--ao-modal-overlay);
       backdrop-filter: none;
     }
 
     :deep(.el-dialog) {
-      background-color: #252526;
+      background-color: var(--default-box-color);
     }
   }
 
@@ -460,7 +463,7 @@
 
       // highlighted !bg-theme/70 !text-white
       &--highlighted {
-        color: #fff !important;
+        color: var(--ao-text-on-theme) !important;
         background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
       }
     }
@@ -494,12 +497,12 @@
 
     // highlighted !bg-theme/70 !text-white [&_.selected-icon]:!text-white
     &--highlighted {
-      color: #fff !important;
+      color: var(--ao-text-on-theme) !important;
       background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
 
       // [&_.selected-icon]:!text-white
       .selected-icon {
-        color: #fff !important;
+        color: var(--ao-text-on-theme) !important;
       }
     }
   }
