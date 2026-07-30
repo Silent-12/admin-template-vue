@@ -1,8 +1,7 @@
 <template>
   <ElDialog
     :title="dialogTitle"
-    :model-value="visible"
-    @update:model-value="handleCancel"
+    v-model="visible"
     width="860px"
     align-center
     class="menu-dialog"
@@ -41,15 +40,17 @@
   import { ElIcon, ElTooltip } from 'element-plus'
   import { QuestionFilled } from '@element-plus/icons-vue'
   import { formatMenuTitle } from '@/utils/router'
-  import type { AppRouteRecord } from '@/types/router'
   import type { FormItem } from '@/components/core/forms/ao-form/index.vue'
   import AoForm from '@/components/core/forms/ao-form/index.vue'
   import { useWindowSize } from '@vueuse/core'
+  import type { MenuDialogProps, MenuDialogEmits, MenuDialogFormData } from '../types'
+  import type { AppRouteRecord } from '@/types/router'
+  import type { AuthEditData } from '../types'
 
   const { width } = useWindowSize()
 
   /**
-   * 创建带 tooltip 的表单标签
+   * @description 创建带 tooltip 的表单标签
    * @param label 标签文本
    * @param tooltip 提示文本
    * @returns 渲染函数
@@ -69,57 +70,26 @@
       ])
   }
 
-  interface MenuFormData {
-    id: number
-    name: string
-    path: string
-    label: string
-    component: string
-    icon: string
-    isEnable: boolean
-    sort: number
-    isMenu: boolean
-    keepAlive: boolean
-    isHide: boolean
-    isHideTab: boolean
-    link: string
-    isIframe: boolean
-    showBadge: boolean
-    showTextBadge: string
-    fixedTab: boolean
-    activePath: string
-    roles: string[]
-    isFullPage: boolean
-    authName: string
-    authLabel: string
-    authIcon: string
-    authSort: number
-  }
-
-  interface Props {
-    visible: boolean
-    editData?: AppRouteRecord | any
-    type?: 'menu' | 'button'
-    lockType?: boolean
-  }
-
-  interface Emits {
-    (e: 'update:visible', value: boolean): void
-    (e: 'submit', data: MenuFormData): void
-  }
-
-  const props = withDefaults(defineProps<Props>(), {
-    visible: false,
+  const props = withDefaults(defineProps<MenuDialogProps>(), {
+    modelValue: false,
     type: 'menu',
     lockType: false
   })
 
-  const emit = defineEmits<Emits>()
+  const emit = defineEmits<MenuDialogEmits>()
 
   const formRef = ref()
+
+  /**
+   * @description 弹窗显示状态双向绑定
+   */
+  const visible = computed({
+    get: () => props.modelValue,
+    set: (value) => emit('update:modelValue', value)
+  })
   const isEdit = ref(false)
 
-  const form = reactive<MenuFormData & { menuType: 'menu' | 'button' }>({
+  const form = reactive<MenuDialogFormData>({
     menuType: 'menu',
     id: 0,
     name: '',
@@ -159,7 +129,7 @@
   })
 
   /**
-   * 表单项配置
+   * @description 表单项配置
    */
   const formItems = computed<FormItem[]>(() => {
     const baseItems: FormItem[] = [{ label: '菜单类型', key: 'menuType', span: 24 }]
@@ -267,7 +237,7 @@
   })
 
   /**
-   * 是否禁用菜单类型切换
+   * @description 是否禁用菜单类型切换
    */
   const disableMenuType = computed(() => {
     if (isEdit.value) return true
@@ -276,7 +246,7 @@
   })
 
   /**
-   * 重置表单数据
+   * @description 重置表单数据
    */
   const resetForm = (): void => {
     formRef.value?.reset()
@@ -284,7 +254,7 @@
   }
 
   /**
-   * 加载表单数据（编辑模式）
+   * @description 加载表单数据（编辑模式）
    */
   const loadFormData = (): void => {
     if (!props.editData) return
@@ -292,19 +262,19 @@
     isEdit.value = true
 
     if (form.menuType === 'menu') {
-      const row = props.editData
+      const row = props.editData as AppRouteRecord
       form.id = row.id || 0
       form.name = formatMenuTitle(row.meta?.title || '')
       form.path = row.path || ''
-      form.label = row.name || ''
-      form.component = row.component || ''
+      form.label = typeof row.name === 'string' ? row.name : ''
+      form.component = typeof row.component === 'string' ? row.component : ''
       form.icon = row.meta?.icon || ''
-      form.sort = row.meta?.sort || 1
-      form.isMenu = row.meta?.isMenu ?? true
+      form.sort = typeof row.meta?.sort === 'number' ? row.meta.sort : 1
+      form.isMenu = typeof row.meta?.isMenu === 'boolean' ? row.meta.isMenu : true
       form.keepAlive = row.meta?.keepAlive ?? false
       form.isHide = row.meta?.isHide ?? false
       form.isHideTab = row.meta?.isHideTab ?? false
-      form.isEnable = row.meta?.isEnable ?? true
+      form.isEnable = typeof row.meta?.isEnable === 'boolean' ? row.meta.isEnable : true
       form.link = row.meta?.link || ''
       form.isIframe = row.meta?.isIframe ?? false
       form.showBadge = row.meta?.showBadge ?? false
@@ -314,16 +284,14 @@
       form.roles = row.meta?.roles || []
       form.isFullPage = row.meta?.isFullPage ?? false
     } else {
-      const row = props.editData
+      const row = props.editData as AuthEditData
       form.authName = row.title || ''
       form.authLabel = row.authMark || ''
-      form.authIcon = row.icon || ''
-      form.authSort = row.sort || 1
     }
   }
 
   /**
-   * 提交表单
+   * @description 提交表单
    */
   const handleSubmit = async (): Promise<void> => {
     if (!formRef.value) return
@@ -339,14 +307,14 @@
   }
 
   /**
-   * 取消操作
+   * @description 取消操作
    */
   const handleCancel = (): void => {
-    emit('update:visible', false)
+    visible.value = false
   }
 
   /**
-   * 对话框关闭后的回调
+   * @description 对话框关闭后的回调
    */
   const handleClosed = (): void => {
     resetForm()
@@ -354,10 +322,10 @@
   }
 
   /**
-   * 监听对话框显示状态
+   * @description 监听对话框显示状态
    */
   watch(
-    () => props.visible,
+    () => props.modelValue,
     (newVal) => {
       if (newVal) {
         form.menuType = props.type
@@ -371,12 +339,12 @@
   )
 
   /**
-   * 监听菜单类型变化
+   * @description 监听菜单类型变化
    */
   watch(
     () => props.type,
     (newType) => {
-      if (props.visible) {
+      if (props.modelValue) {
         form.menuType = newType
       }
     }

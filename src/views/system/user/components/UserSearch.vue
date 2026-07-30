@@ -11,16 +11,10 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
-    modelValue: Api.SystemManage.UserSearchParams
-  }
-  interface Emits {
-    (e: 'update:modelValue', value: Api.SystemManage.UserSearchParams): void
-    (e: 'search', params: Api.SystemManage.UserSearchParams): void
-    (e: 'reset'): void
-  }
-  const props = defineProps<Props>()
-  const emit = defineEmits<Emits>()
+  import type { UserSearchProps, UserSearchEmits } from '../types'
+
+  const props = defineProps<UserSearchProps>()
+  const emit = defineEmits<UserSearchEmits>()
 
   // 表单数据双向绑定
   const searchBarRef = ref()
@@ -31,7 +25,7 @@
 
   // 校验规则
   const rules = {
-    // userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
+    userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
   }
 
   // 动态 options
@@ -98,13 +92,19 @@
     }
   ])
 
-  // 事件
-  function handleReset() {
+  /**
+   * @description 处理重置事件
+   */
+  function handleReset(): void {
     console.log('重置表单')
     emit('reset')
   }
 
-  async function handleSearch(params: Api.SystemManage.UserSearchParams) {
+  /**
+   * @description 处理搜索事件
+   * @param params 搜索参数
+   */
+  async function handleSearch(params: Api.SystemManage.UserSearchParams): Promise<void> {
     await searchBarRef.value.validate()
     emit('search', params)
     console.log('表单数据', params)

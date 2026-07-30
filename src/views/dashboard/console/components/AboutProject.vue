@@ -1,9 +1,11 @@
 <template>
   <div class="ao-card about-project flex-b">
     <div>
-      <h2 class="about-project-title">关于项目</h2>
-      <p class="about-project-desc">{{ systemName }} 是一款兼具设计美学与高效开发的后台系统</p>
-      <p class="about-project-desc">使用了 Vue3、TypeScript、Vite、Element Plus 等前沿技术</p>
+      <h2 class="about-project-title">{{ t('dashboard.console.aboutProject.title') }}</h2>
+      <p class="about-project-desc"
+        >{{ systemName }} {{ t('dashboard.console.aboutProject.desc1') }}</p
+      >
+      <p class="about-project-desc">{{ t('dashboard.console.aboutProject.desc2') }}</p>
 
       <div class="about-project-links">
         <div
@@ -23,18 +25,32 @@
 
 <script setup lang="ts">
   import AppConfig from '@/config'
+  import { useI18n } from 'vue-i18n'
 
+  const { t } = useI18n()
   const systemName = AppConfig.systemInfo.name
 
-  const linkList = [
-    { label: '项目官网', url: 'https://www.artd.pro/docs/zh/' },
-    { label: '文档', url: 'https://www.artd.pro/docs/zh/guide/introduce.html' },
-    { label: 'Github', url: 'https://github.com/Daymychen/art-design-pro' },
-    { label: '哔哩哔哩', url: 'https://space.bilibili.com/425500936?spm_id_from=333.1007.0.0' }
-  ]
+  const linkList = computed(() => [
+    {
+      label: t('dashboard.console.aboutProject.officialSite'),
+      url: 'https://www.artd.pro/docs/zh/'
+    },
+    {
+      label: t('dashboard.console.aboutProject.documentation'),
+      url: 'https://www.artd.pro/docs/zh/guide/introduce.html'
+    },
+    {
+      label: t('dashboard.console.aboutProject.github'),
+      url: 'https://github.com/Daymychen/art-design-pro'
+    },
+    {
+      label: t('dashboard.console.aboutProject.bilibili'),
+      url: 'https://space.bilibili.com/425500936?spm_id_from=333.1007.0.0'
+    }
+  ])
 
   /**
-   * 在新标签页中打开指定 URL
+   * @description 在新标签页中打开指定 URL
    * @param url 要打开的网页地址
    */
   const goPage = (url: string): void => {

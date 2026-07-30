@@ -19,7 +19,7 @@
         @check="handleTreeCheck"
       >
         <template #default="{ data }">
-          <div style="display: flex; align-items: center">
+          <div class="tree-node-content">
             <span v-if="data.isAuth">
               {{ data.label }}
             </span>
@@ -29,10 +29,10 @@
       </ElTree>
     </ElScrollbar>
     <template #footer>
-      <ElButton @click="outputSelectedData" style="margin-left: 8px">获取选中数据</ElButton>
+      <ElButton @click="outputSelectedData" class="ml-2">获取选中数据</ElButton>
 
       <ElButton @click="toggleExpandAll">{{ isExpandAll ? '全部收起' : '全部展开' }}</ElButton>
-      <ElButton @click="toggleSelectAll" style="margin-left: 8px">{{
+      <ElButton @click="toggleSelectAll" class="ml-2">{{
         isSelectAll ? '取消全选' : '全部选择'
       }}</ElButton>
       <ElButton type="primary" @click="savePermission">保存</ElButton>
@@ -43,25 +43,14 @@
 <script setup lang="ts">
   import { useMenuStore } from '@/store/modules/menu'
   import { formatMenuTitle } from '@/utils/router'
+  import type { RolePermissionDialogProps, RolePermissionDialogEmits, MenuNode } from '../types'
 
-  type RoleListItem = Api.SystemManage.RoleListItem
-
-  interface Props {
-    modelValue: boolean
-    roleData?: RoleListItem
-  }
-
-  interface Emits {
-    (e: 'update:modelValue', value: boolean): void
-    (e: 'success'): void
-  }
-
-  const props = withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<RolePermissionDialogProps>(), {
     modelValue: false,
     roleData: undefined
   })
 
-  const emit = defineEmits<Emits>()
+  const emit = defineEmits<RolePermissionDialogEmits>()
 
   const { menuList } = storeToRefs(useMenuStore())
   const treeRef = ref()
@@ -69,7 +58,7 @@
   const isSelectAll = ref(false)
 
   /**
-   * 弹窗显示状态双向绑定
+   * @description 弹窗显示状态双向绑定
    */
   const visible = computed({
     get: () => props.modelValue,
@@ -77,26 +66,7 @@
   })
 
   /**
-   * 菜单节点类型
-   */
-  interface MenuNode {
-    id?: string | number
-    name?: string
-    label?: string
-    meta?: {
-      title?: string
-      authList?: Array<{
-        authMark: string
-        title: string
-        checked?: boolean
-      }>
-    }
-    children?: MenuNode[]
-    [key: string]: any
-  }
-
-  /**
-   * 处理菜单数据，将 authList 转换为树形子节点
+   * @description 处理菜单数据，将 authList 转换为树形子节点
    * 递归处理菜单树，将权限列表展开为可选择的子节点
    */
   const processedMenuList = computed(() => {
@@ -125,19 +95,19 @@
       return processed
     }
 
-    return (menuList.value as any[]).map(processNode)
+    return (menuList.value as MenuNode[]).map(processNode)
   })
 
   /**
-   * 树形组件配置
+   * @description 树形组件配置
    */
   const defaultProps = {
     children: 'children',
-    label: (data: any) => formatMenuTitle(data.meta?.title) || data.label || ''
+    label: (data: MenuNode) => formatMenuTitle(data.meta?.title || '') || data.label || ''
   }
 
   /**
-   * 监听弹窗打开，初始化权限数据
+   * @description 监听弹窗打开，初始化权限数据
    */
   watch(
     () => props.modelValue,
@@ -150,17 +120,17 @@
   )
 
   /**
-   * 关闭弹窗并清空选中状态
+   * @description 关闭弹窗并清空选中状态
    */
-  const handleClose = () => {
+  const handleClose = (): void => {
     visible.value = false
     treeRef.value?.setCheckedKeys([])
   }
 
   /**
-   * 保存权限配置
+   * @description 保存权限配置
    */
-  const savePermission = () => {
+  const savePermission = (): void => {
     // TODO: 调用保存权限接口
     ElMessage.success('权限保存成功')
     emit('success')
@@ -168,14 +138,14 @@
   }
 
   /**
-   * 切换全部展开/收起状态
+   * @description 切换全部展开/收起状态
    */
-  const toggleExpandAll = () => {
+  const toggleExpandAll = (): void => {
     const tree = treeRef.value
     if (!tree) return
 
     const nodes = tree.store.nodesMap
-    // 这里保留 any，因为 Element Plus 的内部节点类型较复杂
+    // Element Plus 的内部节点类型较复杂，保留 any
     Object.values(nodes).forEach((node: any) => {
       node.expanded = !isExpandAll.value
     })
@@ -184,9 +154,9 @@
   }
 
   /**
-   * 切换全选/取消全选状态
+   * @description 切换全选/取消全选状态
    */
-  const toggleSelectAll = () => {
+  const toggleSelectAll = (): void => {
     const tree = treeRef.value
     if (!tree) return
 
@@ -201,7 +171,7 @@
   }
 
   /**
-   * 递归获取所有节点的 key
+   * @description 递归获取所有节点的 key
    * @param nodes 节点列表
    * @returns 所有节点的 key 数组
    */
@@ -218,10 +188,10 @@
   }
 
   /**
-   * 处理树节点选中状态变化
+   * @description 处理树节点选中状态变化
    * 同步更新全选按钮状态
    */
-  const handleTreeCheck = () => {
+  const handleTreeCheck = (): void => {
     const tree = treeRef.value
     if (!tree) return
 
@@ -232,10 +202,10 @@
   }
 
   /**
-   * 输出选中的权限数据到控制台
+   * @description 输出选中的权限数据到控制台
    * 用于调试和查看当前选中的权限配置
    */
-  const outputSelectedData = () => {
+  const outputSelectedData = (): void => {
     const tree = treeRef.value
     if (!tree) return
 
@@ -252,3 +222,11 @@
     ElMessage.success(`已输出选中数据到控制台，共选中 ${selectedData.totalChecked} 个节点`)
   }
 </script>
+
+<style scoped lang="scss">
+  // 树节点内容容器
+  .tree-node-content {
+    display: flex;
+    align-items: center;
+  }
+</style>

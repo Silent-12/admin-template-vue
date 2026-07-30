@@ -105,6 +105,30 @@
       "message": "Welcome back"
     }
   },
+  "dashboard": {
+    "console": {
+      "aboutProject": {
+        "title": "About Project",
+        "desc1": "is a backend system combining design aesthetics with efficient development",
+        "desc2": "Built with Vue3, TypeScript, Vite, Element Plus and other cutting-edge technologies",
+        "officialSite": "Official Site",
+        "documentation": "Documentation",
+        "github": "Github",
+        "bilibili": "Bilibili"
+      },
+      "banner": {
+        "title": "Welcome to Ao Design Pro",
+        "subtitle": "A backend management system template combining design aesthetics with efficient development",
+        "btnText": "Get Started"
+      },
+      "cardBanner": {
+        "title": "Component-Based Development",
+        "description": "Based on Vue3 Composition API and Element Plus, providing rich business component examples.",
+        "docBtn": "View Docs",
+        "cancelBtn": "Later"
+      }
+    }
+  },
   "greeting": {
     "dawn": "Good morning!",
     "morning": "Good morning!",

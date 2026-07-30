@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-  import AboutProject from './modules/about-project.vue'
-  import BannerShowcase from './modules/banner-showcase.vue'
+  import AboutProject from './components/AboutProject.vue'
+  import BannerShowcase from './components/BannerShowcase.vue'
 
   defineOptions({ name: 'Console' })
 </script>

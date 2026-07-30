@@ -11,27 +11,15 @@
 </template>
 
 <script setup lang="ts">
-  type RoleSearchFormParams = Api.SystemManage.RoleSearchParams & {
-    daterange?: string[]
-  }
+  import type { RoleSearchProps, RoleSearchEmits, RoleSearchFormParams } from '../types'
 
-  interface Props {
-    modelValue: RoleSearchFormParams
-  }
-
-  interface Emits {
-    (e: 'update:modelValue', value: RoleSearchFormParams): void
-    (e: 'search', params: RoleSearchFormParams): void
-    (e: 'reset'): void
-  }
-
-  const props = defineProps<Props>()
-  const emit = defineEmits<Emits>()
+  const props = defineProps<RoleSearchProps>()
+  const emit = defineEmits<RoleSearchEmits>()
 
   const searchBarRef = ref()
 
   /**
-   * 表单数据双向绑定
+   * @description 表单数据双向绑定
    */
   const formData = computed({
     get: () => props.modelValue,
@@ -39,12 +27,12 @@
   })
 
   /**
-   * 表单校验规则
+   * @description 表单校验规则
    */
   const rules = {}
 
   /**
-   * 角色状态选项
+   * @description 角色状态选项
    */
   const statusOptions = ref([
     { label: '启用', value: true },
@@ -52,7 +40,7 @@
   ])
 
   /**
-   * 搜索表单配置项
+   * @description 搜索表单配置项
    */
   const formItems = computed(() => [
     {
@@ -108,17 +96,17 @@
   ])
 
   /**
-   * 处理重置事件
+   * @description 处理重置事件
    */
-  const handleReset = () => {
+  const handleReset = (): void => {
     emit('reset')
   }
 
   /**
-   * 处理搜索事件
-   * 验证表单后触发搜索
+   * @description 处理搜索事件
+   * @param params 搜索参数
    */
-  const handleSearch = async (params: RoleSearchFormParams) => {
+  const handleSearch = async (params: RoleSearchFormParams): Promise<void> => {
     await searchBarRef.value.validate()
     emit('search', params)
   }

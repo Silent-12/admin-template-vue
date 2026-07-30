@@ -41,28 +41,22 @@
 <script setup lang="ts">
   import { ROLE_LIST_DATA } from '@/mock/temp/formData'
   import type { FormInstance, FormRules } from 'element-plus'
+  import type { UserDialogProps, UserDialogEmits } from '../types'
 
-  interface Props {
-    visible: boolean
-    type: string
-    userData?: Partial<Api.SystemManage.UserListItem>
-  }
-
-  interface Emits {
-    (e: 'update:visible', value: boolean): void
-    (e: 'submit'): void
-  }
-
-  const props = defineProps<Props>()
-  const emit = defineEmits<Emits>()
+  const props = withDefaults(defineProps<UserDialogProps>(), {
+    modelValue: false
+  })
+  const emit = defineEmits<UserDialogEmits>()
 
   // 角色列表数据
   const roleList = ref(ROLE_LIST_DATA)
 
-  // 对话框显示控制
+  /**
+   * @description 对话框显示控制双向绑定
+   */
   const dialogVisible = computed({
-    get: () => props.visible,
-    set: (value) => emit('update:visible', value)
+    get: () => props.modelValue,
+    set: (value) => emit('update:modelValue', value)
   })
 
   const dialogType = computed(() => props.type)
@@ -93,10 +87,10 @@
   }
 
   /**
-   * 初始化表单数据
+   * @description 初始化表单数据
    * 根据对话框类型（新增/编辑）填充表单
    */
-  const initFormData = () => {
+  const initFormData = (): void => {
     const isEdit = props.type === 'edit' && props.userData
     const row = props.userData
 
@@ -109,11 +103,11 @@
   }
 
   /**
-   * 监听对话框状态变化
+   * @description 监听对话框状态变化
    * 当对话框打开时初始化表单数据并清除验证状态
    */
   watch(
-    () => [props.visible, props.type, props.userData],
+    () => [props.modelValue, props.type, props.userData],
     ([visible]) => {
       if (visible) {
         initFormData()
@@ -126,10 +120,10 @@
   )
 
   /**
-   * 提交表单
+   * @description 提交表单
    * 验证通过后触发提交事件
    */
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     if (!formRef.value) return
 
     await formRef.value.validate((valid) => {

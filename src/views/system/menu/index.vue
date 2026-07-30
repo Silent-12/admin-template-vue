@@ -39,7 +39,7 @@
 
       <!-- 菜单弹窗 -->
       <MenuDialog
-        v-model:visible="dialogVisible"
+        v-model="dialogVisible"
         :type="dialogType"
         :editData="editData"
         :lockType="lockMenuType"
@@ -54,9 +54,10 @@
   import AoButtonTable from '@/components/core/forms/ao-button-table/index.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { AppRouteRecord } from '@/types/router'
-  import MenuDialog from './modules/menu-dialog.vue'
+  import MenuDialog from './components/MenuDialog.vue'
   import { fetchGetMenuList } from '@/api/system-manage'
   import { ElTag, ElMessageBox } from 'element-plus'
+  import type { MenuDialogFormData, AuthEditData } from './types'
 
   defineOptions({ name: 'Menus' })
 
@@ -68,7 +69,7 @@
   // 弹窗相关
   const dialogVisible = ref(false)
   const dialogType = ref<'menu' | 'button'>('menu')
-  const editData = ref<AppRouteRecord | any>(null)
+  const editData = ref<AppRouteRecord | AuthEditData>()
   const lockMenuType = ref(false)
 
   // 搜索相关
@@ -356,7 +357,7 @@
    */
   const handleAddMenu = (): void => {
     dialogType.value = 'menu'
-    editData.value = null
+    editData.value = undefined
     lockMenuType.value = true
     dialogVisible.value = true
   }
@@ -366,7 +367,7 @@
    */
   const handleAddAuth = (): void => {
     dialogType.value = 'menu'
-    editData.value = null
+    editData.value = undefined
     lockMenuType.value = false
     dialogVisible.value = true
   }
@@ -389,31 +390,18 @@
   const handleEditAuth = (row: AppRouteRecord): void => {
     dialogType.value = 'button'
     editData.value = {
-      title: row.meta?.title,
-      authMark: row.meta?.authMark
+      title: row.meta?.title || '',
+      authMark: row.meta?.authMark || ''
     }
     lockMenuType.value = false
     dialogVisible.value = true
   }
 
   /**
-   * 菜单表单数据类型
-   */
-  interface MenuFormData {
-    name: string
-    path: string
-    component?: string
-    icon?: string
-    roles?: string[]
-    sort?: number
-    [key: string]: any
-  }
-
-  /**
    * 提交表单数据
    * @param formData 表单数据
    */
-  const handleSubmit = (formData: MenuFormData): void => {
+  const handleSubmit = (formData: MenuDialogFormData): void => {
     console.log('提交数据:', formData)
     // TODO: 调用API保存数据
     getMenuList()

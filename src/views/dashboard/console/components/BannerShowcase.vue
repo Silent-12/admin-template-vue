@@ -6,13 +6,13 @@
       class="banner-showcase__basic"
       box-style="banner-showcase__basic-box"
       height="12rem"
-      title="欢迎使用 Ao Design Pro"
-      subtitle="一款兼具设计美学与高效开发的后台管理系统模板"
+      :title="t('dashboard.console.banner.title')"
+      :subtitle="t('dashboard.console.banner.subtitle')"
       :meteor-config="{ enabled: true, count: 12 }"
       :button-config="{
         show: true,
-        text: '开始体验',
-        color: '#fff',
+        text: t('dashboard.console.banner.btnText'),
+        color: 'var(--ao-gray-100)',
         textColor: 'var(--theme-color)',
         radius: '6px'
       }"
@@ -25,17 +25,17 @@
       class="banner-showcase__card"
       height="auto"
       :image="cardImage"
-      title="组件化开发"
-      description="基于 Vue3 组合式 API 与 Element Plus，提供丰富的业务组件示例。"
+      :title="t('dashboard.console.cardBanner.title')"
+      :description="t('dashboard.console.cardBanner.description')"
       :button="{
         show: true,
-        text: '查看文档',
+        text: t('dashboard.console.cardBanner.docBtn'),
         color: 'var(--theme-color)',
-        textColor: '#fff'
+        textColor: 'var(--ao-gray-100)'
       }"
       :cancel-button="{
         show: true,
-        text: '稍后再看',
+        text: t('dashboard.console.cardBanner.cancelBtn'),
         color: 'var(--ao-gray-100)',
         textColor: 'var(--ao-gray-700)'
       }"
@@ -47,32 +47,35 @@
 
 <script setup lang="ts">
   import { ElMessage } from 'element-plus'
+  import { useI18n } from 'vue-i18n'
   // 卡片横幅展示用的插图
   import cardImage from '@imgs/draw/draw1.png'
 
+  const { t } = useI18n()
+
   /**
-   * 基础横幅整体点击处理
+   * @description 基础横幅整体点击处理
    */
   const handleBannerClick = (): void => {
     ElMessage.info('点击了基础横幅区域')
   }
 
   /**
-   * 基础横幅按钮点击处理
+   * @description 基础横幅按钮点击处理
    */
   const handleBannerButtonClick = (): void => {
     ElMessage.success('开始体验 Ao Design Pro！')
   }
 
   /**
-   * 卡片横幅主按钮点击处理
+   * @description 卡片横幅主按钮点击处理
    */
   const handleCardConfirm = (): void => {
     ElMessage.success('已为您打开文档页面')
   }
 
   /**
-   * 卡片横幅取消按钮点击处理
+   * @description 卡片横幅取消按钮点击处理
    */
   const handleCardCancel = (): void => {
     ElMessage.warning('已忽略，可稍后查看')

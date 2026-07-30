@@ -32,7 +32,7 @@
 
       <!-- 用户弹窗 -->
       <UserDialog
-        v-model:visible="dialogVisible"
+        v-model="dialogVisible"
         :type="dialogType"
         :user-data="currentUserData"
         @submit="handleDialogSubmit"
@@ -46,14 +46,13 @@
   import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetUserList } from '@/api/system-manage'
-  import UserSearch from './modules/user-search.vue'
-  import UserDialog from './modules/user-dialog.vue'
+  import UserSearch from './components/UserSearch.vue'
+  import UserDialog from './components/UserDialog.vue'
   import { ElTag, ElMessageBox, ElImage } from 'element-plus'
   import { DialogType } from '@/types'
+  import type { UserListItem } from './types'
 
   defineOptions({ name: 'User' })
-
-  type UserListItem = Api.SystemManage.UserListItem
 
   // 弹窗相关
   const dialogType = ref<DialogType>('add')

@@ -79,6 +79,7 @@
   import { HttpError } from '@/utils/http/error'
   import { fetchLogin } from '@/api/auth'
   import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
+  import type { AccountKey, Account } from './types'
 
   defineOptions({ name: 'Login' })
 
@@ -89,16 +90,6 @@
   watch(locale, () => {
     formKey.value++
   })
-
-  type AccountKey = 'super' | 'admin' | 'user'
-
-  export interface Account {
-    key: AccountKey
-    label: string
-    userName: string
-    password: string
-    roles: string[]
-  }
 
   const accounts = computed<Account[]>(() => [
     {
@@ -149,16 +140,21 @@
     setupAccount('super')
   })
 
-  // 设置账号
-  const setupAccount = (key: AccountKey) => {
+  /**
+   * @description 设置选中账号并填充用户名密码
+   * @param key 账号标识
+   */
+  const setupAccount = (key: AccountKey): void => {
     const selectedAccount = accounts.value.find((account: Account) => account.key === key)
     formData.account = key
     formData.username = selectedAccount?.userName ?? ''
     formData.password = selectedAccount?.password ?? ''
   }
 
-  // 登录
-  const handleSubmit = async () => {
+  /**
+   * @description 提交登录表单
+   */
+  const handleSubmit = async (): Promise<void> => {
     if (!formRef.value) return
 
     try {
@@ -205,8 +201,10 @@
     }
   }
 
-  // 登录成功提示
-  const showLoginSuccessNotice = () => {
+  /**
+   * @description 登录成功后显示通知
+   */
+  const showLoginSuccessNotice = (): void => {
     setTimeout(() => {
       ElNotification({
         title: t('login.success.title'),
@@ -220,8 +218,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import './style';
-
   /* 登录页根容器 */
   .login-container {
     display: flex;
@@ -233,6 +229,70 @@
   .login-right-side {
     position: relative;
     flex: 1 1 0%;
+  }
+
+  /* 授权页右侧区域 */
+  .auth-right-wrap {
+    position: absolute;
+    inset: 0;
+    width: 440px;
+    height: 650px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: auto;
+    overflow: hidden;
+    animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+
+    /* 响应式 max-sm: 最大宽度 39.99rem（640px） */
+    @media (width <= 39.99rem) {
+      width: 100%;
+      padding-right: 1.75rem;
+      padding-left: 1.75rem;
+    }
+
+    /* 响应式 max-md: 最大宽度 47.99rem（768px），禁用动画 */
+    @media (width <= 47.99rem) {
+      animation: none;
+    }
+
+    /* 表单容器 */
+    .form {
+      height: 100%;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    /* 标题 */
+    .title {
+      font-size: 2.25rem;
+      font-weight: 600;
+      line-height: 2.5rem;
+      color: var(--ao-gray-900);
+
+      /* 响应式 max-md：缩小标题字号 */
+      @media (width <= 47.99rem) {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+      }
+
+      /* 响应式 max-sm：移动端增加顶部间距 */
+      @media (width <= 39.99rem) {
+        padding-top: 2.5rem;
+      }
+    }
+
+    /* 副标题 */
+    .sub-title {
+      margin-top: 10px;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--ao-gray-600);
+    }
+
+    /* 表单控件统一高度 */
+    .custom-height {
+      height: var(--login-input-height, 40px) !important;
+    }
   }
 
   /* 操作行样式 */
@@ -258,6 +318,19 @@
 
   /* Element Plus 选择器高度调整 */
   :deep(.el-select__wrapper) {
-    height: 40px !important;
+    height: var(--login-input-height, 40px) !important;
+  }
+
+  /* 滑入动画 */
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 </style>

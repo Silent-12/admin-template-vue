@@ -34,32 +34,20 @@
 
 <script setup lang="ts">
   import type { FormInstance, FormRules } from 'element-plus'
+  import type { RoleEditDialogProps, RoleEditDialogEmits, RoleListItem } from '../types'
 
-  type RoleListItem = Api.SystemManage.RoleListItem
-
-  interface Props {
-    modelValue: boolean
-    dialogType: 'add' | 'edit'
-    roleData?: RoleListItem
-  }
-
-  interface Emits {
-    (e: 'update:modelValue', value: boolean): void
-    (e: 'success'): void
-  }
-
-  const props = withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<RoleEditDialogProps>(), {
     modelValue: false,
     dialogType: 'add',
     roleData: undefined
   })
 
-  const emit = defineEmits<Emits>()
+  const emit = defineEmits<RoleEditDialogEmits>()
 
   const formRef = ref<FormInstance>()
 
   /**
-   * 弹窗显示状态双向绑定
+   * @description 弹窗显示状态双向绑定
    */
   const visible = computed({
     get: () => props.modelValue,
@@ -67,7 +55,7 @@
   })
 
   /**
-   * 表单验证规则
+   * @description 表单验证规则
    */
   const rules = reactive<FormRules>({
     roleName: [
@@ -82,7 +70,7 @@
   })
 
   /**
-   * 表单数据
+   * @description 表单数据
    */
   const form = reactive<RoleListItem>({
     roleId: 0,
@@ -94,7 +82,7 @@
   })
 
   /**
-   * 监听弹窗打开，初始化表单数据
+   * @description 监听弹窗打开，初始化表单数据
    */
   watch(
     () => props.modelValue,
@@ -104,7 +92,7 @@
   )
 
   /**
-   * 监听角色数据变化，更新表单
+   * @description 监听角色数据变化，更新表单
    */
   watch(
     () => props.roleData,
@@ -115,10 +103,10 @@
   )
 
   /**
-   * 初始化表单数据
+   * @description 初始化表单数据
    * 根据弹窗类型填充表单或重置表单
    */
-  const initForm = () => {
+  const initForm = (): void => {
     if (props.dialogType === 'edit' && props.roleData) {
       Object.assign(form, props.roleData)
     } else {
@@ -134,18 +122,18 @@
   }
 
   /**
-   * 关闭弹窗并重置表单
+   * @description 关闭弹窗并重置表单
    */
-  const handleClose = () => {
+  const handleClose = (): void => {
     visible.value = false
     formRef.value?.resetFields()
   }
 
   /**
-   * 提交表单
+   * @description 提交表单
    * 验证通过后调用接口保存数据
    */
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     if (!formRef.value) return
 
     try {

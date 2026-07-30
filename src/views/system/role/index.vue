@@ -56,17 +56,13 @@
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetRoleList } from '@/api/system-manage'
   import AoButtonMore from '@/components/core/forms/ao-button-more/index.vue'
-  import RoleSearch from './modules/role-search.vue'
-  import RoleEditDialog from './modules/role-edit-dialog.vue'
-  import RolePermissionDialog from './modules/role-permission-dialog.vue'
+  import RoleSearch from './components/RoleSearch.vue'
+  import RoleEditDialog from './components/RoleEditDialog.vue'
+  import RolePermissionDialog from './components/RolePermissionDialog.vue'
   import { ElTag, ElMessageBox } from 'element-plus'
+  import type { RoleListItem, RoleSearchFormParams } from './types'
 
   defineOptions({ name: 'Role' })
-
-  type RoleListItem = Api.SystemManage.RoleListItem
-  type RoleSearchFormParams = Api.SystemManage.RoleSearchParams & {
-    daterange?: string[]
-  }
 
   // 搜索表单
   const searchForm = ref<RoleSearchFormParams>({

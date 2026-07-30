@@ -105,6 +105,30 @@
       "message": "欢迎回来"
     }
   },
+  "dashboard": {
+    "console": {
+      "aboutProject": {
+        "title": "关于项目",
+        "desc1": "是一款兼具设计美学与高效开发的后台系统",
+        "desc2": "使用了 Vue3、TypeScript、Vite、Element Plus 等前沿技术",
+        "officialSite": "项目官网",
+        "documentation": "文档",
+        "github": "Github",
+        "bilibili": "哔哩哔哩"
+      },
+      "banner": {
+        "title": "欢迎使用 Ao Design Pro",
+        "subtitle": "一款兼具设计美学与高效开发的后台管理系统模板",
+        "btnText": "开始体验"
+      },
+      "cardBanner": {
+        "title": "组件化开发",
+        "description": "基于 Vue3 组合式 API 与 Element Plus，提供丰富的业务组件示例。",
+        "docBtn": "查看文档",
+        "cancelBtn": "稍后再看"
+      }
+    }
+  },
   "greeting": {
     "dawn": "凌晨了！",
     "morning": "上午好！",
