@@ -3,12 +3,7 @@
 <!-- 写法同 ElementPlus 官方文档组件，把属性写在 props 里面就可以了 -->
 <template>
   <section class="ao-search-bar ao-card-xs" :class="{ 'is-expanded': isExpanded }">
-    <ElForm
-      ref="formRef"
-      :model="modelValue"
-      :label-position="labelPosition"
-      v-bind="{ ...$attrs }"
-    >
+    <ElForm ref="formRef" :model="formModel" :label-position="labelPosition" v-bind="{ ...$attrs }">
       <ElRow :gutter="gutter">
         <ElCol
           v-for="item in visibleFormItems"
@@ -27,7 +22,7 @@
               <component v-if="typeof item.label !== 'string'" :is="item.label" />
               <span v-else>{{ item.label }}</span>
             </template>
-            <slot :name="item.key" :item="item" :modelValue="modelValue">
+            <slot :name="item.key" :item="item" :modelValue="formModel">
               <component
                 :is="getComponent(item)"
                 :model-value="getFieldValue(item.key)"
@@ -35,29 +30,29 @@
                 v-bind="getProps(item)"
               >
                 <!-- 下拉选择 -->
-                <template v-if="item.type === 'select' && getProps(item)?.options">
+                <template v-if="item.type === 'select' && getOptions(item).length">
                   <ElOption
-                    v-for="option in getProps(item).options"
+                    v-for="option in getOptions(item)"
                     v-bind="option"
-                    :key="option.value"
+                    :key="String(option.value)"
                   />
                 </template>
 
                 <!-- 复选框组 -->
-                <template v-if="item.type === 'checkboxgroup' && getProps(item)?.options">
+                <template v-if="item.type === 'checkboxgroup' && getOptions(item).length">
                   <ElCheckbox
-                    v-for="option in getProps(item).options"
+                    v-for="option in getOptions(item)"
                     v-bind="option"
-                    :key="option.value"
+                    :key="String(option.value)"
                   />
                 </template>
 
                 <!-- 单选框组 -->
-                <template v-if="item.type === 'radiogroup' && getProps(item)?.options">
+                <template v-if="item.type === 'radiogroup' && getOptions(item).length">
                   <ElRadio
-                    v-for="option in getProps(item).options"
+                    v-for="option in getOptions(item)"
                     v-bind="option"
-                    :key="option.value"
+                    :key="String(option.value)"
                   />
                 </template>
 
@@ -106,7 +101,7 @@
   import { ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
   import { useWindowSize } from '@vueuse/core'
   import { useI18n } from 'vue-i18n'
-  import { toRaw, type Component } from 'vue'
+  import { computed, ref, toRaw, watch, type Component, type VNode } from 'vue'
   import {
     ElCascader,
     ElCheckbox,
@@ -156,6 +151,9 @@
 
   const formInstance = useTemplateRef<FormInstance>('formRef')
 
+  /** 选项数据结构 */
+  type SearchFormOption = { value: string | number | boolean; [key: string]: unknown }
+
   // 表单项配置
   export interface SearchFormItem {
     /** 表单项的唯一标识 */
@@ -173,20 +171,25 @@
     /** 表单项占据的列宽，基于24格栅格系统 */
     span?: number
     /** 选项数据，用于 select、checkbox-group、radio-group 等 */
-    options?: Record<string, any>
+    options?: Array<SearchFormOption>
     /** 传递给表单项组件的属性 */
-    props?: Record<string, any>
+    props?: Record<string, unknown>
     /** 表单项的插槽配置 */
-    slots?: Record<string, (() => any) | undefined>
+    slots?: Record<string, (() => VNode) | undefined>
     /** 表单项的占位符文本 */
     placeholder?: string
     /** 更多属性配置请参考 ElementPlus 官方文档 */
   }
 
+  /** 搜索表单数据模型 */
+  type SearchFormModel = Record<string, unknown>
+
   // 表单配置
   interface SearchBarProps {
     /** 表单数据 */
     items: SearchFormItem[]
+    /** 当前表单值（支持 v-model） */
+    modelValue?: SearchFormModel
     /** 每列的宽度（基于 24 格布局） */
     span?: number
     /** 表单控件间隙 */
@@ -230,6 +233,7 @@
 
   const props = withDefaults(defineProps<SearchBarProps>(), {
     items: () => [],
+    modelValue: () => ({}) as SearchFormModel,
     span: 6,
     gutter: 12,
     isExpand: false,
@@ -246,16 +250,19 @@
 
   interface SearchBarEmits {
     reset: []
-    search: [Record<string, any>]
+    search: [SearchFormModel]
+    'update:modelValue': [SearchFormModel]
   }
 
   const emit = defineEmits<SearchBarEmits>()
 
-  const modelValue = defineModel<Record<string, any>>({ default: {} })
-  const initialModelValue = ref<Record<string, any>>({})
-
-  // 保存组件初始化时的表单快照，用于 reset 时恢复默认筛选条件。
-  const cloneModelValue = (value: Record<string, any> | undefined) => {
+  /**
+   * 深度克隆表单数据
+   * @description 保存组件初始化时的表单快照，用于 reset 时恢复默认筛选条件
+   * @param value 待克隆的表单数据
+   * @return 克隆后的表单数据
+   */
+  const cloneModelValue = (value: SearchFormModel | undefined): SearchFormModel => {
     if (!value) return {}
 
     const deepClone = (source: unknown): unknown => {
@@ -274,10 +281,23 @@
       return source
     }
 
-    return deepClone(toRaw(value)) as Record<string, any>
+    return deepClone(toRaw(value)) as SearchFormModel
   }
 
-  initialModelValue.value = cloneModelValue(modelValue.value)
+  const formModel = ref<SearchFormModel>(cloneModelValue(props.modelValue))
+  const initialModelValue = ref<SearchFormModel>(cloneModelValue(props.modelValue))
+
+  /**
+   * 同步父级 v-model 变化
+   * @description 当父组件通过 v-model 传入新值时，同步更新本地表单数据
+   */
+  watch(
+    () => props.modelValue,
+    (newValue) => {
+      formModel.value = cloneModelValue(newValue)
+      initialModelValue.value = cloneModelValue(newValue)
+    }
+  )
 
   /**
    * 是否展开状态
@@ -296,23 +316,46 @@
     ...props.sanitizeOutput
   }))
 
-  const getProps = (item: SearchFormItem) => {
+  /**
+   * 获取表单项需要透传给组件的属性
+   * @description 优先使用 item.props，否则剔除 SearchFormItem 自有字段后返回其余配置
+   * @param item 表单项配置
+   * @return 需要绑定到表单组件的属性对象
+   */
+  const getProps = (item: SearchFormItem): Record<string, unknown> => {
     if (item.props) return item.props
-    const props = { ...item }
-    rootProps.forEach((key) => delete (props as Record<string, any>)[key])
-    return props
+    return Object.fromEntries(
+      Object.entries(item).filter(([key]) => !rootProps.includes(key))
+    ) as Record<string, unknown>
   }
 
-  // 获取插槽
-  const getSlots = (item: SearchFormItem) => {
+  /**
+   * 获取选项数据
+   * @description 支持通过 item.props.options 或 item.options 传入
+   * @param item 表单项配置
+   * @return 选项数组
+   */
+  const getOptions = (item: SearchFormItem): Array<SearchFormOption> => {
+    const options = item.props?.options ?? item.options
+    return Array.isArray(options) ? options : []
+  }
+
+  /**
+   * 获取有效插槽配置
+   * @param item 表单项配置
+   * @return 过滤掉空值后的插槽映射
+   */
+  const getSlots = (item: SearchFormItem): Record<string, (() => VNode) | undefined> => {
     if (!item.slots) return {}
-    const validSlots: Record<string, () => any> = {}
-    Object.entries(item.slots).forEach(([key, slotFn]) => {
-      if (slotFn) {
-        validSlots[key] = slotFn
-      }
-    })
-    return validSlots
+    return Object.entries(item.slots).reduce<Record<string, (() => VNode) | undefined>>(
+      (accumulator, [key, slotFn]) => {
+        if (slotFn) {
+          accumulator[key] = slotFn
+        }
+        return accumulator
+      },
+      {}
+    )
   }
 
   /**
@@ -328,17 +371,18 @@
     return value === '' ? undefined : value
   }
 
-  const getFieldValue = (key: string) => modelValue.value[key]
+  const getFieldValue = (key: string) => formModel.value[key]
 
   const setFieldValue = (key: string, value: unknown) => {
     const normalizedValue = normalizeFieldValue(value)
 
     if (normalizedValue === undefined) {
-      delete modelValue.value[key]
-      return
+      delete formModel.value[key]
+    } else {
+      formModel.value[key] = normalizedValue
     }
 
-    modelValue.value[key] = normalizedValue
+    emit('update:modelValue', formModel.value)
   }
 
   const isRichTextEmpty = (value: string) => {
@@ -405,8 +449,8 @@
     return value ?? undefined
   }
 
-  const getSanitizedOutput = () => {
-    return (sanitizeOutputValue(cloneModelValue(modelValue.value)) || {}) as Record<string, any>
+  const getSanitizedOutput = (): SearchFormModel => {
+    return (sanitizeOutputValue(cloneModelValue(formModel.value)) || {}) as SearchFormModel
   }
 
   // 组件
@@ -476,11 +520,12 @@
     formInstance.value?.resetFields()
 
     // 恢复初始表单值，保留默认搜索条件而不是简单清空。
-    Object.keys(modelValue.value).forEach((key) => {
-      delete modelValue.value[key]
+    Object.keys(formModel.value).forEach((key) => {
+      delete formModel.value[key]
     })
-    Object.assign(modelValue.value, cloneModelValue(initialModelValue.value))
+    Object.assign(formModel.value, cloneModelValue(initialModelValue.value))
 
+    emit('update:modelValue', formModel.value)
     // 触发 reset 事件
     emit('reset')
   }
@@ -495,7 +540,9 @@
 
   defineExpose({
     ref: formInstance,
-    validate: (...args: any[]) => formInstance.value?.validate(...args),
+    validate: (
+      ...args: Parameters<FormInstance['validate']>
+    ): ReturnType<FormInstance['validate']> => formInstance.value!.validate(...args),
     reset: handleReset,
     // 允许外部在手动组装请求前直接读取清洗后的参数。
     getOutput: getSanitizedOutput
@@ -534,10 +581,6 @@
         color: var(--theme-color);
         cursor: pointer;
         transition: color 0.2s ease;
-
-        &:hover {
-          color: var(--ElColor-primary);
-        }
 
         span {
           font-size: 14px;
