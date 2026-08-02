@@ -1,17 +1,17 @@
 /**
  * HTTP 请求封装模块
- * 基于 Axios 封装的 HTTP 请求工具，提供统一的请求/响应处理
  *
- * ## 主要功能
+ * 基于 Axios 封装的 HTTP 请求工具，提供统一的请求/响应拦截处理、错误提示与重试机制。
  *
- * - 请求/响应拦截器（自动添加 Token、统一错误处理）
- * - 401 未授权自动登出（带防抖机制）
- * - 请求失败自动重试（可配置）
- * - 统一的成功/错误消息提示
- * - 支持 GET/POST/PUT/DELETE 等常用方法
+ * 扩展参数（在 `config` 中传入）：
+ *   - `showErrorMessage?: boolean`  — 是否显示错误提示（默认 true，设为 false 可静默错误）
+ *   - `showSuccessMessage?: boolean` — 是否显示成功提示（默认 false，设为 true 后响应 msg 将弹出成功提示）
  *
- * @module utils/http
- * @author Art Design Pro Team
+ * 内置能力：
+ *   - 自动注入 Authorization 请求头
+ *   - 401 未授权防抖处理，自动触发退出登录
+ *   - 对 408/500/502/503/504 状态码自动重试（最多 0 次，可通过 MAX_RETRIES 调整）
+ *   - POST/PUT 未传 data 时自动将 params 降级为 data
  */
 
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
@@ -22,10 +22,15 @@ import { $t } from '@/locales'
 import { BaseResponse } from '@/types'
 
 /** 请求配置常量 */
+// 请求超时时间（毫秒）
 const REQUEST_TIMEOUT = 15000
+// 退出登录延迟（毫秒）
 const LOGOUT_DELAY = 500
+// 请求失败最大重试次数
 const MAX_RETRIES = 0
+// 重试间隔时间（毫秒）
 const RETRY_DELAY = 1000
+// 401 错误提示防抖间隔（毫秒）
 const UNAUTHORIZED_DEBOUNCE_TIME = 3000
 
 /** 401防抖状态 */
@@ -48,8 +53,8 @@ const axiosInstance = axios.create({
   validateStatus: (status) => status >= 200 && status < 300,
   transformResponse: [
     (data, headers) => {
-      const contentType = headers['content-type']
-      if (contentType?.includes('application/json')) {
+      const contentType = String(headers['content-type'] ?? '')
+      if (contentType.includes('application/json')) {
         try {
           return JSON.parse(data)
         } catch {

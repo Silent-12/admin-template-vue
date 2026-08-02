@@ -200,3 +200,5 @@
 - 不允许使用 GBK、ANSI 编码保存文件。
 - 修改已有文件前，如果发现文件不是 UTF-8，应先提示并转换为 UTF-8。
 - 中文注释必须保持 UTF-8，不得产生乱码。
+
+- 涉及文本截断、溢出隐藏、多行省略等文本溢出场景时，必须优先使用 `src/assets/styles/core/mixin.scss` 中定义的 `@include ellipsis` 混入，禁止手动编写 `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` 等重复代码。单行省略调用 `@include ellipsis`，多行省略调用 `@include ellipsis($rowCount)`（如 `@include ellipsis(3)`）。

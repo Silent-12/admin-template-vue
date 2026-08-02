@@ -5,6 +5,7 @@
 
 /* ==================== Custom Border Radius Utilities ==================== */
 // 自定义圆角工具类，依赖全局 --custom-radius 变量
+// TODO 这个文件后续移除
 .rounded-custom-xs {
   border-radius: calc(var(--custom-radius) / 2);
 }
