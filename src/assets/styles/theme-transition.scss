@@ -1,3 +1,20 @@
+// theme-transition.scss - 主题切换过渡与圆形扩散动画
+// 包含：切换瞬间的样式过渡优化 + 圆形扩散动画
+
+// ==================== 主题切换过渡优化 ====================
+// 优化切换瞬间的视觉不适感
+.theme-change {
+  * {
+    transition: 0s !important;
+  }
+
+  .el-switch__core,
+  .el-switch__action {
+    transition: all 0.3s !important;
+  }
+}
+
+// ==================== 主题切换圆形扩散动画 ====================
 // 定义基础变量
 $bg-animation-color-light: #000;
 $bg-animation-color-dark: #fff;

@@ -1,4 +1,4 @@
-// sass 混合宏（函数）
+// mixin.scss - SCSS 混合宏（文本省略、毛玻璃等可复用样式函数）
 
 /**
  * 溢出省略号
@@ -36,7 +36,7 @@
  * @description 为元素添加 backdrop-filter: blur() 实现毛玻璃效果，同时生成 -webkit- 前缀版本
  * @return {*} 生成带浏览器前缀的 backdrop-filter: blur(30px) 样式
  * @example
- *   // 毛玻璃导航栏
+ *    毛玻璃导航栏
  *   .navbar {
  *     @include backdropBlur;
  *   }
