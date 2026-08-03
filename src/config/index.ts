@@ -37,7 +37,7 @@ import { headerBarConfig } from './modules/headerBar'
 const appConfig: SystemConfig = {
   // 系统信息
   systemInfo: {
-    name: 'Ao Design Pro' // 系统名称
+    name: import.meta.env.VITE_APP_NAME // 系统名称
   },
   // 系统主题
   systemThemeStyles: {

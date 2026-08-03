@@ -107,6 +107,8 @@ export interface SystemConfig {
 export interface EnvConfig {
   // 环境名称
   NODE_ENV: string
+  // 应用名称
+  VITE_APP_NAME: string
   // 应用版本
   VITE_VERSION: string
   // 应用端口
