@@ -1,0 +1,259 @@
+<!-- 授权页右上角组件 -->
+<template>
+  <div class="auth-top-bar flex-cb flex-c">
+    <div class="logo-section flex-cc">
+      <AoLogo class="icon" size="46" />
+      <h1 class="logo-title">{{ AppConfig.systemInfo.name }}</h1>
+    </div>
+
+    <div class="actions flex-cc">
+      <div class="color-picker-expandable flex-c">
+        <div class="color-dots flex-c">
+          <div
+            v-for="(color, index) in mainColors"
+            :key="color"
+            class="color-dot c-p flex-cc"
+            :class="{ active: color === systemThemeColor }"
+            :style="{ background: color, '--index': index }"
+            @click="changeThemeColor(color)"
+          >
+            <AoSvgIcon v-if="color === systemThemeColor" icon="ri:check-fill" class="check-icon" />
+          </div>
+        </div>
+        <div class="btn palette-btn c-p flex-cc tad-300">
+          <AoSvgIcon icon="ri:palette-line" class="palette-icon" />
+        </div>
+      </div>
+      <ElDropdown
+        v-if="shouldShowLanguage"
+        @command="changeLanguage"
+        popper-class="langDropDownStyle"
+      >
+        <div class="btn language-btn c-p flex-cc tad-300">
+          <AoSvgIcon icon="ri:translate-2" class="translate-icon" />
+        </div>
+        <template #dropdown>
+          <ElDropdownMenu>
+            <div v-for="lang in languageOptions" :key="lang.value" class="lang-btn-item">
+              <ElDropdownItem
+                :command="lang.value"
+                :class="{ 'is-selected': locale === lang.value }"
+              >
+                <span class="menu-txt">{{ lang.label }}</span>
+                <AoSvgIcon
+                  icon="ri:check-fill"
+                  class="lang-check-icon"
+                  v-if="locale === lang.value"
+                />
+              </ElDropdownItem>
+            </div>
+          </ElDropdownMenu>
+        </template>
+      </ElDropdown>
+      <div
+        v-if="shouldShowThemeToggle"
+        class="btn theme-btn c-p flex-cc tad-300"
+        @click="themeAnimation"
+      >
+        <AoSvgIcon :icon="isDark ? 'ri:sun-fill' : 'ri:moon-line'" class="theme-icon" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { useI18n } from 'vue-i18n'
+  import { useSettingStore } from '@/store/modules/setting'
+  import { useUserStore } from '@/store/modules/user'
+  import { useHeaderBar } from '@/hooks/core/useHeaderBar'
+  import { themeAnimation } from '@/utils/ui/animation'
+  import { languageOptions } from '@/locales'
+  import { LanguageEnum } from '@/enums/appEnum'
+  import AppConfig from '@/config'
+
+  defineOptions({ name: 'AuthTopBar' })
+
+  const settingStore = useSettingStore()
+  const userStore = useUserStore()
+  const { isDark, systemThemeColor } = storeToRefs(settingStore)
+  const { shouldShowThemeToggle, shouldShowLanguage } = useHeaderBar()
+  const { locale } = useI18n()
+
+  const mainColors = AppConfig.systemMainColor
+  const color = systemThemeColor // css v-bind 使用
+
+  const changeLanguage = (lang: LanguageEnum) => {
+    if (locale.value === lang) return
+    locale.value = lang
+    userStore.setLanguage(lang)
+  }
+
+  const changeThemeColor = (color: string) => {
+    if (systemThemeColor.value === color) return
+    settingStore.setElementTheme(color)
+    settingStore.reload()
+  }
+</script>
+
+<style scoped lang="scss">
+  .auth-top-bar {
+    position: absolute;
+    top: 1.125rem;
+    z-index: 10;
+    justify-content: flex-end !important;
+    width: 100%;
+
+    @media (width <= 1180px) {
+      justify-content: space-between !important;
+    }
+  }
+
+  .logo-section {
+    display: none !important;
+    margin-left: 0.5rem;
+
+    @media (width <= 1180px) {
+      display: flex !important;
+    }
+
+    @media (width <= 39.99rem) {
+      margin-left: 1.5rem;
+    }
+  }
+
+  .logo-title {
+    margin-left: 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .actions {
+    gap: 0.375rem;
+    margin-right: 0.5rem;
+
+    @media (width <= 39.99rem) {
+      margin-right: 1.25rem;
+    }
+  }
+
+  .color-picker-expandable {
+    position: relative;
+
+    @media (width <= 39.99rem) {
+      display: none !important;
+    }
+  }
+
+  .color-dots {
+    position: absolute;
+    top: 0;
+    right: 0;
+    gap: 0.5rem;
+    padding: 0.5rem 2.25rem 0.5rem 0.625rem;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    border-radius: 9999px;
+    box-shadow: 0 2px 12px var(--ao-gray-300);
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+    transform: translateX(10px);
+  }
+
+  .color-dot {
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: calc(var(--index) * 0.05s);
+    transform: translateX(20px) scale(0.8);
+  }
+
+  .color-dot:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+    transform: translateX(0) scale(1.1);
+  }
+
+  .color-picker-expandable:hover .color-dots {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .color-picker-expandable:hover .color-dot {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  .dark .color-dots {
+    background-color: var(--ao-gray-200);
+    box-shadow: none;
+  }
+
+  .check-icon {
+    color: #fff;
+  }
+
+  .palette-btn {
+    position: relative;
+    z-index: 2;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  // 语言按钮
+  .language-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  // 主题按钮
+  .theme-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  // 调色板图标
+  .palette-icon {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: var(--ao-gray-800);
+    transition-duration: 300ms;
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+  }
+
+  // 翻译图标
+  .translate-icon {
+    font-size: 19px;
+    color: var(--ao-gray-800);
+    transition-duration: 300ms;
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+  }
+
+  // 语言勾选图标
+  .lang-check-icon {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  // 主题切换图标
+  .theme-icon {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: var(--ao-gray-800);
+    transition-duration: 300ms;
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+  }
+
+  // 调色板按钮 hover 时图标颜色（v-bind 主题色）
+  .color-picker-expandable:hover .palette-btn :deep(.ao-svg-icon) {
+    color: v-bind(color);
+  }
+</style>

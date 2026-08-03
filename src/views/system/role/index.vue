@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ButtonMoreItem } from '@/components/core/forms/ao-button-more/index.vue'
+  import type { ButtonMoreItem } from '@/components/forms/AoButtonMore.vue'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetRoleList } from '@/api/system-manage'
-  import AoButtonMore from '@/components/core/forms/ao-button-more/index.vue'
+  import AoButtonMore from '@/components/forms/AoButtonMore.vue'
   import RoleSearch from './components/RoleSearch.vue'
   import RoleEditDialog from './components/RoleEditDialog.vue'
   import RolePermissionDialog from './components/RolePermissionDialog.vue'

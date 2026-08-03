@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-  import AoButtonTable from '@/components/core/forms/ao-button-table/index.vue'
+  import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetUserList } from '@/api/system-manage'

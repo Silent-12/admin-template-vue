@@ -12,5 +12,7 @@
 
 <script setup lang="ts">
   import imgUrl from '@imgs/svg/404.svg'
+  import AoException from '../components/AoException.vue'
+
   defineOptions({ name: 'Exception404' })
 </script>

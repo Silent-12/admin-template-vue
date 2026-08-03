@@ -4,8 +4,6 @@
  * 统一管理系统级全局组件的注册。
  * 这些组件会在应用启动时全局注册，可在任何地方使用。
  *
- * ## 主要功能
- *
  * - 组件配置 - 集中管理全局组件的配置信息
  * - 异步加载 - 使用 defineAsyncComponent 实现按需加载
  * - 开关控制 - 支持通过 enabled 字段启用/禁用组件
@@ -24,17 +22,13 @@ export const globalComponentsConfig: GlobalComponentConfig[] = [
   {
     name: '设置面板',
     key: 'settings-panel',
-    component: defineAsyncComponent(
-      () => import('@/components/core/layouts/ao-settings-panel/index.vue')
-    ),
+    component: defineAsyncComponent(() => import('@/components/layouts/AoSettingsPanel/index.vue')),
     enabled: true
   },
   {
     name: '全局搜索',
     key: 'global-search',
-    component: defineAsyncComponent(
-      () => import('@/components/core/layouts/ao-global-search/index.vue')
-    ),
+    component: defineAsyncComponent(() => import('@/components/layouts/AoGlobalSearch.vue')),
     enabled: true
   }
 ]

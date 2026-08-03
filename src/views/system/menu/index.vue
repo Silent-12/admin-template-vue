@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
   import { formatMenuTitle } from '@/utils/router'
-  import AoButtonTable from '@/components/core/forms/ao-button-table/index.vue'
+  import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { AppRouteRecord } from '@/types/router'
   import MenuDialog from './components/MenuDialog.vue'

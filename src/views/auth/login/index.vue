@@ -79,6 +79,8 @@
   import { HttpError } from '@/utils/http/error'
   import { fetchLogin } from '@/api/auth'
   import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
+  import AuthTopBar from './components/AuthTopBar.vue'
+  import LoginLeftView from './components/LoginLeftView.vue'
   import type { AccountKey, Account } from './types'
 
   defineOptions({ name: 'Login' })

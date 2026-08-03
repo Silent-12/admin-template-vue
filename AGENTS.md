@@ -27,9 +27,10 @@
 - 样式统一使用 SCSS，按域组织在 `src/assets/styles/`：核心样式在 `core/`（`theme.scss`、`utilities.scss`、`reset.scss`、`el-dark.scss`、`el-light.scss` 等），入口为 `src/assets/styles/index.scss`；禁止引入 Tailwind 等原子化 CSS 框架，禁止使用内联 `style=""` 写大段样式（动态样式除外）。
 
 - 组件目录分层规则：
-  - 通用基础组件放在 `src/components/core/` 下，按类别（`base/`、`banners/`、`cards/`、`charts/`、`forms/`、`layouts/`、`tables/` 等）分子目录。
-  - 每个组件必须独立成目录，入口文件统一为 `index.vue`，组件私有样式同名 `style.scss`，主题样式同名 `theme.scss`。
-  - 业务页面放在 `src/views/` 下，按业务模块分子目录（如 `system/user/`、`system/role/`、`system/menu/`）；页面内的弹窗、搜索条等子模块放在对应模块的 `modules/` 子目录中。
+  - 通用基础组件放在 `src/components/` 下，按类别（`base/`、`banners/`、`forms/`、`layouts/`、`media/`、`others/`、`tables/` 等）分子目录。
+  - 无子组件或私有资源的通用组件直接使用大驼峰文件名（如 `src/components/layouts/AoFastEnter.vue`）；包含子组件或私有资源的组件保留大驼峰目录和 `index.vue` 入口，组件私有样式同名 `style.scss`，主题样式同名 `theme.scss`。
+  - 仅服务单一业务的组件放在对应页面的 `src/views/<业务模块>/components/` 下，并由业务页面显式引入，不作为通用组件注册。
+  - 业务页面放在 `src/views/` 下，按业务模块分子目录（如 `system/user/`、`system/role/`、`system/menu/`）；页面内的弹窗、搜索条等子模块放在对应模块的 `components/` 子目录中。
 
 - 状态管理使用 Pinia，模块定义在 `src/store/modules/` 下，每个 store 一个文件，命名与业务域对应（如 `user.ts`、`menu.ts`、`setting.ts`、`worktab.ts`）；持久化通过 `pinia-plugin-persistedstate`，key 命名需语义清晰。
 
