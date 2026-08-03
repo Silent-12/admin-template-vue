@@ -337,11 +337,9 @@
   // 右侧操作区容器
   .right-wrap {
     justify-content: flex-end;
-
     @media (width <= 47.99rem) {
       margin-top: 0.75rem;
     }
-
     @media (width <= 39.99rem) {
       display: none !important;
     }
@@ -359,16 +357,13 @@
     cursor: pointer;
     background-color: color-mix(in srgb, var(--ao-gray-300) 55%, transparent);
     border-radius: 0.375rem;
-
     &:hover {
       background-color: var(--ao-gray-300);
     }
-
     @media (width >= 48rem) {
       margin-right: 0.625rem;
       margin-left: 0;
     }
-
     .dark & {
       background-color: color-mix(in srgb, var(--ao-gray-300) 40%, transparent);
     }
@@ -377,7 +372,6 @@
   // 搜索按钮激活态
   .button.active {
     background-color: var(--theme-color) !important;
-
     &:hover {
       background-color: color-mix(in srgb, var(--theme-color) 80%, transparent) !important;
     }
@@ -385,7 +379,7 @@
 
   // 搜索图标激活态
   .button :deep(.is-active-icon) {
-    color: #fff;
+    color: var(--ao-white);
   }
 
   // 搜索图标默认态
@@ -410,7 +404,6 @@
     :deep(.el-dropdown-menu__item) {
       margin-bottom: 3px !important;
     }
-
     &:last-child :deep(.el-dropdown-menu__item) {
       margin-bottom: 0 !important;
     }
@@ -428,13 +421,11 @@
     height: 1.125rem;
     margin-right: 0.5rem;
     color: var(--ao-gray-500);
-
     // 固定列状态
     &.is-fixed {
       color: var(--ao-gray-300);
       cursor: default;
     }
-
     // 可拖拽状态
     &.is-movable {
       cursor: move;
@@ -451,7 +442,6 @@
   .column-checkbox {
     flex: 1 1 0%;
     min-width: 0;
-
     :deep(.el-checkbox__label) {
       overflow: hidden;
       text-overflow: ellipsis;

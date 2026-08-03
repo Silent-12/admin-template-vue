@@ -416,49 +416,43 @@
     height: 31.25rem;
     overflow: hidden;
     box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 10%),
-      0 8px 10px -6px rgb(0 0 0 / 10%) !important;
+      0 20px 25px -5px var(--ao-shadow-10),
+      0 8px 10px -6px var(--ao-shadow-10) !important;
     transition-duration: 300ms;
     transition-property: all;
     transform-origin: top;
     will-change: top, left;
-
     @media (width <= 640px) {
       top: 65px;
       right: 0;
       width: 100%;
       height: 80vh;
     }
-
     // 头部
-    .notification-panel__header {
+    & &__header {
       padding-right: 0.875rem;
       padding-left: 0.875rem;
       margin-top: 0.875rem;
     }
-
-    .notification-panel__title {
+    & &__title {
       font-size: 1rem;
       font-weight: 500;
       line-height: 1.5rem;
       color: var(--ao-gray-800);
     }
-
-    .notification-panel__read-btn {
+    & &__read-btn {
       padding: 0.25rem 0.375rem;
       font-size: 0.75rem;
       line-height: 1rem;
       color: var(--ao-gray-800);
       user-select: none;
       border-radius: 0.25rem;
-
       &:hover {
         background: var(--ao-gray-200);
       }
     }
-
     // 标签栏
-    .notification-panel__tabs {
+    & &__tabs {
       box-sizing: border-box;
       display: flex;
       align-items: flex-end;
@@ -467,8 +461,7 @@
       padding-right: 0.875rem;
       padding-left: 0.875rem;
     }
-
-    .notification-panel__tab {
+    & &__tab {
       height: 3rem;
       margin-right: 1.25rem;
       overflow: hidden;
@@ -477,120 +470,99 @@
       color: var(--ao-gray-700);
       user-select: none;
     }
-
     // 内容区
-    .notification-panel__content {
+    & &__content {
       width: 100%;
       height: calc(100% - 95px);
     }
-
-    .notification-panel__scroll {
+    & &__scroll {
       height: calc(100% - 60px);
       overflow-y: scroll;
     }
-
     // 自定义滚动条
     .scrollbar-thin::-webkit-scrollbar {
       width: 5px !important;
     }
-
     .dark .scrollbar-thin::-webkit-scrollbar-track {
       background-color: var(--default-box-color);
     }
-
     .dark .scrollbar-thin::-webkit-scrollbar-thumb {
-      background-color: #222 !important;
+      background-color: var(--ao-notification-scrollbar-thumb) !important;
     }
-
     // 通知/消息项
     .notification-item {
       box-sizing: border-box;
       padding: 0.875rem;
-
       &:last-child {
         border-bottom: 0;
       }
-
       &:hover {
         background: color-mix(in srgb, var(--ao-gray-200) 60%, transparent); // hover:bg-g-200/60
       }
+      // 图标容器
+      &__icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        line-height: 2.25rem;
+        text-align: center;
+        border-radius: 0.5rem;
+      }
+      // 图标 SVG
+      &__icon-svg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        background: transparent !important;
+      }
+      // 文本主体
+      &__body {
+        width: calc(100% - 45px);
+        margin-left: 0.875rem;
+      }
+      // 通知标题
+      &__title {
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.375rem;
+        color: var(--ao-gray-900);
+      }
+      // 消息标题
+      &__msg-title {
+        font-size: 0.75rem;
+        font-weight: 400;
+        line-height: 1.375rem;
+      }
+      // 时间
+      &__time {
+        margin-top: 0.375rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: var(--ao-gray-500);
+      }
+      // 头像容器
+      &__avatar-box {
+        width: 2.25rem;
+        height: 2.25rem;
+      }
+      // 头像图片
+      &__avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+      }
     }
-
-    // 图标容器
-    .notification-item__icon {
-      width: 2.25rem;
-      height: 2.25rem;
-      line-height: 2.25rem;
-      text-align: center;
-      border-radius: 0.5rem;
-    }
-
-    // 图标 SVG
-    .notification-item__icon-svg {
-      font-size: 1.125rem;
-      line-height: 1.75rem;
-      background: transparent !important;
-    }
-
-    // 文本主体
-    .notification-item__body {
-      width: calc(100% - 45px);
-      margin-left: 0.875rem;
-    }
-
-    // 通知标题
-    .notification-item__title {
-      font-size: 0.875rem;
-      font-weight: 400;
-      line-height: 1.375rem;
-      color: var(--ao-gray-900);
-    }
-
-    // 消息标题
-    .notification-item__msg-title {
-      font-size: 0.75rem;
-      font-weight: 400;
-      line-height: 1.375rem;
-    }
-
-    // 时间
-    .notification-item__time {
-      margin-top: 0.375rem;
-      font-size: 0.75rem;
-      line-height: 1rem;
-      color: var(--ao-gray-500);
-    }
-
-    // 头像容器
-    .notification-item__avatar-box {
-      width: 2.25rem;
-      height: 2.25rem;
-    }
-
-    // 头像图片
-    .notification-item__avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 0.5rem;
-    }
-
     // 待办项
     .pending-item {
       box-sizing: border-box;
       padding: 0.875rem 1.25rem;
-
       &:last-child {
         border-bottom: 0;
       }
+      &__time {
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: var(--ao-gray-500);
+      }
     }
-
-    // 时间
-    .pending-item__time {
-      font-size: 0.75rem;
-      line-height: 1rem;
-      color: var(--ao-gray-500);
-    }
-
     // 空状态
     .notification-empty {
       position: relative;
@@ -599,72 +571,63 @@
       color: var(--ao-gray-500);
       text-align: center;
       background: transparent !important;
+      // 空状态图标
+      &__icon {
+        font-size: 3rem;
+        line-height: 1;
+      }
+      // 空状态文字
+      &__text {
+        margin-top: 0.875rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        background: transparent !important;
+      }
     }
-
-    // 空状态图标
-    .notification-empty__icon {
-      font-size: 3rem;
-      line-height: 1;
-    }
-
-    // 空状态文字
-    .notification-empty__text {
-      margin-top: 0.875rem;
-      font-size: 0.75rem;
-      line-height: 1rem;
-      background: transparent !important;
-    }
-
     //  底部按钮区
-    .notification-panel__footer {
+    & &__footer {
       position: relative;
       box-sizing: border-box;
       width: 100%;
       padding-right: 0.875rem;
       padding-left: 0.875rem;
     }
-
     // 查看全部按钮
-    .notification-panel__view-all {
+    & &__view-all {
       width: 100%;
       margin-top: 0.75rem;
     }
-
     // 底部占位
-    .notification-panel__bottom-spacer {
+    & &__bottom-spacer {
       height: 6.25rem;
     }
-
     // 标签激活状态
     .bar-active {
       color: var(--theme-color) !important;
       border-bottom: 2px solid var(--theme-color);
     }
-
-    //  通知图标类型样式
-    .notice-icon--email {
-      color: var(--ao-warning);
-      background: color-mix(in srgb, var(--ao-warning) 12%, transparent);
-    }
-
-    .notice-icon--message {
-      color: var(--ao-success);
-      background: color-mix(in srgb, var(--ao-success) 12%, transparent);
-    }
-
-    .notice-icon--collection {
-      color: var(--ao-danger);
-      background: color-mix(in srgb, var(--ao-danger) 12%, transparent);
-    }
-
-    .notice-icon--user {
-      color: var(--ao-info);
-      background: color-mix(in srgb, var(--ao-info) 12%, transparent);
-    }
-
-    .notice-icon--notice {
-      color: var(--theme-color);
-      background: color-mix(in srgb, var(--theme-color) 12%, transparent);
+    // 通知图标类型样式
+    .notice-icon {
+      &--email {
+        color: var(--ao-warning);
+        background: color-mix(in srgb, var(--ao-warning) 12%, transparent);
+      }
+      &--message {
+        color: var(--ao-success);
+        background: color-mix(in srgb, var(--ao-success) 12%, transparent);
+      }
+      &--collection {
+        color: var(--ao-danger);
+        background: color-mix(in srgb, var(--ao-danger) 12%, transparent);
+      }
+      &--user {
+        color: var(--ao-info);
+        background: color-mix(in srgb, var(--ao-info) 12%, transparent);
+      }
+      &--notice {
+        color: var(--theme-color);
+        background: color-mix(in srgb, var(--theme-color) 12%, transparent);
+      }
     }
   }
 </style>

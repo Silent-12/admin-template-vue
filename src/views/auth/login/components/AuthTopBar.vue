@@ -102,7 +102,6 @@
     z-index: 10;
     justify-content: flex-end !important;
     width: 100%;
-
     @media (width <= 1180px) {
       justify-content: space-between !important;
     }
@@ -111,11 +110,9 @@
   .logo-section {
     display: none !important;
     margin-left: 0.5rem;
-
     @media (width <= 1180px) {
       display: flex !important;
     }
-
     @media (width <= 39.99rem) {
       margin-left: 1.5rem;
     }
@@ -130,7 +127,6 @@
   .actions {
     gap: 0.375rem;
     margin-right: 0.5rem;
-
     @media (width <= 39.99rem) {
       margin-right: 1.25rem;
     }
@@ -138,7 +134,6 @@
 
   .color-picker-expandable {
     position: relative;
-
     @media (width <= 39.99rem) {
       display: none !important;
     }
@@ -166,7 +161,7 @@
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 9999px;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    box-shadow: 0 2px 4px var(--ao-shadow-15);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transition-delay: calc(var(--index) * 0.05s);
@@ -174,7 +169,7 @@
   }
 
   .color-dot:hover {
-    box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+    box-shadow: 0 4px 8px var(--ao-shadow-20);
     transform: translateX(0) scale(1.1);
   }
 
@@ -195,7 +190,7 @@
   }
 
   .check-icon {
-    color: #fff;
+    color: var(--ao-white);
   }
 
   .palette-btn {

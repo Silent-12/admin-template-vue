@@ -106,13 +106,13 @@ textarea {
 /*滚动条的滑块按钮*/
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #cccccc !important;
+  background-color: var(--ao-gray-400) !important;
   transition: all 0.2s;
   -webkit-transition: all 0.2s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #b0abab !important;
+  background-color: var(--ao-gray-500) !important;
 }
 
 /*滚动条的上下两端的按钮*/
@@ -125,7 +125,6 @@ textarea {
   ::-webkit-scrollbar-track {
     background-color: var(--default-bg-color);
   }
-
   ::-webkit-scrollbar-thumb {
     background-color: var(--ao-gray-300) !important;
   }

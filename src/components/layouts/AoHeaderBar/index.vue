@@ -280,7 +280,6 @@
     0% {
       transform: rotate(0);
     }
-
     100% {
       transform: rotate(180deg);
     }
@@ -290,19 +289,15 @@
     0% {
       transform: rotate(0);
     }
-
     25% {
       transform: rotate(-5deg);
     }
-
     50% {
       transform: rotate(5deg);
     }
-
     75% {
       transform: rotate(-5deg);
     }
-
     100% {
       transform: rotate(0);
     }
@@ -312,11 +307,9 @@
     0% {
       transform: scale(1);
     }
-
     50% {
       transform: scale(1.1);
     }
-
     100% {
       transform: scale(1);
     }
@@ -326,11 +319,9 @@
     0% {
       transform: scale(1);
     }
-
     50% {
       transform: scale(0.9);
     }
-
     100% {
       transform: scale(1);
     }
@@ -340,11 +331,9 @@
     0% {
       transform: translateY(0);
     }
-
     50% {
       transform: translateY(-3px);
     }
-
     100% {
       transform: translateY(0);
     }
@@ -390,76 +379,63 @@
   .header-bar {
     width: 100%;
     background: var(--default-bg-color);
-  }
-
-  .header-bar__inner {
-    position: relative;
-    box-sizing: border-box;
-    height: 3.75rem;
-    line-height: 3.75rem;
-    user-select: none;
-  }
-
-  .header-bar__left {
-    flex: 1 1 0%;
-    min-width: 0;
-    line-height: 3.75rem;
-  }
-
-  // 隐藏的备用 Logo
-  .header-bar__logo-hidden {
-    display: none !important;
-    padding-left: 0.875rem;
-    overflow: hidden;
-    vertical-align: -0.15em;
-    fill: currentcolor;
-  }
-
-  // 菜单按钮
-  .header-bar__menu-btn {
-    margin-left: 0.75rem;
-
-    @media (width <= 39.99rem) {
-      margin-left: 7px;
+    &__inner {
+      position: relative;
+      box-sizing: border-box;
+      height: 3.75rem;
+      line-height: 3.75rem;
+      user-select: none;
     }
-  }
-
-  // 刷新按钮
-  .header-bar__refresh-btn {
-    margin-left: 0.75rem !important;
-
-    @media (width <= 39.99rem) {
+    &__left {
+      flex: 1 1 0%;
+      min-width: 0;
+      line-height: 3.75rem;
+    }
+    // 隐藏的备用 Logo
+    &__logo-hidden {
       display: none !important;
+      padding-left: 0.875rem;
+      overflow: hidden;
+      vertical-align: -0.15em;
+      fill: currentcolor;
     }
-  }
-
-  // 快速入口按钮
-  .header-bar__fast-enter-btn {
-    margin-left: 0.75rem;
-  }
-
-  // 右侧操作区
-  .header-bar__right {
-    gap: 0.625rem;
-  }
-
-  // 全屏按钮
-  .header-bar__fullscreen-btn {
-    margin-left: 0.75rem;
-
-    @media (width <= 47.99rem) {
-      display: none !important;
+    // 菜单按钮
+    &__menu-btn {
+      margin-left: 0.75rem;
+      @media (width <= 39.99rem) {
+        margin-left: 7px;
+      }
     }
-  }
-
-  // 国际化按钮
-  .header-bar__language-btn {
-    font-size: 19px;
-  }
-
-  // 通知按钮
-  .header-bar__notice-btn {
-    position: relative;
+    // 刷新按钮
+    &__refresh-btn {
+      margin-left: 0.75rem !important;
+      @media (width <= 39.99rem) {
+        display: none !important;
+      }
+    }
+    // 快速入口按钮
+    &__fast-enter-btn {
+      margin-left: 0.75rem;
+    }
+    // 右侧操作区
+    &__right {
+      gap: 0.625rem;
+    }
+    // 全屏按钮
+    &__fullscreen-btn {
+      margin-left: 0.75rem;
+      @media (width <= 47.99rem) {
+        display: none !important;
+      }
+    }
+    // 国际化按钮
+    &__language-btn {
+      font-size: 19px;
+    }
+    // 通知按钮
+    &__notice-btn {
+      position: relative;
+    }
   }
 
   // 通知红点
@@ -480,18 +456,15 @@
     padding-right: 0.625rem;
     padding-left: 0.625rem;
     border: 1px solid var(--ao-gray-400);
-
     @media (width <= 47.99rem) {
       display: none !important;
     }
-
     // 搜索图标
     &__icon {
       font-size: 0.875rem;
       line-height: 1.25rem;
       color: var(--ao-gray-500);
     }
-
     // 搜索文字
     &__text {
       margin-left: 0.25rem;
@@ -500,7 +473,6 @@
       line-height: 1rem;
       color: var(--ao-gray-500);
     }
-
     // 快捷键容器
     &__shortcut {
       height: 1.25rem;
@@ -510,19 +482,16 @@
       border: 1px solid var(--ao-gray-400);
       border-radius: 0.25rem;
     }
-
     // Windows 快捷键图标
     &__shortcut-icon {
       font-size: 0.875rem;
       line-height: 1.25rem;
     }
-
     // Mac 快捷键图标
     &__shortcut-icon-mac {
       font-size: 0.75rem;
       line-height: 1rem;
     }
-
     // 快捷键文字
     &__shortcut-key {
       font-size: 0.75rem;

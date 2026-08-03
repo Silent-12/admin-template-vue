@@ -3,7 +3,7 @@
 // 顶部进度条颜色
 #nprogress .bar {
   z-index: 2400;
-  background-color: color-mix(in srgb, var(--theme-color) 70%, white);
+  background-color: color-mix(in srgb, var(--theme-color) 70%, var(--ao-white));
 }
 
 #nprogress .peg {
@@ -34,7 +34,6 @@
   .is-selected {
     background-color: var(--ao-el-active-color) !important;
   }
-
   // 语言切换按钮菜单样式优化
   .lang-btn-item {
     .el-dropdown-menu__item {
@@ -42,18 +41,15 @@
       padding-right: 6px !important;
       margin-bottom: 3px !important;
     }
-
     &:last-child {
       .el-dropdown-menu__item {
         margin-bottom: 0 !important;
       }
     }
-
     .menu-txt {
       min-width: 60px;
       display: block;
     }
-
     i {
       font-size: 10px;
       margin-left: 10px;
@@ -101,7 +97,6 @@
   flex-direction: column;
   margin-top: 12px;
   border-radius: calc(var(--custom-radius) / 2 + 2px) !important;
-
   .el-card__body {
     height: 100%;
     overflow: hidden;
@@ -113,7 +108,6 @@
   height: var(--ao-full-height);
   display: flex;
   flex-direction: column;
-
   @media (max-width: 640px) {
     height: auto;
   }
@@ -128,18 +122,15 @@
   width: 6px;
   height: 6px;
   margin: auto;
-  background: #ff3860;
+  background: var(--ao-badge-dot);
   border-radius: 50%;
   animation: breathe 1.5s ease-in-out infinite;
-
   &.ao-badge-horizontal {
     right: 0;
   }
-
   &.ao-badge-mixed {
     right: 0;
   }
-
   &.ao-badge-dual {
     right: 5px;
     top: 5px;
@@ -159,9 +150,9 @@
   padding: 0 5px;
   margin: auto;
   font-size: 10px;
-  color: #fff;
+  color: var(--ao-white);
   text-align: center;
-  background: #fd4e4e;
+  background: var(--ao-badge-text-bg);
   border-radius: 4px;
 }
 
@@ -170,12 +161,10 @@
     opacity: 0.7;
     transform: scale(1);
   }
-
   50% {
     opacity: 1;
     transform: scale(1.1);
   }
-
   100% {
     opacity: 0.7;
     transform: scale(1);

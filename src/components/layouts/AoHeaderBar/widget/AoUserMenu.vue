@@ -94,7 +94,6 @@
     height: 2.125rem;
     margin-right: 1.25rem;
     border-radius: 9999px;
-
     @media (width <= 39.99rem) {
       width: 1.625rem;
       height: 1.625rem;
@@ -105,13 +104,11 @@
   // 用户菜单弹层
   .user-menu {
     padding-top: 0.75rem;
-
     &__header {
       padding-right: 0;
       padding-bottom: 0.25rem;
       padding-left: 0;
     }
-
     &__avatar {
       float: left;
       width: 2.5rem;
@@ -121,12 +118,10 @@
       overflow: hidden;
       border-radius: 9999px;
     }
-
     &__info {
       width: calc(100% - 60px);
       height: 100%;
     }
-
     // 用户名
     &__name {
       display: block;
@@ -138,7 +133,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     // 邮箱
     &__email {
       display: block;
@@ -150,14 +144,12 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     &__list {
       padding-top: 1rem;
       padding-bottom: 1rem;
       margin-top: 0.75rem;
       border-top: 1px solid color-mix(in srgb, var(--ao-gray-300) 80%, transparent);
     }
-
     // 分割线
     &__divider {
       width: 100%;
@@ -177,22 +169,18 @@
     cursor: pointer;
     user-select: none;
     border-radius: 0.375rem;
-
     &:last-child {
       margin-bottom: 0;
     }
-
     span {
       font-size: 0.875rem;
       line-height: 1.25rem;
     }
-
     :deep(.ao-svg-icon) {
       margin-right: 0.5rem;
       font-size: 1rem;
       line-height: 1.5rem;
     }
-
     &:hover {
       background-color: var(--ao-gray-200);
     }
@@ -210,11 +198,10 @@
     border-radius: 0.375rem;
     transition-duration: 200ms;
     transition-property: all;
-
     &:hover {
       box-shadow:
-        0 20px 25px -5px rgb(0 0 0 / 10%),
-        0 8px 10px -6px rgb(0 0 0 / 10%);
+        0 20px 25px -5px var(--ao-shadow-10),
+        0 8px 10px -6px var(--ao-shadow-10);
     }
   }
 </style>

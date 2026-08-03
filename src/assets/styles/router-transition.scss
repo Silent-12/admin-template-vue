@@ -33,12 +33,10 @@ $fade-easing: transition-config('fade-easing');
     transition: opacity $duration $fade-easing;
     will-change: opacity;
   }
-
   &-enter-from,
   &-leave-to {
     opacity: 0;
   }
-
   &-enter-to,
   &-leave-from {
     opacity: 1;
@@ -49,7 +47,6 @@ $fade-easing: transition-config('fade-easing');
 @mixin slide-transition($direction) {
   $distance-x: 0;
   $distance-y: 0;
-
   @if $direction == 'left' {
     $distance-x: -$distance;
   } @else if $direction == 'right' {
@@ -59,31 +56,26 @@ $fade-easing: transition-config('fade-easing');
   } @else if $direction == 'bottom' {
     $distance-y: $distance;
   }
-
   &-enter-active {
     transition:
       opacity $duration $easing,
       transform $duration $easing;
     will-change: opacity, transform;
   }
-
   &-leave-active {
     transition:
       opacity calc($duration * 0.7) $easing,
       transform calc($duration * 0.7) $easing;
     will-change: opacity, transform;
   }
-
   &-enter-from {
     opacity: 0;
     transform: translate3d($distance-x, $distance-y, 0);
   }
-
   &-enter-to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-
   &-leave-to {
     opacity: 0;
     transform: translate3d(-$distance-x, -$distance-y, 0);

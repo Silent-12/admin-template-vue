@@ -555,11 +555,9 @@
 <style lang="scss" scoped>
   .ao-search-bar {
     padding: 15px 20px 0;
-
     .action-column {
       flex: 1;
       max-width: 100%;
-
       .action-buttons-wrapper {
         display: flex;
         flex-wrap: wrap;
@@ -567,12 +565,10 @@
         justify-content: flex-end;
         margin-bottom: 12px;
       }
-
       .form-buttons {
         display: flex;
         gap: 8px;
       }
-
       .filter-toggle {
         display: flex;
         align-items: center;
@@ -581,12 +577,10 @@
         color: var(--theme-color);
         cursor: pointer;
         transition: color 0.2s ease;
-
         span {
           font-size: 14px;
           user-select: none;
         }
-
         .icon-wrapper {
           display: flex;
           align-items: center;
@@ -602,17 +596,14 @@
   @media (width <= 768px) {
     .ao-search-bar {
       padding: 16px 16px 0;
-
       .action-column {
         .action-buttons-wrapper {
           flex-direction: column;
           gap: 8px;
           align-items: stretch;
-
           .form-buttons {
             justify-content: center;
           }
-
           .filter-toggle {
             justify-content: center;
             margin-left: 0;

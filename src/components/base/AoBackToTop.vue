@@ -45,7 +45,6 @@
     height: 2.375rem;
     border: 1px solid var(--ao-gray-300);
     border-radius: 0.375rem;
-
     &:hover {
       background: var(--ao-gray-200);
     }

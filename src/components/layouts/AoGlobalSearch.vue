@@ -367,15 +367,12 @@
     :deep(.search-modal) {
       background-color: var(--ao-modal-overlay);
     }
-
     :deep(.el-dialog__body) {
       padding: 5px 0 0 !important;
     }
-
     :deep(.el-dialog__header) {
       padding: 0;
     }
-
     .el-input {
       :deep(.el-input__wrapper) {
         background-color: var(--ao-gray-200);
@@ -383,7 +380,6 @@
         border-radius: calc(var(--custom-radius) / 2 + 2px) !important;
         box-shadow: none;
       }
-
       :deep(.el-input__inner) {
         color: var(--ao-gray-800) !important;
       }
@@ -397,12 +393,10 @@
         border: 1px solid var(--ao-gray-400);
       }
     }
-
     :deep(.search-modal) {
       background-color: var(--ao-modal-overlay);
       backdrop-filter: none;
     }
-
     :deep(.el-dialog) {
       background-color: var(--default-box-color);
     }
@@ -411,7 +405,6 @@
   // 搜索输入框
   .search-input {
     height: 3rem;
-
     &__suffix {
       height: 1.125rem;
       padding-right: 0.375rem;
@@ -420,7 +413,6 @@
       background: var(--default-box-color) !important;
       border: 1px solid var(--ao-gray-300);
       border-radius: 0.25rem;
-
       .dark & {
         background: color-mix(in srgb, var(--ao-gray-200) 50%, transparent) !important;
       }
@@ -435,13 +427,11 @@
   // 搜索结果
   .search-result {
     width: 100%;
-
     &__item {
       margin-top: 0 !important;
       font-size: 1rem;
       line-height: 1;
     }
-
     &__inner {
       height: 3rem;
       padding-right: 1rem;
@@ -451,7 +441,6 @@
       line-height: 1.25rem;
       color: var(--ao-gray-700);
       background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
-
       &--highlighted {
         color: var(--ao-text-on-theme) !important;
         background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
@@ -460,50 +449,46 @@
   }
 
   // 历史搜索
-  .search-history__title {
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: var(--ao-gray-500);
-  }
-
-  .search-history__list {
-    width: 100%;
-    margin-top: 0.375rem;
-  }
-
-  .search-history__item {
-    height: 3rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: var(--ao-gray-800);
-    background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
-
-    &--highlighted {
-      color: var(--ao-text-on-theme) !important;
-      background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
-
-      .selected-icon {
+  .search-history {
+    &__title {
+      font-size: 0.75rem;
+      line-height: 1rem;
+      color: var(--ao-gray-500);
+    }
+    &__list {
+      width: 100%;
+      margin-top: 0.375rem;
+    }
+    &__item {
+      height: 3rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--ao-gray-800);
+      background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
+      &--highlighted {
         color: var(--ao-text-on-theme) !important;
+        background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
+        .selected-icon {
+          color: var(--ao-text-on-theme) !important;
+        }
       }
     }
-  }
-
-  // 删除按钮
-  .search-history__delete {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--ao-gray-500);
-    user-select: none;
-    border-radius: 9999px;
-  }
-
-  // 删除图标
-  .search-history__delete-icon {
-    font-size: 0.75rem;
-    line-height: 1rem;
+    // 删除按钮
+    &__delete {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--ao-gray-500);
+      user-select: none;
+      border-radius: 9999px;
+    }
+    // 删除图标
+    &__delete-icon {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
   }
 
   // 对话框底部
@@ -511,7 +496,6 @@
     box-sizing: border-box;
     padding-top: 1.125rem;
     padding-bottom: 0.25rem;
-
     &__text {
       margin-right: 0.875rem;
       font-size: 0.75rem;
@@ -532,20 +516,17 @@
     border: 1px solid var(--ao-gray-400);
     border-radius: 0.25rem;
     box-shadow: 0 2px 0 var(--default-border-dashed);
-
     &:last-of-type {
       margin-right: 0.375rem;
     }
-  }
-
-  // ESC 键宽度覆盖
-  .keyboard--esc {
-    width: 2rem !important;
-  }
-
-  // ESC 文字
-  .keyboard__esc-text {
-    font-size: 10px;
-    font-weight: 500;
+    // ESC 键宽度覆盖
+    &--esc {
+      width: 2rem !important;
+    }
+    // ESC 文字
+    &__esc-text {
+      font-size: 10px;
+      font-weight: 500;
+    }
   }
 </style>

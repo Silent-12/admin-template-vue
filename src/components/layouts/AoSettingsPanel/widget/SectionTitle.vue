@@ -23,7 +23,6 @@
     line-height: 1.25rem;
     color: var(--ao-gray-800);
     text-align: center;
-
     // 左侧装饰横线
     &::before {
       position: absolute;
@@ -34,7 +33,6 @@
       content: '';
       border-bottom: 1px solid var(--ao-gray-300);
     }
-
     // 右侧装饰横线
     &::after {
       position: absolute;

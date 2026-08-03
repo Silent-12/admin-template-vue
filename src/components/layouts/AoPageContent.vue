@@ -109,15 +109,17 @@
 
 <style scoped lang="scss">
   // 全屏页面模式
-  .layout-content--full-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2500;
-    width: 100%;
-    height: 100vh;
-    overflow: auto;
-    background: var(--default-bg-color);
+  .layout-content {
+    &--full-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2500;
+      width: 100%;
+      height: 100vh;
+      overflow: auto;
+      background: var(--default-bg-color);
+    }
   }
 
   // 路由信息调试条

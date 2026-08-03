@@ -462,7 +462,6 @@
     padding-left: 1.25rem;
     margin-bottom: 0.75rem;
     user-select: none;
-
     // 滚动容器
     &__scroll {
       width: 100%;
@@ -475,7 +474,6 @@
       white-space: nowrap;
       background: transparent !important;
     }
-
     // 标签项
     &__item {
       display: inline-flex;
@@ -484,108 +482,86 @@
       font-size: 0.75rem;
       line-height: 1rem;
       border-radius: calc(var(--custom-radius) / 2.5 + 2px) !important;
-
       // hover:text-theme + group-hover:text-theme（作用于 icon）
       &:hover {
         color: var(--theme-color);
-
         .work-tab__item-icon {
           color: var(--theme-color);
         }
       }
-
       // 激活状态：
       &--active {
         color: var(--theme-color) !important;
-
         .work-tab__item-icon {
           color: var(--theme-color);
         }
       }
-
       // 非激活状态
       &--inactive {
         color: var(--ao-gray-600);
-
         .work-tab__item-icon {
           color: var(--ao-gray-600);
         }
-
         // 暗黑模式
         .dark & {
           color: var(--ao-gray-800);
-
           .work-tab__item-icon {
             color: var(--ao-gray-800);
           }
         }
       }
     }
-  }
-
-  // 标签图标
-  .work-tab__item-icon {
-    margin-right: 0.25rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
-  // 关闭按钮：
-  .work-tab__close {
-    position: relative;
-    display: inline-flex;
-    padding: 0.25rem;
-    margin-left: 0.125rem;
-    border-radius: 9999px;
-
-    &:hover {
-      background: var(--ao-gray-200);
+    // 标签图标
+    &__item-icon {
+      margin-right: 0.25rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
-  }
-
-  // 关闭图标
-  .work-tab__close-icon {
-    font-size: 10px;
-    color: var(--ao-gray-600);
-  }
-
-  // 右侧操作区
-  .work-tab__actions {
-    display: flex;
-  }
-
-  // 菜单按钮
-  .work-tab__menu-btn {
-    position: relative;
-    top: 0;
-    width: 2rem;
-    height: 2rem;
-    line-height: 2rem;
-    text-align: center;
-    border-radius: calc(var(--custom-radius) / 2.5);
-
-    &:hover {
-      background: var(--ao-hover-color) !important;
+    // 关闭按钮：
+    &__close {
+      position: relative;
+      display: inline-flex;
+      padding: 0.25rem;
+      margin-left: 0.125rem;
+      border-radius: 9999px;
+      &:hover {
+        background: var(--ao-gray-200);
+      }
     }
-  }
-
-  // 菜单图标
-  .work-tab__menu-icon {
-    font-size: 1.5rem;
-    line-height: 2rem;
-    color: var(--ao-gray-700);
-  }
-
-  // 响应式
-  @media only screen and (width <= 768px) {
-    .work-tab {
+    // 关闭图标
+    &__close-icon {
+      font-size: 10px;
+      color: var(--ao-gray-600);
+    }
+    // 右侧操作区
+    &__actions {
+      display: flex;
+    }
+    // 菜单按钮
+    &__menu-btn {
+      position: relative;
+      top: 0;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      text-align: center;
+      border-radius: calc(var(--custom-radius) / 2.5);
+      &:hover {
+        background: var(--ao-hover-color) !important;
+      }
+    }
+    // 菜单图标
+    &__menu-icon {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      color: var(--ao-gray-700);
+    }
+    // 响应式
+    @media only screen and (width <= 768px) {
       padding-right: 0.625rem;
       padding-left: 0.625rem;
     }
-  }
-
-  @media only screen and (width <= 640px) {
-    .work-tab {
+    @media only screen and (width <= 640px) {
       padding-right: 0.9375rem;
       padding-left: 0.9375rem;
     }

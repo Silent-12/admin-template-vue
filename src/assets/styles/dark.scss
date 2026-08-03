@@ -14,16 +14,13 @@ html.dark {
   // element-plus
   --el-bg-color: var(--default-box-color);
   --el-text-color-regular: #{$font-color};
-
   // Element Plus 组件暗色覆盖（从 el-ui.scss 迁移）
   .el-card {
     --el-card-bg-color: var(--default-box-color) !important;
   }
-
   .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
     background-color: var(--ao-gray-300) !important;
   }
-
   // 富文本编辑器
   // 工具栏背景颜色
   --w-e-toolbar-bg-color: #18191c;
@@ -51,7 +48,6 @@ html.dark {
   .page-content .article-list .item .left .outer > div {
     border-right-color: var(--dark-border-color) !important;
   }
-
   // 富文本编辑器
   .editor-wrapper {
     *:not(pre code *) {
@@ -62,43 +58,36 @@ html.dark {
   .w-e-bar-divider {
     background-color: var(--ao-gray-300) !important;
   }
-
   .w-e-select-list,
   .w-e-drop-panel,
   .w-e-bar-item-group .w-e-bar-item-menus-container,
   .w-e-text-container [data-slate-editor] pre > code {
     border: 1px solid var(--default-border) !important;
   }
-
   // 下拉选择框
   .w-e-select-list {
     background-color: var(--default-box-color) !important;
   }
-
   /* 下拉选择框 hover 样式调整 */
   .w-e-select-list ul li:hover,
     /* 工具栏 hover 按钮背景颜色 */
     .w-e-bar-item button:hover {
-    background-color: #090909 !important;
+    background-color: var(--w-e-textarea-bg-color) !important;
   }
-
   /* 代码块 */
   .w-e-text-container [data-slate-editor] pre > code {
-    background-color: #25262b !important;
+    background-color: var(--w-e-toolbar-active-bg-color) !important;
     text-shadow: none !important;
   }
-
   /* 引用 */
   .w-e-text-container [data-slate-editor] blockquote {
     border-left: 4px solid var(--default-border-dashed) !important;
     background-color: var(--ao-color);
   }
-
   .editor-wrapper {
     .w-e-text-container [data-slate-editor] .table-container th:last-of-type {
       border-right: 1px solid var(--default-border-dashed) !important;
     }
-
     .w-e-modal {
       background-color: var(--ao-color);
     }

@@ -28,11 +28,9 @@
     line-height: 1.75rem;
     color: var(--ao-gray-600);
     border-radius: 0.25rem;
-
     &:hover {
       background: var(--ao-hover-color);
     }
-
     .dark & {
       color: var(--ao-gray-800);
     }

@@ -64,7 +64,6 @@
     border-radius: 9999px;
     transition-duration: 200ms;
     transition-property: all;
-
     &:hover {
       opacity: 0.85;
     }
@@ -74,6 +73,6 @@
   .color-check-icon {
     font-size: 1rem;
     line-height: 1.5rem;
-    color: #fff !important;
+    color: var(--ao-white) !important;
   }
 </style>

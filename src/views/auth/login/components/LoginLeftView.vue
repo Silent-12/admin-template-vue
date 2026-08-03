@@ -102,20 +102,17 @@
     padding: 15px;
     overflow: hidden;
     background-color: $bg-mix-light-9;
-
     .logo {
       position: relative;
       z-index: 100;
       display: flex;
       align-items: center;
-
       .title {
         margin-left: 10px;
         font-size: 20px;
         font-weight: 400;
       }
     }
-
     .left-img {
       position: absolute;
       inset: 0 0 10.5%;
@@ -124,27 +121,23 @@
       margin: auto;
       animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
-
     .text-wrap {
       position: absolute;
       bottom: 80px;
       width: 100%;
       text-align: center;
       animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-
       h1 {
         font-size: 24px;
         font-weight: 400;
         color: var(--ao-gray-900) !important;
       }
-
       p {
         margin-top: 10px;
         font-size: 14px;
         color: var(--ao-gray-600) !important;
       }
     }
-
     .geometric-decorations {
       .geo-element {
         position: absolute;
@@ -153,13 +146,11 @@
         animation-duration: 0.8s;
         animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
-
       // 动画 mixin
       /* stylelint-disable at-rule-empty-line-before */
       @mixin fadeAnimation($direction: '', $rotation: 0deg) {
         from {
           opacity: 0;
-
           @if $direction == 'up' {
             transform: translateY(30px) rotate($rotation);
           } @else if $direction == 'down' {
@@ -170,10 +161,8 @@
             transform: translateX(30px) rotate($rotation);
           }
         }
-
         to {
           opacity: 1;
-
           @if $direction == 'up' or $direction == 'down' {
             transform: translateY(0) rotate($rotation);
           } @else {
@@ -182,138 +171,109 @@
         }
       }
       /* stylelint-enable at-rule-empty-line-before */
-
       // 动画定义
       @keyframes fadeInUp {
         @include fadeAnimation('up');
       }
-
       @keyframes fadeInDown {
         @include fadeAnimation('down');
       }
-
       @keyframes fadeInLeft {
         @include fadeAnimation('left');
       }
-
       @keyframes fadeInLeftRotated {
         @include fadeAnimation('left', -25deg);
       }
-
       @keyframes fadeInRight {
         @include fadeAnimation('right');
       }
-
       @keyframes fadeInRightRotated {
         @include fadeAnimation('right', 45deg);
       }
-
       @keyframes fadeInLeftRotatedBlue {
         @include fadeAnimation('left', -10deg);
       }
-
       @keyframes fadeInLeftRotatedPink {
         @include fadeAnimation('left', 10deg);
       }
-
       @keyframes fadeInLeftNoRotation {
         @include fadeAnimation('left');
       }
-
       @keyframes scaleIn {
         from {
           opacity: 0;
           transform: scale(0.8);
         }
-
         to {
           opacity: 1;
           transform: scale(1);
         }
       }
-
       @keyframes bounceIn {
         0% {
           opacity: 0;
           transform: scale(0.3);
         }
-
         50% {
           opacity: 1;
           transform: scale(1.05);
         }
-
         70% {
           transform: scale(0.9);
         }
-
         100% {
           opacity: 1;
           transform: scale(1);
         }
       }
-
       @keyframes lineGrow {
         from {
           opacity: 0;
         }
-
         to {
           opacity: 1;
         }
       }
-
       @keyframes slideInLeft {
         from {
           opacity: 0;
           transform: translateX(-30px);
         }
-
         to {
           opacity: 1;
           transform: translateX(0);
         }
       }
-
       // 动画类
       .animate-fade-in-up {
         animation-name: fadeInUp;
       }
-
       .animate-fade-in-down {
         animation-name: fadeInDown;
       }
-
       .animate-fade-in-left {
         animation-name: fadeInLeft;
       }
-
       .animate-fade-in-right {
         animation-name: fadeInRight;
       }
-
       .animate-scale-in {
         animation-name: scaleIn;
         animation-duration: 1.2s;
       }
-
       .animate-bounce-in {
         animation-name: bounceIn;
         animation-duration: 0.6s;
       }
-
       .animate-fade-in-left-rotated-blue {
         animation-name: fadeInLeftRotatedBlue;
       }
-
       .animate-fade-in-left-rotated-pink {
         animation-name: fadeInLeftRotatedPink;
       }
-
       .animate-fade-in-left-no-rotation {
         animation-name: fadeInLeftNoRotation;
       }
-
       // 基础几何形状
       .circle-outline {
         top: 10%;
@@ -323,19 +283,16 @@
         border: 2px solid $primary-light-8;
         border-radius: 50%;
       }
-
       .square-rotated {
         top: 50%;
         left: 16%;
         width: 60px;
         height: 60px;
         background-color: $bg-mix-light-8;
-
         &.animate-fade-in-left {
           animation-name: fadeInLeftRotated;
         }
       }
-
       .circle-small {
         bottom: 26%;
         left: 30%;
@@ -344,7 +301,6 @@
         background-color: $primary-light-8;
         border-radius: 50%;
       }
-
       // 太阳/月亮效果
       .circle-top-right {
         top: 3%;
@@ -356,7 +312,6 @@
         background: $bg-mix-light-7;
         border-radius: 50%;
         transition: all 0.3s;
-
         &::after {
           position: absolute;
           top: 50%;
@@ -364,34 +319,33 @@
           width: 100%;
           height: 100%;
           content: '';
-          background: linear-gradient(to right, #fcbb04, #fffc00);
+          background: linear-gradient(
+            to right,
+            var(--ao-login-yellow-start),
+            var(--ao-login-yellow-end)
+          );
           border-radius: 50%;
           opacity: 0;
           transition: all 0.5s;
           transform: translate(-50%, -50%);
         }
-
         &:hover {
-          box-shadow: 0 0 36px #fffc00;
-
+          box-shadow: 0 0 36px var(--ao-login-yellow-end);
           &::after {
             opacity: 1;
           }
         }
       }
-
       .square-bottom-right {
         right: 10%;
         bottom: 10%;
         width: 50px;
         height: 50px;
         background-color: $primary-light-8;
-
         &.animate-fade-in-right {
           animation-name: fadeInRightRotated;
         }
       }
-
       // 背景泡泡
       .bg-bubble {
         top: -120px;
@@ -401,31 +355,26 @@
         background-color: $bg-mix-light-8;
         border-radius: 50%;
       }
-
       // 装饰点
       .dot {
         width: 14px;
         height: 14px;
         background-color: $primary-light-7;
         border-radius: 50%;
-
         &.dot-top-left {
           top: 140px;
           left: 100px;
         }
-
         &.dot-top-right {
           top: 140px;
           right: 120px;
         }
-
         &.dot-center-right {
           top: 46%;
           right: 22%;
           background-color: $primary-light-8;
         }
       }
-
       // 叠加方块组
       .squares-group {
         position: absolute;
@@ -434,41 +383,36 @@
         width: 140px;
         height: 140px;
         pointer-events: none;
-
         .square {
           position: absolute;
           display: block;
           border-radius: 8px;
-          box-shadow: 0 8px 24px rgb(64 87 167 / 12%);
-
+          box-shadow: 0 8px 24px var(--ao-login-blue-shadow);
           &.square-blue {
             top: 12px;
             left: 30px;
             z-index: 2;
             width: 50px;
             height: 50px;
-            background-color: rgb(from $primary-base r g b / 30%);
+            background-color: color-mix(in srgb, $primary-base 30%, transparent);
           }
-
           &.square-pink {
             top: 30px;
             left: 48px;
             z-index: 1;
             width: 70px;
             height: 70px;
-            background-color: rgb(from $primary-base r g b / 15%);
+            background-color: color-mix(in srgb, $primary-base 15%, transparent);
           }
-
           &.square-purple {
             top: 66px;
             left: 86px;
             z-index: 3;
             width: 32px;
             height: 32px;
-            background-color: rgb(from $primary-base r g b / 45%);
+            background-color: color-mix(in srgb, $primary-base 45%, transparent);
           }
         }
-
         // 装饰线条
         &::after {
           position: absolute;
@@ -485,28 +429,23 @@
         }
       }
     }
-
     @media only screen and (width <= 1600px) {
       width: 60vw;
-
       .text-wrap {
         bottom: 40px;
       }
     }
-
     @media only screen and (width <= 1180px) {
       width: auto;
       height: auto;
       padding: 0;
       // 隐藏背景和其他内容，只保留 logo
       background: transparent;
-
       .left-img,
       .text-wrap,
       .geometric-decorations {
         display: none;
       }
-
       .logo {
         display: none;
       }
@@ -515,20 +454,17 @@
 
   // 暗色主题
   .dark .login-left-view {
-    background-color: color-mix(in srgb, $primary-light-9 60%, #070707);
-
+    background-color: color-mix(in srgb, $primary-light-9 60%, var(--default-bg-color));
     @media only screen and (width <= 1180px) {
       background: transparent;
     }
-
     .geometric-decorations {
       // 月亮效果
       .circle-top-right {
         background-color: $bg-mix-light-8;
-        box-shadow: 0 0 25px #333 inset;
+        box-shadow: 0 0 25px var(--ao-login-dark-shadow) inset;
         transition: all 0.3s ease-in-out 0.1s;
         rotate: -48deg;
-
         &::before {
           position: absolute;
           top: 0;
@@ -540,62 +476,49 @@
           border-radius: 50%;
           transition: all 0.3s ease-in-out;
         }
-
         &:hover {
           background-color: transparent;
-          box-shadow: 0 40px 25px #ddd inset;
-
+          box-shadow: 0 40px 25px var(--ao-login-light-shadow) inset;
           &::before {
             left: 18px;
           }
-
           &::after {
             opacity: 0;
           }
         }
       }
-
       .bg-bubble {
         background-color: $bg-mix-light-9;
       }
-
       // 其他元素颜色调整
       .square-rotated {
         background-color: $bg-mix-light-9;
       }
-
       .circle-small,
       .dot {
         background-color: $primary-light-8;
       }
-
       .square-bottom-right {
         background-color: $primary-light-9;
       }
-
       .dot.dot-top-right {
         background-color: $primary-light-8;
       }
     }
-
     // 方块组暗色调整
     .squares-group {
       .square {
         box-shadow: none;
-
         &.square-blue {
-          background-color: rgb(from $primary-base r g b / 18%);
+          background-color: color-mix(in srgb, $primary-base 18%, transparent);
         }
-
         &.square-pink {
-          background-color: rgb(from $primary-base r g b / 10%);
+          background-color: color-mix(in srgb, $primary-base 10%, transparent);
         }
-
         &.square-purple {
-          background-color: rgb(from $primary-base r g b / 20%);
+          background-color: color-mix(in srgb, $primary-base 20%, transparent);
         }
       }
-
       &::after {
         background: linear-gradient(90deg, $primary-light-8, transparent);
       }

@@ -211,20 +211,17 @@
     justify-content: center;
     padding: 0 2rem;
     overflow: hidden;
-    color: white;
+    color: var(--ao-white);
     border-radius: calc(var(--custom-radius) + 2px) !important;
-
     &__content {
       position: relative;
       z-index: 1;
     }
-
     &__title {
       margin: 0 0 0.5rem;
       font-size: 1.5rem;
       font-weight: 600;
     }
-
     &__subtitle {
       position: relative;
       z-index: 10;
@@ -232,7 +229,6 @@
       font-size: 0.9rem;
       opacity: 0.9;
     }
-
     &__button {
       box-sizing: border-box;
       display: inline-block;
@@ -245,12 +241,10 @@
       cursor: pointer;
       user-select: none;
       transition: all 0.3s;
-
       &:hover {
         opacity: 0.8;
       }
     }
-
     &__background-image {
       position: absolute;
       right: 0;
@@ -258,7 +252,6 @@
       z-index: 0;
       width: 12rem;
     }
-
     &.has-decoration::after {
       position: absolute;
       right: -10%;
@@ -266,11 +259,10 @@
       width: 60%;
       height: 140%;
       content: '';
-      background: rgb(255 255 255 / 10%);
+      background: color-mix(in srgb, var(--ao-white) 10%, transparent);
       border-radius: 30%;
       transform: rotate(-20deg);
     }
-
     &__meteors {
       position: absolute;
       top: 0;
@@ -279,15 +271,14 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-
       .meteor {
         position: absolute;
         width: 2px;
         height: 60px;
         background: linear-gradient(
           to top,
-          rgb(255 255 255 / 40%),
-          rgb(255 255 255 / 10%),
+          color-mix(in srgb, var(--ao-white) 40%, transparent),
+          color-mix(in srgb, var(--ao-white) 10%, transparent),
           transparent
         );
         opacity: 0;
@@ -295,7 +286,6 @@
         animation-name: meteor-fall;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
-
         &::before {
           position: absolute;
           right: 0;
@@ -303,7 +293,7 @@
           width: 2px;
           height: 2px;
           content: '';
-          background: rgb(255 255 255 / 50%);
+          background: color-mix(in srgb, var(--ao-white) 50%, transparent);
         }
       }
     }
@@ -314,7 +304,6 @@
       opacity: 1;
       transform: translate(0, -60px) rotate(-45deg);
     }
-
     100% {
       opacity: 0;
       transform: translate(400px, 340px) rotate(-45deg);
@@ -326,15 +315,12 @@
       box-sizing: border-box;
       justify-content: flex-start;
       padding: 16px;
-
       &__title {
         font-size: 1.4rem;
       }
-
       &__background-image {
         display: none;
       }
-
       &.has-decoration::after {
         display: none;
       }

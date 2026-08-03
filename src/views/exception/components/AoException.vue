@@ -75,7 +75,6 @@
   .exception-text {
     width: 18.75rem;
     margin-left: 3.75rem;
-
     @media (width <= 47.99rem) {
       width: 100%;
       margin-top: 2.5rem;
@@ -89,7 +88,6 @@
     font-size: 1.25rem;
     line-height: 1.75rem;
     color: var(--ao-gray-600);
-
     @media (width <= 47.99rem) {
       font-size: 1.125rem;
       line-height: 1.75rem;

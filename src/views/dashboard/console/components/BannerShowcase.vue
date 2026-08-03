@@ -95,8 +95,8 @@
   :deep(.banner-showcase__basic-box) {
     background: linear-gradient(
       135deg,
-      color-mix(in srgb, var(--theme-color) 85%, black) 0%,
-      color-mix(in srgb, var(--theme-color) 60%, #1f2937) 100%
+      color-mix(in srgb, var(--theme-color) 85%, var(--ao-black)) 0%,
+      color-mix(in srgb, var(--theme-color) 60%, var(--ao-login-banner-dark)) 100%
     ) !important;
   }
 

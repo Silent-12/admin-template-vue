@@ -255,38 +255,31 @@
   .cutter-container {
     display: flex;
     flex-flow: row wrap;
-
     .title {
       padding-bottom: 10px;
       font-size: 18px;
       font-weight: 500;
     }
-
     .cutter-component {
       margin-right: 30px;
     }
-
     .preview-container {
       .preview-box {
         background-color: var(--ao-active-color) !important;
-
         .preview-img {
           width: 100%;
           height: 100%;
           object-fit: contain;
         }
       }
-
       .download-btn {
         display: block;
         margin: 20px auto;
       }
     }
-
     :deep(.toolBoxControl) {
       z-index: 100;
     }
-
     :deep(.dockMain) {
       right: 0;
       bottom: -40px;
@@ -296,15 +289,12 @@
       background-color: transparent !important;
       opacity: 1;
     }
-
     :deep(.copyright) {
       display: none !important;
     }
-
     :deep(.i-dialog-footer) {
       margin-top: 60px !important;
     }
-
     :deep(.dockBtn) {
       height: 26px;
       padding: 0 10px;
@@ -314,16 +304,13 @@
       background-color: var(--el-color-primary-light-9) !important;
       border: 1px solid var(--el-color-primary-light-4) !important;
     }
-
     :deep(.dockBtnScrollBar) {
       margin: 0 10px 0 6px;
       background-color: var(--el-color-primary-light-1);
     }
-
     :deep(.scrollBarControl) {
       border-color: var(--el-color-primary);
     }
-
     :deep(.closeIcon) {
       line-height: 15px !important;
     }
@@ -334,11 +321,9 @@
       :deep(.toolBox) {
         border: transparent;
       }
-
       :deep(.dialogMain) {
         background-color: transparent !important;
       }
-
       :deep(.i-dialog-footer) {
         .btn {
           background-color: var(--el-color-primary) !important;

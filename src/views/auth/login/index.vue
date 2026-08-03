@@ -244,45 +244,38 @@
     margin: auto;
     overflow: hidden;
     animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-
     /* 响应式 max-sm: 最大宽度 39.99rem（640px） */
     @media (width <= 39.99rem) {
       width: 100%;
       padding-right: 1.75rem;
       padding-left: 1.75rem;
     }
-
     /* 响应式 max-md: 最大宽度 47.99rem（768px），禁用动画 */
     @media (width <= 47.99rem) {
       animation: none;
     }
-
     /* 表单容器 */
     .form {
       height: 100%;
       padding-top: 40px;
       padding-bottom: 40px;
     }
-
     /* 标题 */
     .title {
       font-size: 2.25rem;
       font-weight: 600;
       line-height: 2.5rem;
       color: var(--ao-gray-900);
-
       /* 响应式 max-md：缩小标题字号 */
       @media (width <= 47.99rem) {
         font-size: 1.875rem;
         line-height: 2.25rem;
       }
-
       /* 响应式 max-sm：移动端增加顶部间距 */
       @media (width <= 39.99rem) {
         padding-top: 2.5rem;
       }
     }
-
     /* 副标题 */
     .sub-title {
       margin-top: 10px;
@@ -290,7 +283,6 @@
       line-height: 1.25rem;
       color: var(--ao-gray-600);
     }
-
     /* 表单控件统一高度 */
     .custom-height {
       height: var(--login-input-height, 40px) !important;
@@ -329,7 +321,6 @@
       opacity: 0;
       transform: translateX(30px);
     }
-
     to {
       opacity: 1;
       transform: translateX(0);

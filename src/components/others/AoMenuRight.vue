@@ -317,8 +317,8 @@
     width: var(--menu-width);
     min-width: var(--menu-width);
     box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 10%),
-      0 8px 10px -6px rgb(0 0 0 / 10%);
+      0 20px 25px -5px var(--ao-shadow-10),
+      0 8px 10px -6px var(--ao-shadow-10);
   }
 
   // 菜单列表
@@ -337,7 +337,6 @@
     transition-duration: 150ms;
     transition-property:
       color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
-
     &:hover {
       background-color: var(--ao-gray-200);
     }
@@ -429,8 +428,8 @@
     min-width: max-content;
     list-style: none;
     box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 10%),
-      0 8px 10px -6px rgb(0 0 0 / 10%);
+      0 20px 25px -5px var(--ao-shadow-10),
+      0 8px 10px -6px var(--ao-shadow-10);
   }
 
   // 子级菜单项

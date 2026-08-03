@@ -78,7 +78,6 @@
     font-size: 0.875rem; // text-sm
     line-height: 1.25rem; // text-sm
     background: var(--ao-gray-200); // bg-g-200
-
     // 暗黑模式背景（45% 透明度）
     .dark & {
       background: color-mix(in oklab, var(--ao-gray-300) 45%, transparent); // dark:bg-g-300/45

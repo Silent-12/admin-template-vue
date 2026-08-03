@@ -128,65 +128,55 @@
   .excel-showcase {
     padding: 1.25rem;
     margin-bottom: 1.25rem;
-  }
-
-  .excel-showcase__header {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-  }
-
-  .excel-showcase__title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 2rem;
-  }
-
-  .excel-showcase__description {
-    margin: 0.25rem 0 0;
-    color: var(--ao-gray-700);
-  }
-
-  .excel-showcase__actions {
-    display: flex;
-    flex-shrink: 0;
-    gap: 0.75rem;
-  }
-
-  .excel-showcase__content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .excel-showcase__summary {
-    display: flex;
-    gap: 0.35rem;
-    align-items: baseline;
-    font-size: 0.875rem;
-    color: var(--ao-gray-700);
-  }
-
-  .excel-showcase__summary strong {
-    font-size: 1.25rem;
-    color: var(--theme-color);
-  }
-
-  @media (width <= 47.99rem) {
-    .excel-showcase__header {
+    &__header {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    &__title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 2rem;
+    }
+    &__description {
+      margin: 0.25rem 0 0;
+      color: var(--ao-gray-700);
+    }
+    &__actions {
+      display: flex;
+      flex-shrink: 0;
+      gap: 0.75rem;
+    }
+    &__content {
+      display: flex;
       flex-direction: column;
+      gap: 0.75rem;
     }
-
-    .excel-showcase__actions {
-      width: 100%;
+    &__summary {
+      display: flex;
+      gap: 0.35rem;
+      align-items: baseline;
+      font-size: 0.875rem;
+      color: var(--ao-gray-700);
+      strong {
+        font-size: 1.25rem;
+        color: var(--theme-color);
+      }
     }
-
-    .excel-showcase__actions :deep(.el-upload),
-    .excel-showcase__actions :deep(.el-button) {
-      flex: 1;
+    @media (width <= 47.99rem) {
+      &__header {
+        flex-direction: column;
+      }
+      &__actions {
+        width: 100%;
+        :deep(.el-upload),
+        :deep(.el-button) {
+          flex: 1;
+        }
+      }
     }
   }
 </style>

@@ -88,11 +88,9 @@
 <style lang="scss" scoped>
   .theme-svg {
     display: inline-block;
-
     .svg-container {
       width: 100%;
       height: 100%;
-
       :deep(svg) {
         width: 100%;
         height: 100%;

@@ -87,70 +87,62 @@
 </script>
 
 <style scoped lang="scss">
-  // 触发器
-  .fast-enter__trigger {
-    gap: 0.5rem;
-  }
-
-  //  应用列表
-  .fast-enter__apps {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.375rem;
-  }
-
-  // 应用项
-  .fast-enter__app {
-    gap: 0.75rem;
-    padding: 0.5rem;
-    margin-right: 0.75rem;
-    border-radius: 0.5rem;
-
-    &:hover {
-      background: color-mix(in srgb, var(--ao-gray-200) 70%, transparent);
-
-      .app-icon {
-        background: transparent !important;
+  .fast-enter {
+    // 触发器
+    &__trigger {
+      gap: 0.5rem;
+    }
+    // 应用列表
+    &__apps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.375rem;
+    }
+    // 应用项
+    &__app {
+      gap: 0.75rem;
+      padding: 0.5rem;
+      margin-right: 0.75rem;
+      border-radius: 0.5rem;
+      &:hover {
+        background: color-mix(in srgb, var(--ao-gray-200) 70%, transparent);
+        .app-icon {
+          background: transparent !important;
+        }
+        .dark & {
+          background: color-mix(in srgb, var(--ao-gray-200) 90%, transparent);
+        }
       }
-
+    }
+    // 应用图标容器
+    &__app-icon {
+      width: 3rem;
+      height: 3rem;
+      background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
+      border-radius: 0.5rem;
       .dark & {
-        background: color-mix(in srgb, var(--ao-gray-200) 90%, transparent);
+        background: color-mix(in srgb, var(--ao-gray-300) 30%, transparent);
       }
     }
-  }
-
-  // 应用图标容器
-  .fast-enter__app-icon {
-    width: 3rem;
-    height: 3rem;
-    background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
-    border-radius: 0.5rem;
-
-    .dark & {
-      background: color-mix(in srgb, var(--ao-gray-300) 30%, transparent);
+    // 应用图标
+    &__app-icon-svg {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
     }
-  }
-
-  // 应用图标
-  .fast-enter__app-icon-svg {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
-
-  // 应用名称
-  .fast-enter__app-name {
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.25rem;
-    color: var(--ao-gray-800);
-  }
-
-  // 应用描述
-  .fast-enter__app-desc {
-    margin-top: 0.25rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: var(--ao-gray-600);
+    // 应用名称
+    &__app-name {
+      margin: 0;
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.25rem;
+      color: var(--ao-gray-800);
+    }
+    // 应用描述
+    &__app-desc {
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      line-height: 1rem;
+      color: var(--ao-gray-600);
+    }
   }
 </style>

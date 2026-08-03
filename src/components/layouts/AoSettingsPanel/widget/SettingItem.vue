@@ -95,7 +95,6 @@
   // 设置项容器
   .setting-item {
     margin-bottom: 1rem; // mb-4
-
     &:last-child {
       margin-bottom: 0.5rem; // last:mb-2
     }

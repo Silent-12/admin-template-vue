@@ -204,7 +204,6 @@
     .el-menu:not(.el-menu--collapse) {
       width: 220px;
     }
-
     // 折叠后宽度
     .el-menu--collapse {
       width: 64px;

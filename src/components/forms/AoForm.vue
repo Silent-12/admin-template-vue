@@ -514,7 +514,6 @@
   // 表单容器
   .form-section {
     padding: 1rem 1rem 0;
-
     @media (width >= 48rem) {
       padding-top: 1rem;
       padding-right: 1rem;
@@ -539,7 +538,6 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     margin-bottom: 0.75rem;
-
     @media (width >= 48rem) {
       flex-direction: row;
       gap: 0.5rem;
@@ -551,7 +549,6 @@
   .form-button-group {
     display: flex;
     gap: 0.5rem;
-
     @media (width >= 48rem) {
       justify-content: center;
     }

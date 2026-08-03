@@ -15,7 +15,6 @@ $popup-menu-radius: 6px;
   width: calc(100% - 16px);
   margin-left: 8px;
   border-radius: 6px;
-
   .menu-icon {
     margin-left: -7px;
   }
@@ -34,7 +33,6 @@ $popup-menu-radius: 6px;
   .el-menu-item.is-active {
     color: $color !important;
     background-color: $bg-color;
-
     .menu-icon {
       .ao-svg-icon {
         color: $icon-color !important;
@@ -48,11 +46,9 @@ $popup-menu-radius: 6px;
   height: $popup-menu-height;
   margin-bottom: $popup-menu-margin;
   border-radius: $popup-menu-radius;
-
   .menu-icon {
     margin-right: 5px;
   }
-
   &:last-of-type {
     margin-bottom: 0;
   }
@@ -70,27 +66,21 @@ $popup-menu-radius: 6px;
 @mixin popup-menu-base($hover-bg, $active-color, $active-bg) {
   .el-menu--popup {
     padding: $popup-menu-padding;
-
     .el-sub-menu__title:hover,
     .el-menu-item:hover {
       background-color: $hover-bg !important;
       border-radius: $popup-menu-radius;
     }
-
     .el-menu-item {
       @include popup-menu-item;
-
       &.is-active {
         color: $active-color !important;
         background-color: $active-bg !important;
       }
     }
-
     .el-sub-menu {
       @include popup-menu-item;
-
       height: $popup-menu-height !important;
-
       .el-sub-menu__title {
         height: $popup-menu-height !important;
         border-radius: $popup-menu-radius;
@@ -101,7 +91,6 @@ $popup-menu-radius: 6px;
 
 .layout-sidebar {
   // ---------------------- Modify default style ----------------------
-
   // 菜单折叠样式
   .menu-left-close {
     .header {
@@ -110,33 +99,27 @@ $popup-menu-radius: 6px;
       }
     }
   }
-
   // 菜单图标
   .menu-icon {
     margin-right: 8px;
     font-size: $menu-icon-size;
   }
-
   // 菜单高度
   .el-sub-menu__title,
   .el-menu-item {
     height: $menu-height !important;
     margin-bottom: 4px;
     line-height: $menu-height !important;
-
     span {
       font-size: $menu-font-size !important;
-
       @include ellipsis();
     }
   }
-
   // 右侧箭头
   .el-sub-menu__icon-arrow {
     width: 13px !important;
     font-size: 13px !important;
   }
-
   // 菜单折叠
   .el-menu--collapse {
     .el-sub-menu.is-active {
@@ -150,29 +133,24 @@ $popup-menu-radius: 6px;
       }
     }
   }
-
   // ---------------------- Design theme menu ----------------------
   .el-menu-design {
     @include theme-menu-base;
     @include menu-active(var(--theme-color), var(--el-color-primary-light-9));
     @include menu-hover($hover-bg-color);
-
     .el-sub-menu__icon-arrow {
       color: var(--ao-gray-600);
     }
   }
-
   // ---------------------- Dark theme menu ----------------------
   .el-menu-dark {
     @include theme-menu-base;
-    @include menu-active(#fff, #27282d, #fff);
-    @include menu-hover(#0f1015);
-
+    @include menu-active(var(--ao-white), var(--ao-menu-dark-bg), var(--ao-white));
+    @include menu-hover(var(--ao-menu-dark-hover-bg));
     .el-sub-menu__icon-arrow {
       color: var(--ao-gray-400);
     }
   }
-
   // ---------------------- Light theme menu ----------------------
   .el-menu-light {
     .el-sub-menu__title,
@@ -181,14 +159,11 @@ $popup-menu-radius: 6px;
         margin-left: 1px;
       }
     }
-
     .el-menu-item.is-active {
       background-color: var(--el-color-primary-light-9);
-
       .ao-svg-icon {
         color: var(--theme-color) !important;
       }
-
       &::before {
         position: absolute;
         top: 0;
@@ -199,9 +174,7 @@ $popup-menu-radius: 6px;
         background: var(--theme-color);
       }
     }
-
     @include menu-hover($hover-bg-color);
-
     .el-sub-menu__icon-arrow {
       color: var(--ao-gray-600);
     }
@@ -214,7 +187,6 @@ $popup-menu-radius: 6px;
       > .el-sub-menu {
         margin-left: 0;
       }
-
       .el-sub-menu {
         width: 100% !important;
       }
@@ -232,16 +204,18 @@ $popup-menu-radius: 6px;
 .dark {
   .el-menu--vertical,
   .el-menu--popup-container {
-    @include popup-menu-base(var(--ao-gray-200), var(--ao-gray-900), #292a2e);
+    @include popup-menu-base(
+      var(--ao-gray-200),
+      var(--ao-gray-900),
+      var(--ao-popup-menu-dark-active-bg)
+    );
   }
-
   .layout-sidebar {
     // 图标颜色、文字颜色
     .menu-icon .ao-svg-icon,
     .menu-name {
       color: var(--ao-gray-800) !important;
     }
-
     // 选中的文字颜色跟图标颜色
     .el-menu-item.is-active {
       span,
@@ -249,10 +223,9 @@ $popup-menu-radius: 6px;
         color: var(--theme-color) !important;
       }
     }
-
     // 右侧箭头颜色
     .el-sub-menu__icon-arrow {
-      color: #fff;
+      color: var(--ao-white);
     }
   }
 }

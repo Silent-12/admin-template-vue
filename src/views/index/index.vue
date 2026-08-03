@@ -30,11 +30,9 @@
     width: 100%;
     min-height: 100vh;
     background: var(--default-bg-color);
-
     #app-sidebar {
       flex-shrink: 0;
     }
-
     #app-main {
       display: flex;
       flex: 1;
@@ -42,7 +40,6 @@
       min-width: 0;
       height: 100vh;
       overflow: auto;
-
       #app-header {
         position: sticky;
         top: 0;
@@ -50,15 +47,12 @@
         flex-shrink: 0;
         width: 100%;
       }
-
       #app-content {
         flex: 1;
-
         :deep(.layout-content) {
           box-sizing: border-box;
           width: calc(100% - 40px);
           margin: auto;
-
           // 子页面默认 style
           .page-content {
             position: relative;
@@ -84,7 +78,6 @@
   @media only screen and (width <= 800px) {
     .app-layout {
       position: relative;
-
       #app-sidebar {
         position: fixed;
         top: 0;
@@ -92,12 +85,10 @@
         z-index: 300;
         height: 100vh;
       }
-
       #app-main {
         width: 100%;
         height: auto;
         overflow: visible;
-
         #app-content {
           :deep(.layout-content) {
             width: calc(100% - 40px);

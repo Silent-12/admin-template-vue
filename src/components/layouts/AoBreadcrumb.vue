@@ -134,63 +134,54 @@
   // 面包屑容器
   .breadcrumb {
     margin-left: 0.625rem;
-
     @media (width <= 63.99rem) {
       display: none !important;
     }
-  }
-
-  .breadcrumb__list {
-    height: 100%; // h-full
-  }
-
-  .breadcrumb__item {
-    box-sizing: border-box;
-    height: 1.75rem;
-    font-size: 0.875rem;
-    line-height: 1.75rem;
-  }
-
-  // 可点击区域
-  .breadcrumb__link {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    border-radius: 0.25rem;
-
-    &:hover {
-      background: var(--ao-active-color);
-
-      .breadcrumb__text {
-        color: var(--ao-gray-600);
+    &__list {
+      height: 100%; // h-full
+    }
+    &__item {
+      box-sizing: border-box;
+      height: 1.75rem;
+      font-size: 0.875rem;
+      line-height: 1.75rem;
+    }
+    // 可点击区域
+    &__link {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      border-radius: 0.25rem;
+      &:hover {
+        background: var(--ao-active-color);
+        .breadcrumb__text {
+          color: var(--ao-gray-600);
+        }
       }
     }
-  }
-
-  // 文本
-  .breadcrumb__text {
-    display: block;
-    max-width: 11.5rem;
-    padding-right: 0.375rem;
-    padding-left: 0.375rem;
-    overflow: hidden;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: var(--ao-gray-600);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    .dark & {
-      color: var(--ao-gray-800);
+    // 文本
+    &__text {
+      display: block;
+      max-width: 11.5rem;
+      padding-right: 0.375rem;
+      padding-left: 0.375rem;
+      overflow: hidden;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--ao-gray-600);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      .dark & {
+        color: var(--ao-gray-800);
+      }
     }
-  }
-
-  // 分隔符
-  .breadcrumb__separator {
-    margin-right: 0.25rem;
-    margin-left: 0.25rem;
-    font-size: 0.875rem;
-    font-style: normal;
-    line-height: 1.25rem;
-    color: var(--ao-gray-500);
+    // 分隔符
+    &__separator {
+      margin-right: 0.25rem;
+      margin-left: 0.25rem;
+      font-size: 0.875rem;
+      font-style: normal;
+      line-height: 1.25rem;
+      color: var(--ao-gray-500);
+    }
   }
 </style>

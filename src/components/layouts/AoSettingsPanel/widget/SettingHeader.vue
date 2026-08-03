@@ -28,7 +28,6 @@
     border-radius: 0.25rem;
     transition-duration: 200ms;
     transition-property: all !important;
-
     &:hover {
       background: color-mix(in srgb, var(--ao-gray-300) 80%, transparent);
     }

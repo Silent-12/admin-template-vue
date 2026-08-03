@@ -293,7 +293,7 @@
     margin-right: auto;
     margin-left: auto;
     object-fit: cover;
-    border: 2px solid white;
+    border: 2px solid var(--ao-white);
     border-radius: 9999px;
   }
 
@@ -386,12 +386,10 @@
   .settings-form {
     box-sizing: border-box;
     padding: 1.25rem;
-
     /* 表单项宽度（一行两个，留 10px 间距） */
     :deep(.el-row .el-form-item) {
       width: calc(50% - 10px);
     }
-
     /* 输入框 / 选择器宽度铺满 */
     :deep(.el-row .el-input),
     :deep(.el-row .el-select) {
@@ -412,7 +410,6 @@
   /* 按钮行 */
   .button-row {
     justify-content: flex-end;
-
     /* 按钮统一宽度 */
     :deep(.el-button) {
       width: 6.875rem !important;
@@ -431,12 +428,10 @@
       display: block;
       margin-top: 0.25rem;
     }
-
     .profile-col {
       width: 100%;
       margin-right: 0;
     }
-
     .settings-col {
       width: 100%;
       margin-top: 0.875rem;
