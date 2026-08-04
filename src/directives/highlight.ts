@@ -36,9 +36,6 @@
  * - 延迟处理：使用 requestAnimationFrame 分批处理
  * - 重试机制：自动重试处理失败的代码块
  * - 智能监听：只在有新代码块时才触发处理
- *
- * @module directives/highlight
- * @author Art Design Pro Team
  */
 
 import { App, Directive } from 'vue'

@@ -32,9 +32,6 @@
  * - 有色按钮（primary、success、warning 等）：使用白色半透明波纹
  * - 默认按钮：使用主题色半透明波纹
  * - 自定义：通过 color 参数指定任意颜色
- *
- * @module directives/ripple
- * @author Art Design Pro Team
  */
 
 import type { App, Directive, DirectiveBinding } from 'vue'
