@@ -43,9 +43,8 @@
 
 <script setup lang="ts">
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
-  import { ACCOUNT_TABLE_DATA } from '@/mock/temp/formData'
+  import { fetchGetUserList } from '@/mock'
   import { useTable } from '@/hooks/core/useTable'
-  import { fetchGetUserList } from '@/api/system-manage'
   import UserSearch from './components/UserSearch.vue'
   import UserDialog from './components/UserDialog.vue'
   import { ElTag, ElMessageBox, ElImage } from 'element-plus'
@@ -179,25 +178,6 @@
             ])
         }
       ]
-    },
-    // 数据处理
-    transform: {
-      // 数据转换器 - 替换头像
-      dataTransformer: (records) => {
-        // 类型守卫检查
-        if (!Array.isArray(records)) {
-          console.warn('数据转换器: 期望数组类型，实际收到:', typeof records)
-          return []
-        }
-
-        // 使用本地头像替换接口返回的头像
-        return records.map((item, index: number) => {
-          return {
-            ...item,
-            avatar: ACCOUNT_TABLE_DATA[index % ACCOUNT_TABLE_DATA.length].avatar
-          }
-        })
-      }
     }
   })
 

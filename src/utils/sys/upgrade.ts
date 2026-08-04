@@ -30,11 +30,8 @@
  * 4. 展示升级通知（包含更新日志）
  * 5. 根据配置决定是否强制重新登录
  * 6. 更新本地版本号
- *
- * @module utils/sys/upgrade
- * @author Art Design Pro Team
  */
-import { upgradeLogList } from '@/mock/upgrade/changeLog'
+import { upgradeLogList } from '@/mock/upgrade'
 import { ElNotification } from 'element-plus'
 import { useUserStore } from '@/store/modules/user'
 import { StorageConfig } from '@/utils/storage/storage-config'

@@ -54,7 +54,7 @@
 <script setup lang="ts">
   import type { ButtonMoreItem } from '@/components/forms/AoButtonMore.vue'
   import { useTable } from '@/hooks/core/useTable'
-  import { fetchGetRoleList } from '@/api/system-manage'
+  import { fetchGetRoleList } from '@/mock'
   import AoButtonMore from '@/components/forms/AoButtonMore.vue'
   import RoleSearch from './components/RoleSearch.vue'
   import RoleEditDialog from './components/RoleEditDialog.vue'

@@ -94,13 +94,13 @@
   import { computed, ref, watch, type Ref, type ComputedRef } from 'vue'
   import { useI18n } from 'vue-i18n'
 
-  // 导入头像图片
-  import avatar1 from '@/assets/images/avatar/avatar1.webp'
-  import avatar2 from '@/assets/images/avatar/avatar2.webp'
-  import avatar3 from '@/assets/images/avatar/avatar3.webp'
-  import avatar4 from '@/assets/images/avatar/avatar4.webp'
-  import avatar5 from '@/assets/images/avatar/avatar5.webp'
-  import avatar6 from '@/assets/images/avatar/avatar6.webp'
+  // 使用与已移除图片相同尺寸的占位头像
+  const avatar1 = 'https://dummyimage.com/160x160.png'
+  const avatar2 = 'https://dummyimage.com/160x160.png'
+  const avatar3 = 'https://dummyimage.com/160x160.png'
+  const avatar4 = 'https://dummyimage.com/80x80.png'
+  const avatar5 = 'https://dummyimage.com/80x80.png'
+  const avatar6 = 'https://dummyimage.com/80x80.png'
 
   defineOptions({ name: 'AoNotification' })
 

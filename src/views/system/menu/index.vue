@@ -55,7 +55,7 @@
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { AppRouteRecord } from '@/types/router'
   import MenuDialog from './components/MenuDialog.vue'
-  import { fetchGetMenuList } from '@/api/system-manage'
+  import { fetchGetMenuList } from '@/mock'
   import { ElTag, ElMessageBox } from 'element-plus'
   import type { MenuDialogFormData, AuthEditData } from './types'
 

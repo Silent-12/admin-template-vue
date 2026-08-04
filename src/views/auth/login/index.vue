@@ -77,7 +77,7 @@
   import { useUserStore } from '@/store/modules/user'
   import { useI18n } from 'vue-i18n'
   import { HttpError } from '@/utils/http/error'
-  import { fetchLogin } from '@/api/auth'
+  import { fetchLogin } from '@/mock'
   import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
   import AuthTopBar from './components/AuthTopBar.vue'
   import LoginLeftView from './components/LoginLeftView.vue'
