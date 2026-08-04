@@ -9,9 +9,6 @@
  * 1. 应用列表管理 - 获取启用的应用列表，自动按排序权重排序
  * 2. 响应式配置 - 所有配置自动响应变化，无需手动更新
  * 3. 宽度控制 - 提供最小显示宽度配置，支持响应式布局
- *
- * @module useFastEnter
- * @author Art Design Pro Team
  */
 
 import { computed } from 'vue'

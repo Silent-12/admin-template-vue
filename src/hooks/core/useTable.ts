@@ -12,9 +12,6 @@
  * 4. 缓存系统 - 智能请求缓存、多种清理策略、自动过期管理、统计信息
  * 5. 刷新策略 - 提供 5 种刷新方法适配不同业务场景（新增/更新/删除/手动/定时）
  * 6. 列配置管理 - 动态显示/隐藏列、列排序、配置持久化、批量操作（可选）
- *
- * @module useTable
- * @author Art Design Pro Team
  */
 
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick, readonly } from 'vue'

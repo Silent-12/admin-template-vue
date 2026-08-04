@@ -25,9 +25,6 @@
  * <el-button v-if="hasAuth('edit')">编辑</el-button>
  * <el-button v-if="hasAuth('delete')">删除</el-button>
  * ```
- *
- * @module useAuth
- * @author Art Design Pro Team
  */
 
 import { useRoute } from 'vue-router'

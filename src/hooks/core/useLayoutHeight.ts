@@ -11,9 +11,6 @@
  * 3. CSS 变量同步 - 自动更新 CSS 变量，方便全局使用
  * 4. 灵活配置 - 支持自定义间距、CSS 变量名等
  * 5. 自动查找模式 - 提供通过 ID 自动查找元素的便捷方式
- *
- * @module useLayoutHeight
- * @author Art Design Pro Team
  */
 
 import { ref, computed, watch, onMounted } from 'vue'

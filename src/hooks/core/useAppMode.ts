@@ -10,9 +10,6 @@
  * 2. 前端模式 - 权限由前端路由配置控制，适合小型项目或演示环境
  * 3. 后端模式 - 权限由后端接口返回的菜单数据控制，适合企业级应用
  * 4. 响应式状态 - 提供响应式的模式判断，方便在组件中使用
- *
- * @module useAppMode
- * @author Art Design Pro Team
  */
 
 import { computed } from 'vue'

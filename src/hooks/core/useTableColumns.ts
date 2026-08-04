@@ -27,9 +27,6 @@
  * // 重新排序
  * reorderColumns(0, 2)
  * ```
- *
- * @module useTableColumns
- * @author Art Design Pro Team
  */
 
 import { ref, computed, watch } from 'vue'

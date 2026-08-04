@@ -10,9 +10,6 @@
  * 2. 页面刷新 - 刷新当前页面内容
  * 3. 滚动控制 - 提供多种滚动到顶部和指定位置的方法
  * 4. 平滑滚动 - 支持平滑滚动动画效果
- *
- * @module useCommon
- * @author Art Design Pro Team
  */
 
 import { computed } from 'vue'

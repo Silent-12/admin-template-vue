@@ -10,9 +10,6 @@
  * 2. 响应式更新 - 配置变化时自动重新计算高度
  * 3. 灵活配置 - 支持自定义各部分高度和间距
  * 4. 智能适配 - 无额外元素时自动使用 100% 高度
- *
- * @module useTableHeight
- * @author Art Design Pro Team
  */
 
 import { computed, type Ref } from 'vue'
