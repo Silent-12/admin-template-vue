@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-  import { getEnabledGlobalComponents } from '@/config/modules/component'
+  import { getEnabledGlobalComponents } from '@/config/component'
   defineOptions({ name: 'AoGlobalComponent' })
   const enabledComponents = computed(() => getEnabledGlobalComponents())
 </script>

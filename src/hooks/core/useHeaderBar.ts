@@ -10,15 +10,12 @@
  * 2. 配置信息获取 - 获取各个功能模块的详细配置信息
  * 3. 功能列表查询 - 快速获取所有启用或禁用的功能列表
  * 4. 响应式状态 - 所有状态自动响应配置和 store 变化
- *
- * @module useHeaderBar
- * @author Art Design Pro Team
  */
 
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSettingStore } from '@/store/modules/setting'
-import { headerBarConfig } from '@/config/modules/headerBar'
+import { headerBarConfig } from '@/config/headerBar'
 import { HeaderBarFeatureConfig } from '@/types'
 
 /**

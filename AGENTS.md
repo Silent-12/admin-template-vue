@@ -26,6 +26,40 @@
 
 - 样式统一使用 SCSS，按域组织在 `src/assets/styles/`：核心样式在 `core/`（`theme.scss`、`utilities.scss`、`reset.scss`、`el-dark.scss`、`el-light.scss` 等），入口为 `src/assets/styles/index.scss`；禁止引入 Tailwind 等原子化 CSS 框架，禁止使用内联 `style=""` 写大段样式（动态样式除外）。
 
+## SCSS 样式整理规范
+
+- 同一 BEM 前缀的选择器必须优先使用 SCSS 嵌套，避免重复书写完整类名。例如：
+  ```scss
+  .breadcrumb {
+    &__list {
+    }
+    &__item {
+    }
+    &__link {
+      &:hover {
+      }
+    }
+  }
+  ```
+- BEM 修饰符使用 `&--*`，BEM 子元素使用 `&__*`，连字符命名的子块使用 `&-*`；伪类、伪元素、状态类、直接子元素和媒体查询应归属对应父选择器。
+- 只有在编译后的 CSS 选择器与原选择器完全一致时才能进行嵌套。禁止因嵌套新增后代层级或改变特异性；全局选择器、Element Plus 覆盖、动画、主题样式和跨组件覆盖必须保留原有作用域。必要时使用显式选择器（如 `& &__header`）保持原 CSS 语义。
+- 不重命名现有 class，不改变声明数值、动画、层级和响应式断点；纯样式整理不得修改模板、脚本逻辑、接口、类型或公共 API。
+- 同一个声明区块内部不插入无意义的空行。不同语义的选择器、注释、媒体查询和 `@keyframes` 区块之间可保留空行，以保持结构可读性。
+- 涉及样式重构时，应扫描全部 `.vue` 和 `.scss` 文件，确认 BEM 选择器已归并、声明区块内部没有多余空行，并通过 Sass 编译或构建核对生成的 CSS 选择器。
+- 样式中的颜色必须优先引用现有 CSS 变量；无法映射时，在 `theme.scss` 的 `:root` 和 `.dark` 中新增成对语义变量后再引用。脚本配置、组件 props 默认值和主题变量定义中的颜色值不按样式声明处理，但不得将脚本配置颜色误改为 CSS 变量。
+- 样式整理完成后必须执行 `pnpm run lint`、`pnpm run lint:stylelint`、`pnpm run lint:prettier` 和 `pnpm run build`；涉及选择器归并时还应执行 `git diff --check` 并检查最终 diff 只包含预期的样式结构、格式和 CSS 变量调整。
+
+### 样式整理语义变量
+
+| 变量 | 用途 |
+| --- | --- |
+| `--ao-white` / `--ao-black` | 白色、黑色及其透明混合的基础色 |
+| `--ao-shadow-05` / `--ao-shadow-08` / `--ao-shadow-10` / `--ao-shadow-12` / `--ao-shadow-15` / `--ao-shadow-20` | 阴影透明度 |
+| `--ao-badge-dot` / `--ao-badge-text-bg` | 徽章圆点和文字徽章背景 |
+| `--ao-menu-dark-bg` / `--ao-menu-dark-hover-bg` / `--ao-popup-menu-dark-active-bg` | 暗色菜单状态背景 |
+| `--ao-login-yellow-start` / `--ao-login-yellow-end` / `--ao-login-blue-shadow` | 登录页装饰色和阴影 |
+| `--ao-login-dark-shadow` / `--ao-login-light-shadow` / `--ao-login-banner-dark` | 登录页暗色主题及横幅辅助色 |
+
 - 组件目录分层规则：
   - 通用基础组件放在 `src/components/` 下，按类别（`base/`、`banners/`、`forms/`、`layouts/`、`media/`、`others/`、`tables/` 等）分子目录。
   - 无子组件或私有资源的通用组件直接使用大驼峰文件名（如 `src/components/layouts/AoFastEnter.vue`）；包含子组件或私有资源的组件保留大驼峰目录和 `index.vue` 入口，组件私有样式同名 `style.scss`，主题样式同名 `theme.scss`。

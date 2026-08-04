@@ -23,16 +23,13 @@
  * - systemMainColor: 预设的系统主色列表
  * - fastEnter: 快速入口配置
  * - headerBar: 顶部栏功能配置
- *
- * @module config
- * @author Art Design Pro Team
  */
 
 import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum'
 import { SystemConfig } from '@/types/config'
-import { configImages } from './assets/images'
-import fastEnterConfig from './modules/fastEnter'
-import { headerBarConfig } from './modules/headerBar'
+import { configImages } from './images'
+import fastEnterConfig from './fastEnter'
+import { headerBarConfig } from './headerBar'
 
 const appConfig: SystemConfig = {
   // 系统信息

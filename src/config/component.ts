@@ -8,9 +8,6 @@
  * - 异步加载 - 使用 defineAsyncComponent 实现按需加载
  * - 开关控制 - 支持通过 enabled 字段启用/禁用组件
  * - 配置查询 - 提供工具函数快速查询组件配置
- *
- * @module config/component
- * @author Art Design Pro Team
  */
 
 import { defineAsyncComponent } from 'vue'
