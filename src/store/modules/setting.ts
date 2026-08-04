@@ -23,15 +23,12 @@
  * - 使用 localStorage 存储
  * - 存储键：sys-v{version}-setting
  * - 支持跨版本数据迁移
- *
- * @module store/modules/setting
- * @author Art Design Pro Team
  */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { MenuThemeType } from '@/types/store'
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum, MenuThemeEnum } from '@/enums'
 import { setElementThemeColor } from '@/utils/ui'
 import { StorageConfig } from '@/utils'
 import { SETTING_DEFAULT_CONFIG } from '@/config/setting'

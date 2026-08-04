@@ -25,13 +25,10 @@
  * - 使用 localStorage 存储
  * - 存储键：sys-v{version}-user
  * - 登出时自动清理
- *
- * @module store/modules/user
- * @author Art Design Pro Team
  */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { LanguageEnum } from '@/enums/appEnum'
+import { LanguageEnum } from '@/enums'
 import { router } from '@/router'
 import { useSettingStore } from './setting'
 import { useWorktabStore } from './worktab'

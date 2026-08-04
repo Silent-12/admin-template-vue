@@ -15,11 +15,11 @@
  *    - src/components/layouts/AoSettingsPanel/widget/SettingActions.vue（重置配置逻辑）
  *    - src/store/modules/setting.ts（Store 状态定义）
  * 2. 可以通过设置面板的"复制配置"按钮快速生成配置代码
- * 3. 枚举类型的值需要与 src/enums/appEnum.ts 中的定义保持一致
+ * 3. 枚举类型的值需要与 src/enums 中的定义保持一致
  */
 
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum, MenuThemeEnum } from '@/enums'
 
 /**
  * 系统设置默认值配置

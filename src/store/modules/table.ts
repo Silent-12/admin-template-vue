@@ -21,13 +21,10 @@
  * - 使用 localStorage 存储
  * - 存储键：sys-v{version}-table
  * - 用户配置跨页面保持
- *
- * @module store/modules/table
- * @author Art Design Pro Team
  */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { TableSizeEnum } from '@/enums/formEnum'
+import { TableSizeEnum } from '@/enums'
 
 // 表格
 export const useTableStore = defineStore(

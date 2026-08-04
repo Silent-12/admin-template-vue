@@ -17,12 +17,9 @@
  * - 系统配置文件类型约束
  * - 配置项类型定义
  * - 配置数据验证
- *
- * @module types/config/index
- * @author Art Design Pro Team
  */
 
-import { SystemThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum } from '@/enums'
 import { MenuThemeType, SystemThemeTypes } from '@/types/store'
 
 // 主题设置

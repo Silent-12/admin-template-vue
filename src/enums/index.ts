@@ -1,0 +1,8 @@
+/**
+ * 枚举统一导出模块
+ *
+ * 集中导出系统级和业务级枚举，避免业务代码依赖具体枚举文件路径。
+ */
+
+export * from './appEnum'
+export * from './formEnum'

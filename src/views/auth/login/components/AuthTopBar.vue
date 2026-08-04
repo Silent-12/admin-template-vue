@@ -68,7 +68,7 @@
   import { useHeaderBar } from '@/hooks/core/useHeaderBar'
   import { themeAnimation } from '@/utils/ui/animation'
   import { languageOptions } from '@/locales'
-  import { LanguageEnum } from '@/enums/appEnum'
+  import { LanguageEnum } from '@/enums'
   import AppConfig from '@/config'
 
   defineOptions({ name: 'AuthTopBar' })

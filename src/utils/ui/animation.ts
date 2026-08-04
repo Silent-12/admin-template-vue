@@ -23,13 +23,10 @@
  * - 利用 View Transition API 实现流畅动画
  * - 通过 CSS class 控制过渡效果
  * - 自动计算最大扩散半径
- *
- * @module utils/theme/animation
- * @author Art Design Pro Team
  */
 import { useCommon } from '@/hooks/core/useCommon'
 import { useTheme } from '@/hooks/core/useTheme'
-import { SystemThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum } from '@/enums'
 import { useSettingStore } from '@/store/modules/setting'
 const { LIGHT, DARK } = SystemThemeEnum
 

@@ -124,7 +124,7 @@
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
   import { useFullscreen, useWindowSize } from '@vueuse/core'
-  import { LanguageEnum } from '@/enums/appEnum'
+  import { LanguageEnum } from '@/enums'
   import { useSettingStore } from '@/store/modules/setting'
   import { useAppStore } from '@/store/modules/app'
   import { useUserStore } from '@/store/modules/user'

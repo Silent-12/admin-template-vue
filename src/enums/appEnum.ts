@@ -6,10 +6,6 @@
  * - 主题类型枚举（亮色、暗色、自动）
  * - 菜单主题枚举（设计、亮色、暗色）
  * - 语言类型枚举（中文、英文）
- * - 菜单宽度枚举（收起宽度）
- *
- * @module enums/appEnum
- * @author Art Design Pro Team
  */
 
 /**
@@ -34,14 +30,6 @@ export enum MenuThemeEnum {
   LIGHT = 'light',
   /** 设计主题 */
   DESIGN = 'design'
-}
-
-/**
- * 菜单宽度
- */
-export enum MenuWidth {
-  /** 收起宽度 */
-  CLOSE = '64px'
 }
 
 /**

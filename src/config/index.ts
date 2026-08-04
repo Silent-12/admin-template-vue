@@ -25,7 +25,7 @@
  * - headerBar: 顶部栏功能配置
  */
 
-import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums'
 import { SystemConfig } from '@/types/config'
 import { configImages } from './images'
 import fastEnterConfig from './fastEnter'

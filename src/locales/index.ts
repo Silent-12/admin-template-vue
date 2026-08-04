@@ -16,14 +16,11 @@
  *
  * - zh: 简体中文
  * - en: English
- *
- * @module locales
- * @author Art Design Pro Team
  */
 
 import { createI18n } from 'vue-i18n'
 import type { I18n, I18nOptions } from 'vue-i18n'
-import { LanguageEnum } from '@/enums/appEnum'
+import { LanguageEnum } from '@/enums'
 import { getSystemStorage } from '@/utils/storage'
 import { StorageKeyManager } from '@/utils/storage/storage-key-manager'
 

@@ -4,7 +4,7 @@ import { useAppStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
 import { useBreakpoints } from '@vueuse/core'
 import AppConfig from '@/config'
-import { SystemThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum } from '@/enums'
 import { useTheme } from '@/hooks/core/useTheme'
 import { useSettingsHandlers } from './useSettingsHandlers'
 

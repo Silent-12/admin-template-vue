@@ -26,13 +26,10 @@
  * // 切换到自动模式（跟随系统）
  * switchThemeStyles(SystemThemeEnum.AUTO)
  * ```
- *
- * @module useTheme
- * @author Art Design Pro Team
  */
 
 import { useSettingStore } from '@/store/modules/setting'
-import { SystemThemeEnum } from '@/enums/appEnum'
+import { SystemThemeEnum } from '@/enums'
 import AppConfig from '@/config'
 import { SystemThemeTypes } from '@/types/store'
 import { getDarkColor, getLightColor, setElementThemeColor } from '@/utils/ui'

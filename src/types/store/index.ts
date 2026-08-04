@@ -18,12 +18,9 @@
  * - Store 状态类型约束
  * - 状态数据结构定义
  * - 类型提示和自动补全
- *
- * @module types/store/index
- * @author Art Design Pro Team
  */
 
-import { MenuThemeEnum, SystemThemeEnum } from '@/enums/appEnum'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums'
 import { LocationQueryRaw } from 'vue-router'
 
 // 系统主题样式（light | dark）
