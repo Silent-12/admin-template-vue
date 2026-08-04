@@ -14,6 +14,11 @@
           @click="visibleMenu"
         />
 
+        <!-- 快速入口 -->
+        <AoFastEnter v-if="shouldShowFastEnter && width >= headerBarFastEnterMinWidth">
+          <AoIconButton icon="ri:function-line" class="header-bar__fast-enter-btn" />
+        </AoFastEnter>
+
         <!-- 刷新按钮 -->
         <AoIconButton
           v-if="shouldShowRefreshButton"
@@ -21,11 +26,6 @@
           class="refresh-btn header-bar__refresh-btn"
           @click="reload"
         />
-
-        <!-- 快速入口 -->
-        <AoFastEnter v-if="shouldShowFastEnter && width >= headerBarFastEnterMinWidth">
-          <AoIconButton icon="ri:function-line" class="header-bar__fast-enter-btn" />
-        </AoFastEnter>
 
         <!-- 面包屑 -->
         <AoBreadcrumb v-if="shouldShowBreadcrumb" />

@@ -1,40 +1,19 @@
 <template>
   <div class="iframe-container" v-loading="isLoading">
-    <iframe
-      ref="iframeRef"
-      :src="iframeUrl"
-      frameborder="0"
-      class="iframe-view"
-      @load="handleIframeLoad"
-    ></iframe>
+    <iframe :src="iframeUrl" frameborder="0" class="iframe-view" @load="handleIframeLoad"></iframe>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { IframeRouteManager } from '@/router/core'
-
   defineOptions({ name: 'IframeView' })
 
   const route = useRoute()
   const isLoading = ref(true)
-  const iframeUrl = ref('')
-  const iframeRef = ref<HTMLIFrameElement | null>(null)
+  const iframeUrl = computed(() => String(route.meta.link || ''))
 
   /**
-   * 初始化 iframe URL
-   * 从路由配置中获取对应的外部链接地址
-   */
-  onMounted(() => {
-    const iframeRoute = IframeRouteManager.getInstance().findByPath(route.path)
-
-    if (iframeRoute?.meta) {
-      iframeUrl.value = iframeRoute.meta.link || ''
-    }
-  })
-
-  /**
-   * 处理 iframe 加载完成事件
-   * 隐藏加载状态
+   * @description 处理 iframe 加载完成事件并隐藏加载状态。
+   * @return 无返回值。
    */
   const handleIframeLoad = (): void => {
     isLoading.value = false

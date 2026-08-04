@@ -1,4 +1,4 @@
-import { asyncRoutes } from '@/router/routes/asyncRoutes'
+import { applicationRoutes } from '@/router/routes/applications'
 import type { AppRouteRecord } from '@/types/router'
 
 const USER_AVATAR_SIZES = [160, 160, 160, 80, 80, 80, 160, 160, 160, 160]
@@ -128,9 +128,9 @@ export function fetchGetRoleList(
 
 /**
  * 模拟获取菜单列表接口
- * @description 返回前端定义的动态路由作为本地菜单数据
+ * @description 返回前端定义的业务系统路由作为本地菜单数据
  * @return 菜单路由列表
  */
 export function fetchGetMenuList(): Promise<AppRouteRecord[]> {
-  return Promise.resolve([...asyncRoutes])
+  return Promise.resolve([...applicationRoutes])
 }

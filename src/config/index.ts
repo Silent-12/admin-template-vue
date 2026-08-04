@@ -10,7 +10,6 @@
  * - 主题配置 - 亮色/暗色/自动主题的样式配置
  * - 菜单配置 - 菜单主题、宽度等配置
  * - 颜色方案 - 系统主色和预设颜色列表
- * - 快速入口 - 快速入口应用和链接配置
  * - 顶部栏配置 - 顶部栏功能模块配置
  *
  * ## 配置项说明
@@ -21,14 +20,12 @@
  * - themeList: 菜单主题样式列表
  * - darkMenuStyles: 暗黑模式下的菜单样式
  * - systemMainColor: 预设的系统主色列表
- * - fastEnter: 快速入口配置
  * - headerBar: 顶部栏功能配置
  */
 
 import { MenuThemeEnum, SystemThemeEnum } from '@/enums'
 import { SystemConfig } from '@/types/config'
 import { configImages } from './images'
-import fastEnterConfig from './fastEnter'
 import { headerBarConfig } from './headerBar'
 
 const appConfig: SystemConfig = {
@@ -116,8 +113,6 @@ const appConfig: SystemConfig = {
     '#F9901F',
     '#FF80C8'
   ] as const,
-  // 快速入口配置
-  fastEnter: fastEnterConfig,
   // 顶部栏功能配置
   headerBar: headerBarConfig
 }

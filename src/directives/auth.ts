@@ -28,29 +28,30 @@
  * - 该指令会直接移除 DOM 元素，而不是使用 v-if 隐藏
  * - 权限列表从当前路由的 meta.authList 中获取
  */
-
-import { router } from '@/router'
-import { App, Directive, DirectiveBinding } from 'vue'
+import type { App, Directive, DirectiveBinding } from 'vue'
+import { useUserStore } from '@/store/modules/user'
 
 export type AuthDirective = Directive<HTMLElement, string>
 
+/**
+ * @description 根据当前用户的后端授权数据校验指令权限。
+ * @param el 指令绑定的 DOM 元素。
+ * @param binding 指令绑定信息。
+ * @return 无返回值。
+ */
 function checkAuthPermission(el: HTMLElement, binding: DirectiveBinding<string>): void {
-  // 获取当前路由的权限列表
-  const authList = (router.currentRoute.value.meta.authList as Array<{ authMark: string }>) || []
-
-  // 检查是否有对应的权限标识
-  const hasPermission = authList.some((item) => item.authMark === binding.value)
-
-  // 如果没有权限，移除元素
-  if (!hasPermission) {
-    removeElement(el)
-  }
+  if (!binding.value || useUserStore().info.auth?.includes(binding.value)) return
+  removeElement(el)
 }
 
+/**
+ * @description 从 DOM 中移除无权限元素。
+ * @param el 需要移除的 DOM 元素。
+ * @return 无返回值。
+ */
 function removeElement(el: HTMLElement): void {
-  if (el.parentNode) {
-    el.parentNode.removeChild(el)
-  }
+  if (!el.parentNode) return
+  el.parentNode.removeChild(el)
 }
 
 const authDirective: AuthDirective = {
@@ -58,6 +59,11 @@ const authDirective: AuthDirective = {
   updated: checkAuthPermission
 }
 
+/**
+ * @description 注册全局按钮权限指令。
+ * @param app Vue 应用实例。
+ * @return 无返回值。
+ */
 export function setupAuthDirective(app: App): void {
   app.directive('auth', authDirective)
 }

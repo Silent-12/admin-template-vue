@@ -1,148 +1,144 @@
-<!-- 顶部快速入口面板 -->
+<!-- 顶部业务系统切换器 -->
 <template>
   <ElPopover
     ref="popoverRef"
-    :width="700"
+    :width="200"
     :offset="0"
     :show-arrow="false"
-    trigger="hover"
+    trigger="click"
     placement="bottom-start"
     popper-class="fast-enter-popover"
     :popper-style="{
       border: '1px solid var(--default-border)',
-      borderRadius: 'calc(var(--custom-radius) / 2 + 4px)'
+      borderRadius: 'calc(var(--custom-radius) / 2 + 4px)',
+      padding: '6px'
     }"
   >
+    <!-- 快速入口 -->
     <template #reference>
       <div class="fast-enter__trigger flex-c">
         <slot />
       </div>
     </template>
 
+    <!-- 系统列表 -->
     <div class="fast-enter__apps">
-      <!-- 应用列表 -->
-      <div
-        v-for="application in enabledApplications"
-        :key="application.name"
-        class="fast-enter__app c-p flex-c"
-        @click="handleApplicationClick(application)"
+      <button
+        v-for="item in applicationList"
+        :key="item.path"
+        type="button"
+        class="fast-enter__app flex-c"
+        :class="{ 'fast-enter__app--active': item.path === currentApplication?.path }"
+        @click="openApplication(item)"
       >
-        <div class="app-icon fast-enter__app-icon flex-cc">
-          <AoSvgIcon
-            class="fast-enter__app-icon-svg"
-            :icon="application.icon"
-            :style="{ color: application.iconColor }"
-          />
-        </div>
-        <div>
-          <h3 class="fast-enter__app-name">{{ application.name }}</h3>
-          <p class="fast-enter__app-desc">{{ application.description }}</p>
-        </div>
-      </div>
+        <span class="fast-enter__app-icon flex-cc">
+          <AoSvgIcon class="fast-enter__app-icon-svg" :icon="item.meta.icon" />
+        </span>
+        <span class="fast-enter__app-content">
+          <span class="fast-enter__app-name">{{ formatMenuTitle(item.meta.title) }}</span>
+          <span v-if="item.path === currentApplication?.path" class="fast-enter__app-status">
+            {{ $t('topBar.system.current') }}
+          </span>
+        </span>
+      </button>
     </div>
   </ElPopover>
 </template>
 
 <script setup lang="ts">
-  import { useFastEnter } from '@/hooks/core/useFastEnter'
-  import type { FastEnterApplication } from '@/types/config'
+  import type { AppRouteRecord } from '@/types/router'
+  import { useMenuStore } from '@/store/modules/menu'
+  import { getFirstMenuPath } from '@/utils/navigation/route'
+  import { formatMenuTitle } from '@/utils/router'
 
   defineOptions({ name: 'AoFastEnter' })
 
   const router = useRouter()
-  const popoverRef = ref()
-
-  // 使用快速入口配置
-  const { enabledApplications } = useFastEnter()
+  const popoverRef = ref<{ hide: () => void }>()
+  const { applicationList, currentApplication } = storeToRefs(useMenuStore())
 
   /**
-   * 处理导航跳转
-   * @param routeName 路由名称
-   * @param link 外部链接
+   * @description 在新浏览器标签中打开目标业务系统首页。
+   * @param application 目标业务系统路由。
+   * @return 无返回值。
    */
-  const handleNavigate = (routeName?: string, link?: string): void => {
-    const targetPath = routeName || link
-
-    if (!targetPath) {
-      console.warn('导航配置无效：缺少路由名称或链接')
+  const openApplication = (application: AppRouteRecord): void => {
+    const homePath = getFirstMenuPath(application.children || [])
+    if (!homePath || application.path === currentApplication.value?.path) {
+      popoverRef.value?.hide()
       return
     }
 
-    if (targetPath.startsWith('http')) {
-      window.open(targetPath, '_blank')
-    } else {
-      router.push({ name: targetPath })
-    }
-
+    const targetUrl = router.resolve({ path: homePath }).href
+    window.open(targetUrl, '_blank', 'noopener')
     popoverRef.value?.hide()
-  }
-
-  /**
-   * 处理应用项点击
-   * @param application 应用配置对象
-   */
-  const handleApplicationClick = (application: FastEnterApplication): void => {
-    handleNavigate(application.routeName, application.link)
   }
 </script>
 
 <style scoped lang="scss">
   .fast-enter {
-    // 触发器
     &__trigger {
       gap: 0.5rem;
     }
-    // 应用列表
+
     &__apps {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 0.375rem;
     }
-    // 应用项
+
     &__app {
       gap: 0.75rem;
+      width: 100%;
       padding: 0.5rem;
-      margin-right: 0.75rem;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
       border-radius: 0.5rem;
-      &:hover {
-        background: color-mix(in srgb, var(--ao-gray-200) 70%, transparent);
-        .app-icon {
-          background: transparent !important;
-        }
-        .dark & {
-          background: color-mix(in srgb, var(--ao-gray-200) 90%, transparent);
-        }
+
+      &:hover,
+      &--active {
+        background: color-mix(in srgb, var(--ao-gray-200) 100%, transparent);
+      }
+
+      .dark &:hover,
+      .dark &--active {
+        background: color-mix(in srgb, var(--ao-gray-300) 100%, transparent);
       }
     }
-    // 应用图标容器
+
     &__app-icon {
-      width: 3rem;
-      height: 3rem;
+      flex: 0 0 auto;
+      width: 2.5rem;
+      height: 2.5rem;
+      color: var(--ao-primary);
       background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
       border-radius: 0.5rem;
-      .dark & {
-        background: color-mix(in srgb, var(--ao-gray-300) 30%, transparent);
-      }
     }
-    // 应用图标
+
     &__app-icon-svg {
       font-size: 1.25rem;
-      line-height: 1.75rem;
     }
-    // 应用名称
+
+    &__app-content {
+      display: grid;
+      gap: 0.125rem;
+      min-width: 0;
+    }
+
     &__app-name {
-      margin: 0;
       font-size: 0.875rem;
       font-weight: 500;
       line-height: 1.25rem;
       color: var(--ao-gray-800);
     }
-    // 应用描述
-    &__app-desc {
-      margin-top: 0.25rem;
+
+    &__app-status {
       font-size: 0.75rem;
       line-height: 1rem;
-      color: var(--ao-gray-600);
+      color: var(--ao-primary);
     }
   }
 </style>

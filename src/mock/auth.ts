@@ -22,7 +22,7 @@ export function fetchLogin(params: Api.Auth.LoginParams): Promise<Api.Auth.Login
  */
 export function fetchGetUserInfo(): Promise<Api.Auth.UserInfo> {
   return Promise.resolve({
-    buttons: ['add', 'edit', 'delete'],
+    auth: ['equipment:info', 'baseStationDetail:delete'],
     roles: ['R_SUPER'],
     userId: 1,
     userName: 'admin',

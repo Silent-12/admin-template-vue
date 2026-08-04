@@ -1,12 +1,16 @@
 import { nextTick } from 'vue'
-import { Router } from 'vue-router'
+import type { Router } from 'vue-router'
 import NProgress from 'nprogress'
 import { useCommon } from '@/hooks/core/useCommon'
 import { loadingService } from '@/utils/ui'
 import { getPendingLoading, resetPendingLoading } from './beforeEach'
 
-/** 路由全局后置守卫 */
-export function setupAfterEachGuard(router: Router) {
+/**
+ * @description 注册路由全局后置守卫，处理滚动位置、进度条与加载状态。
+ * @param router Vue Router 实例。
+ * @return 无返回值。
+ */
+export function setupAfterEachGuard(router: Router): void {
   const { scrollToTop } = useCommon()
 
   router.afterEach(() => {

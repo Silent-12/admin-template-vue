@@ -74,13 +74,22 @@ declare namespace Api {
       refreshToken: string
     }
 
-    /** 用户信息 */
+    /**
+     * 用户信息
+     * @description 描述登录用户的基础资料与后端授权标识。
+     */
     interface UserInfo {
-      buttons: string[]
+      // 后端返回的操作权限标识列表
+      auth: string[]
+      // 用户所属角色标识列表
       roles: string[]
+      // 用户唯一标识
       userId: number
+      // 用户登录名
       userName: string
+      // 用户邮箱地址
       email: string
+      // 可选的用户头像地址
       avatar?: string
     }
   }

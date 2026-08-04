@@ -26,46 +26,25 @@
  * <el-button v-if="hasAuth('delete')">删除</el-button>
  * ```
  */
-
-import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/modules/user'
-import { useAppMode } from '@/hooks/core/useAppMode'
-import type { AppRouteRecord } from '@/types/router'
 
-type AuthItem = NonNullable<AppRouteRecord['meta']['authList']>[number]
-
-const userStore = useUserStore()
-
+/**
+ * @description 提供当前登录用户的操作权限判断能力。
+ * @return 包含权限判断方法的对象。
+ */
 export const useAuth = () => {
-  const route = useRoute()
-  const { isFrontendMode } = useAppMode()
-  const { info } = storeToRefs(userStore)
-
-  // 前端按钮权限（例如：['add', 'edit']）
-  const frontendAuthList = info.value?.buttons ?? []
-
-  // 后端路由 meta 配置的权限列表（例如：[{ authMark: 'add' }]）
-  const backendAuthList: AuthItem[] = Array.isArray(route.meta.authList)
-    ? (route.meta.authList as AuthItem[])
-    : []
+  const { info } = storeToRefs(useUserStore())
 
   /**
-   * 检查是否拥有某权限标识（前后端模式通用）
-   * @param auth 权限标识
-   * @returns 是否有权限
+   * @description 判断当前用户是否拥有指定操作权限。
+   * @param auth 后端返回的权限标识。
+   * @return 是否拥有该权限。
    */
   const hasAuth = (auth: string): boolean => {
-    // 前端模式
-    if (isFrontendMode.value) {
-      return frontendAuthList.includes(auth)
-    }
-
-    // 后端模式
-    return backendAuthList.some((item) => item?.authMark === auth)
+    if (!auth) return false
+    return info.value?.auth?.includes(auth) ?? false
   }
 
-  return {
-    hasAuth
-  }
+  return { hasAuth }
 }

@@ -1,109 +1,92 @@
 /**
- * 菜单状态管理模块
- *
- * 提供菜单数据和动态路由的状态管理
- *
- * ## 主要功能
- *
- * - 菜单列表存储和管理
- * - 首页路径配置
- * - 动态路由注册和移除
- * - 路由移除函数管理
- * - 菜单宽度配置
- *
- * ## 使用场景
- *
- * - 动态菜单加载和渲染
- * - 路由权限控制
- * - 首页路径动态设置
- * - 登出时清理动态路由
- *
- * ## 工作流程
- *
- * 1. 获取菜单数据（前端/后端模式）
- * 2. 设置菜单列表和首页路径
- * 3. 注册动态路由并保存移除函数
- * 4. 登出时调用移除函数清理路由
- *
- * @module store/modules/menu
- * @author Art Design Pro Team
+ * 多系统菜单状态管理。
  */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { AppRouteRecord } from '@/types/router'
-import { getFirstMenuPath } from '@/utils'
-import { HOME_PAGE_PATH } from '@/router'
+import type { AppRouteRecord } from '@/types/router'
+import { findApplicationByPath, getFirstMenuPath } from '@/utils/navigation/route'
 
 /**
- * 菜单状态管理
- * 管理应用的菜单列表、首页路径、菜单宽度和动态路由移除函数
+ * @description 管理业务系统列表、当前系统与当前侧栏菜单。
+ * @return Pinia 菜单状态实例。
  */
 export const useMenuStore = defineStore('menuStore', () => {
-  /** 首页路径 */
-  const homePath = ref(HOME_PAGE_PATH)
+  const applicationList = ref<AppRouteRecord[]>([])
+  const currentApplication = ref<AppRouteRecord | null>(null)
   /** 菜单列表 */
   const menuList = ref<AppRouteRecord[]>([])
   /** 菜单宽度 */
   const menuWidth = ref('')
-  /** 存储路由移除函数的数组 */
-  const removeRouteFns = ref<(() => void)[]>([])
+  /** 首页路径 */
+  const homePath = ref('')
 
   /**
-   * 设置菜单列表
-   * @param list 菜单路由记录数组
+   * @description 设置完整业务系统列表，并根据当前地址激活对应系统。
+   * @param list 一级业务系统路由列表。
+   * @param path 当前访问路径。
+   * @return 无返回值。
    */
-  const setMenuList = (list: AppRouteRecord[]) => {
-    menuList.value = list
-    setHomePath(HOME_PAGE_PATH || getFirstMenuPath(list))
+  const setApplicationList = (list: AppRouteRecord[], path: string): void => {
+    applicationList.value = list
+    activateApplication(path)
   }
 
   /**
-   * 获取首页路径
-   * @returns 首页路径字符串
+   * @description 根据地址切换当前业务系统及其侧栏菜单。
+   * @param path 当前访问路径。
+   * @return 当前激活的业务系统，无匹配时返回 undefined。
    */
-  const getHomePath = () => homePath.value
+  const activateApplication = (path: string): AppRouteRecord | undefined => {
+    const application =
+      findApplicationByPath(applicationList.value, path) || applicationList.value[0]
+    if (!application) {
+      currentApplication.value = null
+      menuList.value = []
+      homePath.value = ''
+      return undefined
+    }
+
+    currentApplication.value = application
+    menuList.value = application.children || []
+    homePath.value = getFirstMenuPath(menuList.value)
+    return application
+  }
 
   /**
-   * 设置主页路径
-   * @param path 主页路径
+   * @description 获取当前业务系统首页地址。
+   * @return 当前系统首页地址。
    */
-  const setHomePath = (path: string) => {
+  const getHomePath = (): string => homePath.value
+
+  /**
+   * @description 设置当前系统首页地址。
+   * @param path 首页地址。
+   * @return 无返回值。
+   */
+  const setHomePath = (path: string): void => {
     homePath.value = path
   }
 
   /**
-   * 添加路由移除函数
-   * @param fns 要添加的路由移除函数数组
+   * @description 清空业务系统与菜单状态。
+   * @return 无返回值。
    */
-  const addRemoveRouteFns = (fns: (() => void)[]) => {
-    removeRouteFns.value.push(...fns)
-  }
-
-  /**
-   * 移除所有动态路由
-   * 执行所有存储的路由移除函数并清空数组
-   */
-  const removeAllDynamicRoutes = () => {
-    removeRouteFns.value.forEach((fn) => fn())
-    removeRouteFns.value = []
-  }
-
-  /**
-   * 清空路由移除函数数组
-   */
-  const clearRemoveRouteFns = () => {
-    removeRouteFns.value = []
+  const clearApplications = (): void => {
+    applicationList.value = []
+    currentApplication.value = null
+    menuList.value = []
+    homePath.value = ''
   }
 
   return {
+    applicationList,
+    currentApplication,
     menuList,
     menuWidth,
-    removeRouteFns,
-    setMenuList,
+    setApplicationList,
+    activateApplication,
     getHomePath,
     setHomePath,
-    addRemoveRouteFns,
-    removeAllDynamicRoutes,
-    clearRemoveRouteFns
+    clearApplications
   }
 })

@@ -30,7 +30,7 @@
  * - 首页自动保留
  *
  * ## 持久化
- * - 使用 localStorage 存储
+ * - 使用 sessionStorage 存储
  * - 存储键：sys-v{version}-worktab
  * - 刷新页面保持标签状态
  *
@@ -562,7 +562,7 @@ export const useWorktabStore = defineStore(
   {
     persist: {
       key: 'worktab',
-      storage: localStorage
+      storage: sessionStorage
     }
   }
 )

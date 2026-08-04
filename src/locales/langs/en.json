@@ -21,6 +21,9 @@
     "user": {
       "userCenter": "User center",
       "logout": "Log out"
+    },
+    "system": {
+      "current": "Current system"
     }
   },
   "common": {
@@ -174,6 +177,9 @@
     },
     "outside": {
       "title": "Outside"
+    },
+    "oms": {
+      "title": "OMS"
     },
     "dashboard": {
       "title": "Dashboard",

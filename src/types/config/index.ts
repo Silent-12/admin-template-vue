@@ -7,7 +7,6 @@
  *
  * - 主题设置类型
  * - 系统基础配置类型
- * - 快速入口配置类型
  * - 顶部栏功能配置类型
  * - 环境配置类型
  * - 应用配置类型
@@ -52,34 +51,6 @@ export interface SystemBasicConfig {
   copyright?: string
 }
 
-// 快速入口应用项
-export interface FastEnterApplication {
-  /** 名称 */
-  name: string
-  /** 应用描述 */
-  description: string
-  /** 图标代码 */
-  icon: string
-  /** 图标颜色 */
-  iconColor: string
-  /** 是否启用 */
-  enabled?: boolean
-  /** 排序权重 */
-  order?: number
-  /** 路由名称 */
-  routeName?: string
-  /** 外部链接 */
-  link?: string
-}
-
-// 快速入口配置
-export interface FastEnterConfig {
-  /** 应用列表 */
-  applications: FastEnterApplication[]
-  /** 显示条件（屏幕宽度） */
-  minWidth?: number
-}
-
 // 系统配置
 export interface SystemConfig {
   // 系统基础信息
@@ -94,8 +65,6 @@ export interface SystemConfig {
   darkMenuStyles: MenuThemeType[]
   // 系统主色调
   systemMainColor: readonly string[]
-  // 快速入口配置
-  fastEnter?: FastEnterConfig
   // 顶部栏功能配置
   headerBar?: HeaderBarFeatureConfig
 }
@@ -114,6 +83,8 @@ export interface EnvConfig {
   VITE_BASE_URL: string
   // API 地址
   VITE_API_URL: string
+  // 路由来源
+  VITE_ROUTE_SOURCE: 'static' | 'dynamic'
   // 是否开启 Mock
   VITE_USE_MOCK?: string
   // 是否开启压缩

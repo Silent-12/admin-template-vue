@@ -21,6 +21,9 @@
     "user": {
       "userCenter": "个人中心",
       "logout": "退出登录"
+    },
+    "system": {
+      "current": "当前系统"
     }
   },
   "common": {
@@ -174,6 +177,9 @@
     },
     "outside": {
       "title": "内嵌页面"
+    },
+    "oms": {
+      "title": "OMS 系统"
     },
     "dashboard": {
       "title": "仪表盘",
