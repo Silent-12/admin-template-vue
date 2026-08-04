@@ -79,7 +79,7 @@
 
 - 国际化：所有用户可见文案应使用 `vue-i18n` 的 `$t` / `t` 函数，语言包位于 `src/locales/langs/`（`zh.json`、`en.json`）；禁止在模板或代码中硬编码中文展示文案（注释、日志除外）。
 
-- 自定义指令统一在 `src/directives/` 下按 `core/`（`auth`、`roles`）与 `business/`（`highlight`、`ripple`）分类，通过 `src/directives/index.ts` 统一注册。
+- 自定义指令统一放在 `src/directives/` 根目录（`auth`、`highlight`、`ripple`），通过 `src/directives/index.ts` 统一注册。
 
 - 复用逻辑优先抽成 Composable，放置在 `src/hooks/core/` 下，命名以 `use` 开头（如 `useTable`、`useAuth`、`useTheme`）；不要在组件内重复实现已存在的 hook 能力。
 
