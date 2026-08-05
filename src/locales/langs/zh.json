@@ -58,7 +58,8 @@
         "collapseSidebar": "显示折叠侧边栏按钮",
         "fastEnter": "显示快速入口",
         "breadcrumb": "显示全局面包屑导航",
-        "language": "显示多语言选择"
+        "language": "显示多语言选择",
+        "notification": "显示通知入口"
       }
     },
     "actions": {
@@ -158,12 +159,6 @@
       }
     }
   },
-  "greeting": {
-    "dawn": "凌晨了！",
-    "morning": "上午好！",
-    "afternoon": "下午好！",
-    "evening": "晚上好！"
-  },
   "exceptionPage": {
     "403": "抱歉，您无权访问该页面",
     "404": "抱歉，您访问的页面不存在",
@@ -184,12 +179,6 @@
       "title": "仪表盘",
       "console": "工作台"
     },
-    "exception": {
-      "title": "异常页面",
-      "forbidden": "403",
-      "notFound": "404",
-      "serverError": "500"
-    },
     "system": {
       "title": "系统管理",
       "user": "用户管理",
@@ -207,9 +196,7 @@
       "reset": "重置",
       "search": "查询",
       "expand": "展开",
-      "collapse": "收起",
-      "searchInputPlaceholder": "请输入",
-      "searchSelectPlaceholder": "请选择"
+      "collapse": "收起"
     },
     "selection": "选择",
     "sizeOptions": {

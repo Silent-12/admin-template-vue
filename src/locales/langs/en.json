@@ -58,7 +58,8 @@
         "collapseSidebar": "Show sidebar button",
         "fastEnter": "Show fast enter",
         "breadcrumb": "Show crumb navigation",
-        "language": "Show multilingual selection"
+        "language": "Show multilingual selection",
+        "notification": "Show notification entry"
       }
     },
     "actions": {
@@ -158,12 +159,6 @@
       }
     }
   },
-  "greeting": {
-    "dawn": "Good morning!",
-    "morning": "Good morning!",
-    "afternoon": "Good afternoon!",
-    "evening": "Good evening!"
-  },
   "exceptionPage": {
     "403": "Sorry, you do not have permission to access this page",
     "404": "Sorry, the page you are trying to access does not exist",
@@ -184,12 +179,6 @@
       "title": "Dashboard",
       "console": "Console"
     },
-    "exception": {
-      "title": "Exception",
-      "forbidden": "403",
-      "notFound": "404",
-      "serverError": "500"
-    },
     "system": {
       "title": "System Settings",
       "user": "User Manage",
@@ -207,9 +196,7 @@
       "reset": "Reset",
       "search": "Search",
       "expand": "Expand",
-      "collapse": "Collapse",
-      "searchInputPlaceholder": "Please enter",
-      "searchSelectPlaceholder": "Please select"
+      "collapse": "Collapse"
     },
     "selection": "Select",
     "sizeOptions": {

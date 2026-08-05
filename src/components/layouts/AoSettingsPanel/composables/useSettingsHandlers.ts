@@ -45,7 +45,10 @@ export function useSettingsHandlers() {
     crumbs: createToggleHandler(() => settingStore.setCrumbs()),
 
     // 显示语言切换
-    language: createToggleHandler(() => settingStore.setLanguage())
+    language: createToggleHandler(() => settingStore.setLanguage()),
+
+    // 显示通知入口
+    notification: createToggleHandler(() => settingStore.setNotification())
   }
 
   // 颜色设置处理器

@@ -63,6 +63,13 @@ export function useSettingsConfig() {
         type: 'switch' as const,
         handler: 'language',
         headerBarKey: 'language' as const
+      },
+      {
+        key: 'showNotification',
+        label: t('setting.basics.list.notification'),
+        type: 'switch' as const,
+        handler: 'notification',
+        headerBarKey: 'notification' as const
       }
     ]
 

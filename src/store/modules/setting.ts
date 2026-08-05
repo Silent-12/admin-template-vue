@@ -65,6 +65,8 @@ export const useSettingStore = defineStore(
     const showWorkTab = ref(SETTING_DEFAULT_CONFIG.showWorkTab)
     /** 是否显示语言切换 */
     const showLanguage = ref(SETTING_DEFAULT_CONFIG.showLanguage)
+    /** 是否显示通知入口 */
+    const showNotification = ref(SETTING_DEFAULT_CONFIG.showNotification)
     /** 是否显示设置引导 */
     const showSettingGuide = ref(SETTING_DEFAULT_CONFIG.showSettingGuide)
 
@@ -166,6 +168,15 @@ export const useSettingStore = defineStore(
     }
 
     /**
+     * 切换通知入口显示状态
+     * @description 更新顶部栏通知入口的显示状态。
+     * @return {void} 无返回值
+     */
+    const setNotification = () => {
+      showNotification.value = !showNotification.value
+    }
+
+    /**
      * 设置菜单展开状态
      * @param open 是否展开
      */
@@ -191,6 +202,7 @@ export const useSettingStore = defineStore(
       showCrumbs,
       showWorkTab,
       showLanguage,
+      showNotification,
       showSettingGuide,
       menuOpen,
       refresh,
@@ -205,6 +217,7 @@ export const useSettingStore = defineStore(
       setCrumbs,
       setWorkTab,
       setLanguage,
+      setNotification,
       setMenuOpen,
       reload
     }

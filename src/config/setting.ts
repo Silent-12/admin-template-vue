@@ -45,6 +45,8 @@ export const SETTING_DEFAULT_CONFIG = {
   showWorkTab: true,
   /** 是否显示语言切换 */
   showLanguage: true,
+  /** 是否显示通知入口 */
+  showNotification: false,
   /** 是否显示设置引导 */
   showSettingGuide: true,
   /** 是否唯一展开 */
