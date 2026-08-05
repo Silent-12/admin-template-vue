@@ -19,12 +19,16 @@
         <AoLogo class="logo" />
 
         <p
+          class="system-name"
           :style="{
             color: getMenuTheme.systemNameColor,
             opacity: !menuOpen ? 0 : 1
           }"
         >
           {{ AppConfig.systemInfo.name }}
+          <ElTag v-if="menuOpen" class="system-version" type="primary" effect="light" size="small">
+            {{ AppConfig.systemInfo.version }}
+          </ElTag>
         </p>
       </div>
 

@@ -37,7 +37,7 @@
     .logo {
       margin-left: 22px;
     }
-    p {
+    .system-name {
       position: absolute;
       top: 0;
       bottom: 0;
@@ -45,6 +45,17 @@
       box-sizing: border-box;
       margin-left: 10px;
       font-size: 18px;
+      line-height: 60px;
+      white-space: nowrap;
+    }
+    .system-version {
+      position: absolute;
+      top: 6px;
+      left: calc(100% - 12px);
+      height: 18px;
+      padding: 0 5px;
+      font-size: 10px;
+      line-height: 16px;
     }
   }
   .el-menu {
@@ -81,7 +92,7 @@
       .logo {
         display: none;
       }
-      p {
+      .system-name {
         left: 16px;
         font-size: 0;
         opacity: 0 !important;

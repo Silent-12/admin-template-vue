@@ -31,7 +31,8 @@ import { headerBarConfig } from './headerBar'
 const appConfig: SystemConfig = {
   // 系统信息
   systemInfo: {
-    name: import.meta.env.VITE_APP_NAME // 系统名称
+    name: import.meta.env.VITE_APP_NAME, // 系统名称
+    version: import.meta.env.VITE_APP_VERSION // 系统版本
   },
   // 系统主题
   systemThemeStyles: {

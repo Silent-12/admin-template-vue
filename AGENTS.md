@@ -24,6 +24,8 @@
 
 - 所有的 TS 类型定义统一放在 `src/types/` 下，按域分目录：`api/`、`common/`、`component/`、`config/`、`directive/`、`router/`、`store/`。全局命名空间类型（如 `Api.Auth.*`）在 `src/types/api/api.d.ts` 中声明；通用业务类型在 `src/types/common/index.ts`。
 
+- TypeScript 类型定义文件（`.ts` / `.d.ts`）的注释规则：`type`、`interface`、`class` 等类型声明前仅保留一段 JSDoc，第一行写简短说明，使用 `@description` 补充用途；字段注释统一使用字段上方的单行 `//` 注释，不在类型 JSDoc 中使用 `@param` 描述字段。类型声明前禁止额外添加与 JSDoc 重复的 `//` 标题注释。类方法和构造函数仍按函数注释规则使用 `@description`、`@param`、`@return`。
+
 - 样式统一使用 SCSS，按域组织在 `src/assets/styles/`：核心样式在 `core/`（`theme.scss`、`utilities.scss`、`reset.scss`、`el-dark.scss`、`el-light.scss` 等），入口为 `src/assets/styles/index.scss`；禁止引入 Tailwind 等原子化 CSS 框架，禁止使用内联 `style=""` 写大段样式（动态样式除外）。
 
 ## SCSS 样式整理规范

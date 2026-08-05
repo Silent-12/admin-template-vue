@@ -37,10 +37,15 @@ export interface ThemeSetting {
   img: string
 }
 
-// 系统基础配置
+/**
+ * 系统基础配置接口
+ * @description 定义系统名称、版本及其他基础信息。
+ */
 export interface SystemBasicConfig {
   // 系统名称
   name: string
+  // 系统版本
+  version: string
   // 系统描述
   description?: string
   // 系统logo
@@ -69,12 +74,17 @@ export interface SystemConfig {
   headerBar?: HeaderBarFeatureConfig
 }
 
-// 环境配置
+/**
+ * 环境配置接口
+ * @description 定义 Vite 构建和运行时读取的环境变量。
+ */
 export interface EnvConfig {
   // 环境名称
   NODE_ENV: string
   // 应用名称
   VITE_APP_NAME: string
+  // 应用版本
+  VITE_APP_VERSION: string
   // 应用端口
   VITE_PORT: string
   // 应用基础路径
