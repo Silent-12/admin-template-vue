@@ -13,7 +13,11 @@
             :class="{ 'is-selected': item.path === currentApplication?.path }"
           >
             <span class="menu-txt">{{ formatMenuTitle(item.meta.title) }}</span>
-            <AoSvgIcon icon="ri:check-fill" v-if="item.path === currentApplication?.path" />
+            <AoSvgIcon
+              style="margin-left: 5px"
+              icon="ri:check-fill"
+              v-if="item.path === currentApplication?.path"
+            />
           </ElDropdownItem>
         </div>
       </ElDropdownMenu>

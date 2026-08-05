@@ -459,8 +459,8 @@
     box-sizing: border-box;
     width: 100%;
     padding-right: 1.25rem;
+    padding-bottom: 0.75rem;
     padding-left: 1.25rem;
-    margin-bottom: 0.75rem;
     user-select: none;
     // 滚动容器
     &__scroll {
