@@ -111,7 +111,7 @@
         size: 20,
         ...searchForm.value
       },
-      // 自定义分页字段映射，未设置时将使用全局配置 tableConfig.ts 中的 paginationKey
+      // 自定义分页字段映射，未设置时将使用 useTable 私有配置中的 paginationKey
       // paginationKey: {
       //   current: 'pageNum',
       //   size: 'pageSize'

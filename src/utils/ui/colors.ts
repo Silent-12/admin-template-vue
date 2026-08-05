@@ -26,7 +26,7 @@
  * - hexToRgba: Hex 转 RGBA（支持透明度）
  * - hexToRgb: Hex 转 RGB 数组
  * - rgbToHex: RGB 转 Hex
- * - colourBlend: 两种颜色混合
+ * - colorBlend: 两种颜色混合
  * - getLightColor: 生成变浅的颜色
  * - getDarkColor: 生成变深的颜色
  * - handleElementThemeColor: 处理 Element Plus 主题色
@@ -176,7 +176,7 @@ export function rgbToHex(r: number, g: number, b: number): string {
  * @param ratio 混合比例 (0-1)
  * @returns 混合后的颜色
  */
-export function colourBlend(color1: string, color2: string, ratio: number): string {
+export function colorBlend(color1: string, color2: string, ratio: number): string {
   const validRatio = Math.max(0, Math.min(1, Number(ratio)))
 
   const rgb1 = hexToRgb(color1)
@@ -267,7 +267,7 @@ export function setElementThemeColor(color: string): void {
 
   // 生成更淡一点的颜色
   for (let i = 1; i < 16; i++) {
-    const itemColor = colourBlend(color, mixColor, i / 16)
+    const itemColor = colorBlend(color, mixColor, i / 16)
     elStyle.setProperty(`--el-color-primary-custom-${i}`, itemColor)
   }
 }

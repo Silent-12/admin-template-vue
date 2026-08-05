@@ -26,10 +26,10 @@
  * - PromiseError: Promise 未捕获的 rejection
  * - ResourceError: 静态资源加载失败
  *
- * @module utils/sys/error-handle
+ * @module utils/sys/errorHandle
  * @author Art Design Pro Team
  */
-import type { App } from 'vue'
+import type { App, ComponentPublicInstance } from 'vue'
 
 const IGNORABLE_SCRIPT_ERRORS = [
   'ResizeObserver loop completed with undelivered notifications.',
@@ -69,9 +69,17 @@ function isIgnorableScriptError(message: Event | string, source?: string): boole
 }
 
 /**
- * Vue 运行时错误处理
+ * @description 处理 Vue 运行时错误并输出组件上下文。
+ * @param err Vue 捕获的运行时错误。
+ * @param instance 发生错误的组件实例。
+ * @param info Vue 提供的错误位置信息。
+ * @return 无返回值。
  */
-export function vueErrorHandler(err: unknown, instance: any, info: string) {
+export function vueErrorHandler(
+  err: unknown,
+  instance: ComponentPublicInstance | null,
+  info: string
+): void {
   console.error('[VueError]', err, info, instance)
   // 这里可以上报到服务端，比如：
   // reportError({ type: 'vue', err, info })

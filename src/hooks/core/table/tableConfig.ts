@@ -30,7 +30,7 @@
  * 如果后端使用其他字段名，可以在对应数组中添加新的字段名
  * 例如：recordFields: ['list', 'data', 'records', 'items', 'yourCustomField']
  *
- * @module utils/table/tableConfig
+ * @module hooks/core/table/tableConfig
  * @author Art Design Pro Team
  */
 export const tableConfig = {

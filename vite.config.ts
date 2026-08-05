@@ -9,18 +9,19 @@ import AutoImport from 'unplugin-auto-import/vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+/**
+ * @description 创建 Vite 构建配置并加载当前运行模式的环境变量。
+ * @param options Vite 当前运行模式参数。
+ * @return Vite 构建配置。
+ */
 export default ({ mode }: { mode: string }) => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
-  const { VITE_VERSION, VITE_PORT, VITE_BASE_URL, VITE_API_URL, VITE_API_PROXY_URL } = env
+  const { VITE_PORT, VITE_BASE_URL, VITE_API_URL, VITE_API_PROXY_URL } = env
 
   console.log(`🚀 API_URL = ${VITE_API_URL}`)
-  console.log(`🚀 VERSION = ${VITE_VERSION}`)
 
   return defineConfig({
-    define: {
-      __APP_VERSION__: JSON.stringify(VITE_VERSION)
-    },
     base: VITE_BASE_URL,
     server: {
       port: Number(VITE_PORT),

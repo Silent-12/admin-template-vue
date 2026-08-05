@@ -27,6 +27,8 @@
           {{ AppConfig.systemInfo.name }}
         </p>
       </div>
+
+      <!-- 菜单内容 -->
       <ElScrollbar :style="scrollbarStyle">
         <ElMenu
           :class="'el-menu-' + getMenuTheme.theme"

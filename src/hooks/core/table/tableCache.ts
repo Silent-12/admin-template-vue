@@ -29,7 +29,7 @@
  * - CLEAR_PAGINATION: 清空所有分页缓存但保留不同搜索条件（适用于批量操作）
  * - KEEP_ALL: 不清除缓存（适用于只读操作）
  *
- * @module utils/table/tableCache
+ * @module hooks/core/table/tableCache
  * @author Art Design Pro Team
  */
 import { hash } from 'ohash'
@@ -85,7 +85,7 @@ export class TableCache<T> {
   }
 
   // 内部日志工具
-  private log(message: string, ...args: any[]) {
+  private log(message: string, ...args: unknown[]): void {
     if (this.enableLog) {
       console.log(`[TableCache] ${message}`, ...args)
     }

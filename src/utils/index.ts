@@ -15,9 +15,6 @@ export * from './router'
 // 路由导航相关
 export * from './navigation'
 
-// 系统管理相关
-export * from './sys'
-
 // 存储相关
 export * from './storage'
 

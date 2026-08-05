@@ -31,12 +31,13 @@ import { useSettingStore } from '@/store/modules/setting'
 const { LIGHT, DARK } = SystemThemeEnum
 
 /**
- * 主题切换动画
- * @param e 鼠标点击事件
+ * @description 执行基于鼠标点击位置的主题切换动画。
+ * @param event 鼠标点击事件。
+ * @return 无返回值。
  */
-export const themeAnimation = (e: any) => {
-  const x = e.clientX
-  const y = e.clientY
+export const themeAnimation = (event: MouseEvent): void => {
+  const x = event.clientX
+  const y = event.clientY
   // 计算鼠标点击位置距离视窗的最大圆半径
   const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
 

@@ -35,13 +35,15 @@
  * - createSmartDebounce: 创建可控的防抖函数
  * - createErrorHandler: 生成错误处理器
  *
- * @module utils/table/tableUtils
+ * @module hooks/core/table/tableUtils
  * @author Art Design Pro Team
  */
 
 import type { ApiResponse } from './tableCache'
 import type { PaginationParams } from '@/types/api/common'
 import { tableConfig } from './tableConfig'
+
+type AsyncFunction = (...args: never[]) => Promise<unknown>
 
 // 请求参数基础接口，扩展分页参数
 export interface BaseRequestParams extends PaginationParams {
@@ -160,7 +162,7 @@ export const defaultResponseAdapter = <T>(response: unknown): ApiResponse<T> => 
   if (!recordFields.some((field) => field in res) && records.length === 0) {
     console.warn('[tableUtils] 无法识别的响应格式')
     console.warn('支持的字段包括: ' + recordFields.join('、'), response)
-    console.warn('扩展字段请到 utils/table/tableConfig 文件配置')
+    console.warn('扩展字段请到 hooks/core/table/tableConfig 文件配置')
   }
 
   const result: ApiResponse<T> = { records, total }
@@ -198,26 +200,34 @@ export const updatePaginationFromResponse = <T>(
 }
 
 /**
- * 创建智能防抖函数 - 支持取消和立即执行
+ * @description 创建支持取消和立即执行的异步防抖函数。
+ * @param fn 需要防抖的异步函数。
+ * @param delay 防抖等待时间，单位为毫秒。
+ * @return 带有 cancel 和 flush 方法的防抖函数。
  */
-export const createSmartDebounce = <T extends (...args: any[]) => Promise<any>>(
+export const createSmartDebounce = <T extends AsyncFunction>(
   fn: T,
   delay: number
-): T & { cancel: () => void; flush: () => Promise<any> } => {
+): T & {
+  cancel: () => void
+  flush: () => Promise<Awaited<ReturnType<T>> | undefined>
+} => {
+  type Result = Awaited<ReturnType<T>>
+
   let timeoutId: NodeJS.Timeout | null = null
   let lastArgs: Parameters<T> | null = null
-  let lastResolve: ((value: any) => void) | null = null
-  let lastReject: ((reason: any) => void) | null = null
+  let lastResolve: ((value: Result | PromiseLike<Result>) => void) | null = null
+  let lastReject: ((reason?: unknown) => void) | null = null
 
-  const debouncedFn = (...args: Parameters<T>): Promise<any> => {
-    return new Promise((resolve, reject) => {
+  const debouncedFn = (...args: Parameters<T>): Promise<Result> => {
+    return new Promise<Result>((resolve, reject) => {
       if (timeoutId) clearTimeout(timeoutId)
       lastArgs = args
       lastResolve = resolve
       lastReject = reject
       timeoutId = setTimeout(async () => {
         try {
-          const result = await fn(...args)
+          const result = (await fn(...args)) as Result
           resolve(result)
         } catch (error) {
           reject(error)
@@ -239,7 +249,7 @@ export const createSmartDebounce = <T extends (...args: any[]) => Promise<any>>(
     lastReject = null
   }
 
-  debouncedFn.flush = async () => {
+  debouncedFn.flush = async (): Promise<Result | undefined> => {
     if (timeoutId && lastArgs && lastResolve && lastReject) {
       clearTimeout(timeoutId)
       timeoutId = null
@@ -250,7 +260,7 @@ export const createSmartDebounce = <T extends (...args: any[]) => Promise<any>>(
       lastResolve = null
       lastReject = null
       try {
-        const result = await fn(...args)
+        const result = (await fn(...args)) as Result
         resolve(result)
         return result
       } catch (error) {
@@ -258,21 +268,27 @@ export const createSmartDebounce = <T extends (...args: any[]) => Promise<any>>(
         throw error
       }
     }
-    return Promise.resolve()
+    return undefined
   }
 
-  return debouncedFn as any
+  return debouncedFn as unknown as T & {
+    cancel: () => void
+    flush: () => Promise<Result | undefined>
+  }
 }
 
 /**
- * 生成错误处理函数
+ * @description 创建统一的表格错误处理函数。
+ * @param onError 业务侧错误回调。
+ * @param enableLog 是否输出错误日志。
+ * @return 表格错误处理函数。
  */
 export const createErrorHandler = (
   onError?: (error: TableError) => void,
   enableLog: boolean = false
 ) => {
   const logger = {
-    error: (message: string, ...args: any[]) => {
+    error: (message: string, ...args: unknown[]): void => {
       if (enableLog) console.error(`[useTable] ${message}`, ...args)
     }
   }

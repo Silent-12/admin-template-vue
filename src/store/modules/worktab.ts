@@ -31,7 +31,7 @@
  *
  * ## 持久化
  * - 使用 sessionStorage 存储
- * - 存储键：sys-v{version}-worktab
+ * - 存储键：worktab
  * - 刷新页面保持标签状态
  */
 import { defineStore } from 'pinia'

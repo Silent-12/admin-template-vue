@@ -19,11 +19,7 @@ import { useWindowSize } from '@vueuse/core'
 import { useTableColumns } from './useTableColumns'
 import type { ColumnOption } from '@/types/component'
 import type { PaginatedResponse, PaginationParams } from '@/types/api/common'
-import {
-  TableCache,
-  CacheInvalidationStrategy,
-  type ApiResponse
-} from '../../utils/table/tableCache'
+import { TableCache, CacheInvalidationStrategy, type ApiResponse } from './table/tableCache'
 import {
   type TableError,
   defaultResponseAdapter,
@@ -31,8 +27,8 @@ import {
   updatePaginationFromResponse,
   createSmartDebounce,
   createErrorHandler
-} from '../../utils/table/tableUtils'
-import { tableConfig } from '../../utils/table/tableConfig'
+} from './table/tableUtils'
+import { tableConfig } from './table/tableConfig'
 
 // 类型推导工具类型
 type InferApiParams<T> = T extends (params: infer P) => any ? P : never
@@ -755,6 +751,6 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
 }
 
 // 重新导出类型和枚举，方便使用
-export { CacheInvalidationStrategy } from '../../utils/table/tableCache'
-export type { ApiResponse, CacheItem } from '../../utils/table/tableCache'
-export type { BaseRequestParams, TableError } from '../../utils/table/tableUtils'
+export { CacheInvalidationStrategy } from './table/tableCache'
+export type { ApiResponse, CacheItem } from './table/tableCache'
+export type { BaseRequestParams, TableError } from './table/tableUtils'

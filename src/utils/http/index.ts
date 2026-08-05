@@ -167,8 +167,12 @@ function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-/** 请求函数 */
-async function request<T = any>(config: ExtendedAxiosRequestConfig): Promise<T> {
+/**
+ * @description 发起经过拦截器处理的 HTTP 请求并返回业务数据。
+ * @param config 请求地址、方法和请求配置。
+ * @return 业务响应数据。
+ */
+async function request<T = unknown>(config: ExtendedAxiosRequestConfig): Promise<T> {
   // POST | PUT 参数自动填充
   if (
     ['POST', 'PUT'].includes(config.method?.toUpperCase() || '') &&

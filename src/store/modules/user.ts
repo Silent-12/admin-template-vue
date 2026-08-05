@@ -23,7 +23,7 @@
  * ## 持久化
  *
  * - 使用 localStorage 存储
- * - 存储键：sys-v{version}-user
+ * - 存储键：user
  * - 登出时自动清理
  */
 import { defineStore } from 'pinia'
@@ -37,7 +37,7 @@ import type { UserInfo } from '@/types/api/auth'
 import { setPageTitle } from '@/utils/router'
 import { resetRouterState } from '@/router/guards/beforeEach'
 import { useMenuStore } from './menu'
-import { StorageConfig } from '@/utils/storage/storage-config'
+import { StorageConfig } from '@/utils/storage/storageConfig'
 
 /**
  * 用户状态管理
