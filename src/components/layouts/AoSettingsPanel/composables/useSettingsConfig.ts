@@ -50,13 +50,6 @@ export function useSettingsConfig() {
         headerBarKey: 'fastEnter' as const
       },
       {
-        key: 'showRefreshButton',
-        label: t('setting.basics.list.reloadPage'),
-        type: 'switch' as const,
-        handler: 'refreshButton',
-        headerBarKey: 'refreshButton' as const
-      },
-      {
         key: 'showCrumbs',
         label: t('setting.basics.list.breadcrumb'),
         type: 'switch' as const,

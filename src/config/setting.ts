@@ -39,8 +39,6 @@ export const SETTING_DEFAULT_CONFIG = {
   showMenuButton: true,
   /** 是否显示快速入口 */
   showFastEnter: true,
-  /** 是否显示刷新按钮 */
-  showRefreshButton: true,
   /** 是否显示面包屑 */
   showCrumbs: true,
   /** 是否显示工作台标签 */

@@ -41,9 +41,6 @@ export function useSettingsHandlers() {
     // 显示快速入口
     fastEnter: createToggleHandler(() => settingStore.setFastEnter()),
 
-    // 显示刷新按钮
-    refreshButton: createToggleHandler(() => settingStore.setShowRefreshButton()),
-
     // 显示面包屑
     crumbs: createToggleHandler(() => settingStore.setCrumbs()),
 

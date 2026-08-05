@@ -19,14 +19,6 @@
           <AoIconButton icon="ri:function-line" class="header-bar__fast-enter-btn" />
         </AoFastEnter>
 
-        <!-- 刷新按钮 -->
-        <AoIconButton
-          v-if="shouldShowRefreshButton"
-          icon="ri:refresh-line"
-          class="refresh-btn header-bar__refresh-btn"
-          @click="reload"
-        />
-
         <!-- 面包屑 -->
         <AoBreadcrumb v-if="shouldShowBreadcrumb" />
       </div>
@@ -153,7 +145,6 @@
   // 顶部栏功能配置
   const {
     shouldShowMenuButton,
-    shouldShowRefreshButton,
     shouldShowFastEnter,
     shouldShowBreadcrumb,
     shouldShowGlobalSearch,
@@ -197,24 +188,13 @@
     settingStore.setMenuOpen(!menuOpen.value)
   }
 
-  const { homePath } = useCommon()
-  const { refresh } = useCommon()
+  const { homePath, refresh } = useCommon()
 
   /**
    * 跳转到首页
    */
   const toHome = (): void => {
     router.push(homePath.value)
-  }
-
-  /**
-   * 刷新页面
-   * @param {number} time - 延迟时间，默认为0毫秒
-   */
-  const reload = (time: number = 0): void => {
-    setTimeout(() => {
-      refresh()
-    }, time)
   }
 
   /**
@@ -226,13 +206,15 @@
 
   /**
    * 切换系统语言
+   * @description 更新当前语言并重载当前页面内容。
    * @param {LanguageEnum} lang - 目标语言类型
+   * @return {void} 无返回值
    */
   const changeLanguage = (lang: LanguageEnum): void => {
     if (locale.value === lang) return
     locale.value = lang
     userStore.setLanguage(lang)
-    reload(50)
+    setTimeout(refresh, 50)
   }
 
   /**
@@ -339,10 +321,6 @@
     }
   }
 
-  .refresh-btn:hover :deep(.ao-svg-icon) {
-    animation: rotate180 0.5s;
-  }
-
   .language-btn:hover :deep(.ao-svg-icon) {
     animation: moveUp 0.4s;
   }
@@ -404,13 +382,6 @@
       margin-left: 0.75rem;
       @media (width <= 39.99rem) {
         margin-left: 7px;
-      }
-    }
-    // 刷新按钮
-    &__refresh-btn {
-      margin-left: 0.75rem !important;
-      @media (width <= 39.99rem) {
-        display: none !important;
       }
     }
     // 快速入口按钮

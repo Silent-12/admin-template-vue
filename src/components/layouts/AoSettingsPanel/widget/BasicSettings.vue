@@ -24,22 +24,14 @@
   const { basicHandlers } = useSettingsHandlers()
 
   // 获取store的响应式状态
-  const {
-    uniqueOpened,
-    showMenuButton,
-    showFastEnter,
-    showRefreshButton,
-    showCrumbs,
-    showWorkTab,
-    showLanguage
-  } = storeToRefs(settingStore)
+  const { uniqueOpened, showMenuButton, showFastEnter, showCrumbs, showWorkTab, showLanguage } =
+    storeToRefs(settingStore)
 
   // 创建设置值映射
   const settingValueMap = {
     uniqueOpened,
     showMenuButton,
     showFastEnter,
-    showRefreshButton,
     showCrumbs,
     showWorkTab,
     showLanguage

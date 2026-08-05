@@ -115,8 +115,6 @@ export interface FeatureConfigItem {
 export interface HeaderBarFeatureConfig {
   /** 菜单按钮 */
   menuButton: FeatureConfigItem
-  /** 刷新按钮 */
-  refreshButton: FeatureConfigItem
   /** 快速入口 */
   fastEnter: FeatureConfigItem
   /** 面包屑导航 */

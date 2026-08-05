@@ -16,10 +16,6 @@ export const headerBarConfig: HeaderBarFeatureConfig = {
     enabled: true,
     description: '控制左侧菜单的展开/收起按钮'
   },
-  refreshButton: {
-    enabled: true,
-    description: '页面刷新按钮'
-  },
   fastEnter: {
     enabled: true,
     description: '快速入口功能，提供常用应用和链接的快速访问'

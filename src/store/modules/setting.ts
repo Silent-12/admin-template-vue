@@ -59,8 +59,6 @@ export const useSettingStore = defineStore(
     const showMenuButton = ref(SETTING_DEFAULT_CONFIG.showMenuButton)
     /** 是否显示快速入口 */
     const showFastEnter = ref(SETTING_DEFAULT_CONFIG.showFastEnter)
-    /** 是否显示刷新按钮 */
-    const showRefreshButton = ref(SETTING_DEFAULT_CONFIG.showRefreshButton)
     /** 是否显示面包屑 */
     const showCrumbs = ref(SETTING_DEFAULT_CONFIG.showCrumbs)
     /** 是否显示工作台标签 */
@@ -146,13 +144,6 @@ export const useSettingStore = defineStore(
     }
 
     /**
-     * 切换刷新按钮显示
-     */
-    const setShowRefreshButton = () => {
-      showRefreshButton.value = !showRefreshButton.value
-    }
-
-    /**
      * 切换面包屑显示
      */
     const setCrumbs = () => {
@@ -197,7 +188,6 @@ export const useSettingStore = defineStore(
       uniqueOpened,
       showMenuButton,
       showFastEnter,
-      showRefreshButton,
       showCrumbs,
       showWorkTab,
       showLanguage,
@@ -212,7 +202,6 @@ export const useSettingStore = defineStore(
       setUniqueOpened,
       setButton,
       setFastEnter,
-      setShowRefreshButton,
       setCrumbs,
       setWorkTab,
       setLanguage,

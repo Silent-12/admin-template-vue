@@ -58,9 +58,6 @@
       toggleIfDifferent(settingStore.showFastEnter, config.showFastEnter, () =>
         settingStore.setFastEnter()
       )
-      toggleIfDifferent(settingStore.showRefreshButton, config.showRefreshButton, () =>
-        settingStore.setShowRefreshButton()
-      )
       toggleIfDifferent(settingStore.showCrumbs, config.showCrumbs, () => settingStore.setCrumbs())
       toggleIfDifferent(settingStore.showLanguage, config.showLanguage, () =>
         settingStore.setLanguage()
