@@ -1,8 +1,8 @@
 <!-- 顶部栏 -->
 <template>
   <div class="header-bar">
-    <div class="header-bar__inner flex-b">
-      <div class="header-bar__left flex-c">
+    <div class="header-bar__inner">
+      <div class="header-bar__left">
         <!--  隐藏的备用 Logo -->
         <AoLogo class="header-bar__logo-hidden" @click="toHome" />
 
@@ -23,18 +23,14 @@
         <AoBreadcrumb v-if="shouldShowBreadcrumb" />
       </div>
 
-      <div class="header-bar__right flex-c">
+      <div class="header-bar__right">
         <!-- 搜索 -->
-        <div
-          v-if="shouldShowGlobalSearch"
-          class="search-box flex-cb c-p rounded-custom-sm"
-          @click="openSearchDialog"
-        >
-          <div class="search-box__left flex-c">
+        <div v-if="shouldShowGlobalSearch" class="search-box" @click="openSearchDialog">
+          <div class="search-box__left">
             <AoSvgIcon icon="ri:search-line" class="search-box__icon" />
             <span class="search-box__text">{{ $t('topBar.search.title') }}</span>
           </div>
-          <div class="search-box__shortcut flex-c">
+          <div class="search-box__shortcut">
             <AoSvgIcon v-if="isWindows" icon="vaadin:ctrl-a" class="search-box__shortcut-icon" />
             <AoSvgIcon v-else icon="ri:command-fill" class="search-box__shortcut-icon-mac" />
             <span class="search-box__shortcut-key">k</span>
@@ -360,12 +356,17 @@
     &__inner {
       position: relative;
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       height: 3.75rem;
       line-height: 3.75rem;
       user-select: none;
     }
     &__left {
+      display: flex;
       flex: 1 1 0%;
+      align-items: center;
       min-width: 0;
       line-height: 3.75rem;
     }
@@ -390,7 +391,9 @@
     }
     // 右侧操作区
     &__right {
+      display: flex;
       gap: 0.625rem;
+      align-items: center;
     }
     // 全屏按钮
     &__fullscreen-btn {
@@ -422,11 +425,16 @@
 
   // 搜索框
   .search-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 10rem;
     height: 2.25rem;
     padding-right: 0.625rem;
     padding-left: 0.625rem;
+    cursor: pointer;
     border: 1px solid var(--ao-gray-400);
+    border-radius: calc(var(--custom-radius) / 2 + 2px);
     @media (width <= 47.99rem) {
       display: none !important;
     }
@@ -446,6 +454,8 @@
     }
     // 快捷键容器
     &__shortcut {
+      display: flex;
+      align-items: center;
       height: 1.25rem;
       padding-right: 0.375rem;
       padding-left: 0.375rem;

@@ -1,5 +1,5 @@
 <template>
-  <div class="ao-card about-project flex-b">
+  <div class="ao-card about-project">
     <div>
       <h2 class="about-project-title">{{ t('dashboard.console.aboutProject.title') }}</h2>
       <p class="about-project-desc"
@@ -9,7 +9,7 @@
 
       <div class="about-project-links">
         <div
-          class="about-project-link flex-cb c-p"
+          class="about-project-link"
           v-for="link in linkList"
           :key="link.label"
           @click="goPage(link.url)"
@@ -61,6 +61,8 @@
 <style scoped lang="scss">
   // 项目介绍卡片容器
   .about-project {
+    display: flex;
+    justify-content: space-between;
     padding: 1.25rem;
     margin-bottom: 1.25rem;
     @media (width <= 39.99rem) {
@@ -87,16 +89,20 @@
     }
     // 单个链接项
     &-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       width: 15rem;
       height: 3.125rem;
       padding-right: 0.875rem;
       padding-left: 0.875rem;
       font-size: 0.875rem;
       line-height: 1.25rem;
+      cursor: pointer;
       background: var(--ao-gray-100);
       border: 1px solid var(--ao-gray-300);
       border-radius: 0.5rem;
-      // 还原 duration-300 + hover:-translate-y-1 的过渡效果
+      // 链接悬停时上移并保持平滑过渡
       transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
       &:hover {
         transform: translateY(-0.25rem);

@@ -1,6 +1,6 @@
 <!-- 按钮组件 -->
 <template>
-  <div class="icon-button flex-cc c-p tad-300" :class="{ 'is-circle': circle }">
+  <div class="icon-button" :class="{ 'is-circle': circle }">
     <AoSvgIcon :icon="icon"></AoSvgIcon>
     <slot></slot>
   </div>
@@ -22,12 +22,18 @@
 <style scoped lang="scss">
   .icon-button {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 2.125rem;
     height: 2.125rem;
     font-size: 1.25rem;
     line-height: 1.75rem;
     color: var(--ao-gray-600);
+    cursor: pointer;
     border-radius: 0.25rem;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    transition-property: all;
     &:hover {
       background: var(--ao-hover-color);
     }

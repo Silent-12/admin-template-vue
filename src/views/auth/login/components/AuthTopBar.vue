@@ -1,18 +1,18 @@
 <!-- 授权页右上角组件 -->
 <template>
-  <div class="auth-top-bar flex-cb flex-c">
-    <div class="logo-section flex-cc">
+  <div class="auth-top-bar">
+    <div class="logo-section">
       <AoLogo class="icon" size="46" />
       <h1 class="logo-title">{{ AppConfig.systemInfo.name }}</h1>
     </div>
 
-    <div class="actions flex-cc">
-      <div class="color-picker-expandable flex-c">
-        <div class="color-dots flex-c">
+    <div class="actions">
+      <div class="color-picker-expandable">
+        <div class="color-dots">
           <div
             v-for="(color, index) in mainColors"
             :key="color"
-            class="color-dot c-p flex-cc"
+            class="color-dot"
             :class="{ active: color === systemThemeColor }"
             :style="{ background: color, '--index': index }"
             @click="changeThemeColor(color)"
@@ -20,7 +20,7 @@
             <AoSvgIcon v-if="color === systemThemeColor" icon="ri:check-fill" class="check-icon" />
           </div>
         </div>
-        <div class="btn palette-btn c-p flex-cc tad-300">
+        <div class="btn palette-btn">
           <AoSvgIcon icon="ri:palette-line" class="palette-icon" />
         </div>
       </div>
@@ -29,7 +29,7 @@
         @command="changeLanguage"
         popper-class="langDropDownStyle"
       >
-        <div class="btn language-btn c-p flex-cc tad-300">
+        <div class="btn language-btn">
           <AoSvgIcon icon="ri:translate-2" class="translate-icon" />
         </div>
         <template #dropdown>
@@ -50,11 +50,7 @@
           </ElDropdownMenu>
         </template>
       </ElDropdown>
-      <div
-        v-if="shouldShowThemeToggle"
-        class="btn theme-btn c-p flex-cc tad-300"
-        @click="themeAnimation"
-      >
+      <div v-if="shouldShowThemeToggle" class="btn theme-btn" @click="themeAnimation">
         <AoSvgIcon :icon="isDark ? 'ri:sun-fill' : 'ri:moon-line'" class="theme-icon" />
       </div>
     </div>
@@ -100,6 +96,8 @@
     position: absolute;
     top: 1.125rem;
     z-index: 10;
+    display: flex;
+    align-items: center;
     justify-content: flex-end !important;
     width: 100%;
     @media (width <= 1180px) {
@@ -109,6 +107,8 @@
 
   .logo-section {
     display: none !important;
+    align-items: center;
+    justify-content: center;
     margin-left: 0.5rem;
     @media (width <= 1180px) {
       display: flex !important;
@@ -125,7 +125,10 @@
   }
 
   .actions {
+    display: flex;
     gap: 0.375rem;
+    align-items: center;
+    justify-content: center;
     margin-right: 0.5rem;
     @media (width <= 39.99rem) {
       margin-right: 1.25rem;
@@ -134,6 +137,8 @@
 
   .color-picker-expandable {
     position: relative;
+    display: flex;
+    align-items: center;
     @media (width <= 39.99rem) {
       display: none !important;
     }
@@ -143,7 +148,9 @@
     position: absolute;
     top: 0;
     right: 0;
+    display: flex;
     gap: 0.5rem;
+    align-items: center;
     padding: 0.5rem 2.25rem 0.5rem 0.625rem;
     pointer-events: none;
     backdrop-filter: blur(10px);
@@ -158,8 +165,12 @@
 
   .color-dot {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 1.25rem;
     height: 1.25rem;
+    cursor: pointer;
     border-radius: 9999px;
     box-shadow: 0 2px 4px var(--ao-shadow-15);
     opacity: 0;
@@ -196,20 +207,41 @@
   .palette-btn {
     position: relative;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 2rem;
     height: 2rem;
+    cursor: pointer;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    transition-property: all;
   }
 
   // 语言按钮
   .language-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 2rem;
     height: 2rem;
+    cursor: pointer;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    transition-property: all;
   }
 
   // 主题按钮
   .theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 2rem;
     height: 2rem;
+    cursor: pointer;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    transition-property: all;
   }
 
   // 调色板图标

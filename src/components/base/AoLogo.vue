@@ -1,6 +1,6 @@
 <!-- 系统logo -->
 <template>
-  <div class="flex-cc">
+  <div class="logo-container">
     <img :style="logoStyle" src="@imgs/common/logo.webp" alt="logo" class="logo-img" />
   </div>
 </template>
@@ -21,6 +21,12 @@
 </script>
 
 <style scoped lang="scss">
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   // logo 图片
   .logo-img {
     width: 100%;

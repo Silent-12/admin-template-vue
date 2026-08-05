@@ -1,11 +1,11 @@
 <!-- 表格头部，包含表格大小、刷新、全屏、列设置、其他设置 -->
 <template>
-  <div class="flex-cb table-header-root" id="ao-table-header">
+  <div class="table-header-root" id="ao-table-header">
     <div class="left-wrap">
       <slot name="left"></slot>
     </div>
 
-    <div class="flex-c right-wrap">
+    <div class="right-wrap">
       <!-- 搜索按钮 -->
       <div
         v-if="showSearchBar != null"
@@ -74,10 +74,10 @@
               <div
                 v-for="item in columns"
                 :key="item.prop || item.type"
-                class="column-option flex-c"
+                class="column-option"
                 :class="{ 'fixed-column': item.fixed }"
               >
-                <div class="drag-icon flex-cc" :class="item.fixed ? 'is-fixed' : 'is-movable'">
+                <div class="drag-icon" :class="item.fixed ? 'is-fixed' : 'is-movable'">
                   <AoSvgIcon
                     :icon="item.fixed ? 'ri:unpin-line' : 'ri:drag-move-2-fill'"
                     class="drag-icon-svg"
@@ -323,6 +323,9 @@
 <style scoped lang="scss">
   // 表格头部根容器
   .table-header-root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     @media (width <= 47.99rem) {
       display: block !important;
     }
@@ -336,6 +339,8 @@
 
   // 右侧操作区容器
   .right-wrap {
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
     @media (width <= 47.99rem) {
       margin-top: 0.75rem;
@@ -416,8 +421,17 @@
     }
   }
 
+  // 列选项容器
+  .column-option {
+    display: flex;
+    align-items: center;
+  }
+
   // 列选项拖拽图标
   .drag-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 1.125rem;
     margin-right: 0.5rem;
     color: var(--ao-gray-500);

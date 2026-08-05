@@ -3,32 +3,18 @@
   <div class="layout-content" :class="{ 'layout-content--full-page': isFullPage }">
     <div id="app-content-header">
       <!-- 路由信息调试 -->
-      <div v-if="isOpenRouteInfo === 'true'" class="route-info-debug border-full-d">
+      <div v-if="isOpenRouteInfo === 'true'" class="route-info-debug">
         router meta：{{ route.meta }}
       </div>
     </div>
 
     <RouterView v-if="isRefresh" v-slot="{ Component, route }" :style="contentStyle">
-      <!-- 缓存路由动画 -->
+      <!-- 统一处理缓存与非缓存路由动画，避免两个 Transition 同时占据文档流 -->
       <Transition :name="showTransitionMask ? '' : actualTransition" mode="out-in" appear>
-        <KeepAlive :max="10" :exclude="keepAliveExclude">
-          <component
-            class="ao-page-view"
-            :is="Component"
-            :key="route.path"
-            v-if="route.meta.keepAlive"
-          />
+        <!-- KeepAlive 始终挂载，避免切换到非缓存路由时丢失已缓存页面 -->
+        <KeepAlive :max="10" :exclude="routeCacheExclude">
+          <component class="ao-page-view" :is="Component" :key="route.path" />
         </KeepAlive>
-      </Transition>
-
-      <!-- 非缓存路由动画 -->
-      <Transition :name="showTransitionMask ? '' : actualTransition" mode="out-in" appear>
-        <component
-          class="ao-page-view"
-          :is="Component"
-          :key="route.path"
-          v-if="!route.meta.keepAlive"
-        />
       </Transition>
     </RouterView>
 
@@ -51,6 +37,15 @@
   const { containerMinHeight } = useAutoLayoutHeight()
   const { refresh } = storeToRefs(useSettingStore())
   const { keepAliveExclude } = storeToRefs(useWorktabStore())
+
+  // 当前非缓存路由动态排除，保持原有的页面缓存策略
+  const routeCacheExclude = computed(() => {
+    const exclude = new Set(keepAliveExclude.value)
+    if (!route.meta.keepAlive && typeof route.name === 'string') {
+      exclude.add(route.name)
+    }
+    return [...exclude]
+  })
 
   const isRefresh = shallowRef(true)
   const isOpenRouteInfo = import.meta.env.VITE_OPEN_ROUTE_INFO
@@ -130,6 +125,7 @@
     line-height: 1.25rem;
     color: var(--ao-gray-500);
     background: var(--ao-gray-200);
+    border: 1px solid var(--default-border);
     border-radius: 0.375rem;
   }
 

@@ -8,7 +8,7 @@
     leave-from-class="backtop-leave-from"
     leave-to-class="backtop-leave-to"
   >
-    <div v-show="showButton" class="back-to-top flex-cc c-p tad-300" @click="scrollToTop">
+    <div v-show="showButton" class="back-to-top" @click="scrollToTop">
       <AoSvgIcon icon="ri:arrow-up-wide-line" class="back-to-top-icon" />
     </div>
   </Transition>
@@ -41,10 +41,17 @@
     position: fixed;
     right: 2.5rem;
     bottom: 3.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 2.375rem;
     height: 2.375rem;
+    cursor: pointer;
     border: 1px solid var(--ao-gray-300);
     border-radius: 0.375rem;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    transition-property: all;
     &:hover {
       background: var(--ao-gray-200);
     }

@@ -1,6 +1,6 @@
 <template>
-  <div class="page-content exception-page flex-cc">
-    <div class="exception-inner flex-cc">
+  <div class="page-content exception-page">
+    <div class="exception-inner">
       <ThemeSvg :src="data.imgUrl" size="100%" class="exception-img" />
       <div class="exception-text">
         <p class="exception-desc">{{ data.desc }}</p>
@@ -56,12 +56,18 @@
 
 <style scoped lang="scss">
   .exception-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 100vh;
     background: transparent !important;
     border: 0 !important;
   }
 
   .exception-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     @media (width <= 47.99rem) {
       display: block !important;
       text-align: center;

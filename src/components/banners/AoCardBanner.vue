@@ -1,7 +1,7 @@
 <!-- 卡片横幅组件 -->
 <template>
-  <div class="ao-card-sm flex-c card-banner" :style="{ height: height }">
-    <div class="flex-c card-banner-inner">
+  <div class="ao-card-sm card-banner" :style="{ height: height }">
+    <div class="card-banner-inner">
       <div class="banner-image-wrap">
         <img :src="image" :alt="title" class="banner-image" />
       </div>
@@ -9,10 +9,10 @@
         <p class="banner-title">{{ title }}</p>
         <p class="banner-desc">{{ description }}</p>
       </div>
-      <div class="flex-c banner-actions">
+      <div class="banner-actions">
         <div
           v-if="cancelButton?.show"
-          class="banner-btn banner-btn-cancel c-p"
+          class="banner-btn banner-btn-cancel"
           :style="{
             backgroundColor: cancelButton?.color,
             color: cancelButton?.textColor
@@ -23,7 +23,7 @@
         </div>
         <div
           v-if="button?.show"
-          class="banner-btn banner-btn-primary c-p"
+          class="banner-btn banner-btn-primary"
           :style="{ backgroundColor: button?.color, color: button?.textColor }"
           @click="handleClick"
         >
@@ -116,73 +116,80 @@
 <style scoped lang="scss">
   // 卡片横幅容器
   .card-banner {
-    flex-direction: column; // flex-col
-    padding-bottom: 1.5rem; // pb-6
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.5rem;
   }
 
   // 内部布局容器
   .card-banner-inner {
-    flex-direction: column; // flex-col
-    gap: 1rem; // gap-4
-    text-align: center; // text-center
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
   }
 
   // 图片容器
   .banner-image-wrap {
-    width: 11.25rem; // w-45
+    width: 11.25rem;
   }
 
   // 图片元素
   .banner-image {
-    width: 100%; // w-full
-    height: 100%; // h-full
-    object-fit: contain; // object-contain
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   // 文本区域
   .banner-text {
-    box-sizing: border-box; // box-border
-    padding-right: 1rem; // px-4
-    padding-left: 1rem; // px-4
+    box-sizing: border-box;
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 
   // 标题文本
   .banner-title {
-    margin-bottom: 0.5rem; // mb-2
-    font-size: 1.125rem; // text-lg
-    font-weight: 600; // font-semibold
-    line-height: 1.75rem; // text-lg
-    color: var(--ao-gray-800); // text-g-800
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+    color: var(--ao-gray-800);
   }
 
   // 描述文本
   .banner-desc {
-    margin: 0; // m-0
-    font-size: 0.875rem; // text-sm
-    line-height: 1.25rem; // text-sm
-    color: var(--ao-gray-600); // text-g-600
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--ao-gray-600);
   }
 
   // 操作按钮容器
   .banner-actions {
-    gap: 0.75rem; // gap-3
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
   }
 
   // 按钮通用样式
   .banner-btn {
-    display: inline-block; // inline-block
-    height: 2.25rem; // h-9
-    padding-right: 0.75rem; // px-3
-    padding-left: 0.75rem; // px-3
-    font-size: 0.875rem; // text-sm/9
-    line-height: 2.25rem; // text-sm/9
-    user-select: none; // select-none
-    border-radius: 0.375rem; // rounded-md
+    display: inline-block;
+    height: 2.25rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 2.25rem;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.375rem;
   }
 
   // 取消按钮（带边框）
   .banner-btn-cancel {
-    border-color: var(--ao-gray-300); // border-g-300
-    border-width: 1px; // border
+    border-color: var(--ao-gray-300);
+    border-width: 1px;
   }
 </style>

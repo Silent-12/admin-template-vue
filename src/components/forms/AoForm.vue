@@ -70,7 +70,7 @@
           </ElFormItem>
         </ElCol>
         <ElCol :xs="24" :sm="24" :md="span" :lg="span" :xl="span" class="form-action-col">
-          <div class="flex-c form-action-buttons" :style="actionButtonsStyle">
+          <div class="form-action-buttons" :style="actionButtonsStyle">
             <div class="form-button-group">
               <ElButton v-if="showReset" class="reset-button" @click="handleReset" v-ripple>
                 {{ t('table.form.reset') }}
@@ -535,7 +535,9 @@
 
   // 操作按钮容器
   .form-action-buttons {
+    display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: flex-end;
     margin-bottom: 0.75rem;
     @media (width >= 48rem) {

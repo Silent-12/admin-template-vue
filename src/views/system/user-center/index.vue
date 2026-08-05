@@ -1,7 +1,7 @@
 <!-- 个人中心页面 -->
 <template>
   <div class="user-center-root">
-    <div class="user-center-wrap flex-b">
+    <div class="user-center-wrap">
       <!-- 左侧：个人资料卡片 -->
       <div class="profile-col">
         <div class="profile-card ao-card-sm">
@@ -91,7 +91,7 @@
               <ElInput type="textarea" :rows="4" v-model="form.des" :disabled="!isEdit" />
             </ElFormItem>
 
-            <div class="flex-c button-row">
+            <div class="button-row">
               <ElButton type="primary" v-ripple @click="edit">
                 {{ isEdit ? '保存' : '编辑' }}
               </ElButton>
@@ -130,7 +130,7 @@
               />
             </ElFormItem>
 
-            <div class="flex-c button-row">
+            <div class="button-row">
               <ElButton type="primary" v-ripple @click="editPwd">
                 {{ isEditPwd ? '保存' : '编辑' }}
               </ElButton>
@@ -256,6 +256,8 @@
   /* 主体布局容器 */
   .user-center-wrap {
     position: relative;
+    display: flex;
+    justify-content: space-between;
     margin-top: 0.625rem;
   }
 
@@ -409,6 +411,8 @@
 
   /* 按钮行 */
   .button-row {
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
     /* 按钮统一宽度 */
     :deep(.el-button) {

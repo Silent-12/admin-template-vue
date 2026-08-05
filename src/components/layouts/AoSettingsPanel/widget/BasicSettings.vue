@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SectionTitle :title="$t('setting.basics.title')" class="mt-10" />
+    <SectionTitle :title="$t('setting.basics.title')" class="basic-settings-title" />
     <SettingItem
       v-for="config in basicSettingsConfig"
       :key="config.key"
@@ -61,3 +61,9 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+  .basic-settings-title {
+    margin-top: 2.5rem;
+  }
+</style>

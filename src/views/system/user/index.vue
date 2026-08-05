@@ -126,7 +126,7 @@
           width: 280,
           // visible: false, // 默认是否显示列
           formatter: (row) => {
-            return h('div', { class: 'user flex-c' }, [
+            return h('div', { class: 'user' }, [
               h(AoImage, {
                 class: 'user-avatar',
                 src: row.avatar,
@@ -238,7 +238,12 @@
 </script>
 
 <style scoped lang="scss">
-  // 用户头像（原 size-9.5 rounded-md）
+  :deep(.user) {
+    display: flex;
+    align-items: center;
+  }
+
+  // 用户头像
   // 使用 :deep() 穿透子组件，因为 formatter 中的 VNode 在 AoTable/ElTableColumn 内部渲染，
   // scoped 属性可能无法正确传递到 AoImage 根元素，导致 .user-avatar 样式不生效
   :deep(.user-avatar) {
@@ -247,7 +252,7 @@
     border-radius: 0.375rem;
   }
 
-  // 用户名与邮箱容器（原 ml-2）
+  // 用户名与邮箱容器
   // 同样使用 :deep() 穿透，原因同上：formatter 中的 VNode 在子组件内渲染
   :deep(.user-info) {
     margin-left: 0.5rem;

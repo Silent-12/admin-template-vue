@@ -1,6 +1,6 @@
 <!-- 标签页 -->
 <template>
-  <div v-if="showWorkTab" class="work-tab flex-b">
+  <div v-if="showWorkTab" class="work-tab">
     <div class="work-tab__scroll" ref="scrollRef">
       <ul
         class="work-tab__list"
@@ -11,7 +11,7 @@
         }"
       >
         <li
-          class="work-tab__item ao-card-xs flex-cc c-p"
+          class="work-tab__item ao-card-xs"
           :class="[
             item.path === activeTab
               ? 'work-tab__item--active activ-tab'
@@ -29,7 +29,7 @@
           {{ item.customTitle || formatMenuTitle(item.title) }}
           <span
             v-if="list.length > 1 && !item.fixedTab"
-            class="work-tab__close flex-cc tad-200"
+            class="work-tab__close"
             @click.stop="closeWorktab('current', item.path)"
           >
             <AoSvgIcon icon="ri:close-large-fill" class="work-tab__close-icon" />
@@ -39,10 +39,7 @@
     </div>
 
     <div class="work-tab__actions">
-      <div
-        class="work-tab__menu-btn flex-cc ao-card-xs c-p tad-200"
-        @click="(e: MouseEvent) => showMenu(e, activeTab)"
-      >
+      <div class="work-tab__menu-btn ao-card-xs" @click="(e: MouseEvent) => showMenu(e, activeTab)">
         <AoSvgIcon icon="iconamoon:arrow-down-2-thin" class="work-tab__menu-icon" />
       </div>
     </div>
@@ -457,6 +454,8 @@
   // 标签页容器
   .work-tab {
     box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     padding-right: 1.25rem;
     padding-bottom: 0.75rem;
@@ -477,12 +476,15 @@
     // 标签项
     &__item {
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
       height: 2rem;
       margin-right: 0.375rem;
       font-size: 0.75rem;
       line-height: 1rem;
+      cursor: pointer;
       border-radius: calc(var(--custom-radius) / 2.5 + 2px) !important;
-      // hover:text-theme + group-hover:text-theme（作用于 icon）
+      // 悬停时同步设置标签和图标颜色
       &:hover {
         color: var(--theme-color);
         .work-tab__item-icon {
@@ -521,9 +523,14 @@
     &__close {
       position: relative;
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 0.25rem;
       margin-left: 0.125rem;
       border-radius: 9999px;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+      transition-property: all;
       &:hover {
         background: var(--ao-gray-200);
       }
@@ -541,11 +548,18 @@
     &__menu-btn {
       position: relative;
       top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 2rem;
       height: 2rem;
       line-height: 2rem;
       text-align: center;
+      cursor: pointer;
       border-radius: calc(var(--custom-radius) / 2.5);
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+      transition-property: all;
       &:hover {
         background: var(--ao-hover-color) !important;
       }

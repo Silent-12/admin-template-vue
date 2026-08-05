@@ -1,10 +1,10 @@
 <!-- 面包屑导航 -->
 <template>
   <nav class="breadcrumb" aria-label="breadcrumb">
-    <ul class="breadcrumb__list flex-c">
-      <li v-for="(item, index) in breadcrumbItems" :key="item.path" class="breadcrumb__item flex-c">
+    <ul class="breadcrumb__list">
+      <li v-for="(item, index) in breadcrumbItems" :key="item.path" class="breadcrumb__item">
         <div
-          :class="isClickable(item, index) ? 'breadcrumb__link c-p tad-200' : ''"
+          :class="isClickable(item, index) ? 'breadcrumb__link' : ''"
           @click="handleBreadcrumbClick(item, index)"
         >
           <span class="breadcrumb__text">{{ formatMenuTitle(item.meta?.title as string) }}</span>
@@ -138,10 +138,14 @@
       display: none !important;
     }
     &__list {
-      height: 100%; // h-full
+      display: flex;
+      align-items: center;
+      height: 100%;
     }
     &__item {
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
       height: 1.75rem;
       font-size: 0.875rem;
       line-height: 1.75rem;
@@ -150,7 +154,11 @@
     &__link {
       padding-top: 0.25rem;
       padding-bottom: 0.25rem;
+      cursor: pointer;
       border-radius: 0.25rem;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+      transition-property: all;
       &:hover {
         background: var(--ao-active-color);
         .breadcrumb__text {

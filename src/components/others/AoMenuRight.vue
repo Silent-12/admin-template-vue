@@ -8,7 +8,7 @@
             <!-- 普通菜单项 -->
             <li
               v-if="!item.children"
-              class="menu-item flex-c c-p"
+              class="menu-item"
               :class="{ 'is-disabled': item.disabled, 'has-line': item.showLine }"
               :style="menuItemStyle"
               @click="handleMenuClick(item)"
@@ -18,8 +18,8 @@
             </li>
 
             <!-- 子菜单 -->
-            <li v-else class="menu-item submenu flex-c c-p" :style="menuItemStyle">
-              <div class="submenu-title flex-c">
+            <li v-else class="menu-item submenu" :style="menuItemStyle">
+              <div class="submenu-title">
                 <AoSvgIcon v-if="item.icon" class="menu-item-icon" :icon="item.icon" />
                 <span class="menu-label">{{ item.label }}</span>
                 <AoSvgIcon icon="ri:arrow-right-s-line" class="submenu-arrow" />
@@ -28,7 +28,7 @@
                 <li
                   v-for="child in item.children"
                   :key="child.key"
-                  class="menu-item menu-item-child flex-c c-p"
+                  class="menu-item menu-item-child"
                   :class="{ 'is-disabled': child.disabled, 'has-line': child.showLine }"
                   :style="menuItemStyle"
                   @click="handleMenuClick(child)"
@@ -330,8 +330,11 @@
   // 菜单项通用样式
   .menu-item {
     position: relative;
+    display: flex;
+    align-items: center;
     font-size: 0.75rem;
     line-height: 1rem;
+    cursor: pointer;
     user-select: none;
     border-radius: 0.25rem;
     transition-duration: 150ms;
@@ -403,6 +406,8 @@
 
   // 子菜单标题容器
   .submenu-title {
+    display: flex;
+    align-items: center;
     width: 100%;
   }
 

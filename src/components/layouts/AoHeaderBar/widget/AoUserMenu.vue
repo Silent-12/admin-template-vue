@@ -12,11 +12,11 @@
     popper-style="padding: 5px 16px;"
   >
     <template #reference>
-      <img class="user-avatar c-p" src="@imgs/user/avatar.webp" alt="avatar" />
+      <img class="user-avatar" src="@imgs/user/avatar.webp" alt="avatar" />
     </template>
     <template #default>
       <div class="user-menu">
-        <div class="user-menu__header flex-c">
+        <div class="user-menu__header">
           <img class="user-menu__avatar" src="@imgs/user/avatar.webp" />
           <div class="user-menu__info">
             <span class="user-menu__name">{{ userInfo.userName }}</span>
@@ -29,7 +29,7 @@
             <span>{{ $t('topBar.user.userCenter') }}</span>
           </li>
           <div class="user-menu__divider"></div>
-          <div class="log-out c-p" @click="loginOut">
+          <div class="log-out" @click="loginOut">
             {{ $t('topBar.user.logout') }}
           </div>
         </ul>
@@ -93,6 +93,7 @@
     width: 2.125rem;
     height: 2.125rem;
     margin-right: 1.25rem;
+    cursor: pointer;
     border-radius: 9999px;
     @media (width <= 39.99rem) {
       width: 1.625rem;
@@ -105,6 +106,8 @@
   .user-menu {
     padding-top: 0.75rem;
     &__header {
+      display: flex;
+      align-items: center;
       padding-right: 0;
       padding-bottom: 0.25rem;
       padding-left: 0;
@@ -194,6 +197,7 @@
     font-size: 0.75rem;
     line-height: 1rem;
     text-align: center;
+    cursor: pointer;
     border: 1px solid var(--ao-gray-400);
     border-radius: 0.375rem;
     transition-duration: 200ms;

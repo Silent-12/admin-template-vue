@@ -29,10 +29,10 @@
       </ElTree>
     </ElScrollbar>
     <template #footer>
-      <ElButton @click="outputSelectedData" class="ml-2">获取选中数据</ElButton>
+      <ElButton @click="outputSelectedData" class="permission-footer-button">获取选中数据</ElButton>
 
       <ElButton @click="toggleExpandAll">{{ isExpandAll ? '全部收起' : '全部展开' }}</ElButton>
-      <ElButton @click="toggleSelectAll" class="ml-2">{{
+      <ElButton @click="toggleSelectAll" class="permission-footer-button">{{
         isSelectAll ? '取消全选' : '全部选择'
       }}</ElButton>
       <ElButton type="primary" @click="savePermission">保存</ElButton>
@@ -224,6 +224,10 @@
 </script>
 
 <style scoped lang="scss">
+  .permission-footer-button {
+    margin-left: 0.5rem;
+  }
+
   // 树节点内容容器
   .tree-node-content {
     display: flex;

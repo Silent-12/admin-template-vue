@@ -1,7 +1,7 @@
 <!-- 表格按钮 -->
 <template>
   <div
-    :class="['ao-button-table c-p', buttonClass]"
+    :class="['ao-button-table', buttonClass]"
     :style="{ backgroundColor: buttonBgColor, color: iconColor }"
     @click="handleClick"
   >
@@ -56,7 +56,7 @@
 </script>
 
 <style scoped lang="scss">
-  // 表格按钮基础样式（原 inline-flex items-center justify-center min-w-8 h-8 px-2.5 mr-2.5 text-sm rounded-md align-middle）
+  // 表格按钮基础样式
   .ao-button-table {
     display: inline-flex;
     align-items: center;
@@ -69,28 +69,29 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     vertical-align: middle;
+    cursor: pointer;
     border-radius: 0.375rem;
   }
 
-  // 主题色按钮（原 bg-theme/12 text-theme）
+  // 主题色按钮
   .ao-btn-theme {
     color: var(--theme-color);
     background-color: color-mix(in oklab, var(--theme-color) 12%, transparent);
   }
 
-  // 次要色按钮（原 bg-secondary/12 text-secondary）
+  // 次要色按钮
   .ao-btn-secondary {
     color: var(--ao-secondary);
     background-color: color-mix(in oklab, var(--ao-secondary) 12%, transparent);
   }
 
-  // 错误色按钮（原 bg-error/12 text-error）
+  // 错误色按钮
   .ao-btn-error {
     color: var(--ao-error);
     background-color: color-mix(in oklab, var(--ao-error) 12%, transparent);
   }
 
-  // 信息色按钮（原 bg-info/12 text-info）
+  // 信息色按钮
   .ao-btn-info {
     color: var(--ao-info);
     background-color: color-mix(in oklab, var(--ao-info) 12%, transparent);

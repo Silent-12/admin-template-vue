@@ -9,18 +9,18 @@
     v-show="visible"
     @click.stop
   >
-    <div class="notification-panel__header flex-cb">
+    <div class="notification-panel__header">
       <span class="notification-panel__title">{{ $t('notice.title') }}</span>
-      <span class="notification-panel__read-btn c-p">
+      <span class="notification-panel__read-btn">
         {{ $t('notice.btnRead') }}
       </span>
     </div>
 
-    <ul class="notification-panel__tabs box-border flex border-b-d">
+    <ul class="notification-panel__tabs">
       <li
         v-for="(item, index) in barList"
         :key="index"
-        class="notification-panel__tab c-p"
+        class="notification-panel__tab"
         :class="{ 'bar-active': barActiveIndex === index }"
         @click="changeBar(index)"
       >
@@ -32,11 +32,8 @@
       <div class="notification-panel__scroll scrollbar-thin">
         <!-- 通知 -->
         <ul v-show="barActiveIndex === 0">
-          <li v-for="(item, index) in noticeList" :key="index" class="notification-item flex-c c-p">
-            <div
-              class="notification-item__icon flex-cc"
-              :class="[getNoticeStyle(item.type).iconClass]"
-            >
+          <li v-for="(item, index) in noticeList" :key="index" class="notification-item">
+            <div class="notification-item__icon" :class="[getNoticeStyle(item.type).iconClass]">
               <AoSvgIcon
                 class="notification-item__icon-svg"
                 :icon="getNoticeStyle(item.type).icon"
@@ -51,7 +48,7 @@
 
         <!-- 消息 -->
         <ul v-show="barActiveIndex === 1">
-          <li v-for="(item, index) in msgList" :key="index" class="notification-item flex-c c-p">
+          <li v-for="(item, index) in msgList" :key="index" class="notification-item">
             <div class="notification-item__avatar-box">
               <img :src="item.avatar" class="notification-item__avatar" />
             </div>
@@ -64,7 +61,7 @@
 
         <!-- 待办 -->
         <ul v-show="barActiveIndex === 2">
-          <li v-for="(item, index) in pendingList" :key="index" class="pending-item box-border">
+          <li v-for="(item, index) in pendingList" :key="index" class="pending-item">
             <h4>{{ item.title }}</h4>
             <p class="pending-item__time">{{ item.time }}</p>
           </li>
@@ -79,7 +76,7 @@
         </div>
       </div>
 
-      <div class="notification-panel__footer box-border">
+      <div class="notification-panel__footer">
         <ElButton class="notification-panel__view-all" @click="handleViewAll" v-ripple>
           {{ $t('notice.viewAll') }}
         </ElButton>
@@ -425,6 +422,9 @@
     }
     // 头部
     & &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding-right: 0.875rem;
       padding-left: 0.875rem;
       margin-top: 0.875rem;
@@ -440,6 +440,7 @@
       font-size: 0.75rem;
       line-height: 1rem;
       color: var(--ao-gray-800);
+      cursor: pointer;
       user-select: none;
       border-radius: 0.25rem;
       &:hover {
@@ -455,6 +456,7 @@
       height: 3.125rem;
       padding-right: 0.875rem;
       padding-left: 0.875rem;
+      border-bottom: 1px solid var(--default-border);
     }
     & &__tab {
       height: 3rem;
@@ -463,6 +465,7 @@
       font-size: 13px;
       line-height: 3rem;
       color: var(--ao-gray-700);
+      cursor: pointer;
       user-select: none;
     }
     // 内容区
@@ -487,15 +490,21 @@
     // 通知/消息项
     .notification-item {
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
       padding: 0.875rem;
+      cursor: pointer;
       &:last-child {
         border-bottom: 0;
       }
       &:hover {
-        background: color-mix(in srgb, var(--ao-gray-200) 60%, transparent); // hover:bg-g-200/60
+        background: color-mix(in srgb, var(--ao-gray-200) 60%, transparent);
       }
       // 图标容器
       &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 2.25rem;
         height: 2.25rem;
         line-height: 2.25rem;

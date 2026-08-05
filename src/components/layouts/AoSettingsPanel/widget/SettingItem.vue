@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-item flex-cb" :class="{ 'mobile-hide': config.mobileHide }">
+  <div class="setting-item" :class="{ 'mobile-hide': config.mobileHide }">
     <span class="setting-label">{{ config.label }}</span>
 
     <!-- 开关类型 -->
@@ -94,16 +94,19 @@
 <style scoped lang="scss">
   // 设置项容器
   .setting-item {
-    margin-bottom: 1rem; // mb-4
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
     &:last-child {
-      margin-bottom: 0.5rem; // last:mb-2
+      margin-bottom: 0.5rem;
     }
   }
 
   // 设置项标签文本
   .setting-label {
-    font-size: 0.875rem; // text-sm
-    line-height: 1.25rem; // text-sm
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   // 移动端隐藏

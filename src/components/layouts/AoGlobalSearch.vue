@@ -19,20 +19,16 @@
         class="search-input"
       >
         <template #suffix>
-          <div class="search-input__suffix flex-cc">
+          <div class="search-input__suffix">
             <AoSvgIcon icon="fluent:arrow-enter-left-20-filled" />
           </div>
         </template>
       </ElInput>
       <ElScrollbar class="search-scrollbar" max-height="370px" ref="searchResultScrollbar" always>
         <div class="result search-result" v-show="searchResult.length">
-          <div
-            class="box search-result__item c-p"
-            v-for="(item, index) in searchResult"
-            :key="index"
-          >
+          <div class="box search-result__item" v-for="(item, index) in searchResult" :key="index">
             <div
-              class="search-result__inner flex-cb rounded-custom-sm"
+              class="search-result__inner"
               :class="isHighlighted(index) ? 'search-result__inner--highlighted' : ''"
               @click="searchGoPage(item)"
               @mouseenter="highlightOnHover(index)"
@@ -47,7 +43,7 @@
           <p class="search-history__title">{{ $t('search.historyTitle') }}</p>
           <div class="search-history__list">
             <div
-              class="box search-history__item c-p flex-cb rounded-custom-sm"
+              class="box search-history__item"
               v-for="(item, index) in historyResult"
               :key="index"
               :class="historyHIndex === index ? 'search-history__item--highlighted' : ''"
@@ -55,10 +51,7 @@
               @mouseenter="highlightOnHoverHistory(index)"
             >
               {{ formatMenuTitle(item.meta.title) }}
-              <div
-                class="selected-icon search-history__delete flex-cc c-p"
-                @click.stop="deleteHistory(index)"
-              >
+              <div class="selected-icon search-history__delete" @click.stop="deleteHistory(index)">
                 <AoSvgIcon icon="ri:close-large-fill" class="search-history__delete-icon" />
               </div>
             </div>
@@ -67,18 +60,18 @@
       </ElScrollbar>
 
       <template #footer>
-        <div class="dialog-footer box-border flex-c border-t-d">
-          <div class="flex-cc">
+        <div class="dialog-footer">
+          <div class="dialog-footer__group dialog-footer__group--center">
             <AoSvgIcon icon="fluent:arrow-enter-left-20-filled" class="keyboard" />
             <span class="dialog-footer__text">{{ $t('search.selectKeydown') }}</span>
           </div>
-          <div class="flex-c">
+          <div class="dialog-footer__group">
             <AoSvgIcon icon="ri:arrow-up-wide-fill" class="keyboard" />
             <AoSvgIcon icon="ri:arrow-down-wide-fill" class="keyboard" />
             <span class="dialog-footer__text">{{ $t('search.switchKeydown') }}</span>
           </div>
-          <div class="flex-c">
-            <i class="keyboard keyboard--esc flex-cc"><p class="keyboard__esc-text">ESC</p></i>
+          <div class="dialog-footer__group">
+            <i class="keyboard keyboard--esc"><p class="keyboard__esc-text">ESC</p></i>
             <span class="dialog-footer__text">{{ $t('search.exitKeydown') }}</span>
           </div>
         </div>
@@ -406,6 +399,9 @@
   .search-input {
     height: 3rem;
     &__suffix {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 1.125rem;
       padding-right: 0.375rem;
       padding-left: 0.375rem;
@@ -431,8 +427,12 @@
       margin-top: 0 !important;
       font-size: 1rem;
       line-height: 1;
+      cursor: pointer;
     }
     &__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       height: 3rem;
       padding-right: 1rem;
       padding-left: 1rem;
@@ -441,6 +441,7 @@
       line-height: 1.25rem;
       color: var(--ao-gray-700);
       background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
+      border-radius: calc(var(--custom-radius) / 2 + 2px);
       &--highlighted {
         color: var(--ao-text-on-theme) !important;
         background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
@@ -460,6 +461,9 @@
       margin-top: 0.375rem;
     }
     &__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       height: 3rem;
       padding-right: 1rem;
       padding-left: 1rem;
@@ -467,7 +471,9 @@
       font-size: 0.875rem;
       line-height: 1.25rem;
       color: var(--ao-gray-800);
+      cursor: pointer;
       background: color-mix(in srgb, var(--ao-gray-200) 80%, transparent);
+      border-radius: calc(var(--custom-radius) / 2 + 2px);
       &--highlighted {
         color: var(--ao-text-on-theme) !important;
         background: color-mix(in srgb, var(--theme-color) 70%, transparent) !important;
@@ -478,9 +484,13 @@
     }
     // 删除按钮
     &__delete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 1.25rem;
       height: 1.25rem;
       color: var(--ao-gray-500);
+      cursor: pointer;
       user-select: none;
       border-radius: 9999px;
     }
@@ -494,8 +504,18 @@
   // 对话框底部
   .dialog-footer {
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
     padding-top: 1.125rem;
     padding-bottom: 0.25rem;
+    border-top: 1px solid var(--default-border);
+    &__group {
+      display: flex;
+      align-items: center;
+      &--center {
+        justify-content: center;
+      }
+    }
     &__text {
       margin-right: 0.875rem;
       font-size: 0.75rem;
@@ -521,6 +541,9 @@
     }
     // ESC 键宽度覆盖
     &--esc {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 2rem !important;
     }
     // ESC 文字

@@ -30,9 +30,6 @@
           border-radius: 8px;
           box-shadow: 0 0 8px 0 var(--ao-shadow-10);
           transition: box-shadow 0.1s;
-          &.mt-16 {
-            margin-top: 16px;
-          }
           &.is-active {
             border: 2px solid var(--theme-color);
           }

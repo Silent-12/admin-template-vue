@@ -2,7 +2,7 @@
   <template v-for="(item, index) in filteredMenuItems" :key="getUniqueKey(item, index)">
     <ElSubMenu v-if="hasChildren(item)" :index="item.path || item.meta.title" :level="level">
       <template #title>
-        <div class="menu-icon flex-cc">
+        <div class="menu-icon">
           <AoSvgIcon
             :icon="item.meta.icon"
             :color="theme?.iconColor"
@@ -30,7 +30,7 @@
       :level-item="level + 1"
       @click="goPage(item)"
     >
-      <div class="menu-icon flex-cc">
+      <div class="menu-icon">
         <AoSvgIcon
           :icon="item.meta.icon"
           :color="theme?.iconColor"
@@ -197,3 +197,11 @@
     return `${item.path || item.meta.title || 'menu'}-${props.level}-${index}`
   }
 </script>
+
+<style scoped lang="scss">
+  .menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

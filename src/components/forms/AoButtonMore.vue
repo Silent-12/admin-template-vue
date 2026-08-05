@@ -11,7 +11,7 @@
               :disabled="item.disabled"
               @click="handleClick(item)"
             >
-              <div class="flex-c dropdown-item-content" :style="{ color: item.color }">
+              <div class="dropdown-item-content" :style="{ color: item.color }">
                 <AoSvgIcon v-if="item.icon" :icon="item.icon" />
                 <span>{{ item.label }}</span>
               </div>
@@ -73,19 +73,21 @@
 <style scoped lang="scss">
   // 更多按钮样式
   .more-button {
-    width: 2rem !important; // !size-8
-    height: 2rem !important; // !size-8
-    font-size: 0.875rem; // text-sm
-    line-height: 1.25rem; // text-sm
-    background: var(--ao-gray-200); // bg-g-200
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    background: var(--ao-gray-200);
     // 暗黑模式背景（45% 透明度）
     .dark & {
-      background: color-mix(in oklab, var(--ao-gray-300) 45%, transparent); // dark:bg-g-300/45
+      background: color-mix(in oklab, var(--ao-gray-300) 45%, transparent);
     }
   }
 
   // 下拉项内容布局
   .dropdown-item-content {
-    gap: 0.5rem; // gap-2
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 </style>

@@ -48,7 +48,7 @@
               />
             </ElFormItem>
 
-            <div class="flex-cb action-row remember-row">
+            <div class="action-row remember-row">
               <ElCheckbox v-model="formData.rememberPassword">{{
                 $t('login.rememberPwd')
               }}</ElCheckbox>
@@ -291,6 +291,9 @@
 
   /* 操作行样式 */
   .action-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 0.875rem;
     line-height: 1.25rem;
   }

@@ -352,13 +352,13 @@
 </script>
 
 <style scoped lang="scss">
-  // 带 tooltip 的表单标签容器（原 flex items-center）
+  // 带 tooltip 的表单标签容器
   .label-tooltip {
     display: flex;
     align-items: center;
   }
 
-  // 帮助图标（原 ml-0.5 cursor-help）
+  // 帮助图标
   .help-icon {
     margin-left: 0.125rem;
     cursor: help;
