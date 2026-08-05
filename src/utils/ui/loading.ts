@@ -23,10 +23,7 @@
  * - 自动检测当前主题并应用对应背景色
  * - 使用自定义 SVG 动画（圆圈线条旋转）
  * - 单例模式确保同时只有一个 Loading
- * - 提供便捷的显示/隐藏方法
- *
- * @module utils/ui/loading
- * @author Art Design Pro Team
+ * - 提供便捷的显示/隐藏方法eam
  */
 import { fourDotsSpinnerSvg } from '@/assets/svg/loading'
 

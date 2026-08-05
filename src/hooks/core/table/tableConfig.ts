@@ -29,9 +29,6 @@
  *
  * 如果后端使用其他字段名，可以在对应数组中添加新的字段名
  * 例如：recordFields: ['list', 'data', 'records', 'items', 'yourCustomField']
- *
- * @module hooks/core/table/tableConfig
- * @author Art Design Pro Team
  */
 export const tableConfig = {
   // 响应数据字段映射配置，系统会从接口返回数据中按顺序查找这些字段

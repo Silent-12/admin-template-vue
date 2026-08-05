@@ -25,9 +25,6 @@
  * - ScriptError: JavaScript 脚本错误
  * - PromiseError: Promise 未捕获的 rejection
  * - ResourceError: 静态资源加载失败
- *
- * @module utils/sys/errorHandle
- * @author Art Design Pro Team
  */
 import type { App, ComponentPublicInstance } from 'vue'
 

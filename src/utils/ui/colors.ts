@@ -37,9 +37,6 @@
  * - Hex: #FFF, #FFFFFF
  * - RGB: rgb(255, 255, 255)
  * - RGBA: rgba(255, 255, 255, 0.5)
- *
- * @module utils/ui/colors
- * @author Art Design Pro Team
  */
 import { useSettingStore } from '@/store/modules/setting'
 

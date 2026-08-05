@@ -41,7 +41,7 @@ ul {
   list-style: none;
 }
 
-/* 媒体元素默认为块级（原 Tailwind preflight）*/
+/* 媒体元素默认为块级
 /* 注意：max-width: 100% 仅对 img/video 生效，不能应用于 svg，否则窄容器内图标会被缩小 */
 img,
 svg,

@@ -12,9 +12,6 @@
  *
  * - 应用启动前主题初始化
  * - 登录用户切换时的工作台状态处理
- *
- * @module utils/storage/storageConfig
- * @author Art Design Pro Team
  */
 export class StorageConfig {
   /** 主题键名（index.html中使用了，如果修改，需要同步修改） */

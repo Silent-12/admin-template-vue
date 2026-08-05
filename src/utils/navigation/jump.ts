@@ -10,9 +10,6 @@
  * - iframe 页面跳转支持
  * - 递归查找并跳转到第一个可见的子菜单
  * - 智能判断跳转目标类型（外部链接/内部路由）
- *
- * @module utils/navigation/jump
- * @author Art Design Pro Team
  */
 import { AppRouteRecord } from '@/types/router'
 import { router } from '@/router'

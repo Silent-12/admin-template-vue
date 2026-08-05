@@ -25,9 +25,6 @@
  * - 强密码：8-20位，必须包含大小写字母、数字和特殊字符
  * - 身份证：18位，含出生日期和校验码验证
  * - 银行卡：13-19位，通过 Luhn 算法验证
- *
- * @module utils/validation/formValidator
- * @author Art Design Pro Team
  */
 
 /**

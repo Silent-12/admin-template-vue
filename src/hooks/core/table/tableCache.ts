@@ -28,9 +28,6 @@
  * - CLEAR_CURRENT: 仅清空当前查询条件的缓存（适用于单条数据更新）
  * - CLEAR_PAGINATION: 清空所有分页缓存但保留不同搜索条件（适用于批量操作）
  * - KEEP_ALL: 不清除缓存（适用于只读操作）
- *
- * @module hooks/core/table/tableCache
- * @author Art Design Pro Team
  */
 import { hash } from 'ohash'
 

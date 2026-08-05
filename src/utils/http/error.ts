@@ -10,9 +10,6 @@
  * - HTTP 请求拦截器中统一处理错误
  * - 业务代码中捕获和处理特定错误
  * - 错误日志收集和上报
- *
- * @module utils/http/error
- * @author Art Design Pro Team
  */
 import { AxiosError } from 'axios'
 import { ApiStatus } from './status'

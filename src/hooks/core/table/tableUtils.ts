@@ -34,9 +34,6 @@
  * - updatePaginationFromResponse: 更新分页信息
  * - createSmartDebounce: 创建可控的防抖函数
  * - createErrorHandler: 生成错误处理器
- *
- * @module hooks/core/table/tableUtils
- * @author Art Design Pro Team
  */
 
 import type { ApiResponse } from './tableCache'

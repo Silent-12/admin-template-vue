@@ -43,11 +43,12 @@
 
 <script setup lang="ts">
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
+  import AoImage from '@/components/media/AoImage.vue'
   import { fetchGetUserList } from '@/mock'
   import { useTable } from '@/hooks/core/useTable'
   import UserSearch from './components/UserSearch.vue'
   import UserDialog from './components/UserDialog.vue'
-  import { ElTag, ElMessageBox, ElImage } from 'element-plus'
+  import { ElTag, ElMessageBox } from 'element-plus'
   import type { UserSearchParams } from '@/types/api/system-manage'
   import type { DialogType, UserListItem } from './types'
 
@@ -126,10 +127,9 @@
           // visible: false, // 默认是否显示列
           formatter: (row) => {
             return h('div', { class: 'user flex-c' }, [
-              h(ElImage, {
+              h(AoImage, {
                 class: 'user-avatar',
                 src: row.avatar,
-                previewSrcList: [row.avatar],
                 // 图片预览是否插入至 body 元素上，用于解决表格内部图片预览样式异常
                 previewTeleported: true
               }),
@@ -240,7 +240,7 @@
 <style scoped lang="scss">
   // 用户头像（原 size-9.5 rounded-md）
   // 使用 :deep() 穿透子组件，因为 formatter 中的 VNode 在 AoTable/ElTableColumn 内部渲染，
-  // scoped 属性可能无法正确传递到 ElImage 根元素，导致 .user-avatar 样式不生效
+  // scoped 属性可能无法正确传递到 AoImage 根元素，导致 .user-avatar 样式不生效
   :deep(.user-avatar) {
     width: 2.375rem;
     height: 2.375rem;

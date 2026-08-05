@@ -9,9 +9,6 @@
  * - closeTop: 标签页隐藏时，内容区域距离顶部的距离
  * - openHeight: 标签页显示时的总高度（包含标签栏）
  * - closeHeight: 标签页隐藏时的总高度（仅头部）
- *
- * @module utils/ui/tabs
- * @author Art Design Pro Team
  */
 export const TAB_CONFIG = {
   openTop: 106,

@@ -58,7 +58,7 @@
 </script>
 
 <style scoped lang="scss">
-  // 图标默认内联显示（原 Tailwind inline 类）
+  // 图标默认内联显示
   .ao-svg-icon {
     display: inline;
   }

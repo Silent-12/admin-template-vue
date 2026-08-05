@@ -17,9 +17,6 @@
  * - 路由守卫中自动创建标签页
  * - 页面切换时更新标签页状态
  * - 多标签页导航系统
- *
- * @module utils/navigation/worktab
- * @author Art Design Pro Team
  */
 import { useWorktabStore } from '@/store/modules/worktab'
 import { RouteLocationNormalized } from 'vue-router'
