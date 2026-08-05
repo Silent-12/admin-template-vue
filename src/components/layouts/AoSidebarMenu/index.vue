@@ -26,7 +26,14 @@
           }"
         >
           {{ AppConfig.systemInfo.name }}
-          <ElTag v-if="menuOpen" class="system-version" type="primary" effect="light" size="small">
+          <ElTag
+            v-if="menuOpen"
+            class="system-version"
+            type="primary"
+            effect="light"
+            size="small"
+            round
+          >
             {{ AppConfig.systemInfo.version }}
           </ElTag>
         </p>
