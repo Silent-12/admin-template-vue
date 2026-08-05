@@ -12,9 +12,6 @@
  *
  * - 跨组件触发/控制全局 UI 面板的显示与隐藏
  * - 替代全局事件总线，使用 Pinia 共享状态实现组件通信
- *
- * @module store/modules/app
- * @author Art Design Pro Team
  */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'

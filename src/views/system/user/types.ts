@@ -1,20 +1,26 @@
 /** 用户管理页私有类型定义 */
 
-import type { DialogType } from '@/types'
+import type { UserListItem as ApiUserListItem, UserSearchParams } from '@/types/api/system-manage'
+
+/**
+ * 用户弹窗类型
+ * @description 定义用户新增和编辑弹窗的业务模式。
+ */
+export type DialogType = 'add' | 'edit'
 
 /** 用户列表项类型别名 */
-export type UserListItem = Api.SystemManage.UserListItem
+export type UserListItem = ApiUserListItem
 
 /** 用户搜索组件 Props */
 export interface UserSearchProps {
   /** 搜索表单双向绑定值 */
-  modelValue: Api.SystemManage.UserSearchParams
+  modelValue: UserSearchParams
 }
 
 /** 用户搜索组件 Emits */
 export interface UserSearchEmits {
-  (e: 'update:modelValue', value: Api.SystemManage.UserSearchParams): void
-  (e: 'search', params: Api.SystemManage.UserSearchParams): void
+  (e: 'update:modelValue', value: UserSearchParams): void
+  (e: 'search', params: UserSearchParams): void
   (e: 'reset'): void
 }
 
@@ -25,7 +31,7 @@ export interface UserDialogProps {
   /** 弹窗类型 */
   type: DialogType
   /** 用户数据（编辑时传入） */
-  userData?: Partial<Api.SystemManage.UserListItem>
+  userData?: Partial<ApiUserListItem>
 }
 
 /** 用户弹窗组件 Emits */

@@ -18,9 +18,6 @@
  * - 格式：sys-v{version}-{storeId}
  * - 自动迁移旧版本数据到当前版本
  * - 使用 localStorage 作为存储介质
- *
- * @module store/index
- * @author Art Design Pro Team
  */
 import type { App } from 'vue'
 import { createPinia } from 'pinia'

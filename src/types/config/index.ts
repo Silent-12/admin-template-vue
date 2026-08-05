@@ -19,7 +19,7 @@
  */
 
 import { SystemThemeEnum } from '@/enums'
-import { MenuThemeType, SystemThemeTypes } from '@/types/store'
+import { MenuThemeType, SystemThemeTypes } from '@/types/store/setting'
 
 // 主题设置
 export interface ThemeSetting {

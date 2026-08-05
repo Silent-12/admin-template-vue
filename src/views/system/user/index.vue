@@ -48,8 +48,8 @@
   import UserSearch from './components/UserSearch.vue'
   import UserDialog from './components/UserDialog.vue'
   import { ElTag, ElMessageBox, ElImage } from 'element-plus'
-  import { DialogType } from '@/types'
-  import type { UserListItem } from './types'
+  import type { UserSearchParams } from '@/types/api/system-manage'
+  import type { DialogType, UserListItem } from './types'
 
   defineOptions({ name: 'User' })
 
@@ -185,7 +185,7 @@
    * 搜索处理
    * @param params 参数
    */
-  const handleSearch = (params: Api.SystemManage.UserSearchParams) => {
+  const handleSearch = (params: UserSearchParams) => {
     replaceSearchParams(params)
     getData()
   }

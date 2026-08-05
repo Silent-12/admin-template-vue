@@ -16,7 +16,7 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSettingStore } from '@/store/modules/setting'
 import { headerBarConfig } from '@/config/headerBar'
-import { HeaderBarFeatureConfig } from '@/types'
+import { HeaderBarFeatureConfig } from '@/types/config'
 
 /**
  * 顶部栏功能管理

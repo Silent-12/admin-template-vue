@@ -1,10 +1,12 @@
 /** 角色管理页私有类型定义 */
 
+import type { RoleListItem, RoleSearchParams } from '@/types/api/system-manage'
+
 /** 角色列表项类型别名 */
-export type RoleListItem = Api.SystemManage.RoleListItem
+export type { RoleListItem }
 
 /** 角色搜索表单参数（含日期区间扩展字段） */
-export type RoleSearchFormParams = Api.SystemManage.RoleSearchParams & {
+export type RoleSearchFormParams = RoleSearchParams & {
   daterange?: string[]
 }
 

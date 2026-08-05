@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { UserSearchParams } from '@/types/api/system-manage'
   import type { UserSearchProps, UserSearchEmits } from '../types'
 
   const props = defineProps<UserSearchProps>()
@@ -104,7 +105,7 @@
    * @description 处理搜索事件
    * @param params 搜索参数
    */
-  async function handleSearch(params: Api.SystemManage.UserSearchParams): Promise<void> {
+  async function handleSearch(params: UserSearchParams): Promise<void> {
     await searchBarRef.value.validate()
     emit('search', params)
     console.log('表单数据', params)

@@ -1,5 +1,13 @@
 import { applicationRoutes } from '@/router/routes/applications'
 import type { AppRouteRecord } from '@/types/router'
+import type {
+  RoleList,
+  RoleListItem,
+  RoleSearchParams,
+  UserList,
+  UserListItem,
+  UserSearchParams
+} from '@/types/api/system-manage'
 
 const USER_AVATAR_SIZES = [160, 160, 160, 80, 80, 80, 160, 160, 160, 160]
 
@@ -32,7 +40,7 @@ const MOCK_USER_NAMES = [
 ]
 
 /** 角色 mock 数据 */
-export const ROLE_LIST_DATA: Api.SystemManage.RoleListItem[] = [
+export const ROLE_LIST_DATA: RoleListItem[] = [
   ['超级管理员', 'R_SUPER', '拥有系统全部权限', true],
   ['管理员', 'R_ADMIN', '拥有系统管理权限', true],
   ['普通用户', 'R_USER', '拥有系统普通权限', true],
@@ -53,23 +61,21 @@ export const ROLE_LIST_DATA: Api.SystemManage.RoleListItem[] = [
 }))
 
 /** 用户 mock 数据 */
-export const ACCOUNT_TABLE_DATA: Api.SystemManage.UserListItem[] = MOCK_USER_NAMES.map(
-  (userName, index) => ({
-    id: index + 1,
-    avatar: getPlaceholderAvatar(USER_AVATAR_SIZES[index % USER_AVATAR_SIZES.length]),
-    status: index === 6 ? '2' : index === 7 ? '3' : index === 8 ? '4' : '1',
-    userName,
-    userGender: index === 3 || index === 4 || index === 8 || index === 13 ? '女' : '男',
-    nickName: userName,
-    userPhone: `186700015${String(91 - index).padStart(2, '0')}`,
-    userEmail: `${userName}@company.com`,
-    userRoles: [index === 0 ? 'R_SUPER' : 'R_USER'],
-    createBy: 'admin',
-    createTime: `2020-${String((index % 6) + 5).padStart(2, '0')}-14 12:01:20`,
-    updateBy: 'admin',
-    updateTime: '2025-05-19 12:01:20'
-  })
-)
+export const ACCOUNT_TABLE_DATA: UserListItem[] = MOCK_USER_NAMES.map((userName, index) => ({
+  id: index + 1,
+  avatar: getPlaceholderAvatar(USER_AVATAR_SIZES[index % USER_AVATAR_SIZES.length]),
+  status: index === 6 ? '2' : index === 7 ? '3' : index === 8 ? '4' : '1',
+  userName,
+  userGender: index === 3 || index === 4 || index === 8 || index === 13 ? '女' : '男',
+  nickName: userName,
+  userPhone: `186700015${String(91 - index).padStart(2, '0')}`,
+  userEmail: `${userName}@company.com`,
+  userRoles: [index === 0 ? 'R_SUPER' : 'R_USER'],
+  createBy: 'admin',
+  createTime: `2020-${String((index % 6) + 5).padStart(2, '0')}-14 12:01:20`,
+  updateBy: 'admin',
+  updateTime: '2025-05-19 12:01:20'
+}))
 
 /**
  * 模拟获取用户列表接口
@@ -77,9 +83,7 @@ export const ACCOUNT_TABLE_DATA: Api.SystemManage.UserListItem[] = MOCK_USER_NAM
  * @param params 用户搜索和分页参数
  * @return 分页用户列表
  */
-export function fetchGetUserList(
-  params: Api.SystemManage.UserSearchParams
-): Promise<Api.SystemManage.UserList> {
+export function fetchGetUserList(params: UserSearchParams): Promise<UserList> {
   const records = ACCOUNT_TABLE_DATA.filter((item) => {
     if (params.userName && !item.userName.includes(params.userName)) return false
     if (params.userPhone && !item.userPhone.includes(params.userPhone)) return false
@@ -105,9 +109,7 @@ export function fetchGetUserList(
  * @param params 角色搜索和分页参数
  * @return 分页角色列表
  */
-export function fetchGetRoleList(
-  params: Api.SystemManage.RoleSearchParams
-): Promise<Api.SystemManage.RoleList> {
+export function fetchGetRoleList(params: RoleSearchParams): Promise<RoleList> {
   const records = ROLE_LIST_DATA.filter((item) => {
     if (params.roleName && !item.roleName.includes(params.roleName)) return false
     if (params.roleCode && !item.roleCode.includes(params.roleCode)) return false

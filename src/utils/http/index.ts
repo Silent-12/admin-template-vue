@@ -19,7 +19,7 @@ import { useUserStore } from '@/store/modules/user'
 import { ApiStatus } from './status'
 import { HttpError, handleError, showError, showSuccess } from './error'
 import { $t } from '@/locales'
-import { BaseResponse } from '@/types'
+import { BaseResponse } from '@/types/common/response'
 
 /** 请求配置常量 */
 // 请求超时时间（毫秒）

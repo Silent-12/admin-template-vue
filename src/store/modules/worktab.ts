@@ -33,15 +33,12 @@
  * - 使用 sessionStorage 存储
  * - 存储键：sys-v{version}-worktab
  * - 刷新页面保持标签状态
- *
- * @module store/modules/worktab
- * @author Art Design Pro Team
  */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { router } from '@/router'
 import { LocationQueryRaw, Router } from 'vue-router'
-import { WorkTab } from '@/types'
+import { WorkTab } from '@/types/store/worktab'
 import { useCommon } from '@/hooks/core/useCommon'
 
 interface WorktabState {

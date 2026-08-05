@@ -15,9 +15,6 @@
  * - 路由元数据定义
  * - 菜单生成
  * - 权限控制
- *
- * @module types/router/index
- * @author Art Design Pro Team
  */
 
 import { RouteRecordRaw } from 'vue-router'

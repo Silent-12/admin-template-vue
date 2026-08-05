@@ -33,6 +33,7 @@ import { router } from '@/router'
 import { useSettingStore } from './setting'
 import { useWorktabStore } from './worktab'
 import { AppRouteRecord } from '@/types/router'
+import type { UserInfo } from '@/types/api/auth'
 import { setPageTitle } from '@/utils/router'
 import { resetRouterState } from '@/router/guards/beforeEach'
 import { useMenuStore } from './menu'
@@ -50,7 +51,7 @@ export const useUserStore = defineStore(
     // 登录状态
     const isLogin = ref(false)
     // 用户信息
-    const info = ref<Partial<Api.Auth.UserInfo>>({})
+    const info = ref<Partial<UserInfo>>({})
     // 搜索历史记录
     const searchHistory = ref<AppRouteRecord[]>([])
     // 访问令牌
@@ -69,7 +70,7 @@ export const useUserStore = defineStore(
      * 设置用户信息
      * @param newInfo 新的用户信息
      */
-    const setUserInfo = (newInfo: Api.Auth.UserInfo) => {
+    const setUserInfo = (newInfo: UserInfo) => {
       info.value = newInfo
     }
 

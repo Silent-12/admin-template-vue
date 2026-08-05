@@ -40,10 +40,11 @@
  */
 
 import type { ApiResponse } from './tableCache'
+import type { PaginationParams } from '@/types/api/common'
 import { tableConfig } from './tableConfig'
 
 // 请求参数基础接口，扩展分页参数
-export interface BaseRequestParams extends Api.Common.PaginationParams {
+export interface BaseRequestParams extends PaginationParams {
   [key: string]: unknown
 }
 
@@ -181,7 +182,7 @@ export const extractTableData = <T>(response: ApiResponse<T>): T[] => {
  * 根据API响应更新分页信息
  */
 export const updatePaginationFromResponse = <T>(
-  pagination: Api.Common.PaginationParams,
+  pagination: PaginationParams,
   response: ApiResponse<T>
 ): void => {
   pagination.total = response.total ?? pagination.total ?? 0

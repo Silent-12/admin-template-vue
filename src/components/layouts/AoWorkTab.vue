@@ -69,7 +69,7 @@
   import { useSettingStore } from '@/store/modules/setting'
   import type { MenuItemType } from '@/components/others/AoMenuRight.vue'
   import { useCommon } from '@/hooks/core/useCommon'
-  import { WorkTab } from '@/types'
+  import type { WorkTab } from '@/types/store/worktab'
 
   defineOptions({ name: 'AoWorkTab' })
 
