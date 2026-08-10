@@ -12,19 +12,19 @@
     popper-style="padding: 5px 16px;"
   >
     <template #reference>
-      <img class="user-avatar" src="@imgs/user/avatar.webp" alt="avatar" />
+      <img class="user-avatar" src="https://dummyimage.com/160x160.png" alt="avatar" />
     </template>
     <template #default>
       <div class="user-menu">
         <div class="user-menu__header">
-          <img class="user-menu__avatar" src="@imgs/user/avatar.webp" />
+          <img class="user-menu__avatar" src="https://dummyimage.com/160x160.png" />
           <div class="user-menu__info">
             <span class="user-menu__name">{{ userInfo.userName }}</span>
             <span class="user-menu__email">{{ userInfo.email }}</span>
           </div>
         </div>
         <ul class="user-menu__list">
-          <li class="btn-item" @click="goPage('/system/user-center')">
+          <li class="btn-item" @click="showDevTip">
             <AoSvgIcon icon="ri:user-3-line" />
             <span>{{ $t('topBar.user.userCenter') }}</span>
           </li>
@@ -40,13 +40,11 @@
 
 <script setup lang="ts">
   import { useI18n } from 'vue-i18n'
-  import { useRouter } from 'vue-router'
-  import { ElMessageBox } from 'element-plus'
+  import { ElMessage, ElMessageBox } from 'element-plus'
   import { useUserStore } from '@/store/modules/user'
 
   defineOptions({ name: 'AoUserMenu' })
 
-  const router = useRouter()
   const { t } = useI18n()
   const userStore = useUserStore()
 
@@ -54,11 +52,10 @@
   const userMenuPopover = ref()
 
   /**
-   * 页面跳转
-   * @param {string} path - 目标路径
+   * 开发中提示
    */
-  const goPage = (path: string): void => {
-    router.push(path)
+  const showDevTip = (): void => {
+    ElMessage.info('正在开发中')
   }
 
   /**

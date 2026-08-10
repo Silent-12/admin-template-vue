@@ -2,36 +2,38 @@
   <section class="excel-showcase ao-card">
     <div class="excel-showcase__header">
       <div>
-        <h2 class="excel-showcase__title">{{ t('dashboard.console.excel.title') }}</h2>
-        <p class="excel-showcase__description">{{ t('dashboard.console.excel.description') }}</p>
+        <h2 class="excel-showcase__title">Excel 导入导出</h2>
+        <p class="excel-showcase__description"
+          >展示 AoExcelExport 与 AoExcelImport 的基础用法，支持导出示例数据并预览导入结果。</p
+        >
       </div>
       <div class="excel-showcase__actions">
         <AoExcelImport @import-success="handleImportSuccess" @import-error="handleImportError">
           <ElIcon><Upload /></ElIcon>
-          {{ t('dashboard.console.excel.importButton') }}
+          导入 Excel
         </AoExcelImport>
         <AoExcelExport
           :data="exportData"
-          :filename="t('dashboard.console.excel.filename')"
-          :sheet-name="t('dashboard.console.excel.sheetName')"
-          :button-text="t('dashboard.console.excel.exportButton')"
-          :loading-text="t('dashboard.console.excel.exportLoading')"
+          filename="excel_demo"
+          sheet-name="示例数据"
+          button-text="导出 Excel"
+          loading-text="导出中..."
           :headers="headers"
           auto-index
-          :index-column-title="t('dashboard.console.excel.indexColumn')"
+          index-column-title="序号"
           :workbook-options="{ creator: 'Ao Design Pro' }"
         >
           <ElIcon><Download /></ElIcon>
-          {{ t('dashboard.console.excel.exportButton') }}
+          导出 Excel
         </AoExcelExport>
       </div>
     </div>
 
     <div class="excel-showcase__content">
       <div class="excel-showcase__summary">
-        <span>{{ t('dashboard.console.excel.sampleData') }}</span>
+        <span>当前数据</span>
         <strong>{{ exportData.length }}</strong>
-        <span>{{ t('dashboard.console.excel.rows') }}</span>
+        <span>条</span>
       </div>
       <ElTable :data="importedData" border stripe>
         <ElTableColumn
@@ -49,7 +51,6 @@
   import { computed, ref } from 'vue'
   import { ElMessage } from 'element-plus'
   import { Download, Upload } from '@element-plus/icons-vue'
-  import { useI18n } from 'vue-i18n'
   import AoExcelExport from '@/components/forms/AoExcelExport.vue'
   import AoExcelImport from '@/components/forms/AoExcelImport.vue'
 
@@ -63,34 +64,32 @@
     updatedAt: string
   }
 
-  const { t } = useI18n()
-
   const exportData = computed<ExcelDemoRow[]>(() => [
     {
       name: 'Alice',
-      department: t('dashboard.console.excel.demoData.design'),
-      status: t('dashboard.console.excel.demoData.active'),
+      department: '设计部',
+      status: '正常',
       updatedAt: '2026-08-01'
     },
     {
       name: 'Bob',
-      department: t('dashboard.console.excel.demoData.engineering'),
-      status: t('dashboard.console.excel.demoData.active'),
+      department: '研发部',
+      status: '正常',
       updatedAt: '2026-08-02'
     },
     {
       name: 'Carol',
-      department: t('dashboard.console.excel.demoData.operations'),
-      status: t('dashboard.console.excel.demoData.pending'),
+      department: '运营部',
+      status: '待处理',
       updatedAt: '2026-08-03'
     }
   ])
 
   const headers = computed<Record<string, string>>(() => ({
-    name: t('dashboard.console.excel.columns.name'),
-    department: t('dashboard.console.excel.columns.department'),
-    status: t('dashboard.console.excel.columns.status'),
-    updatedAt: t('dashboard.console.excel.columns.updatedAt')
+    name: '姓名',
+    department: '部门',
+    status: '状态',
+    updatedAt: '更新时间'
   }))
 
   const importedData = ref<Array<Record<string, unknown>>>(exportData.value)
@@ -107,7 +106,7 @@
     }
 
     importedData.value = data
-    ElMessage.success(t('dashboard.console.excel.importSuccess', { count: data.length }))
+    ElMessage.success(`成功导入 ${data.length} 条数据`)
   }
 
   /**
@@ -120,7 +119,7 @@
       return
     }
 
-    ElMessage.error(t('dashboard.console.excel.importError'))
+    ElMessage.error('Excel 文件解析失败，请检查文件格式')
   }
 </script>
 

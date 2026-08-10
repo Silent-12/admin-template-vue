@@ -60,12 +60,6 @@ export const omsRoutes: AppRouteRecord = {
           meta: { title: 'menus.system.role', keepAlive: true }
         },
         {
-          path: 'user-center',
-          name: 'UserCenter',
-          component: '/system/user-center',
-          meta: { title: 'menus.system.userCenter', isHide: true, keepAlive: true, isHideTab: true }
-        },
-        {
           path: 'menu',
           name: 'Menus',
           component: '/system/menu',

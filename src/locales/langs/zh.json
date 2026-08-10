@@ -110,15 +110,6 @@
   },
   "dashboard": {
     "console": {
-      "aboutProject": {
-        "title": "关于项目",
-        "desc1": "是一款兼具设计美学与高效开发的后台系统",
-        "desc2": "使用了 Vue3、TypeScript、Vite、Element Plus 等前沿技术",
-        "officialSite": "项目官网",
-        "documentation": "文档",
-        "github": "Github",
-        "bilibili": "哔哩哔哩"
-      },
       "banner": {
         "title": "欢迎使用 Ao Design Pro",
         "subtitle": "一款兼具设计美学与高效开发的后台管理系统模板",
@@ -129,33 +120,6 @@
         "description": "基于 Vue3 组合式 API 与 Element Plus，提供丰富的业务组件示例。",
         "docBtn": "查看文档",
         "cancelBtn": "稍后再看"
-      },
-      "excel": {
-        "title": "Excel 导入导出",
-        "description": "展示 AoExcelExport 与 AoExcelImport 的基础用法，支持导出示例数据并预览导入结果。",
-        "importButton": "导入 Excel",
-        "exportButton": "导出 Excel",
-        "exportLoading": "导出中...",
-        "filename": "excel_demo",
-        "sheetName": "示例数据",
-        "indexColumn": "序号",
-        "sampleData": "当前数据",
-        "rows": "条",
-        "importSuccess": "成功导入 {count} 条数据",
-        "importError": "Excel 文件解析失败，请检查文件格式",
-        "demoData": {
-          "design": "设计部",
-          "engineering": "研发部",
-          "operations": "运营部",
-          "active": "正常",
-          "pending": "待处理"
-        },
-        "columns": {
-          "name": "姓名",
-          "department": "部门",
-          "status": "状态",
-          "updatedAt": "更新时间"
-        }
       }
     }
   },
@@ -183,7 +147,6 @@
       "title": "系统管理",
       "user": "用户管理",
       "role": "角色管理",
-      "userCenter": "个人中心",
       "menu": "菜单管理"
     }
   },

@@ -110,15 +110,6 @@
   },
   "dashboard": {
     "console": {
-      "aboutProject": {
-        "title": "About Project",
-        "desc1": "is a backend system combining design aesthetics with efficient development",
-        "desc2": "Built with Vue3, TypeScript, Vite, Element Plus and other cutting-edge technologies",
-        "officialSite": "Official Site",
-        "documentation": "Documentation",
-        "github": "Github",
-        "bilibili": "Bilibili"
-      },
       "banner": {
         "title": "Welcome to Ao Design Pro",
         "subtitle": "A backend management system template combining design aesthetics with efficient development",
@@ -129,33 +120,6 @@
         "description": "Based on Vue3 Composition API and Element Plus, providing rich business component examples.",
         "docBtn": "View Docs",
         "cancelBtn": "Later"
-      },
-      "excel": {
-        "title": "Excel Import and Export",
-        "description": "Demonstrates the basic usage of AoExcelExport and AoExcelImport with sample data and import preview.",
-        "importButton": "Import Excel",
-        "exportButton": "Export Excel",
-        "exportLoading": "Exporting...",
-        "filename": "excel_demo",
-        "sheetName": "Sample Data",
-        "indexColumn": "No.",
-        "sampleData": "Current data",
-        "rows": "rows",
-        "importSuccess": "Successfully imported {count} rows",
-        "importError": "Failed to parse the Excel file. Check the file format.",
-        "demoData": {
-          "design": "Design",
-          "engineering": "Engineering",
-          "operations": "Operations",
-          "active": "Active",
-          "pending": "Pending"
-        },
-        "columns": {
-          "name": "Name",
-          "department": "Department",
-          "status": "Status",
-          "updatedAt": "Updated at"
-        }
       }
     }
   },
@@ -183,7 +147,6 @@
       "title": "System Settings",
       "user": "User Manage",
       "role": "Role Manage",
-      "userCenter": "User Center",
       "menu": "Menu Manage"
     }
   },
