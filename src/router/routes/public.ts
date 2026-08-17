@@ -8,7 +8,7 @@ export const publicRoutes: RouteRecordRaw[] = [
     path: '/auth/login',
     name: 'Login',
     component: () => import('@views/auth/login/index.vue'),
-    meta: { title: 'menus.login.title', isHideTab: true }
+    meta: { title: '登录', isHideTab: true }
   },
   {
     path: '/403',
@@ -26,7 +26,7 @@ export const publicRoutes: RouteRecordRaw[] = [
     path: '/outside',
     name: 'Outside',
     component: () => import('@views/index/index.vue'),
-    meta: { title: 'menus.outside.title' },
+    meta: { title: '内嵌页面' },
     children: [
       {
         path: 'iframe/:path(.*)*',

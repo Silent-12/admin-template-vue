@@ -8,13 +8,13 @@ export const omsRoutes: AppRouteRecord = {
   path: '/oms',
   name: 'OMS',
   component: RoutePath.LayoutComponent,
-  meta: { title: 'menus.oms.title', icon: 'ri:shopping-cart-2-line' },
+  meta: { title: 'OMS 系统', icon: 'ri:shopping-cart-2-line' },
   children: [
     {
       name: 'Dashboard',
       path: 'dashboard',
       meta: {
-        title: 'menus.dashboard.title',
+        title: '仪表盘',
         icon: 'ri:pie-chart-line'
       },
       children: [
@@ -23,7 +23,7 @@ export const omsRoutes: AppRouteRecord = {
           name: 'Console',
           component: '/dashboard/console',
           meta: {
-            title: 'menus.dashboard.console',
+            title: '工作台',
             keepAlive: false,
             fixedTab: true
           }

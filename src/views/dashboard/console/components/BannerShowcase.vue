@@ -6,12 +6,12 @@
       class="banner-showcase__basic"
       box-style="banner-showcase__basic-box"
       height="12rem"
-      :title="t('dashboard.console.banner.title')"
-      :subtitle="t('dashboard.console.banner.subtitle')"
+      title="欢迎使用 Ao Design Pro"
+      subtitle="一款兼具设计美学与高效开发的后台管理系统模板"
       :meteor-config="{ enabled: true, count: 12 }"
       :button-config="{
         show: true,
-        text: t('dashboard.console.banner.btnText'),
+        text: '开始体验',
         color: 'var(--ao-gray-100)',
         textColor: 'var(--theme-color)',
         radius: '6px'
@@ -25,17 +25,17 @@
       class="banner-showcase__card"
       height="auto"
       :image="cardImage"
-      :title="t('dashboard.console.cardBanner.title')"
-      :description="t('dashboard.console.cardBanner.description')"
+      title="组件化开发"
+      description="基于 Vue3 组合式 API 与 Element Plus，提供丰富的业务组件示例。"
       :button="{
         show: true,
-        text: t('dashboard.console.cardBanner.docBtn'),
+        text: '查看文档',
         color: 'var(--theme-color)',
         textColor: 'var(--ao-gray-100)'
       }"
       :cancel-button="{
         show: true,
-        text: t('dashboard.console.cardBanner.cancelBtn'),
+        text: '稍后再看',
         color: 'var(--ao-gray-100)',
         textColor: 'var(--ao-gray-700)'
       }"
@@ -47,11 +47,8 @@
 
 <script setup lang="ts">
   import { ElMessage } from 'element-plus'
-  import { useI18n } from 'vue-i18n'
   // 卡片横幅展示用的插图
   import cardImage from '@imgs/draw/draw1.png'
-
-  const { t } = useI18n()
 
   /**
    * @description 基础横幅整体点击处理

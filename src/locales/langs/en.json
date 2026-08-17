@@ -21,9 +21,6 @@
     "user": {
       "userCenter": "User center",
       "logout": "Log out"
-    },
-    "system": {
-      "current": "Current system"
     }
   },
   "common": {
@@ -85,44 +82,6 @@
       "closeAll": "Close all"
     }
   },
-  "login": {
-    "leftView": {
-      "title": "A backend system of beauty and efficiency",
-      "subTitle": "A sleek and practical interface for a great user experience"
-    },
-    "title": "Welcome back",
-    "subTitle": "Please enter your account and password to login",
-    "roles": {
-      "super": "Super Admin",
-      "admin": "Admin",
-      "user": "User"
-    },
-    "placeholder": {
-      "username": "Please enter your account",
-      "password": "Please enter your password"
-    },
-    "rememberPwd": "Remember password",
-    "btnText": "Login",
-    "success": {
-      "title": "Login successful",
-      "message": "Welcome back"
-    }
-  },
-  "dashboard": {
-    "console": {
-      "banner": {
-        "title": "Welcome to Ao Design Pro",
-        "subtitle": "A backend management system template combining design aesthetics with efficient development",
-        "btnText": "Get Started"
-      },
-      "cardBanner": {
-        "title": "Component-Based Development",
-        "description": "Based on Vue3 Composition API and Element Plus, providing rich business component examples.",
-        "docBtn": "View Docs",
-        "cancelBtn": "Later"
-      }
-    }
-  },
   "exceptionPage": {
     "403": "Sorry, you do not have permission to access this page",
     "404": "Sorry, the page you are trying to access does not exist",
@@ -130,19 +89,6 @@
     "gohome": "Go Home"
   },
   "menus": {
-    "login": {
-      "title": "Login"
-    },
-    "outside": {
-      "title": "Outside"
-    },
-    "oms": {
-      "title": "OMS"
-    },
-    "dashboard": {
-      "title": "Dashboard",
-      "console": "Console"
-    },
     "system": {
       "title": "System Settings",
       "user": "User Manage",
