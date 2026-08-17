@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { UserSearchParams } from '@/types/api/system-manage'
+  import type { UserSearchParams } from '@/types/api/systemManage'
   import type { UserSearchProps, UserSearchEmits } from '../types'
 
   const props = defineProps<UserSearchProps>()

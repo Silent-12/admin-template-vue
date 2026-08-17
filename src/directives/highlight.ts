@@ -40,6 +40,7 @@
 
 import { App, Directive } from 'vue'
 import hljs from 'highlight.js'
+import { copyText } from '@/utils'
 
 export type HighlightDirective = Directive<HTMLElement>
 
@@ -59,7 +60,11 @@ function insertLineNumbers(block: HTMLElement) {
   block.innerHTML = numberedLines
 }
 
-// 添加复制按钮：调整 DOM 结构，将代码部分包裹在 .code-wrapper 内
+/**
+ * @description 为代码块添加复制按钮，并复用公共剪贴板工具完成复制。
+ * @param {HTMLElement} block 当前需要添加复制按钮的代码块元素。
+ * @return {void} 无返回值。
+ */
 function addCopyButton(block: HTMLElement) {
   const copyButton = document.createElement('i')
   copyButton.className = 'copy-button'
@@ -68,9 +73,7 @@ function addCopyButton(block: HTMLElement) {
   copyButton.onclick = () => {
     // 过滤掉行号，只复制代码内容
     const codeContent = block.innerText.replace(/^\d+\s+/gm, '')
-    navigator.clipboard.writeText(codeContent).then(() => {
-      ElMessage.success('复制成功')
-    })
+    void copyText(codeContent)
   }
 
   const preElement = block.parentElement

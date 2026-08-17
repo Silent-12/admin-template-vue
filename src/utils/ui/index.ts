@@ -3,6 +3,7 @@
  */
 
 export * from './colors'
+export * from './clipboard'
 export * from './loading'
 export * from './tabs'
 export * from './emoji'

@@ -1,6 +1,6 @@
 /** 角色管理页私有类型定义 */
 
-import type { RoleListItem, RoleSearchParams } from '@/types/api/system-manage'
+import type { RoleListItem, RoleSearchParams } from '@/types/api/systemManage'
 
 /** 角色列表项类型别名 */
 export type { RoleListItem }

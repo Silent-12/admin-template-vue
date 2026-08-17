@@ -7,7 +7,7 @@ import type {
   UserList,
   UserListItem,
   UserSearchParams
-} from '@/types/api/system-manage'
+} from '@/types/api/systemManage'
 
 const USER_AVATAR_SIZES = [160, 160, 160, 80, 80, 80, 160, 160, 160, 160]
 

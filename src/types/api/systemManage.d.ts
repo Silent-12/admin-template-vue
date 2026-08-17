@@ -59,17 +59,17 @@ export type RoleList = PaginatedResponse<RoleListItem>
  * @description 定义系统管理角色列表中的角色信息。
  */
 export interface RoleListItem {
-  /** 角色 ID */
+  // 角色 ID
   roleId: number
-  /** 角色名称 */
+  // 角色名称
   roleName: string
-  /** 角色编码 */
+  // 角色编码
   roleCode: string
-  /** 角色描述 */
+  // 角色描述
   description: string
-  /** 是否启用 */
+  // 是否启用
   enabled: boolean
-  /** 创建时间 */
+  // 创建时间
   createTime: string
 }
 

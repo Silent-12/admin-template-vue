@@ -5,7 +5,7 @@ import type {
   RoleSearchParams,
   UserList,
   UserSearchParams
-} from '@/types/api/system-manage'
+} from '@/types/api/systemManage'
 
 // 获取用户列表
 export function fetchGetUserList(params: UserSearchParams) {

@@ -3,10 +3,11 @@
 - 在新增或修改代码前，需要先检查当前目录下是否存在 `.agents` 目录。
 - 如果存在，则必须读取并加载其中定义的 `rules` 与 `skills`。
 - 当本次任务命中了对应规则、约束或技能范围时，后续代码实现与输出内容必须严格遵循相关规范执行。
+- 若本文档规则与当前仓库实际目录结构或实现现状不一致，应以仓库现状为准，并先同步更新本文档后再继续执行。
 
 # 项目规则
 
-- 当前项目技术栈：`Vue 3 + Vite + TypeScript + Pinia + Vue Router + Element Plus + ECharts + Axios + SCSS + vue-i18n`，包管理器使用 `pnpm`，Node 版本要求 `>=20.19.0`。
+- 当前项目技术栈：`Vue 3 + Vite + TypeScript + Pinia + Vue Router + Element Plus + Axios + SCSS + vue-i18n`，包管理器使用 `pnpm`，Node 版本要求 `>=20.19.0`。
 
 - 本项目为纯前端后台管理模板 `art-design-pro`，无后端、无数据库、无 Redis/MQ；所有数据通过 `src/api/` 调用后端接口，对接的响应结构由前端统一定义为 `BaseResponse<T>`（`code`、`msg`、`data`）。
 
@@ -14,7 +15,8 @@
 
 - 用户开发环境是 Windows 系统，调试命令必须适配 Windows（PowerShell）。
 
-- 所有新增、修改、重构函数 / 方法时，必须配套编写 / 更新标准 JSDoc 注释，使用 `/** */` 格式，包含 `@description`、`@param`、`@return` 完整标签，简要标注类型与业务说明，代码变更同步更新注释，保持格式统一。Vue `<script setup>` 中的函数同样适用。
+- 所有新增、修改、重构的公共函数、业务函数、事件处理函数、数据加载函数及其他具有明确业务语义的方法，必须配套编写 / 更新标准 JSDoc 注释，使用 `/** */` 格式，优先包含 `@description`、`@param`、`@return` 标签并简要标注类型与业务说明；无参数或无返回值的场景可省略对应标签，代码变更同步更新注释，保持格式统一。Vue `<script setup>` 中的函数同样适用。
+- 在 Vue `<script setup>` 中，`ref`、`reactive` 等响应式状态声明应按语义添加分组或用途注释（如“组件引用”“状态数据”“表单数据”“分页参数”等）；对外暴露方法、事件处理函数、数据加载函数及其他具有明确业务语义的箭头函数，必须补充标准 JSDoc 注释，并优先参考同目录已有文件的注释写法保持一致。
 
 - 在函数入口或逻辑开始阶段，对非法状态 / 异常输入 / 不满足条件进行判断，并立即返回或抛错，禁止通过 `if/else` 嵌套处理主流程。
 
@@ -22,14 +24,21 @@
 
 - 后端响应数据结构在前端统一以 `BaseResponse<T>` 描述（定义于 `src/types/common/response.ts`，字段为 `code`、`msg`、`data`）；新增 API 方法的返回类型必须显式声明泛型 `T`，禁止使用 `any`。
 
-- 所有的 TS 类型定义统一放在 `src/types/` 下，按域分目录：`api/`、`common/`、`component/`、`config/`、`directive/`、`router/`、`store/`。全局命名空间类型（如 `Api.Auth.*`）在 `src/types/api/api.d.ts` 中声明；通用业务类型在 `src/types/common/index.ts`。
+- 所有的 TS 类型定义统一放在 `src/types/` 下，按域分目录：`api/`、`common/`、`component/`、`config/`、`directive/`、`router/`、`store/`、`generated/`。接口类型应按业务域放在对应目录中（如 `src/types/api/auth.d.ts`、`src/types/api/systemManage.d.ts`）；通用响应结构定义在 `src/types/common/response.ts`。
 
 - TypeScript 类型定义文件（`.ts` / `.d.ts`）的注释规则：`type`、`interface`、`class` 等类型声明前仅保留一段 JSDoc，第一行写简短说明，使用 `@description` 补充用途；字段注释统一使用字段上方的单行 `//` 注释，不在类型 JSDoc 中使用 `@param` 描述字段。类型声明前禁止额外添加与 JSDoc 重复的 `//` 标题注释。类方法和构造函数仍按函数注释规则使用 `@description`、`@param`、`@return`。
+- `src/types/` 下多单词类型文件命名统一使用小驼峰命名，例如 `systemManage.d.ts`、`versionControl.d.ts`，禁止使用中划线命名。
 
-- 样式统一使用 SCSS，按域组织在 `src/assets/styles/`：核心样式在 `core/`（`theme.scss`、`utilities.scss`、`reset.scss`、`el-dark.scss`、`el-light.scss` 等），入口为 `src/assets/styles/index.scss`；禁止引入 Tailwind 等原子化 CSS 框架，禁止使用内联 `style=""` 写大段样式（动态样式除外）。
+- 样式统一使用 SCSS，统一放在 `src/assets/styles/` 下管理；当前核心样式文件包括 `theme.scss`、`dark.scss`、`mixin.scss`、`reset.scss`、`el-ui.scss`、`el-light.scss` 等，入口为 `src/assets/styles/index.scss`；禁止引入 Tailwind 等原子化 CSS 框架，禁止使用内联 `style=""` 写大段样式（动态样式除外）。
+- Vue 组件使用 `<style scoped>` 时，class 命名应尽量收敛：每个组件通常只声明一个顶层模块 class 作为样式作用域入口，内部子节点优先使用简短且语义明确的命名，避免重复携带模块前缀或大段 BEM 命名。
+- `<style scoped>` 场景下，布局类名优先使用 `left`、`right`、`top`、`bottom`、`header`、`body`、`footer`、`content`、`main`、`aside`、`actions`、`item` 等简短命名；信息展示类名优先使用 `info`、`title`、`description`、`label`、`value`、`text`、`icon`、`tip` 等简短命名。
+- 仅当存在跨组件复用、全局覆盖、Element Plus 深度覆盖、多层状态表达或样式作用域不适合依赖 `scoped` 时，才使用更完整的 BEM 命名；禁止在已具备清晰顶层作用域的 `<style scoped>` 组件内继续机械重复 `project-card__title` 这一类冗余前缀。
+
+- 后续项目开发中，凡是需要使用弹窗组件的地方，**禁止直接使用原生的 `<el-dialog>`**，必须统一使用项目中已封装的基础组件 `<AoDialog>`（它默认继承了水平垂直居中及可拖拽特性，且已通过自动导入配置注册，可直接在模板中使用）。
 
 ## SCSS 样式整理规范
 
+- 对于新增或重构的 Vue `<style scoped>` 组件，优先整理为“一个顶层 class + 内部短语义 class”的结构，再在该作用域内使用 SCSS 嵌套；只有确实需要更强语义隔离或跨组件复用时才保留 BEM。
 - 同一 BEM 前缀的选择器必须优先使用 SCSS 嵌套，避免重复书写完整类名。例如：
   ```scss
   .breadcrumb {
@@ -99,8 +108,8 @@
   - 仅在极少数需要在 Vue 应用加载前生效的场景（如主题键 `StorageConfig.THEME_KEY` 对应 `sys-theme`、上次登录用户 ID `StorageConfig.LAST_USER_ID_KEY` 对应 `sys-last-user-id`）才允许直接操作 localStorage，且键名必须引用 `StorageConfig` 常量（定义于 `src/utils/storage/storageConfig.ts`），禁止硬编码字符串键名。
 
 - 路由相关：
-  - 静态路由在 `src/router/routes/staticRoutes.ts`，动态（异步）路由在 `src/router/routes/asyncRoutes.ts`。
-  - 路由模块定义在 `src/router/modules/` 下；路由核心能力（组件加载、菜单处理、权限校验、路由注册）在 `src/router/core/` 下，扩展时优先复用既有 `RouteRegistry`、`RoutePermissionValidator`、`MenuProcessor` 等能力。
+  - 公共路由定义在 `src/router/routes/public.ts`，业务路由定义在 `src/router/routes/applications/` 下。
+  - 路由核心能力（组件加载、菜单处理、配置校验、路由注册等）在 `src/router/services/` 下，扩展时优先复用既有 `RouteRegistry`、`RouteComponentLoader`、`RouteConfigValidator`、`RouteTransformer`、`MenuRouteService` 等能力。
   - 路由守卫在 `src/router/guards/`，禁止在业务页面内手写路由拦截。
 
 - 国际化：所有用户可见文案应使用 `vue-i18n` 的 `$t` / `t` 函数，语言包位于 `src/locales/langs/`（`zh.json`、`en.json`）；禁止在模板或代码中硬编码中文展示文案（注释、日志除外）。
@@ -109,7 +118,7 @@
 
 - 复用逻辑优先抽成 Composable，放置在 `src/hooks/core/` 下，命名以 `use` 开头（如 `useTable`、`useAuth`、`useTheme`）；不要在组件内重复实现已存在的 hook 能力。
 
-- 修改/新增代码时，不要删除原有的注释内容。
+- 修改/新增代码时，不要无故删除仍然有效的注释内容；若原注释已失效、与实现不一致或会产生误导，必须同步更新或删除。
 
 - 提交 git 时，需要遵守 `.agents/rules/git-commit-message.md` 生成 commit 说明规范。
 
@@ -119,9 +128,9 @@
 
 - 表单必填字段除了在视图层做必填校验（`rules`），还应在提交前于业务层显式判空；对关键业务操作（删除、批量操作等）必须二次确认。
 
-- 每次执行完任务后，都需要执行 `package.json` 中的 `lint` 检查，如果存在报错，需要修复；涉及样式改动时一并执行 `lint:stylelint`，格式问题统一执行 `lint:prettier`。
+- 涉及源码改动的任务完成后，都需要执行 `package.json` 中与改动范围对应的检查；默认至少执行 `pnpm run lint`。涉及样式改动时一并执行 `pnpm run lint:stylelint`，存在格式化差异时执行 `pnpm run lint:prettier`；涉及构建链路、路由装配、类型声明或样式变量调整时，应补充执行 `pnpm run build`。
 
-- 后续凡是在 `.env` / `.env.development` / `.env.production` 中新增环境变量，必须以 `VITE_` 前缀开头，并同步更新到其余两个环境文件保持字段对齐；新增的环境变量在代码中使用前需在 `src/types/` 或 `vite-env.d.ts` 中补充类型声明。
+- 后续凡是在 `.env` / `.env.development` / `.env.production` 中新增环境变量，必须以 `VITE_` 前缀开头，并同步更新到其余两个环境文件保持字段对齐；新增的环境变量在代码中使用前需在 `src/env.d.ts` 或 `src/types/` 中补充类型声明。
 
 # 深色模式与 CSS 变量
 
@@ -133,7 +142,7 @@
 
 ## 项目 CSS 变量速查表
 
-### 语义色变量（`src/assets/styles/core/theme.scss`）
+### 语义色变量（`src/assets/styles/theme.scss`）
 
 | 变量名           | 亮色值 (`:root`)         | 暗色值 (`.dark`) | 典型用途 |
 | ---------------- | ------------------------ | ---------------- | -------- |
@@ -183,7 +192,7 @@
 | `--ao-active-color`    | `#f2f4f5` | `#202226` | 点击激活背景        |
 | `--ao-el-active-color` | `#f2f4f5` | `#2e2e38` | Element组件选中背景 |
 
-### Element Plus 桥接变量（`src/assets/styles/core/el-ui.scss`）
+### Element Plus 桥接变量（`src/assets/styles/el-ui.scss`）
 
 | 变量名                         | 说明                                          |
 | ------------------------------ | --------------------------------------------- |
@@ -195,7 +204,7 @@
 | `--el-border-radius-base`      | Element 基础圆角（由 `--custom-radius` 计算） |
 | `--el-border-radius-small`     | Element 小圆角（由 `--custom-radius` 计算）   |
 
-### Element Plus 暗色覆盖（`src/assets/styles/core/dark.scss`，仅 `html.dark` 下生效）
+### Element Plus 暗色覆盖（`src/assets/styles/dark.scss`，仅 `html.dark` 下生效）
 
 | 变量名                    | 暗色值                     |
 | ------------------------- | -------------------------- |
@@ -262,4 +271,4 @@
 - 修改已有文件前，如果发现文件不是 UTF-8，应先提示并转换为 UTF-8。
 - 中文注释必须保持 UTF-8，不得产生乱码。
 
-- 涉及文本截断、溢出隐藏、多行省略等文本溢出场景时，必须优先使用 `src/assets/styles/core/mixin.scss` 中定义的 `@include ellipsis` 混入，禁止手动编写 `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` 等重复代码。单行省略调用 `@include ellipsis`，多行省略调用 `@include ellipsis($rowCount)`（如 `@include ellipsis(3)`）。
+- 涉及文本截断、溢出隐藏、多行省略等文本溢出场景时，必须优先使用 `src/assets/styles/mixin.scss` 中定义的 `@include ellipsis` 混入，禁止手动编写 `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` 等重复代码。单行省略调用 `@include ellipsis`，多行省略调用 `@include ellipsis($rowCount)`（如 `@include ellipsis(3)`）。

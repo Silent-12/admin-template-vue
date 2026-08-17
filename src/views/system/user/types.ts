@@ -1,6 +1,6 @@
 /** 用户管理页私有类型定义 */
 
-import type { UserListItem as ApiUserListItem, UserSearchParams } from '@/types/api/system-manage'
+import type { UserListItem as ApiUserListItem, UserSearchParams } from '@/types/api/systemManage'
 
 /**
  * 用户弹窗类型

@@ -49,7 +49,7 @@
   import UserSearch from './components/UserSearch.vue'
   import UserDialog from './components/UserDialog.vue'
   import { ElTag, ElMessageBox } from 'element-plus'
-  import type { UserSearchParams } from '@/types/api/system-manage'
+  import type { UserSearchParams } from '@/types/api/systemManage'
   import type { DialogType, UserListItem } from './types'
 
   defineOptions({ name: 'User' })
