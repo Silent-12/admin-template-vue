@@ -1,64 +1,70 @@
 <template>
   <div class="project-list">
     <!-- 顶部搜索和操作区 -->
-    <el-card class="search" shadow="never">
-      <el-form :inline="true" :model="searchParams" class="form" @submit.prevent="handleSearch">
-        <el-form-item label="项目名称">
-          <el-input
-            v-model="searchParams.name"
-            placeholder="请输入项目名称"
-            clearable
-            @keyup.enter="handleSearch"
-            @clear="handleSearch"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="handleSearch">
-            <el-icon><Search /></el-icon>
-            查询
-          </el-button>
-          <el-button @click="resetSearch">
-            <el-icon><Refresh /></el-icon>
-            重置
-          </el-button>
-        </el-form-item>
-        <div class="action">
-          <el-button type="primary" @click="handleAddProject">
-            <el-icon><Plus /></el-icon>
-            新增项目
-          </el-button>
-        </div>
-      </el-form>
-    </el-card>
-
-    <!-- 项目卡片网格展示区 -->
-    <div class="list" v-loading="loading">
-      <div v-if="projectList.length" class="grid">
-        <ProjectCard
-          v-for="project in projectList"
-          :key="project.id"
-          :project="project"
-          @edit="handleEditProject"
-          @baseline="handleManageBaseline"
-        />
-      </div>
-
-      <el-empty v-else-if="!loading" description="暂无项目数据">
-        <el-button type="primary" @click="handleAddProject">立即创建</el-button>
-      </el-empty>
+    <div class="search-wrap">
+      <el-card class="search" shadow="never">
+        <el-form :inline="true" :model="searchParams" class="form" @submit.prevent="handleSearch">
+          <el-form-item label="项目名称">
+            <el-input
+              v-model="searchParams.name"
+              placeholder="请输入项目名称"
+              clearable
+              @keyup.enter="handleSearch"
+              @clear="handleSearch"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleSearch">
+              <el-icon><Search /></el-icon>
+              查询
+            </el-button>
+            <el-button @click="resetSearch">
+              <el-icon><Refresh /></el-icon>
+              重置
+            </el-button>
+          </el-form-item>
+          <div class="action">
+            <el-button type="primary" @click="handleAddProject">
+              <el-icon><Plus /></el-icon>
+              新增项目
+            </el-button>
+          </div>
+        </el-form>
+      </el-card>
     </div>
 
+    <!-- 项目卡片网格展示区 -->
+    <el-scrollbar class="list-scrollbar" v-loading="loading">
+      <div class="list">
+        <div v-if="projectList.length" class="grid">
+          <ProjectCard
+            v-for="project in projectList"
+            :key="project.id"
+            :project="project"
+            @edit="handleEditProject"
+            @baseline="handleManageBaseline"
+          />
+        </div>
+
+        <el-empty v-else-if="!loading" description="暂无项目数据">
+          <el-button type="primary" @click="handleAddProject">立即创建</el-button>
+        </el-empty>
+      </div>
+    </el-scrollbar>
+
     <!-- 分页区 -->
-    <div class="pager">
-      <el-pagination
-        v-model:current-page="pagination.page"
-        v-model:page-size="pagination.pageSize"
-        :page-sizes="[12, 24, 48, 96]"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="pagination.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+    <div class="pager-wrap">
+      <div class="pager">
+        <el-pagination
+          v-model:current-page="pagination.page"
+          v-model:page-size="pagination.pageSize"
+          :page-sizes="[12, 24, 48, 96]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pagination.total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
 
     <!-- 弹窗及抽屉组件 -->
@@ -68,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, reactive, onMounted } from 'vue'
+  import { onMounted, reactive, ref } from 'vue'
   import { Search, Refresh, Plus } from '@element-plus/icons-vue'
   import type { WgtProjectItem } from '@/types/api/versionControl'
   import { fetchGetWgtProjectList } from '@/api/versionControl/wgtProject'
@@ -185,15 +191,22 @@
   .project-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    height: 100%;
-    padding: 16px;
+    gap: 10px;
     background-color: var(--default-bg-color);
+    justify-content: space-between;
+
+    .search-wrap,
+    .pager-wrap {
+      flex-shrink: 0;
+    }
 
     .search {
       background-color: var(--default-box-color);
       border-color: var(--default-border);
       border-radius: var(--custom-radius);
+      :deep(.el-card__body) {
+        padding: 16px;
+      }
       .form {
         display: flex;
         flex-wrap: wrap;
@@ -208,9 +221,12 @@
       }
     }
 
+    .list-scrollbar {
+      min-height: 0;
+    }
+
     .list {
-      flex-grow: 1;
-      min-height: 400px;
+      min-height: 100%;
     }
 
     .grid {
