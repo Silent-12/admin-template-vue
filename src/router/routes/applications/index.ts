@@ -2,6 +2,6 @@
  * 本地业务系统路由集合。
  */
 import type { AppRouteRecord } from '@/types/router'
-import { omsRoutes } from './oms'
+import { exampleRoutes } from './example'
 
-export const applicationRoutes: AppRouteRecord[] = [omsRoutes]
+export const applicationRoutes: AppRouteRecord[] = [exampleRoutes]

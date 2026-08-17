@@ -1,14 +1,14 @@
 /**
- * OMS 应用路由。
+ * Example 应用路由。
  */
 import type { AppRouteRecord } from '@/types/router'
 import { RoutePath } from '@/router/constants'
 
-export const omsRoutes: AppRouteRecord = {
-  path: '/oms',
-  name: 'OMS',
+export const exampleRoutes: AppRouteRecord = {
+  path: '/example',
+  name: 'Example',
   component: RoutePath.LayoutComponent,
-  meta: { title: 'OMS 系统', icon: 'ri:shopping-cart-2-line' },
+  meta: { title: 'Example 系统', icon: 'ri:shopping-cart-2-line' },
   children: [
     {
       name: 'Dashboard',
