@@ -191,9 +191,8 @@
   .project-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
     background-color: var(--default-bg-color);
-    justify-content: space-between;
 
     .search-wrap,
     .pager-wrap {
@@ -222,6 +221,7 @@
     }
 
     .list-scrollbar {
+      flex: 1;
       min-height: 0;
     }
 
