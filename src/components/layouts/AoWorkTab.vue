@@ -457,9 +457,9 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding-right: 1.25rem;
+    padding-right: 0.625rem;
     padding-bottom: 0.75rem;
-    padding-left: 1.25rem;
+    padding-left: 0.625rem;
     user-select: none;
     // 滚动容器
     &__scroll {

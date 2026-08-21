@@ -380,7 +380,7 @@
     }
     // 菜单按钮
     &__menu-btn {
-      margin-left: 0.75rem;
+      margin-left: 0.625rem;
       @media (width <= 39.99rem) {
         margin-left: 7px;
       }
