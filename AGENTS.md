@@ -77,6 +77,9 @@
   - 仅服务单一业务的组件放在对应页面的 `src/views/<业务模块>/components/` 下，并由业务页面显式引入，不作为通用组件注册。
   - 业务页面放在 `src/views/` 下，按业务模块分子目录（如 `system/user/`、`system/role/`、`system/menu/`）；页面内的弹窗、搜索条等子模块放在对应模块的 `components/` 子目录中。
 
+- 所有业务表格统一使用项目封装的 `AoTable`，页面布局参考 `src/views/system/user/index.vue`，采用 `ao-full-height` 页面容器、`ao-table-card` 表格卡片以及 `AoTableHeader` 表格头部；禁止在业务页面直接使用 `el-table`。
+- 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，搜索组件放在对应业务页面的 `components/` 目录中，页面布局参考 `src/views/system/user/components/UserSearch.vue`。
+
 - 状态管理使用 Pinia，模块定义在 `src/store/modules/` 下，每个 store 一个文件，命名与业务域对应（如 `user.ts`、`menu.ts`、`setting.ts`、`worktab.ts`）；持久化通过 `pinia-plugin-persistedstate`，key 命名需语义清晰。
   - Pinia Setup Store 的持久化示例：
     ```ts
@@ -111,8 +114,6 @@
   - 公共路由定义在 `src/router/routes/public.ts`，业务路由定义在 `src/router/routes/applications/` 下。
   - 路由核心能力（组件加载、菜单处理、配置校验、路由注册等）在 `src/router/services/` 下，扩展时优先复用既有 `RouteRegistry`、`RouteComponentLoader`、`RouteConfigValidator`、`RouteTransformer`、`MenuRouteService` 等能力。
   - 路由守卫在 `src/router/guards/`，禁止在业务页面内手写路由拦截。
-
-- 国际化：所有用户可见文案应使用 `vue-i18n` 的 `$t` / `t` 函数，语言包位于 `src/locales/langs/`（`zh.json`、`en.json`）；禁止在模板或代码中硬编码中文展示文案（注释、日志除外）。
 
 - 自定义指令统一放在 `src/directives/` 根目录（`auth`、`highlight`、`ripple`），通过 `src/directives/index.ts` 统一注册。
 

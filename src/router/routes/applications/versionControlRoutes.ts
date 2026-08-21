@@ -19,6 +19,34 @@ export const versionControlRoutes: AppRouteRecord = {
         icon: 'ri:pie-chart-line',
         keepAlive: true
       }
+    },
+    {
+      path: 'system',
+      name: 'System',
+      meta: {
+        title: 'menus.system.title',
+        icon: 'ri:user-3-line'
+      },
+      children: [
+        {
+          path: 'user',
+          name: 'User',
+          component: '/system/user',
+          meta: { title: 'menus.system.user', keepAlive: true }
+        },
+        {
+          path: 'role',
+          name: 'Role',
+          component: '/system/role',
+          meta: { title: 'menus.system.role', keepAlive: true }
+        },
+        {
+          path: 'menu',
+          name: 'Menus',
+          component: '/system/menu',
+          meta: { title: 'menus.system.menu', keepAlive: true }
+        }
+      ]
     }
   ]
 }
