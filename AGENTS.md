@@ -35,6 +35,8 @@
 - 仅当存在跨组件复用、全局覆盖、Element Plus 深度覆盖、多层状态表达或样式作用域不适合依赖 `scoped` 时，才使用更完整的 BEM 命名；禁止在已具备清晰顶层作用域的 `<style scoped>` 组件内继续机械重复 `project-card__title` 这一类冗余前缀。
 
 - 后续项目开发中，凡是需要使用弹窗组件的地方，**禁止直接使用原生的 `<el-dialog>`**，必须统一使用项目中已封装的基础组件 `<AoDialog>`（它默认继承了水平垂直居中及可拖拽特性，且已通过自动导入配置注册，可直接在模板中使用）。
+- 后续项目开发中，凡是涉及表单的功能，必须统一使用项目封装的 `src/components/forms/AoForm.vue` 组件实现，禁止在业务代码中直接使用 `<ElForm>` 或 `<el-form>`；业务搜索区域仍统一使用 `<AoSearchBar>`。
+- Vue 模板中使用 Element Plus 组件时，组件名必须使用 PascalCase，例如 `<ElCard>`、`<ElButton>`，禁止使用 `<el-card>`、`<el-button>` 等小写短横线形式。
 
 ## SCSS 样式整理规范
 

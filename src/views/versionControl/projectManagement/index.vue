@@ -2,13 +2,13 @@
   <div class="project-list ao-full-height">
     <ProjectSearch v-model="searchParams" @search="handleSearch" @reset="resetSearch" />
 
-    <el-card class="ao-table-card">
-      <AoTableHeader :loading="loading" @refresh="refreshData">
+    <ElCard class="ao-table-card">
+      <AoTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
         <template #left>
-          <el-button type="primary" @click="handleAddProject">
-            <el-icon><Plus /></el-icon>
+          <ElButton @click="handleAddProject">
+            <ElIcon><Plus /></ElIcon>
             新增项目
-          </el-button>
+          </ElButton>
         </template>
       </AoTableHeader>
 
@@ -17,35 +17,61 @@
         :data="data"
         :columns="columns"
         :pagination="pagination"
-        :pagination-options="{ pageSizes: [10, 20, 30] }"
         @pagination:size-change="handleSizeChange"
         @pagination:current-change="handleCurrentChange"
       >
+        <!-- 应用ID -->
         <template #appid="{ row }">
           <div class="appid">
             <span class="text">{{ row.appid || '暂无' }}</span>
-            <el-button
+            <ElButton
               type="primary"
               link
               :disabled="!row.appid"
               @click="handleCopyAppid(row.appid)"
             >
-              <el-icon><CopyDocument /></el-icon>
-            </el-button>
+              <ElIcon><CopyDocument /></ElIcon>
+            </ElButton>
+          </div>
+        </template>
+
+        <!-- 项目描述 -->
+        <template #description="{ row }">
+          <ElTooltip
+            :content="row.description || '暂无描述'"
+            placement="top"
+            popper-class="project-description-tooltip"
+          >
+            <span class="description">{{ row.description || '暂无描述' }}</span>
+          </ElTooltip>
+        </template>
+
+        <!-- 创建时间 -->
+        <template #createdAt="{ row }">
+          {{ formatTime(row.createdAt) }}
+        </template>
+
+        <!-- 更新时间 -->
+        <template #updatedAt="{ row }">
+          {{ formatTime(row.updatedAt) }}
+        </template>
+
+        <!-- 操作列 -->
+        <template #operation="{ row }">
+          <div class="actions">
+            <ElButton type="primary" link @click="handleEditProject(row)">编辑</ElButton>
           </div>
         </template>
       </AoTable>
 
       <ProjectForm ref="projectFormRef" @success="refreshCreate" />
-      <BaselineDrawer ref="baselineDrawerRef" />
-    </el-card>
+    </ElCard>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { h, reactive, ref } from 'vue'
+  import { reactive, ref } from 'vue'
   import { CopyDocument, Plus } from '@element-plus/icons-vue'
-  import { ElButton, ElTooltip } from 'element-plus'
   import dayjs from 'dayjs'
   import type { WgtProjectItem, WgtProjectSearchParams } from '@/types/api/versionControl'
   import type { PaginatedResponse } from '@/types/api/common'
@@ -54,14 +80,12 @@
   import { useTable } from '@/hooks/core/useTable'
   import type { ColumnOption } from '@/types/component'
   import ProjectForm from './components/ProjectForm.vue'
-  import BaselineDrawer from './components/BaselineDrawer.vue'
   import ProjectSearch from './components/ProjectSearch.vue'
 
   defineOptions({ name: 'ProjectList' })
 
   // 组件引用
   const projectFormRef = ref<InstanceType<typeof ProjectForm>>()
-  const baselineDrawerRef = ref<InstanceType<typeof BaselineDrawer>>()
 
   // 搜索参数
   const searchParams = reactive({ name: '' })
@@ -86,6 +110,7 @@
   // 表格数据与分页
   const {
     columns,
+    columnChecks,
     data,
     loading,
     pagination,
@@ -101,57 +126,43 @@
       apiParams: { page: 1, pageSize: 10 },
       paginationKey: { current: 'page', size: 'pageSize' },
       columnsFactory: (): ColumnOption<WgtProjectItem>[] => [
-        { prop: 'name', label: '项目名称', minWidth: 180, showOverflowTooltip: true },
-        { prop: 'appid', label: '应用 ID', minWidth: 220, useSlot: true },
+        { type: 'index', width: 60, label: '序号' },
+        {
+          prop: 'name',
+          label: '项目名称',
+          minWidth: 120
+        },
         {
           prop: 'description',
           label: '项目描述',
           minWidth: 260,
-          formatter: (row) => {
-            const description = row.description || '暂无描述'
-            return h(
-              ElTooltip,
-              {
-                content: description,
-                placement: 'top',
-                popperClass: 'project-description-tooltip'
-              },
-              { default: () => h('span', { class: 'description' }, description) }
-            )
-          }
+          useSlot: true,
+          slotName: 'description'
         },
+        { prop: 'appid', label: '应用 ID', minWidth: 150, useSlot: true, slotName: 'appid' },
         {
           prop: 'createdAt',
           label: '创建时间',
           width: 180,
           align: 'center',
-          formatter: (row) => formatTime(row.createdAt)
+          useSlot: true,
+          slotName: 'createdAt'
         },
         {
           prop: 'updatedAt',
           label: '更新时间',
           width: 180,
           align: 'center',
-          formatter: (row) => formatTime(row.updatedAt)
+          useSlot: true,
+          slotName: 'updatedAt'
         },
         {
           prop: 'operation',
           label: '操作',
-          width: 160,
+          width: 100,
           fixed: 'right',
-          formatter: (row) =>
-            h('div', [
-              h(
-                ElButton,
-                { type: 'primary', link: true, onClick: () => handleEditProject(row) },
-                () => '编辑'
-              ),
-              h(
-                ElButton,
-                { type: 'primary', link: true, onClick: () => handleManageBaseline(row) },
-                () => '基线管理'
-              )
-            ])
+          useSlot: true,
+          slotName: 'operation'
         }
       ]
     }
@@ -187,14 +198,6 @@
    */
   const handleEditProject = (project: WgtProjectItem) => {
     projectFormRef.value?.open(project)
-  }
-
-  /**
-   * @description 打开当前项目的基线管理抽屉。
-   * @param project 当前项目数据。
-   */
-  const handleManageBaseline = (project: WgtProjectItem) => {
-    baselineDrawerRef.value?.open(project)
   }
 
   /**
@@ -247,6 +250,6 @@
     max-width: 100%;
     line-height: 1.5;
     vertical-align: middle;
-    @include ellipsis(2);
+    @include ellipsis(1);
   }
 </style>
