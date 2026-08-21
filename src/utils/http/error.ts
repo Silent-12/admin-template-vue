@@ -15,13 +15,16 @@ import { AxiosError } from 'axios'
 import { ApiStatus } from './status'
 import { $t } from '@/locales'
 
-// 错误响应接口
+/**
+ * 错误响应接口
+ * @description 描述后端统一返回的错误响应字段。
+ */
 export interface ErrorResponse {
-  /** 错误状态码 */
+  // 错误状态码
   code: number
-  /** 错误消息 */
-  msg: string
-  /** 错误附加数据 */
+  // 错误消息
+  message: string
+  // 可选的错误附加数据
   data?: unknown
 }
 
@@ -116,7 +119,7 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
   }
 
   const statusCode = error.response?.status
-  const errorMessage = error.response?.data?.msg || error.message
+  const errorMessage = error.response?.data?.message || error.message
   const requestConfig = error.config
 
   // 处理网络错误

@@ -16,12 +16,19 @@
  * - 响应数据解析
  */
 
-/** 基础 API 响应结构 */
+/**
+ * 基础 API 响应结构
+ * @description 描述后端统一返回的成功与错误响应字段。
+ */
 export interface BaseResponse<T = unknown> {
-  /** 状态码 */
+  // HTTP 状态码
   code: number
-  /** 消息 */
-  msg: string
-  /** 数据 */
+  // 响应消息
+  message: string
+  // 响应数据
   data: T
+  // 响应时间戳
+  timestamp: string
+  // 可选的错误追踪 ID
+  traceId?: string
 }
