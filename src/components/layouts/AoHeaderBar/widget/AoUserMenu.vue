@@ -89,7 +89,7 @@
   .user-avatar {
     width: 2.125rem;
     height: 2.125rem;
-    margin-right: 1.25rem;
+    margin-right: 0.625rem;
     cursor: pointer;
     border-radius: 9999px;
     @media (width <= 39.99rem) {

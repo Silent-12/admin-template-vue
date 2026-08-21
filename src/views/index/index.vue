@@ -51,7 +51,7 @@
         flex: 1;
         :deep(.layout-content) {
           box-sizing: border-box;
-          width: calc(100% - 40px);
+          width: calc(100% - 20px);
           margin: auto;
           // 子页面默认 style
           .page-content {
@@ -91,7 +91,7 @@
         overflow: visible;
         #app-content {
           :deep(.layout-content) {
-            width: calc(100% - 40px);
+            width: calc(100% - 20px);
           }
         }
       }
@@ -103,7 +103,7 @@
       #app-main {
         #app-content {
           :deep(.layout-content) {
-            width: calc(100% - 30px);
+            width: calc(100% - 20px);
           }
         }
       }
