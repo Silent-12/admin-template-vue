@@ -16,8 +16,7 @@ import type {
 export function fetchCreateWgtProject(data: CreateWgtProjectParams) {
   return request.post<WgtProjectItem>({
     url: '/v1/admin/projects',
-    data,
-    showSuccessMessage: true
+    data
   })
 }
 
@@ -30,7 +29,8 @@ export function fetchCreateWgtProject(data: CreateWgtProjectParams) {
 export function fetchGetWgtProjectList(params: WgtProjectSearchParams) {
   return request.get<WgtProjectListResponse>({
     url: '/v1/admin/projects',
-    params
+    params,
+    showSuccessMessage: false
   })
 }
 
@@ -42,7 +42,8 @@ export function fetchGetWgtProjectList(params: WgtProjectSearchParams) {
  */
 export function fetchGetWgtProjectDetail(appid: string) {
   return request.get<WgtProjectItem>({
-    url: `/v1/admin/projects/${appid}`
+    url: `/v1/admin/projects/${appid}`,
+    showSuccessMessage: false
   })
 }
 
@@ -57,7 +58,6 @@ export function fetchUpdateWgtProject(appid: string, data: UpdateWgtProjectParam
   return request.request<WgtProjectItem>({
     url: `/v1/admin/projects/${appid}`,
     method: 'PATCH',
-    data,
-    showSuccessMessage: true
+    data
   })
 }
