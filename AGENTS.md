@@ -116,8 +116,6 @@
   - 路由核心能力放在 `src/router/services/` 下，扩展时优先复用既有 `RouteRegistry`、`MenuRouteService`、`RouteTransformer`、`RouteComponentLoader`、`RouteConfigValidator` 等能力。
   - 路由守卫在 `src/router/guards/`，禁止在业务页面内手写路由拦截。
 
-- 国际化：所有用户可见文案应使用 `vue-i18n` 的 `$t` / `t` 函数，语言包位于 `src/locales/langs/`（`zh.json`、`en.json`）；禁止在模板或代码中硬编码中文展示文案（注释、日志除外）。
-
 - 自定义指令统一放在 `src/directives/` 根目录（`auth`、`highlight`、`ripple`），通过 `src/directives/index.ts` 统一注册。
 
 - 复用逻辑优先抽成 Composable，放置在 `src/hooks/core/` 下，命名以 `use` 开头（如 `useTable`、`useAuth`、`useTheme`）；不要在组件内重复实现已存在的 hook 能力。
@@ -135,6 +133,9 @@
 - 涉及源码改动的任务完成后，都需要执行 `package.json` 中与改动范围对应的检查；默认至少执行 `pnpm run lint`。涉及样式改动时一并执行 `pnpm run lint:stylelint`，存在格式化差异时执行 `pnpm run lint:prettier`；涉及构建链路、路由装配、类型声明或样式变量调整时，应补充执行 `pnpm run build`。
 
 - 后续凡是在 `.env` / `.env.development` / `.env.production` 中新增环境变量，必须以 `VITE_` 前缀开头，并同步更新到其余两个环境文件保持字段对齐；新增的环境变量在代码中使用前需在 `src/env.d.ts` 或 `src/types/` 中补充类型声明。
+
+- 所有业务表格统一使用项目封装的 `AoTable`，页面布局参考 `src/views/system/user/index.vue`，采用 `ao-full-height` 页面容器、`ao-table-card` 表格卡片以及 `AoTableHeader` 表格头部；禁止在业务页面直接使用 `el-table`。
+- 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，搜索组件放在对应业务页面的 `components/` 目录中，页面布局参考 `src/views/system/user/components/UserSearch.vue`。
 
 # 深色模式与 CSS 变量
 
