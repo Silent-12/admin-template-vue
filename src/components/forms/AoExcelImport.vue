@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+  import { ElButton, ElUpload } from 'element-plus'
   import * as XLSX from 'xlsx'
   import type { UploadFile } from 'element-plus'
 

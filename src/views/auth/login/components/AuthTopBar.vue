@@ -58,6 +58,8 @@
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
+  import { ElDropdown, ElDropdownItem, ElDropdownMenu } from 'element-plus'
   import { useI18n } from 'vue-i18n'
   import { useSettingStore } from '@/store/modules/setting'
   import { useUserStore } from '@/store/modules/user'

@@ -14,13 +14,13 @@
  *
  * ```vue
  * <!-- 只有拥有 'add' 权限的用户才能看到新增按钮 -->
- * <el-button v-auth="'add'">新增</el-button>
+ * <ElButton v-auth="'add'">新增</ElButton>
  *
  * <!-- 只有拥有 'edit' 权限的用户才能看到编辑按钮 -->
- * <el-button v-auth="'edit'">编辑</el-button>
+ * <ElButton v-auth="'edit'">编辑</ElButton>
  *
  * <!-- 只有拥有 'delete' 权限的用户才能看到删除按钮 -->
- * <el-button v-auth="'delete'">删除</el-button>
+ * <ElButton v-auth="'delete'">删除</ElButton>
  * ```
  *
  * ## 注意事项

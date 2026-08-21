@@ -17,10 +17,10 @@
  * ```vue
  * <template>
  *   <!-- 基础用法 - 使用默认颜色 -->
- *   <el-button v-ripple>点击我</el-button>
+ *   <ElButton v-ripple>点击我</ElButton>
  *
  *   <!-- 自定义颜色 -->
- *   <el-button v-ripple="{ color: 'rgba(255, 0, 0, 0.3)' }">自定义颜色</el-button>
+ *   <ElButton v-ripple="{ color: 'rgba(255, 0, 0, 0.3)' }">自定义颜色</ElButton>
  *
  *   <!-- 应用到任意元素 -->
  *   <div v-ripple class="custom-card">卡片内容</div>

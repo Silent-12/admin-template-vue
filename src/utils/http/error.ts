@@ -1,3 +1,4 @@
+import { ElMessage } from 'element-plus'
 /**
  * HTTP 错误处理模块
  * - 自定义 HttpError 错误类，封装错误信息、状态码、时间戳等

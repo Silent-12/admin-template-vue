@@ -22,8 +22,8 @@
  * }
  *
  * // 在模板中使用
- * <el-button v-if="hasAuth('edit')">编辑</el-button>
- * <el-button v-if="hasAuth('delete')">删除</el-button>
+ * <ElButton v-if="hasAuth('edit')">编辑</ElButton>
+ * <ElButton v-if="hasAuth('delete')">删除</ElButton>
  * ```
  */
 import { storeToRefs } from 'pinia'

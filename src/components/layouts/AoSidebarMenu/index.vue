@@ -75,6 +75,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref, watch } from 'vue'
+  import { ElMenu, ElScrollbar, ElTag } from 'element-plus'
   import AppConfig from '@/config'
   import { useSettingStore } from '@/store/modules/setting'
   import { useMenuStore } from '@/store/modules/menu'

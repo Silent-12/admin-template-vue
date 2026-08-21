@@ -8,6 +8,7 @@
 @use './app.scss';
 
 // Element Plus 样式优化
+@use 'element-plus/theme-chalk/src/index.scss' as *;
 @use './el-ui.scss';
 
 // 暗黑主题样式优化（含 Element Plus 官方暗黑主题导入）

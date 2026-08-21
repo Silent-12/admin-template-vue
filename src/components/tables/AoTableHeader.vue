@@ -125,6 +125,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { ElCheckbox, ElDropdown, ElDropdownItem, ElDropdownMenu, ElPopover } from 'element-plus'
   import { computed, ref, onMounted, onUnmounted } from 'vue'
   import { storeToRefs } from 'pinia'
   import { TableSizeEnum } from '@/enums'

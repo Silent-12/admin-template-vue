@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
+  import { ElInputNumber, ElOption, ElSelect, ElSwitch } from 'element-plus'
   import type { ComputedRef } from 'vue'
 
   interface SettingItemConfig {

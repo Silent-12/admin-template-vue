@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, onMounted, ref } from 'vue'
   import type { UserSearchParams } from '@/types/api/system-manage'
   import type { UserSearchProps, UserSearchEmits } from '../types'
 

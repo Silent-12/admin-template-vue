@@ -1,3 +1,4 @@
+import { ElMessage } from 'element-plus'
 /**
  * v-highlight 代码高亮指令
  *

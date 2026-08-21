@@ -41,6 +41,9 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref, watch } from 'vue'
+  import { storeToRefs } from 'pinia'
+  import { ElButton, ElDialog, ElMessage, ElScrollbar, ElTree } from 'element-plus'
   import { useMenuStore } from '@/store/modules/menu'
   import { formatMenuTitle } from '@/utils/router'
   import type { RolePermissionDialogProps, RolePermissionDialogEmits, MenuNode } from '../types'

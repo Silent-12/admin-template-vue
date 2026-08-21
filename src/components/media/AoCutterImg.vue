@@ -45,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, onMounted, ref, watch } from 'vue'
+  import { ElButton } from 'element-plus'
   import ImgCutter from 'vue-img-cutter'
 
   defineOptions({ name: 'AoCutterImg' })

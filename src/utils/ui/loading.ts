@@ -1,3 +1,4 @@
+import { ElLoading } from 'element-plus'
 /**
  * 全局 Loading 加载管理模块
  *

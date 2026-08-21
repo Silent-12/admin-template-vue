@@ -46,6 +46,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, onUnmounted, ref } from 'vue'
   import type { CSSProperties } from 'vue'
 
   defineOptions({ name: 'AoMenuRight' })

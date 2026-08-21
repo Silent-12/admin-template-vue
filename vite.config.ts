@@ -5,9 +5,6 @@ import { fileURLToPath } from 'url'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import viteCompression from 'vite-plugin-compression'
 import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import ElementPlus from 'unplugin-element-plus/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 /**
  * @description 创建 Vite 构建配置并加载当前运行模式的环境变量。
@@ -66,25 +63,9 @@ export default ({ mode }: { mode: string }) => {
     },
     plugins: [
       vue(),
-      // 自动按需导入 API
-      AutoImport({
-        imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
-        dts: 'src/types/generated/auto-imports.d.ts',
-        resolvers: [ElementPlusResolver()],
-        eslintrc: {
-          enabled: true,
-          filepath: './.auto-import.json',
-          globalsPropValue: true
-        }
-      }),
       // 自动按需导入组件
       Components({
-        dts: 'src/types/generated/components.d.ts',
-        resolvers: [ElementPlusResolver()]
-      }),
-      // 按需定制主题配置
-      ElementPlus({
-        useSource: true
+        dts: 'src/types/generated/components.d.ts'
       }),
       // 压缩
       viteCompression({

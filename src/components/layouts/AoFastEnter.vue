@@ -26,6 +26,9 @@
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
+  import { useRouter } from 'vue-router'
+  import { ElDropdown, ElDropdownItem, ElDropdownMenu } from 'element-plus'
   import type { AppRouteRecord } from '@/types/router'
   import { useMenuStore } from '@/store/modules/menu'
   import { getFirstMenuPath } from '@/utils/navigation/route'
