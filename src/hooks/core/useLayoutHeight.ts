@@ -29,7 +29,7 @@ interface LayoutHeightOptions {
 }
 
 export function useLayoutHeight(options: LayoutHeightOptions = {}) {
-  const { extraSpacing = 15, updateCssVar = true, cssVarName = '--ao-full-height' } = options
+  const { extraSpacing = 10, updateCssVar = true, cssVarName = '--ao-full-height' } = options
 
   // 元素引用
   const headerRef = ref<HTMLElement>()
@@ -84,7 +84,7 @@ export function useAutoLayoutHeight(
   headerIds: string[] = ['app-header', 'app-content-header'],
   options: LayoutHeightOptions = {}
 ) {
-  const { extraSpacing = 15, updateCssVar = true, cssVarName = '--ao-full-height' } = options
+  const { extraSpacing = 10, updateCssVar = true, cssVarName = '--ao-full-height' } = options
 
   // 创建元素引用
   const headerRef = ref<HTMLElement>()

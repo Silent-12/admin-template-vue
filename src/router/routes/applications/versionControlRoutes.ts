@@ -29,7 +29,7 @@ export const versionControlRoutes: AppRouteRecord = {
         keepAlive: true,
         icon: 'ri:pie-chart-line',
         isHide: true,
-        isHideTab: true,
+        // isHideTab: true,
         activePath: '/versionControl/projectManagement'
       }
     },
