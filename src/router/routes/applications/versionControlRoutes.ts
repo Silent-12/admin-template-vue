@@ -11,13 +11,26 @@ export const versionControlRoutes: AppRouteRecord = {
   meta: { title: '版本管理', icon: 'ri:shopping-cart-2-line' },
   children: [
     {
-      path: 'ProjectManagement',
-      name: 'projectManagement',
+      path: 'projectManagement',
+      name: 'ProjectManagement',
       component: () => import('@/views/versionControl/projectManagement/index.vue'),
       meta: {
         title: '项目管理',
         icon: 'ri:pie-chart-line',
         keepAlive: true
+      }
+    },
+    {
+      path: 'projectDetails/:appid',
+      name: 'ProjectDetails',
+      component: () => import('@/views/versionControl/projectManagement/details/index.vue'),
+      meta: {
+        title: '项目详情',
+        keepAlive: true,
+        icon: 'ri:pie-chart-line',
+        isHide: true,
+        isHideTab: true,
+        activePath: '/versionControl/projectManagement'
       }
     },
     {

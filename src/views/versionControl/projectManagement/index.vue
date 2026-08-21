@@ -60,6 +60,7 @@
         <template #operation="{ row }">
           <div class="actions">
             <ElButton type="primary" link @click="handleEditProject(row)">编辑</ElButton>
+            <ElButton type="primary" link @click="handleViewProject(row)">详情</ElButton>
           </div>
         </template>
       </AoTable>
@@ -71,6 +72,7 @@
 
 <script setup lang="ts">
   import { reactive, ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import { CopyDocument, Plus } from '@element-plus/icons-vue'
   import dayjs from 'dayjs'
   import type { WgtProjectItem, WgtProjectSearchParams } from '@/types/api/versionControl'
@@ -83,6 +85,9 @@
   import ProjectSearch from './components/ProjectSearch.vue'
 
   defineOptions({ name: 'ProjectList' })
+
+  // 路由实例
+  const router = useRouter()
 
   // 组件引用
   const projectFormRef = ref<InstanceType<typeof ProjectForm>>()
@@ -159,7 +164,7 @@
         {
           prop: 'operation',
           label: '操作',
-          width: 100,
+          width: 120,
           fixed: 'right',
           useSlot: true,
           slotName: 'operation'
@@ -198,6 +203,15 @@
    */
   const handleEditProject = (project: WgtProjectItem) => {
     projectFormRef.value?.open(project)
+  }
+
+  /**
+   * @description 查看项目详情。
+   * @param project 当前项目数据。
+   */
+  const handleViewProject = (project: WgtProjectItem) => {
+    if (!project.appid) return
+    router.push({ name: 'ProjectDetails', params: { appid: project.appid } })
   }
 
   /**
