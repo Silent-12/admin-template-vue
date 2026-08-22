@@ -1,6 +1,5 @@
 // 从 ESLint 插件中导入推荐配置
 import pluginJs from '@eslint/js'
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import pluginVue from 'eslint-plugin-vue'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
@@ -55,7 +54,5 @@ export default [
       'src/assets/**',
       'src/utils/console.ts'
     ]
-  },
-  // prettier 配置
-  eslintPluginPrettierRecommended
+  }
 ]

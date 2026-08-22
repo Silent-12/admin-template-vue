@@ -209,7 +209,7 @@
    */
   const deleteUser = (row: UserListItem): void => {
     console.log('删除用户:', row)
-    ElMessageBox.confirm(`确定要注销该用户吗？`, '注销用户', {
+    ElMessageBox.confirm('确定要注销该用户吗？', '注销用户', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'error'

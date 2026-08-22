@@ -331,7 +331,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
             onCacheHit(cachedItem.data, cachedItem.response)
           }
 
-          logger.log(`缓存命中`)
+          logger.log('缓存命中')
           return cachedItem.response
         }
       }
@@ -372,7 +372,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
         cache.set(requestParams, tableData, standardResponse)
         // 手动触发缓存状态更新
         cacheUpdateTrigger.value++
-        logger.log(`数据已缓存`)
+        logger.log('数据已缓存')
       }
 
       // 状态机：请求成功，进入 success 状态
