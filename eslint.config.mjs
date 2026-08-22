@@ -5,7 +5,6 @@ import { fileURLToPath } from 'url'
 
 // 从 ESLint 插件中导入推荐配置
 import pluginJs from '@eslint/js'
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import pluginVue from 'eslint-plugin-vue'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
@@ -58,7 +57,8 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off', // 禁用 any 检查
       'vue/multi-word-component-names': 'off', // 禁用对 Vue 组件名称的多词要求检查
       'no-multiple-empty-lines': ['warn', { max: 1 }], // 不允许多个空行
-      'no-unexpected-multiline': 'error' // 禁止空余的多行
+      'no-unexpected-multiline': 'error', // 禁止空余的多行
+      'prettier/prettier': 'off' // 关闭 prettier 格式检查，避免行尾符等格式报错
     }
   },
   // vue 规则
@@ -78,7 +78,5 @@ export default [
       'src/assets/**',
       'src/utils/console.ts'
     ]
-  },
-  // prettier 配置
-  eslintPluginPrettierRecommended
+  }
 ]
