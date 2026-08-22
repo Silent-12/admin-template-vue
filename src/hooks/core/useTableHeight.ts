@@ -12,7 +12,8 @@
  * 4. 智能适配 - 无额外元素时自动使用 100% 高度
  */
 
-import { computed, type Ref } from 'vue'
+import { computed } from 'vue'
+import type { Ref } from 'vue'
 
 /**
  * 表格高度计算器配置接口

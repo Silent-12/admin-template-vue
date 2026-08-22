@@ -13,7 +13,7 @@
  * 5. 自动查找模式 - 提供通过 ID 自动查找元素的便捷方式
  */
 
-import { ref, computed, watch, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useElementSize } from '@vueuse/core'
 
 /**

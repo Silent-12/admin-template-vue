@@ -25,7 +25,9 @@
   </div>
 </template>
 <script setup lang="ts">
+  import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
   import type { CSSProperties } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useRoute } from 'vue-router'
   import { useAutoLayoutHeight } from '@/hooks/core/useLayoutHeight'
   import { useSettingStore } from '@/store/modules/setting'

@@ -24,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
+  import { ElDropdown, ElDropdownItem, ElDropdownMenu } from 'element-plus'
   import { useAuth } from '@/hooks/core/useAuth'
 
   defineOptions({ name: 'AoButtonMore' })

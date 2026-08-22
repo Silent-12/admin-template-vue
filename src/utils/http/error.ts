@@ -11,6 +11,8 @@
  * - 业务代码中捕获和处理特定错误
  * - 错误日志收集和上报
  */
+
+import { ElMessage } from 'element-plus'
 import { AxiosError } from 'axios'
 import { ApiStatus } from './status'
 import { $t } from '@/locales'

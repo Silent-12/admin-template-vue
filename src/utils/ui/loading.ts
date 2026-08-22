@@ -25,6 +25,7 @@
  * - 单例模式确保同时只有一个 Loading
  * - 提供便捷的显示/隐藏方法eam
  */
+import { ElLoading } from 'element-plus'
 import { fourDotsSpinnerSvg } from '@/assets/svg/loading'
 
 /**

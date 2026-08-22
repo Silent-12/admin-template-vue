@@ -36,16 +36,24 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, h, nextTick, reactive, ref, watch } from 'vue'
+  import {
+    ElButton,
+    ElDialog,
+    ElIcon,
+    ElMessage,
+    ElRadioButton,
+    ElRadioGroup,
+    ElTooltip
+  } from 'element-plus'
   import type { FormRules } from 'element-plus'
-  import { ElIcon, ElTooltip } from 'element-plus'
   import { QuestionFilled } from '@element-plus/icons-vue'
   import { formatMenuTitle } from '@/utils/router'
   import type { FormItem } from '@/components/forms/AoForm.vue'
   import AoForm from '@/components/forms/AoForm.vue'
   import { useWindowSize } from '@vueuse/core'
-  import type { MenuDialogProps, MenuDialogEmits, MenuDialogFormData } from '../types'
+  import type { AuthEditData, MenuDialogEmits, MenuDialogFormData, MenuDialogProps } from '../types'
   import type { AppRouteRecord } from '@/types/router'
-  import type { AuthEditData } from '../types'
 
   const { width } = useWindowSize()
 

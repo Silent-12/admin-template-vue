@@ -14,12 +14,13 @@
  * 6. 列配置管理 - 动态显示/隐藏列、列排序、配置持久化、批量操作（可选）
  */
 
-import { ref, reactive, computed, onMounted, onUnmounted, nextTick, readonly } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, reactive, readonly, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useTableColumns } from './useTableColumns'
 import type { ColumnOption } from '@/types/component'
 import type { PaginatedResponse, PaginationParams } from '@/types/api/common'
-import { TableCache, CacheInvalidationStrategy, type ApiResponse } from './table/tableCache'
+import { CacheInvalidationStrategy, TableCache } from './table/tableCache'
+import type { ApiResponse } from './table/tableCache'
 import {
   type TableError,
   defaultResponseAdapter,
@@ -331,7 +332,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
             onCacheHit(cachedItem.data, cachedItem.response)
           }
 
-          logger.log(`缓存命中`)
+          logger.log('缓存命中')
           return cachedItem.response
         }
       }
@@ -372,7 +373,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
         cache.set(requestParams, tableData, standardResponse)
         // 手动触发缓存状态更新
         cacheUpdateTrigger.value++
-        logger.log(`数据已缓存`)
+        logger.log('数据已缓存')
       }
 
       // 状态机：请求成功，进入 success 状态

@@ -17,7 +17,7 @@
  * - 权限控制
  */
 
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
 /**
  * 路由元数据接口

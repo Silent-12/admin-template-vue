@@ -38,6 +38,7 @@
  * - RGB: rgb(255, 255, 255)
  * - RGBA: rgba(255, 255, 255, 0.5)
  */
+import { ElMessage } from 'element-plus'
 import { useSettingStore } from '@/store/modules/setting'
 
 /**

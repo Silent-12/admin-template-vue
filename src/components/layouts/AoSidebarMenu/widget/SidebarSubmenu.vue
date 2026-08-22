@@ -57,7 +57,9 @@
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
   import { computed } from 'vue'
+  import { ElMenuItem, ElSubMenu } from 'element-plus'
   import type { AppRouteRecord } from '@/types/router'
   import { formatMenuTitle } from '@/utils/router'
   import { handleMenuJump } from '@/utils/navigation'

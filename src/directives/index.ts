@@ -1,7 +1,10 @@
 import type { App } from 'vue'
-import { setupAuthDirective, type AuthDirective } from './auth'
-import { setupHighlightDirective, type HighlightDirective } from './highlight'
-import { setupRippleDirective, type RippleDirective } from './ripple'
+import { setupAuthDirective } from './auth'
+import type { AuthDirective } from './auth'
+import { setupHighlightDirective } from './highlight'
+import type { HighlightDirective } from './highlight'
+import { setupRippleDirective } from './ripple'
+import type { RippleDirective } from './ripple'
 
 /**
  * @description 注册应用内置的全局自定义指令

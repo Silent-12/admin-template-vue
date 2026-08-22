@@ -1,15 +1,17 @@
 <template>
-  <el-dialog v-bind="$attrs" :align-center="alignCenter" :draggable="draggable">
+  <ElDialog v-bind="$attrs" :align-center="alignCenter" :draggable="draggable">
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps || {}" />
     </template>
-  </el-dialog>
+  </ElDialog>
 </template>
 
 <script setup lang="ts">
   /**
    * @description 基础弹窗组件，基于 el-dialog 封装，默认垂直居中、可拖拽
    */
+  import { ElDialog } from 'element-plus'
+
   defineOptions({
     name: 'AoDialog',
     inheritAttrs: false

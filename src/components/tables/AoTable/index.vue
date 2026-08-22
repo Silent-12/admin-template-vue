@@ -74,14 +74,15 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, nextTick, watchEffect, getCurrentInstance, useAttrs } from 'vue'
+  import { useResizeObserver, useWindowSize } from '@vueuse/core'
+  import { computed, getCurrentInstance, nextTick, ref, useAttrs, watchEffect } from 'vue'
+  import { ElEmpty, ElPagination, ElTable, ElTableColumn } from 'element-plus'
   import type { TableInstance, TableProps } from 'element-plus'
   import { storeToRefs } from 'pinia'
   import type { ColumnOption } from '@/types/component'
   import { useTableStore } from '@/store/modules/table'
   import { useCommon } from '@/hooks/core/useCommon'
   import { useTableHeight } from '@/hooks/core/useTableHeight'
-  import { useResizeObserver, useWindowSize } from '@vueuse/core'
 
   defineOptions({ name: 'AoTable' })
 

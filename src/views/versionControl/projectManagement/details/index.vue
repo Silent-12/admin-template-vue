@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { ElCard, ElTabPane, ElTabs } from 'element-plus'
   import type { TabsPaneContext } from 'element-plus'
 
   defineOptions({ name: 'ProjectDetails' })

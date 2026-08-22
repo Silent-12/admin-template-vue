@@ -8,6 +8,8 @@
  * @param {HTMLTextAreaElement} textarea 承载待复制文本的文本域元素。
  * @return {void} 无返回值。
  */
+
+import { ElMessage } from 'element-plus'
 function selectTextareaContent(textarea: HTMLTextAreaElement): void {
   textarea.focus()
   textarea.select()

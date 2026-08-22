@@ -27,7 +27,7 @@
  * - 登出时自动清理
  */
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { LanguageEnum } from '@/enums'
 import { router } from '@/router'
 import { useSettingStore } from './setting'

@@ -14,8 +14,8 @@
  *
  * - 使用 localStorage 作为存储介质
  */
-import type { App } from 'vue'
 import { createPinia } from 'pinia'
+import type { App } from 'vue'
 import { createPersistedState } from 'pinia-plugin-persistedstate'
 
 export const store = createPinia()

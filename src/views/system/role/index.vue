@@ -52,6 +52,8 @@
 </template>
 
 <script setup lang="ts">
+  import { h, ref } from 'vue'
+  import { ElButton, ElCard, ElMessage, ElMessageBox, ElSpace, ElTag } from 'element-plus'
   import type { ButtonMoreItem } from '@/components/forms/AoButtonMore.vue'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetRoleList } from '@/mock'
@@ -59,7 +61,6 @@
   import RoleSearch from './components/RoleSearch.vue'
   import RoleEditDialog from './components/RoleEditDialog.vue'
   import RolePermissionDialog from './components/RolePermissionDialog.vue'
-  import { ElTag, ElMessageBox } from 'element-plus'
   import type { RoleListItem, RoleSearchFormParams } from './types'
 
   defineOptions({ name: 'Role' })

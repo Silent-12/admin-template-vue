@@ -125,14 +125,14 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, onMounted, onUnmounted } from 'vue'
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { TableSizeEnum } from '@/enums'
   import { useTableStore } from '@/store/modules/table'
   import { VueDraggable } from 'vue-draggable-plus'
   import { useI18n } from 'vue-i18n'
   import type { ColumnOption } from '@/types/component'
-  import { ElScrollbar } from 'element-plus'
+  import { ElCheckbox, ElDropdown, ElDropdownItem, ElDropdownMenu, ElPopover, ElScrollbar } from 'element-plus'
 
   defineOptions({ name: 'AoTableHeader' })
 

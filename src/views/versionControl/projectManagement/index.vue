@@ -75,6 +75,7 @@
   import { useRouter } from 'vue-router'
   import { CopyDocument, Plus } from '@element-plus/icons-vue'
   import dayjs from 'dayjs'
+  import { ElButton, ElCard, ElIcon, ElTooltip } from 'element-plus'
   import type { WgtProjectItem, WgtProjectSearchParams } from '@/types/api/versionControl'
   import type { PaginatedResponse } from '@/types/api/common'
   import { fetchGetWgtProjectList } from '@/api/versionControl/wgtProject'

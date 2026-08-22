@@ -25,10 +25,10 @@
  * - 支持跨版本数据迁移
  */
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { MenuThemeType } from '@/types/store/setting'
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum } from '@/enums'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums'
 import { setElementThemeColor } from '@/utils/ui'
 import { StorageConfig } from '@/utils'
 import { SETTING_DEFAULT_CONFIG } from '@/config/setting'

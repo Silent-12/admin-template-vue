@@ -88,7 +88,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch, type Ref, type ComputedRef } from 'vue'
+  import { computed, ref, watch } from 'vue'
+  import type { ComputedRef, Ref } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   // 使用与已移除图片相同尺寸的占位头像

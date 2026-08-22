@@ -1,6 +1,7 @@
 /**
  * 业务系统动态路由注册服务。
  */
+
 import type { Router } from 'vue-router'
 import type { AppRouteRecord } from '@/types/router'
 import { RouteComponentLoader } from './RouteComponentLoader'

@@ -81,6 +81,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
   import { useUserStore } from '@/store/modules/user'
   import { useAppStore } from '@/store/modules/app'
   import { storeToRefs } from 'pinia'
@@ -89,7 +90,8 @@
   import { useMenuStore } from '@/store/modules/menu'
   import { formatMenuTitle } from '@/utils/router'
   import { handleMenuJump } from '@/utils/navigation'
-  import { type ScrollbarInstance } from 'element-plus'
+  import { ElDialog, ElInput, ElScrollbar } from 'element-plus'
+  import type { ScrollbarInstance } from 'element-plus'
 
   defineOptions({ name: 'AoGlobalSearch' })
 

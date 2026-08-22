@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useRouter } from 'vue-router'
   import { useCommon } from '@/hooks/core/useCommon'
   import { useUserStore } from '@/store/modules/user'
 

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watchEffect } from 'vue'
+  import { computed, ref, watchEffect } from 'vue'
 
   interface Props {
     size?: string | number

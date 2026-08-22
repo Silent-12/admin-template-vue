@@ -1,8 +1,8 @@
 /**
  * 路由组件加载服务。
  */
-import type { Component } from 'vue'
 import { h } from 'vue'
+import type { Component } from 'vue'
 
 type AsyncComponentLoader = () => Promise<Component>
 

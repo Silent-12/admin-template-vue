@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, watch, nextTick, onUnmounted, shallowRef } from 'vue'
-  import { useTransition, TransitionPresets } from '@vueuse/core'
+  import { computed, nextTick, onUnmounted, shallowRef, watch } from 'vue'
+  import { TransitionPresets, useTransition } from '@vueuse/core'
 
   // 类型定义
   interface CountToProps {

@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
   import SectionTitle from './SectionTitle.vue'
   import { useSettingStore } from '@/store/modules/setting'
   import { useSettingsConfig } from '../composables/useSettingsConfig'

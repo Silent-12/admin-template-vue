@@ -29,7 +29,8 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, reactive } from 'vue'
+  import { reactive, ref } from 'vue'
+  import { ElButton } from 'element-plus'
   import type { FormRules } from 'element-plus'
   import AoForm, { type FormItem } from '@/components/forms/AoForm.vue'
   import type {

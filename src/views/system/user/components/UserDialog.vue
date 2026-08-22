@@ -39,9 +39,11 @@
 </template>
 
 <script setup lang="ts">
-  import { ROLE_LIST_DATA } from '@/mock'
+  import { computed, nextTick, reactive, ref, watch } from 'vue'
+  import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElMessage, ElOption, ElSelect } from 'element-plus'
   import type { FormInstance, FormRules } from 'element-plus'
-  import type { UserDialogProps, UserDialogEmits } from '../types'
+  import { ROLE_LIST_DATA } from '@/mock'
+  import type { UserDialogEmits, UserDialogProps } from '../types'
 
   const props = withDefaults(defineProps<UserDialogProps>(), {
     modelValue: false

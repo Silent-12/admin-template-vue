@@ -42,13 +42,14 @@
 </template>
 
 <script setup lang="ts">
+  import { h, nextTick, ref } from 'vue'
+  import { ElButton, ElCard, ElMessage, ElMessageBox, ElSpace, ElTag } from 'element-plus'
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import AoImage from '@/components/media/AoImage.vue'
   import { fetchGetUserList } from '@/mock'
   import { useTable } from '@/hooks/core/useTable'
   import UserSearch from './components/UserSearch.vue'
   import UserDialog from './components/UserDialog.vue'
-  import { ElTag, ElMessageBox } from 'element-plus'
   import type { UserSearchParams } from '@/types/api/systemManage'
   import type { DialogType, UserListItem } from './types'
 
@@ -207,7 +208,7 @@
    */
   const deleteUser = (row: UserListItem): void => {
     console.log('删除用户:', row)
-    ElMessageBox.confirm(`确定要注销该用户吗？`, '注销用户', {
+    ElMessageBox.confirm('确定要注销该用户吗？', '注销用户', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'error'

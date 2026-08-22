@@ -109,9 +109,12 @@
 </template>
 
 <script setup lang="ts">
+  import { onMounted, onUnmounted, ref } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
   import { useFullscreen, useWindowSize } from '@vueuse/core'
+  import { ElDropdown, ElDropdownItem, ElDropdownMenu } from 'element-plus'
   import { LanguageEnum } from '@/enums'
   import { useSettingStore } from '@/store/modules/setting'
   import { useAppStore } from '@/store/modules/app'

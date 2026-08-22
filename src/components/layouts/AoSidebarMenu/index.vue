@@ -75,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref, watch } from 'vue'
   import AppConfig from '@/config'
   import { useSettingStore } from '@/store/modules/setting'
   import { useMenuStore } from '@/store/modules/menu'
@@ -82,7 +83,8 @@
   import SidebarSubmenu from './widget/SidebarSubmenu.vue'
   import { useCommon } from '@/hooks/core/useCommon'
   import { useRoute, useRouter } from 'vue-router'
-  import { useWindowSize, useTimeoutFn } from '@vueuse/core'
+  import { useTimeoutFn, useWindowSize } from '@vueuse/core'
+  import { ElMenu, ElScrollbar, ElTag } from 'element-plus'
 
   defineOptions({ name: 'AoSidebarMenu' })
 

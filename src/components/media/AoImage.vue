@@ -41,7 +41,8 @@
 </template>
 
 <script setup lang="ts">
-  import { ElIcon, ElImage, type ImageProps } from 'element-plus'
+  import { ElIcon, ElImage } from 'element-plus'
+  import type { ImageProps } from 'element-plus'
   import { Loading, PictureFilled } from '@element-plus/icons-vue'
 
   defineOptions({

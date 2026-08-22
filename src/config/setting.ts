@@ -19,7 +19,7 @@
  */
 
 import AppConfig from '@/config'
-import { SystemThemeEnum, MenuThemeEnum } from '@/enums'
+import { MenuThemeEnum, SystemThemeEnum } from '@/enums'
 
 /**
  * 系统设置默认值配置

@@ -39,8 +39,10 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
-  import { ElMessage, ElMessageBox } from 'element-plus'
+  import { ElMessage, ElMessageBox, ElPopover } from 'element-plus'
   import { useUserStore } from '@/store/modules/user'
 
   defineOptions({ name: 'AoUserMenu' })

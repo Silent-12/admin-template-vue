@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { getEnabledGlobalComponents } from '@/config/component'
   defineOptions({ name: 'AoGlobalComponent' })
   const enabledComponents = computed(() => getEnabledGlobalComponents())

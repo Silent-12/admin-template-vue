@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import type { WgtProjectSearchParams } from '@/types/api/versionControl'
 
   defineOptions({ name: 'ProjectSearch' })
