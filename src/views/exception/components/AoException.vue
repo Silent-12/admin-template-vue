@@ -16,6 +16,7 @@
   import { useRouter } from 'vue-router'
   import { useCommon } from '@/hooks/core/useCommon'
   import { useUserStore } from '@/store/modules/user'
+  import { ElButton } from 'element-plus'
 
   const router = useRouter()
   const userStore = useUserStore()
