@@ -21,14 +21,14 @@
         @pagination:current-change="handleCurrentChange"
       >
         <!-- 应用ID -->
-        <template #appid="{ row }">
-          <div class="appid">
-            <span class="text">{{ row.appid || '暂无' }}</span>
+        <template #appId="{ row }">
+          <div class="app-id">
+            <span class="text">{{ row.appId || '暂无' }}</span>
             <ElButton
               type="primary"
               link
-              :disabled="!row.appid"
-              @click="handleCopyAppid(row.appid)"
+              :disabled="!row.appId"
+              @click="handleCopyAppId(row.appId)"
             >
               <ElIcon><CopyDocument /></ElIcon>
             </ElButton>
@@ -76,9 +76,9 @@
   import { CopyDocument, Plus } from '@element-plus/icons-vue'
   import dayjs from 'dayjs'
   import { ElButton, ElCard, ElIcon, ElTooltip } from 'element-plus'
-  import type { WgtProjectItem, WgtProjectSearchParams } from '@/types/api/versionControl'
+  import type { ReleaseProjectItem, ReleaseProjectSearchParams } from '@/types/api/versionControl'
   import type { PaginatedResponse } from '@/types/api/common'
-  import { fetchGetWgtProjectList } from '@/api/versionControl/wgtProject'
+  import { fetchGetReleaseProjectList } from '@/api/versionControl/releaseProject'
   import { copyText } from '@/utils'
   import { useTable } from '@/hooks/core/useTable'
   import type { ColumnOption } from '@/types/component'
@@ -102,9 +102,9 @@
    * @return 标准分页项目数据。
    */
   const fetchProjectTableData = async (
-    params: WgtProjectSearchParams
-  ): Promise<PaginatedResponse<WgtProjectItem>> => {
-    const response = await fetchGetWgtProjectList(params)
+    params: ReleaseProjectSearchParams
+  ): Promise<PaginatedResponse<ReleaseProjectItem>> => {
+    const response = await fetchGetReleaseProjectList(params)
     return {
       records: response.list || [],
       total: response.pagination?.total || 0,
@@ -131,7 +131,7 @@
       apiFn: fetchProjectTableData,
       apiParams: { page: 1, pageSize: 10 },
       paginationKey: { current: 'page', size: 'pageSize' },
-      columnsFactory: (): ColumnOption<WgtProjectItem>[] => [
+      columnsFactory: (): ColumnOption<ReleaseProjectItem>[] => [
         { type: 'index', width: 60, label: '序号' },
         {
           prop: 'name',
@@ -145,7 +145,7 @@
           useSlot: true,
           slotName: 'description'
         },
-        { prop: 'appid', label: '应用 ID', minWidth: 150, useSlot: true, slotName: 'appid' },
+        { prop: 'appId', label: '应用 ID', minWidth: 150, useSlot: true, slotName: 'appId' },
         {
           prop: 'createdAt',
           label: '创建时间',
@@ -178,7 +178,7 @@
    * @description 执行项目筛选并回到第一页。
    * @param params 搜索组件提交的筛选条件。
    */
-  const handleSearch = (params: WgtProjectSearchParams) => {
+  const handleSearch = (params: ReleaseProjectSearchParams) => {
     replaceSearchParams(params)
     refreshData()
   }
@@ -202,7 +202,7 @@
    * @description 打开项目编辑表单。
    * @param project 当前项目数据。
    */
-  const handleEditProject = (project: WgtProjectItem) => {
+  const handleEditProject = (project: ReleaseProjectItem) => {
     projectFormRef.value?.open(project)
   }
 
@@ -210,18 +210,18 @@
    * @description 查看项目详情。
    * @param project 当前项目数据。
    */
-  const handleViewProject = (project: WgtProjectItem) => {
-    if (!project.appid) return
-    router.push({ name: 'ProjectDetails', params: { appid: project.appid } })
+  const handleViewProject = (project: ReleaseProjectItem) => {
+    if (!project.appId) return
+    router.push({ name: 'ProjectDetails', params: { appId: project.appId } })
   }
 
   /**
-   * @description 复制项目 AppID 到系统剪贴板。
-   * @param appid 需要复制的项目 AppID。
+   * @description 复制项目 appId 到系统剪贴板。
+   * @param appId 需要复制的项目 appId。
    */
-  const handleCopyAppid = async (appid: string) => {
-    if (!appid) return
-    await copyText(appid, 'AppID 复制成功')
+  const handleCopyAppId = async (appId: string) => {
+    if (!appId) return
+    await copyText(appId, 'appId 复制成功')
   }
 
   /**
@@ -236,7 +236,7 @@
   @use '@/assets/styles/mixin.scss' as *;
 
   .project-list {
-    .appid {
+    .app-id {
       display: flex;
       gap: 8px;
       align-items: center;

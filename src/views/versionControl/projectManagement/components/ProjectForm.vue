@@ -34,11 +34,11 @@
   import type { FormRules } from 'element-plus'
   import AoForm, { type FormItem } from '@/components/forms/AoForm.vue'
   import type {
-    WgtProjectItem,
-    CreateWgtProjectParams,
-    UpdateWgtProjectParams
+    ReleaseProjectItem,
+    CreateReleaseProjectParams,
+    UpdateReleaseProjectParams
   } from '@/types/api/versionControl'
-  import { fetchCreateWgtProject, fetchUpdateWgtProject } from '@/api/versionControl/wgtProject'
+  import { fetchCreateReleaseProject, fetchUpdateReleaseProject } from '@/api/versionControl/releaseProject'
 
   defineOptions({
     name: 'ProjectForm'
@@ -54,7 +54,7 @@
   const submitLoading = ref(false)
   // 当前操作上下文
   const isEdit = ref(false)
-  const currentAppid = ref('')
+  const currentAppId = ref('')
   // 表单实例
   const formRef = ref<InstanceType<typeof AoForm>>()
   // 表单数据
@@ -102,19 +102,19 @@
 
   /**
    * @description 打开项目弹窗，并根据是否传入项目数据初始化新增或编辑态
-   * @param {WgtProjectItem} [row] 选中的项目数据，不传则为新增
+   * @param {ReleaseProjectItem} [row] 选中的项目数据，不传则为新增
    * @return {void} 无返回值
    */
-  const open = (row?: WgtProjectItem) => {
+  const open = (row?: ReleaseProjectItem) => {
     isEdit.value = !!row
     visible.value = true
 
     if (row) {
-      currentAppid.value = row.appid
+      currentAppId.value = row.appId
       formData.name = row.name
       formData.description = row.description || ''
     } else {
-      currentAppid.value = ''
+      currentAppId.value = ''
       formData.name = ''
       formData.description = ''
     }
@@ -134,17 +134,17 @@
     try {
       submitLoading.value = true
       if (isEdit.value) {
-        const params: UpdateWgtProjectParams = {
+        const params: UpdateReleaseProjectParams = {
           name: formData.name,
           description: formData.description
         }
-        await fetchUpdateWgtProject(currentAppid.value, params)
+        await fetchUpdateReleaseProject(currentAppId.value, params)
       } else {
-        const params: CreateWgtProjectParams = {
+        const params: CreateReleaseProjectParams = {
           name: formData.name,
           description: formData.description
         }
-        await fetchCreateWgtProject(params)
+        await fetchCreateReleaseProject(params)
       }
       visible.value = false
       emit('success')

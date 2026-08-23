@@ -1,5 +1,5 @@
 /**
- * wgt 应用路由。
+ * 版本发布应用路由。
  */
 import type { AppRouteRecord } from '@/types/router'
 import { RoutePath } from '@/router/constants'
@@ -21,7 +21,7 @@ export const versionControlRoutes: AppRouteRecord = {
       }
     },
     {
-      path: 'projectDetails/:appid',
+      path: 'projectDetails/:appId',
       name: 'ProjectDetails',
       component: () => import('@/views/versionControl/projectManagement/details/index.vue'),
       meta: {

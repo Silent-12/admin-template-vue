@@ -10,17 +10,17 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import type { WgtProjectSearchParams } from '@/types/api/versionControl'
+  import type { ReleaseProjectSearchParams } from '@/types/api/versionControl'
 
   defineOptions({ name: 'ProjectSearch' })
 
   const props = defineProps<{
-    modelValue: WgtProjectSearchParams
+    modelValue: ReleaseProjectSearchParams
   }>()
 
   const emit = defineEmits<{
-    (e: 'update:modelValue', value: WgtProjectSearchParams): void
-    (e: 'search', value: WgtProjectSearchParams): void
+    (e: 'update:modelValue', value: ReleaseProjectSearchParams): void
+    (e: 'search', value: ReleaseProjectSearchParams): void
     (e: 'reset'): void
   }>()
 
@@ -29,7 +29,7 @@
    */
   const formData = computed({
     get: () => props.modelValue as Record<string, unknown>,
-    set: (value) => emit('update:modelValue', value as WgtProjectSearchParams)
+    set: (value) => emit('update:modelValue', value as ReleaseProjectSearchParams)
   })
 
   /** 搜索表单配置 */
