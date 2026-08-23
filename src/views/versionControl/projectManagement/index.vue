@@ -135,13 +135,13 @@
         { type: 'index', width: 60, label: '序号' },
         {
           prop: 'name',
-          label: '项目名称',
-          minWidth: 120
+          label: '项目名称'
+          // minWidth: 120
         },
         {
           prop: 'description',
           label: '项目描述',
-          minWidth: 260,
+          // minWidth: 260,
           useSlot: true,
           slotName: 'description'
         },
@@ -149,7 +149,7 @@
         {
           prop: 'createdAt',
           label: '创建时间',
-          width: 180,
+          width: 160,
           align: 'center',
           useSlot: true,
           slotName: 'createdAt'
@@ -157,7 +157,7 @@
         {
           prop: 'updatedAt',
           label: '更新时间',
-          width: 180,
+          width: 160,
           align: 'center',
           useSlot: true,
           slotName: 'updatedAt'
