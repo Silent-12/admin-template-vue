@@ -91,6 +91,7 @@
   import { computed, ref, watch } from 'vue'
   import type { ComputedRef, Ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { ElButton } from 'element-plus'
 
   // 使用与已移除图片相同尺寸的占位头像
   const avatar1 = 'https://dummyimage.com/160x160.png'
