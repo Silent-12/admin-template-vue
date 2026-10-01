@@ -25,7 +25,8 @@
           @click="clickTab(item)"
           @contextmenu.prevent="(e: MouseEvent) => showMenu(e, item.path)"
         >
-          <AoSvgIcon v-show="item.icon" :icon="item.icon" class="work-tab__item-icon" />
+          <!-- work-tab不展示icon -->
+          <!-- <AoSvgIcon v-show="item.icon" :icon="item.icon" class="work-tab__item-icon" /> -->
           {{ item.customTitle || formatMenuTitle(item.title) }}
           <span
             v-if="list.length > 1 && !item.fixedTab"
