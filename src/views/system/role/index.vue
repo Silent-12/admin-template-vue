@@ -1,64 +1,58 @@
 <!-- 角色管理页面 -->
+<!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
 <template>
   <div class="ao-full-height">
-    <RoleSearch
-      v-show="showSearchBar"
-      v-model="searchForm"
+    <!-- 搜索栏 + 表格头部 + 表格 -->
+    <AoTable
+      v-model:search-form="searchForm"
+      v-model:column-checks="columnChecks"
+      v-model:show-search-bar="showSearchBar"
+      :search-items="searchItems"
+      :loading="loading"
+      :data="data"
+      :columns="columns"
+      :pagination="pagination"
       @search="handleSearch"
       @reset="resetSearchParams"
-    ></RoleSearch>
+      @refresh="refreshData"
+      @pagination:size-change="handleSizeChange"
+      @pagination:current-change="handleCurrentChange"
+    >
+      <!-- 表格头部左侧操作区 -->
+      <template #header-left>
+        <ElSpace wrap>
+          <ElButton @click="showDialog('add')" v-ripple>新增角色</ElButton>
+        </ElSpace>
+      </template>
 
-    <ElCard class="ao-table-card" :style="{ 'margin-top': showSearchBar ? '12px' : '0' }">
-      <AoTableHeader
-        v-model:columns="columnChecks"
-        v-model:showSearchBar="showSearchBar"
-        :loading="loading"
-        @refresh="refreshData"
-      >
-        <template #left>
-          <ElSpace wrap>
-            <ElButton @click="showDialog('add')" v-ripple>新增角色</ElButton>
-          </ElSpace>
-        </template>
-      </AoTableHeader>
+      <!-- 角色编辑弹窗 -->
+      <template #footer>
+        <RoleEditDialog
+          v-model="dialogVisible"
+          :dialog-type="dialogType"
+          :role-data="currentRoleData"
+          @success="refreshData"
+        />
 
-      <!-- 表格 -->
-      <AoTable
-        :loading="loading"
-        :data="data"
-        :columns="columns"
-        :pagination="pagination"
-        @pagination:size-change="handleSizeChange"
-        @pagination:current-change="handleCurrentChange"
-      >
-      </AoTable>
-    </ElCard>
-
-    <!-- 角色编辑弹窗 -->
-    <RoleEditDialog
-      v-model="dialogVisible"
-      :dialog-type="dialogType"
-      :role-data="currentRoleData"
-      @success="refreshData"
-    />
-
-    <!-- 菜单权限弹窗 -->
-    <RolePermissionDialog
-      v-model="permissionDialog"
-      :role-data="currentRoleData"
-      @success="refreshData"
-    />
+        <!-- 菜单权限弹窗 -->
+        <RolePermissionDialog
+          v-model="permissionDialog"
+          :role-data="currentRoleData"
+          @success="refreshData"
+        />
+      </template>
+    </AoTable>
   </div>
 </template>
 
 <script setup lang="ts">
   import { h, ref } from 'vue'
-  import { ElButton, ElCard, ElMessage, ElSpace } from 'element-plus'
+  import { ElButton, ElMessage, ElSpace } from 'element-plus'
   import type { ButtonMoreItem } from '@/components/forms/AoButtonMore.vue'
+  import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetRoleList } from '@/mock'
   import AoButtonMore from '@/components/forms/AoButtonMore.vue'
-  import RoleSearch from './components/RoleSearch.vue'
   import RoleEditDialog from './components/RoleEditDialog.vue'
   import RolePermissionDialog from './components/RolePermissionDialog.vue'
   import { ElTag, ElMessageBox } from 'element-plus'
@@ -76,6 +70,63 @@
   })
 
   const showSearchBar = ref(false)
+
+  // 角色状态选项
+  const statusOptions = [
+    { label: '启用', value: true },
+    { label: '禁用', value: false }
+  ]
+
+  // 搜索项配置（同 AoSearchBar 的 items）
+  const searchItems: SearchFormItem[] = [
+    {
+      label: '角色名称',
+      key: 'roleName',
+      type: 'input',
+      props: { placeholder: '请输入角色名称', clearable: true }
+    },
+    {
+      label: '角色编码',
+      key: 'roleCode',
+      type: 'input',
+      props: { placeholder: '请输入角色编码', clearable: true }
+    },
+    {
+      label: '角色描述',
+      key: 'description',
+      type: 'input',
+      props: { placeholder: '请输入角色描述', clearable: true }
+    },
+    {
+      label: '角色状态',
+      key: 'enabled',
+      type: 'select',
+      props: {
+        placeholder: '请选择状态',
+        options: statusOptions,
+        clearable: true
+      }
+    },
+    {
+      label: '创建日期',
+      key: 'daterange',
+      type: 'datetime',
+      props: {
+        style: { width: '100%' },
+        placeholder: '请选择日期范围',
+        type: 'daterange',
+        rangeSeparator: '至',
+        startPlaceholder: '开始日期',
+        endPlaceholder: '结束日期',
+        valueFormat: 'YYYY-MM-DD',
+        shortcuts: [
+          { text: '今日', value: [new Date(), new Date()] },
+          { text: '最近一周', value: [new Date(Date.now() - 604800000), new Date()] },
+          { text: '最近一个月', value: [new Date(Date.now() - 2592000000), new Date()] }
+        ]
+      }
+    }
+  ]
 
   const dialogVisible = ref(false)
   const permissionDialog = ref(false)

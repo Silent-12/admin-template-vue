@@ -1,59 +1,54 @@
 <!-- 菜单管理页面 -->
+<!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
 <template>
   <div class="menu-page ao-full-height">
-    <!-- 搜索栏 -->
-    <AoSearchBar
-      v-model="formFilters"
-      :items="formItems"
-      :showExpand="false"
-      @reset="handleReset"
+    <!-- 搜索栏 + 表格头部 + 表格 -->
+    <AoTable
+      ref="tableRef"
+      v-model:search-form="formFilters"
+      v-model:column-checks="columnChecks"
+      :search-items="searchItems"
+      :search-show-expand="false"
+      :header-show-zebra="false"
+      :loading="loading"
+      :columns="columns"
+      :data="filteredTableData"
+      :stripe="false"
+      rowKey="path"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      :default-expand-all="false"
       @search="handleSearch"
-    />
-
-    <ElCard class="ao-table-card">
-      <!-- 表格头部 -->
-      <AoTableHeader
-        :showZebra="false"
-        :loading="loading"
-        v-model:columns="columnChecks"
-        @refresh="handleRefresh"
-      >
-        <template #left>
-          <ElButton v-auth="'add'" @click="handleAddMenu" v-ripple> 添加菜单 </ElButton>
-          <ElButton @click="toggleExpand" v-ripple>
-            {{ isExpanded ? '收起' : '展开' }}
-          </ElButton>
-        </template>
-      </AoTableHeader>
-
-      <AoTable
-        ref="tableRef"
-        rowKey="path"
-        :loading="loading"
-        :columns="columns"
-        :data="filteredTableData"
-        :stripe="false"
-        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-        :default-expand-all="false"
-      />
+      @reset="handleReset"
+      @refresh="handleRefresh"
+    >
+      <!-- 表格头部左侧操作区 -->
+      <template #header-left>
+        <ElButton v-auth="'add'" @click="handleAddMenu" v-ripple> 添加菜单 </ElButton>
+        <ElButton @click="toggleExpand" v-ripple>
+          {{ isExpanded ? '收起' : '展开' }}
+        </ElButton>
+      </template>
 
       <!-- 菜单弹窗 -->
-      <MenuDialog
-        v-model="dialogVisible"
-        :type="dialogType"
-        :editData="editData"
-        :lockType="lockMenuType"
-        @submit="handleSubmit"
-      />
-    </ElCard>
+      <template #footer>
+        <MenuDialog
+          v-model="dialogVisible"
+          :type="dialogType"
+          :editData="editData"
+          :lockType="lockMenuType"
+          @submit="handleSubmit"
+        />
+      </template>
+    </AoTable>
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, h, nextTick, onMounted, reactive, ref } from 'vue'
-  import { ElButton, ElCard, ElMessage } from 'element-plus'
+  import { ElButton, ElMessage } from 'element-plus'
   import { formatMenuTitle } from '@/utils/router'
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
+  import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { AppRouteRecord } from '@/types/router'
   import MenuDialog from './components/MenuDialog.vue'
@@ -80,10 +75,12 @@
     route: ''
   }
 
-  const formFilters = reactive({ ...initialSearchState })
+  // 搜索表单（通过 v-model:search-form 与 AoTable 双向绑定）
+  const formFilters = ref({ ...initialSearchState })
   const appliedFilters = reactive({ ...initialSearchState })
 
-  const formItems = computed(() => [
+  // 搜索项配置（同 AoSearchBar 的 items）
+  const searchItems: SearchFormItem[] = [
     {
       label: '菜单名称',
       key: 'name',
@@ -96,7 +93,7 @@
       type: 'input',
       props: { clearable: true }
     }
-  ])
+  ]
 
   onMounted(() => {
     getMenuList()
@@ -239,7 +236,7 @@
    * 重置搜索条件
    */
   const handleReset = (): void => {
-    Object.assign(formFilters, { ...initialSearchState })
+    Object.assign(formFilters.value, { ...initialSearchState })
     Object.assign(appliedFilters, { ...initialSearchState })
     getMenuList()
   }
@@ -248,7 +245,7 @@
    * 执行搜索
    */
   const handleSearch = (): void => {
-    Object.assign(appliedFilters, { ...formFilters })
+    Object.assign(appliedFilters, { ...formFilters.value })
     getMenuList()
   }
 

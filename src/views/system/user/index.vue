@@ -1,56 +1,58 @@
 <!-- 用户管理页面 -->
 <!-- ao-full-height 自动计算出页面剩余高度 -->
-<!-- ao-table-card 一个符合系统样式的 class，同时自动撑满剩余高度 -->
+<!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
 <!-- 更多 useTable 使用示例请移步至 功能示例 下面的高级表格示例或者查看官方文档 -->
 <!-- useTable 文档：https://www.artd.pro/docs/zh/guide/hooks/use-table.html -->
 <template>
   <div class="user-page ao-full-height">
-    <!-- 搜索栏 -->
-    <UserSearch v-model="searchForm" @search="handleSearch" @reset="resetSearchParams"></UserSearch>
-
-    <ElCard class="ao-table-card">
-      <!-- 表格头部 -->
-      <AoTableHeader v-model:columns="columnChecks" :loading="loading" @refresh="refreshData">
-        <template #left>
-          <ElSpace wrap>
-            <ElButton @click="showDialog('add')" v-ripple>新增用户</ElButton>
-          </ElSpace>
-        </template>
-      </AoTableHeader>
-
-      <!-- 表格 -->
-      <AoTable
-        :loading="loading"
-        :data="data"
-        :columns="columns"
-        :pagination="pagination"
-        @selection-change="handleSelectionChange"
-        @pagination:size-change="handleSizeChange"
-        @pagination:current-change="handleCurrentChange"
-      >
-      </AoTable>
+    <!-- 搜索栏 + 表格头部 + 表格 -->
+    <AoTable
+      v-model:search-form="searchForm"
+      v-model:column-checks="columnChecks"
+      :search-items="searchItems"
+      :search-rules="searchRules"
+      :loading="loading"
+      :data="data"
+      :columns="columns"
+      :pagination="pagination"
+      @search="handleSearch"
+      @reset="resetSearchParams"
+      @refresh="refreshData"
+      @selection-change="handleSelectionChange"
+      @pagination:size-change="handleSizeChange"
+      @pagination:current-change="handleCurrentChange"
+    >
+      <!-- 表格头部左侧操作区 -->
+      <template #header-left>
+        <ElSpace wrap>
+          <ElButton @click="showDialog('add')" v-ripple>新增用户</ElButton>
+        </ElSpace>
+      </template>
 
       <!-- 用户弹窗 -->
-      <UserDialog
-        v-model="dialogVisible"
-        :type="dialogType"
-        :user-data="currentUserData"
-        @submit="handleDialogSubmit"
-      />
-    </ElCard>
+      <template #footer>
+        <UserDialog
+          v-model="dialogVisible"
+          :type="dialogType"
+          :user-data="currentUserData"
+          @submit="handleDialogSubmit"
+        />
+      </template>
+    </AoTable>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { h, nextTick, ref } from 'vue'
-  import { ElButton, ElCard, ElMessage, ElSpace } from 'element-plus'
+  import { computed, h, nextTick, onMounted, ref } from 'vue'
+  import { ElButton, ElMessage, ElSpace } from 'element-plus'
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import AoImage from '@/components/media/AoImage.vue'
   import { fetchGetUserList } from '@/mock'
   import { useTable } from '@/hooks/core/useTable'
-  import UserSearch from './components/UserSearch.vue'
   import UserDialog from './components/UserDialog.vue'
   import { ElTag, ElMessageBox } from 'element-plus'
+  import type { FormRules } from 'element-plus'
+  import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
   import type { UserSearchParams } from '@/types/api/system-manage'
   import type { DialogType, UserListItem } from './types'
 
@@ -72,6 +74,77 @@
     userEmail: undefined,
     status: '1'
   })
+
+  // 搜索表单校验规则
+  const searchRules: FormRules = {
+    userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
+  }
+
+  // 用户状态选项
+  const statusOptions = ref<{ label: string; value: string; disabled?: boolean }[]>([])
+
+  /**
+   * @description 模拟接口返回用户状态选项
+   * @return 用户状态选项列表
+   */
+  const fetchStatusOptions = (): Promise<typeof statusOptions.value> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          { label: '在线', value: '1' },
+          { label: '离线', value: '2' },
+          { label: '异常', value: '3' },
+          { label: '注销', value: '4' }
+        ])
+      }, 1000)
+    })
+  }
+
+  onMounted(async () => {
+    statusOptions.value = await fetchStatusOptions()
+  })
+
+  // 搜索项配置（同 AoSearchBar 的 items）
+  const searchItems = computed<SearchFormItem[]>(() => [
+    {
+      label: '用户名',
+      key: 'userName',
+      type: 'input',
+      props: { placeholder: '请输入用户名', clearable: true }
+    },
+    {
+      label: '手机号',
+      key: 'userPhone',
+      type: 'input',
+      props: { placeholder: '请输入手机号', maxlength: '11' }
+    },
+    {
+      label: '邮箱',
+      key: 'userEmail',
+      type: 'input',
+      props: { placeholder: '请输入邮箱' }
+    },
+    {
+      label: '状态',
+      key: 'status',
+      type: 'select',
+      props: {
+        placeholder: '请选择状态',
+        options: statusOptions.value
+      }
+    },
+    {
+      label: '性别',
+      key: 'userGender',
+      type: 'radiogroup',
+      props: {
+        options: [
+          { label: '男', value: '1' },
+          { label: '女', value: '2' }
+        ]
+      }
+    }
+  ])
 
   // 用户状态配置
   const USER_STATUS_CONFIG = {

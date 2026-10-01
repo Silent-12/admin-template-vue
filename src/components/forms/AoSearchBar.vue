@@ -298,13 +298,18 @@
   const formModel = ref<SearchFormModel>(cloneModelValue(props.modelValue))
   const initialModelValue = ref<SearchFormModel>(cloneModelValue(props.modelValue))
 
+  /** 最近一次由组件内部抛出的表单值，用于识别并跳过父级回写 */
+  let lastEmittedModel: SearchFormModel | undefined
+
   /**
    * 同步父级 v-model 变化
-   * @description 当父组件通过 v-model 传入新值时，同步更新本地表单数据
+   * @description 当父组件通过 v-model 传入新值时，同步更新本地表单数据；
+   * 组件自身 emit 引起的回写需要跳过，否则表单快照会被不断覆盖，导致重置失效
    */
   watch(
     () => props.modelValue,
     (newValue) => {
+      if (newValue === lastEmittedModel) return
       formModel.value = cloneModelValue(newValue)
       initialModelValue.value = cloneModelValue(newValue)
     }
@@ -393,6 +398,7 @@
       formModel.value[key] = normalizedValue
     }
 
+    lastEmittedModel = formModel.value
     emit('update:modelValue', formModel.value)
   }
 
@@ -536,6 +542,7 @@
     })
     Object.assign(formModel.value, cloneModelValue(initialModelValue.value))
 
+    lastEmittedModel = formModel.value
     emit('update:modelValue', formModel.value)
     // 触发 reset 事件
     emit('reset')

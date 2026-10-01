@@ -12,6 +12,8 @@
  * 4. 缓存系统 - 智能请求缓存、多种清理策略、自动过期管理、统计信息
  * 5. 刷新策略 - 提供 5 种刷新方法适配不同业务场景（新增/更新/删除/手动/定时）
  * 6. 列配置管理 - 动态显示/隐藏列、列排序、配置持久化、批量操作（可选）
+ * 7. 生命周期钩子 - 数据加载、错误、缓存命中与加载状态变化的统一回调
+ * 8. 分级日志 - 通过 logLevel 控制调试日志的输出粒度
  */
 
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick, readonly } from 'vue'
@@ -34,6 +36,9 @@ import { tableConfig } from './table/tableConfig'
 type InferApiParams<T> = T extends (params: infer P) => any ? P : never
 type InferApiResponse<T> = T extends (params: any) => Promise<infer R> ? R : never
 type InferRecordType<T> = T extends PaginatedResponse<infer U> ? U : never
+
+/** 日志级别，级别越高输出的日志越少 */
+export type LogLevel = 'info' | 'warn' | 'error'
 
 // 优化的配置接口 - 支持自动类型推导
 export interface UseTableConfig<
@@ -91,7 +96,7 @@ export interface UseTableConfig<
     onError?: (error: TableError) => void
     /** 缓存命中回调（从缓存获取数据时触发） */
     onCacheHit?: (data: TRecord[], response: ApiResponse<TRecord>) => void
-    /** 加载状态变化回调 */
+    /** 加载状态变化回调，仅在 loading 由 false 变 true 或由 true 变 false 时触发 */
     onLoading?: (loading: boolean) => void
     /** 重置表单回调函数 */
     resetFormCallback?: () => void
@@ -99,10 +104,10 @@ export interface UseTableConfig<
 
   // 调试配置
   debug?: {
-    /** 是否启用日志输出 */
+    /** 是否启用日志输出，关闭时任何级别都不会输出 */
     enableLog?: boolean
-    /** 日志级别 */
-    logLevel?: 'info' | 'warn' | 'error'
+    /** 日志级别，低于该级别的日志不输出（默认 'info'，即全部输出） */
+    logLevel?: LogLevel
   }
 }
 
@@ -122,6 +127,7 @@ export function useTable<TApiFn extends (params: any) => Promise<any>>(
  * - 智能刷新策略
  * - 错误处理
  * - 列配置管理
+ * - 生命周期回调与分级日志
  */
 function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
   config: UseTableConfig<TApiFn>
@@ -144,8 +150,8 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
       debounceTime = 300,
       maxCacheSize = 50
     } = {},
-    hooks: { onSuccess, onError, onCacheHit, resetFormCallback } = {},
-    debug: { enableLog = false } = {}
+    hooks: { onSuccess, onError, onCacheHit, onLoading, resetFormCallback } = {},
+    debug: { enableLog = false, logLevel = 'info' } = {}
   } = config
 
   // 分页字段名配置：优先使用传入的配置，否则使用全局配置
@@ -155,20 +161,35 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
   // 响应式触发器，用于手动更新缓存统计信息
   const cacheUpdateTrigger = ref(0)
 
+  /** 日志级别权重，数值越大越严重 */
+  const LOG_LEVEL_WEIGHT: Record<LogLevel, number> = {
+    info: 0,
+    warn: 1,
+    error: 2
+  }
+
+  /**
+   * @description 判断指定级别的日志是否需要输出
+   * @param level 日志级别
+   * @return 是否需要输出
+   */
+  const shouldLog = (level: LogLevel): boolean =>
+    enableLog && LOG_LEVEL_WEIGHT[level] >= LOG_LEVEL_WEIGHT[logLevel]
+
   // 日志工具函数
   const logger = {
     log: (message: string, ...args: unknown[]) => {
-      if (enableLog) {
+      if (shouldLog('info')) {
         console.log(`[useTable] ${message}`, ...args)
       }
     },
     warn: (message: string, ...args: unknown[]) => {
-      if (enableLog) {
+      if (shouldLog('warn')) {
         console.warn(`[useTable] ${message}`, ...args)
       }
     },
     error: (message: string, ...args: unknown[]) => {
-      if (enableLog) {
+      if (shouldLog('error')) {
         console.error(`[useTable] ${message}`, ...args)
       }
     }
@@ -181,6 +202,16 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
   type LoadingState = 'idle' | 'loading' | 'success' | 'error'
   const loadingState = ref<LoadingState>('idle')
   const loading = computed(() => loadingState.value === 'loading')
+
+  /**
+   * @description 更新加载状态，仅在状态真正变化时通知外部 onLoading 回调
+   * @param state 目标加载状态
+   */
+  const setLoadingState = (state: LoadingState): void => {
+    if (loadingState.value === state) return
+    loadingState.value = state
+    onLoading?.(state === 'loading')
+  }
 
   // 错误状态
   const error = ref<TableError | null>(null)
@@ -284,7 +315,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
     abortController = currentController
 
     // 状态机：进入 loading 状态
-    loadingState.value = 'loading'
+    setLoadingState('loading')
     error.value = null
 
     try {
@@ -324,7 +355,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
           }
 
           // 状态机：缓存命中，进入 success 状态
-          loadingState.value = 'success'
+          setLoadingState('success')
 
           // 缓存命中时触发专门的回调，而不是 onSuccess
           if (onCacheHit) {
@@ -376,7 +407,7 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
       }
 
       // 状态机：请求成功，进入 success 状态
-      loadingState.value = 'success'
+      setLoadingState('success')
 
       // 成功回调
       if (onSuccess) {
@@ -385,14 +416,24 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
 
       return standardResponse
     } catch (err) {
+      // 当前请求已被后续请求取代时，不再回写状态，避免覆盖最新请求的 loading 与错误
+      const isStale = abortController !== currentController
+
       if (err instanceof Error && err.message === '请求已取消') {
         // 请求被取消，回到 idle 状态
-        loadingState.value = 'idle'
+        if (!isStale) {
+          setLoadingState('idle')
+        }
+        return { records: [], total: 0, current: 1, size: 10 }
+      }
+
+      // 已被后续请求取代的失败无需上报，结果以最新请求为准
+      if (isStale) {
         return { records: [], total: 0, current: 1, size: 10 }
       }
 
       // 状态机：请求失败，进入 error 状态
-      loadingState.value = 'error'
+      setLoadingState('error')
       data.value = []
       const tableError = handleError(err, '获取表格数据失败')
       throw tableError

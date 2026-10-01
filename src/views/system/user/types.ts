@@ -1,6 +1,6 @@
 /** 用户管理页私有类型定义 */
 
-import type { UserListItem as ApiUserListItem, UserSearchParams } from '@/types/api/system-manage'
+import type { UserListItem as ApiUserListItem } from '@/types/api/system-manage'
 
 /**
  * 用户弹窗类型
@@ -10,19 +10,6 @@ export type DialogType = 'add' | 'edit'
 
 /** 用户列表项类型别名 */
 export type UserListItem = ApiUserListItem
-
-/** 用户搜索组件 Props */
-export interface UserSearchProps {
-  /** 搜索表单双向绑定值 */
-  modelValue: UserSearchParams
-}
-
-/** 用户搜索组件 Emits */
-export interface UserSearchEmits {
-  (e: 'update:modelValue', value: UserSearchParams): void
-  (e: 'search', params: UserSearchParams): void
-  (e: 'reset'): void
-}
 
 /** 用户弹窗组件 Props */
 export interface UserDialogProps {

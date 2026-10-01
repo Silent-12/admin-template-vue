@@ -79,7 +79,7 @@
   - 通用基础组件放在 `src/components/` 下，按类别（`base/`、`banners/`、`forms/`、`layouts/`、`media/`、`others/`、`tables/` 等）分子目录。
   - 无子组件或私有资源的通用组件直接使用大驼峰文件名（如 `src/components/layouts/AoFastEnter.vue`）；包含子组件或私有资源的组件保留大驼峰目录和 `index.vue` 入口，组件私有样式同名 `style.scss`，主题样式同名 `theme.scss`。
   - 仅服务单一业务的组件放在对应页面的 `src/views/<业务模块>/components/` 下，并由业务页面显式引入，不作为通用组件注册。
-  - 业务页面放在 `src/views/` 下，按业务模块分子目录（如 `system/user/`、`system/role/`、`system/menu/`）；页面内的弹窗、搜索条等子模块放在对应模块的 `components/` 子目录中。
+  - 业务页面放在 `src/views/` 下，按业务模块分子目录（如 `system/user/`、`system/role/`、`system/menu/`）；页面内的弹窗、抽屉等子模块放在对应模块的 `components/` 子目录中。
 
 - 状态管理使用 Pinia，模块定义在 `src/store/modules/` 下，每个 store 一个文件，命名与业务域对应（如 `user.ts`、`menu.ts`、`setting.ts`、`worktab.ts`）；持久化通过 `pinia-plugin-persistedstate`，key 命名需语义清晰。
   - Pinia Setup Store 的持久化示例：
@@ -134,8 +134,8 @@
 
 - 后续凡是在 `.env` / `.env.development` / `.env.production` 中新增环境变量，必须以 `VITE_` 前缀开头，并同步更新到其余两个环境文件保持字段对齐；新增的环境变量在代码中使用前需在 `src/env.d.ts` 或 `src/types/` 中补充类型声明。
 
-- 所有业务表格统一使用项目封装的 `AoTable`，页面布局参考 `src/views/system/user/index.vue`，采用 `ao-full-height` 页面容器、`ao-table-card` 表格卡片以及 `AoTableHeader` 表格头部；禁止在业务页面直接使用 `el-table`。
-- 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，搜索组件放在对应业务页面的 `components/` 目录中，页面布局参考 `src/views/system/user/components/UserSearch.vue`。
+- 所有业务表格统一使用项目封装的 `AoTable`，页面布局参考 `src/views/system/user/index.vue`：页面容器使用 `ao-full-height`，`ao-table-card` 表格卡片与表格头部由 `AoTable` 内部按需渲染，业务页面只需传入 `:search-items` / `:search-rules` / `v-model:search-form` / `v-model:column-checks` 并编写 `#header-left` / `#header-right` 插槽；搜索栏需支持显隐切换时额外绑定 `v-model:show-search-bar`；禁止在业务页面直接使用 `el-table`。
+- 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，它已由 `AoTable` 通过 `search-items` 集成，业务页面无需再单独引入；搜索项配置以 `searchItems` 内联在对应业务页面中，不再为每个页面创建 `components/XxxSearch.vue` 包装组件；弹窗、抽屉等卡片附加内容放入 `AoTable` 的 `#footer` 插槽。
 
 # 深色模式与 CSS 变量
 

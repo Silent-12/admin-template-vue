@@ -1,3 +1,29 @@
+// 表格根容器
+.ao-table-root {
+  // 集成模式：作为页面级纵向容器，承载搜索栏与表格卡片
+  &.is-integrated {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  // 默认模式：不生成盒子，保持既有 DOM 布局完全不变
+  &.is-bare {
+    display: contents;
+  }
+}
+
+// 默认模式下的表格透传容器
+.ao-table-bare {
+  display: contents;
+}
+
+// 集成模式下未渲染搜索栏时，卡片紧贴页面顶部
+.ao-table-card.is-search-hidden {
+  margin-top: 0;
+}
+
 .ao-table {
   position: relative;
   height: 100%;

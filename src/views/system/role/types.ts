@@ -10,19 +10,6 @@ export type RoleSearchFormParams = RoleSearchParams & {
   daterange?: string[]
 }
 
-/** 角色搜索组件 Props */
-export interface RoleSearchProps {
-  /** 搜索表单双向绑定值 */
-  modelValue: RoleSearchFormParams
-}
-
-/** 角色搜索组件 Emits */
-export interface RoleSearchEmits {
-  (e: 'update:modelValue', value: RoleSearchFormParams): void
-  (e: 'search', params: RoleSearchFormParams): void
-  (e: 'reset'): void
-}
-
 /** 角色编辑弹窗 Props */
 export interface RoleEditDialogProps {
   /** 弹窗是否可见 */
