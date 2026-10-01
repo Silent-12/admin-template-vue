@@ -54,7 +54,6 @@
         "accordion": "侧边栏自动收起",
         "collapseSidebar": "显示折叠侧边栏按钮",
         "fastEnter": "显示快速入口",
-        "breadcrumb": "显示全局面包屑导航",
         "language": "显示多语言选择",
         "notification": "显示通知入口"
       }

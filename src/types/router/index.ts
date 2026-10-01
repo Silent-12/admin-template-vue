@@ -47,8 +47,6 @@ export interface RouteMeta extends Record<string | number | symbol, unknown> {
     title: string
     authMark: string
   }>
-  /** 是否为一级菜单 */
-  isFirstLevel?: boolean
   /** 角色权限 */
   roles?: string[]
   /** 是否固定标签页 */

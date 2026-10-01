@@ -28,7 +28,6 @@
     uniqueOpened,
     showMenuButton,
     showFastEnter,
-    showCrumbs,
     showWorkTab,
     showLanguage,
     showNotification
@@ -39,7 +38,6 @@
     uniqueOpened,
     showMenuButton,
     showFastEnter,
-    showCrumbs,
     showWorkTab,
     showLanguage,
     showNotification

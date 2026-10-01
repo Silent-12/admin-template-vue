@@ -125,8 +125,6 @@ export interface HeaderBarFeatureConfig {
   menuButton: FeatureConfigItem
   /** 快速入口 */
   fastEnter: FeatureConfigItem
-  /** 面包屑导航 */
-  breadcrumb: FeatureConfigItem
   /** 全局搜索 */
   globalSearch: FeatureConfigItem
   /** 全屏功能 */

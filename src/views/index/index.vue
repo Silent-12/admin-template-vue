@@ -46,6 +46,7 @@
         z-index: 50;
         flex-shrink: 0;
         width: 100%;
+        padding-bottom: 10px;
       }
       #app-content {
         flex: 1;

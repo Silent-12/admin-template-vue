@@ -36,8 +36,17 @@ export function useLayoutHeight(options: LayoutHeightOptions = {}) {
   const contentHeaderRef = ref<HTMLElement>()
 
   // 使用 VueUse 自动监听元素尺寸变化
-  const { height: headerHeight } = useElementSize(headerRef)
-  const { height: contentHeaderHeight } = useElementSize(contentHeaderRef)
+  // box: 'border-box' 使测量结果包含 padding / border，头部 padding-bottom 的间距会被正确计入
+  const { height: headerHeight } = useElementSize(
+    headerRef,
+    { width: 0, height: 0 },
+    { box: 'border-box' }
+  )
+  const { height: contentHeaderHeight } = useElementSize(
+    contentHeaderRef,
+    { width: 0, height: 0 },
+    { box: 'border-box' }
+  )
 
   // 计算容器最小高度（响应式）
   const containerMinHeight = computed(() => {
@@ -91,8 +100,17 @@ export function useAutoLayoutHeight(
   const contentHeaderRef = ref<HTMLElement>()
 
   // 使用 VueUse 自动监听元素尺寸变化
-  const { height: headerHeight } = useElementSize(headerRef)
-  const { height: contentHeaderHeight } = useElementSize(contentHeaderRef)
+  // box: 'border-box' 使测量结果包含 padding / border，头部 padding-bottom 的间距会被正确计入
+  const { height: headerHeight } = useElementSize(
+    headerRef,
+    { width: 0, height: 0 },
+    { box: 'border-box' }
+  )
+  const { height: contentHeaderHeight } = useElementSize(
+    contentHeaderRef,
+    { width: 0, height: 0 },
+    { box: 'border-box' }
+  )
 
   // 计算容器最小高度（响应式）
   const containerMinHeight = computed(() => {

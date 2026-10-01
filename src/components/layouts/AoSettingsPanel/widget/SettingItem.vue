@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-item" :class="{ 'mobile-hide': config.mobileHide }">
+  <div class="setting-item">
     <span class="setting-label">{{ config.label }}</span>
 
     <!-- 开关类型 -->
@@ -44,7 +44,6 @@
     label: string
     type: 'switch' | 'input-number' | 'select'
     handler: string
-    mobileHide?: boolean
     min?: number
     max?: number
     step?: number
@@ -109,12 +108,5 @@
   .setting-label {
     font-size: 0.875rem;
     line-height: 1.25rem;
-  }
-
-  // 移动端隐藏
-  @media screen and (width <= 768px) {
-    .mobile-hide {
-      display: none !important;
-    }
   }
 </style>

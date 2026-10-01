@@ -50,14 +50,6 @@ export function useSettingsConfig() {
         headerBarKey: 'fastEnter' as const
       },
       {
-        key: 'showCrumbs',
-        label: t('setting.basics.list.breadcrumb'),
-        type: 'switch' as const,
-        handler: 'crumbs',
-        mobileHide: true,
-        headerBarKey: 'breadcrumb' as const
-      },
-      {
         key: 'showLanguage',
         label: t('setting.basics.list.language'),
         type: 'switch' as const,

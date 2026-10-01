@@ -19,8 +19,8 @@
           <AoIconButton icon="ri:function-line" class="header-bar__fast-enter-btn" />
         </AoFastEnter>
 
-        <!-- 面包屑 -->
-        <AoBreadcrumb v-if="shouldShowBreadcrumb" />
+        <!-- 标签页 -->
+        <AoWorkTab />
       </div>
 
       <div class="header-bar__right">
@@ -100,9 +100,6 @@
       </div>
     </div>
 
-    <!-- 标签页 -->
-    <AoWorkTab />
-
     <!-- 通知 -->
     <AoNotification v-model:value="showNotice" ref="notice" />
   </div>
@@ -145,7 +142,6 @@
   const {
     shouldShowMenuButton,
     shouldShowFastEnter,
-    shouldShowBreadcrumb,
     shouldShowGlobalSearch,
     shouldShowFullscreen,
     shouldShowNotification,
@@ -352,10 +348,11 @@
     }
   }
 
-  // 顶部栏容器
+  // 顶部栏容器（亮色背景 #fff、底部边框 #fafbfc，暗色由主题变量自动适配）
   .header-bar {
     width: 100%;
-    background: var(--default-bg-color);
+    background: var(--default-box-color);
+    border-bottom: 1px solid var(--ao-card-border);
     &__inner {
       position: relative;
       box-sizing: border-box;

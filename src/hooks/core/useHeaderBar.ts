@@ -29,7 +29,7 @@ export function useHeaderBar() {
   const headerBarConfigRef = computed<HeaderBarFeatureConfig>(() => headerBarConfig)
 
   // 从store中获取相关状态
-  const { showMenuButton, showFastEnter, showCrumbs, showLanguage, showNotification } =
+  const { showMenuButton, showFastEnter, showLanguage, showNotification } =
     storeToRefs(settingStore)
 
   /**
@@ -58,11 +58,6 @@ export function useHeaderBar() {
   // 检查快速入口是否显示
   const shouldShowFastEnter = computed(() => {
     return isFeatureEnabled('fastEnter') && showFastEnter.value
-  })
-
-  // 检查面包屑是否显示
-  const shouldShowBreadcrumb = computed(() => {
-    return isFeatureEnabled('breadcrumb') && showCrumbs.value
   })
 
   // 检查全局搜索是否显示
@@ -162,7 +157,6 @@ export function useHeaderBar() {
     // 显示状态计算属性
     shouldShowMenuButton, // 是否显示菜单按钮
     shouldShowFastEnter, // 是否显示快速入口
-    shouldShowBreadcrumb, // 是否显示面包屑
     shouldShowGlobalSearch, // 是否显示全局搜索
     shouldShowFullscreen, // 是否显示全屏按钮
     shouldShowNotification, // 是否显示通知中心

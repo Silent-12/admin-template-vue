@@ -38,12 +38,6 @@
       </ul>
     </div>
 
-    <div class="work-tab__actions">
-      <div class="work-tab__menu-btn ao-card-xs" @click="(e: MouseEvent) => showMenu(e, activeTab)">
-        <AoSvgIcon icon="iconamoon:arrow-down-2-thin" class="work-tab__menu-icon" />
-      </div>
-    </div>
-
     <AoMenuRight
       ref="menuRef"
       :menu-items="menuItems"
@@ -455,10 +449,10 @@
   .work-tab {
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    flex: 1 1 0%;
+    align-items: center;
+    min-width: 0;
     padding-right: 0.625rem;
-    padding-bottom: 0.75rem;
     padding-left: 0.625rem;
     user-select: none;
     // 滚动容器
@@ -540,41 +534,7 @@
       font-size: 10px;
       color: var(--ao-gray-600);
     }
-    // 右侧操作区
-    &__actions {
-      display: flex;
-    }
-    // 菜单按钮
-    &__menu-btn {
-      position: relative;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      line-height: 2rem;
-      text-align: center;
-      cursor: pointer;
-      border-radius: calc(var(--custom-radius) / 2.5);
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 200ms;
-      transition-property: all;
-      &:hover {
-        background: var(--ao-hover-color) !important;
-      }
-    }
-    // 菜单图标
-    &__menu-icon {
-      font-size: 1.5rem;
-      line-height: 2rem;
-      color: var(--ao-gray-700);
-    }
     // 响应式
-    @media only screen and (width <= 768px) {
-      padding-right: 0.625rem;
-      padding-left: 0.625rem;
-    }
     @media only screen and (width <= 640px) {
       padding-right: 0.9375rem;
       padding-left: 0.9375rem;

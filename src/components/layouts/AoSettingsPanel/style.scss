@@ -69,10 +69,3 @@
 :deep(.el-drawer__body) {
   scrollbar-width: none;
 }
-
-// 移动端隐藏
-@media screen and (width <= 800px) {
-  .mobile-hide {
-    display: none !important;
-  }
-}

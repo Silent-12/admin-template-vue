@@ -7,7 +7,7 @@
  *
  * - 主题管理（亮色、暗色、自动）
  * - 菜单主题样式配置
- * - 界面显示开关（面包屑、标签页、语言切换等）
+ * - 界面显示开关（标签页、语言切换、通知入口等）
  * - 功能开关（手风琴模式等）
  * - Element Plus 主题色动态设置
  *
@@ -59,8 +59,6 @@ export const useSettingStore = defineStore(
     const showMenuButton = ref(SETTING_DEFAULT_CONFIG.showMenuButton)
     /** 是否显示快速入口 */
     const showFastEnter = ref(SETTING_DEFAULT_CONFIG.showFastEnter)
-    /** 是否显示面包屑 */
-    const showCrumbs = ref(SETTING_DEFAULT_CONFIG.showCrumbs)
     /** 是否显示工作台标签 */
     const showWorkTab = ref(SETTING_DEFAULT_CONFIG.showWorkTab)
     /** 是否显示语言切换 */
@@ -146,13 +144,6 @@ export const useSettingStore = defineStore(
     }
 
     /**
-     * 切换面包屑显示
-     */
-    const setCrumbs = () => {
-      showCrumbs.value = !showCrumbs.value
-    }
-
-    /**
      * 设置工作台标签显示
      * @param show 是否显示
      */
@@ -199,7 +190,6 @@ export const useSettingStore = defineStore(
       uniqueOpened,
       showMenuButton,
       showFastEnter,
-      showCrumbs,
       showWorkTab,
       showLanguage,
       showNotification,
@@ -214,7 +204,6 @@ export const useSettingStore = defineStore(
       setUniqueOpened,
       setButton,
       setFastEnter,
-      setCrumbs,
       setWorkTab,
       setLanguage,
       setNotification,

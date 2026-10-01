@@ -47,8 +47,6 @@ export interface SettingState {
   uniqueOpened: boolean
   // 是否显示菜单按钮
   menuButton: boolean
-  // 是否显示面包屑
-  showCrumbs: boolean
   // 是否显示工作标签页
   showWorkTab: boolean
   // 是否显示语言切换

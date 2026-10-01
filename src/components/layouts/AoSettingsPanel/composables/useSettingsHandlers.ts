@@ -41,9 +41,6 @@ export function useSettingsHandlers() {
     // 显示快速入口
     fastEnter: createToggleHandler(() => settingStore.setFastEnter()),
 
-    // 显示面包屑
-    crumbs: createToggleHandler(() => settingStore.setCrumbs()),
-
     // 显示语言切换
     language: createToggleHandler(() => settingStore.setLanguage()),
 

@@ -20,10 +20,6 @@ export const headerBarConfig: HeaderBarFeatureConfig = {
     enabled: true,
     description: '快速入口功能，提供常用应用和链接的快速访问'
   },
-  breadcrumb: {
-    enabled: true,
-    description: '面包屑导航，显示当前页面路径'
-  },
   globalSearch: {
     enabled: true,
     description: '全局搜索功能，支持快捷键 Ctrl+K 或 Cmd+K'

@@ -59,7 +59,6 @@
       toggleIfDifferent(settingStore.showFastEnter, config.showFastEnter, () =>
         settingStore.setFastEnter()
       )
-      toggleIfDifferent(settingStore.showCrumbs, config.showCrumbs, () => settingStore.setCrumbs())
       toggleIfDifferent(settingStore.showLanguage, config.showLanguage, () =>
         settingStore.setLanguage()
       )
