@@ -348,7 +348,7 @@
     }
   }
 
-  // 顶部栏容器（亮色背景 #fff、底部边框 #fafbfc，暗色由主题变量自动适配）
+  // 顶部栏容器（背景与底部边框均引用主题变量，暗色自动适配）
   .header-bar {
     width: 100%;
     background: var(--default-box-color);
