@@ -12,7 +12,7 @@
     "serve": "vite preview",
     "lint": "eslint",
     "fix": "eslint --fix",
-    "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html}\"",
     "lint:stylelint": "stylelint  \"**/*.{css,scss,vue}\" --fix",
     "lint:lint-staged": "lint-staged",
     "prepare": "husky"
@@ -35,9 +35,6 @@
     ],
     "*.{scss,css,less}": [
       "stylelint --fix --allow-empty-input",
-      "prettier --write"
-    ],
-    "*.{md,mdx}": [
       "prettier --write"
     ],
     "*.{yaml,yml}": [
