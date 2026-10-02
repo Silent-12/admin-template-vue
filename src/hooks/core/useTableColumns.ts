@@ -2,7 +2,7 @@
  * useTableColumns - 表格列配置管理
  *
  * 提供动态的表格列配置管理能力，支持运行时灵活控制列的显示、隐藏、排序等操作。
- * 通常与 useTable 配合使用，为表格提供完整的列管理功能。
+ * 通常与 AoTable 配合使用（columnChecks 传入 v-model:column-checks），为表格提供完整的列管理功能。
  *
  * ## 主要功能
  *
@@ -29,7 +29,7 @@
  * ```
  */
 
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
 import { $t } from '@/locales'
 import type { ColumnOption } from '@/types/component'
 
@@ -44,15 +44,22 @@ const SPECIAL_COLUMNS: Record<string, { prop: string; label: string }> = {
 
 /**
  * 获取列的唯一标识
+ * @description 优先使用原生 columnKey，允许展示列省略 prop 或多列共用数据字段。
+ * @param col 列配置
+ * @returns 列的唯一标识
  */
-export const getColumnKey = <T>(col: ColumnOption<T>) =>
-  SPECIAL_COLUMNS[col.type as keyof typeof SPECIAL_COLUMNS]?.prop ?? (col.prop as string)
+export const getColumnKey = <T extends Record<string, any>>(col: ColumnOption<T>) =>
+  col.columnKey ??
+  SPECIAL_COLUMNS[col.type as keyof typeof SPECIAL_COLUMNS]?.prop ??
+  (col.prop as string)
 
 /**
  * 获取列的显示状态
  * 优先使用 visible 字段，如果不存在则使用 checked 字段
  */
-export const getColumnVisibility = <T>(col: ColumnOption<T>): boolean => {
+export const getColumnVisibility = <T extends Record<string, any>>(
+  col: ColumnOption<T>
+): boolean => {
   // visible 优先级高于 checked
   if (col.visible !== undefined) {
     return col.visible
@@ -64,7 +71,7 @@ export const getColumnVisibility = <T>(col: ColumnOption<T>): boolean => {
 /**
  * 获取列的检查状态
  */
-export const getColumnChecks = <T>(columns: ColumnOption<T>[]) =>
+export const getColumnChecks = <T extends Record<string, any>>(columns: ColumnOption<T>[]) =>
   columns.map((col) => {
     const special = col.type && SPECIAL_COLUMNS[col.type]
     const visibility = getColumnVisibility(col)
@@ -78,7 +85,7 @@ export const getColumnChecks = <T>(columns: ColumnOption<T>[]) =>
 /**
  * 动态列配置接口
  */
-export interface DynamicColumnConfig<T = any> {
+export interface DynamicColumnConfig<T extends Record<string, any> = any> {
   /**
    * 新增列（支持单个或批量）
    * @param column 列配置或列配置数组
@@ -135,11 +142,11 @@ export interface DynamicColumnConfig<T = any> {
   resetColumns: () => void
 }
 
-export function useTableColumns<T = any>(
+export function useTableColumns<T extends Record<string, any> = any>(
   columnsFactory: () => ColumnOption<T>[]
 ): {
-  columns: any
-  columnChecks: any
+  columns: ComputedRef<ColumnOption<T>[]>
+  columnChecks: Ref<ColumnOption<T>[]>
 } & DynamicColumnConfig<T> {
   const dynamicColumns = ref<ColumnOption<T>[]>(columnsFactory())
   const columnChecks = ref<ColumnOption<T>[]>(getColumnChecks(dynamicColumns.value))

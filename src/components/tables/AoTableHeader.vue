@@ -73,7 +73,7 @@
             >
               <div
                 v-for="item in columns"
-                :key="item.prop || item.type"
+                :key="item.columnKey || item.prop || item.type"
                 class="column-option"
                 :class="{ 'fixed-column': item.fixed }"
               >

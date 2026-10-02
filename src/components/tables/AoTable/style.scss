@@ -48,21 +48,31 @@
       display: flex;
     }
   }
+}
+
+// 表格底部栏：左侧为 #footer 内容区，右侧为分页器
+.ao-table-bottom {
+  display: flex;
+  align-items: center;
+  margin-top: 13px;
+
+  // 既无分页器也无底部插槽时不占位
+  &.is-bar-empty {
+    margin-top: 0;
+  }
+
+  // 左侧内容区占满剩余空间，使分页器始终贴右
+  &__left {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .pagination {
     display: flex;
-    margin-top: 13px;
+    flex: none;
+    justify-content: flex-end;
     :deep(.el-select) {
       width: 102px !important;
-    }
-    // 分页对齐方式
-    &.left {
-      justify-content: flex-start;
-    }
-    &.center {
-      justify-content: center;
-    }
-    &.right {
-      justify-content: flex-end;
     }
     // 自定义分页组件样式
     &.custom-pagination {
@@ -105,6 +115,12 @@
     flex-wrap: wrap;
     gap: 15px 0;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+  }
+
+  // 底部栏改为纵向排列，避免左侧内容与分页器相互挤压
+  .ao-table-bottom {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

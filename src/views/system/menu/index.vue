@@ -1,5 +1,6 @@
 <!-- 菜单管理页面 -->
-<!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
+<!-- 数据由页面自行请求后通过 data 传入 AoTable；需要自定义单元格内容的列通过 slotName 指定插槽 -->
+<!-- 加载时机完全由页面决定：挂载、查询、重置、刷新各自调用页面自身的 getMenuList -->
 <template>
   <div class="menu-page ao-full-height">
     <!-- 搜索栏 + 表格头部 + 表格 -->
@@ -19,7 +20,7 @@
       :default-expand-all="false"
       @search="handleSearch"
       @reset="handleReset"
-      @refresh="handleRefresh"
+      @refresh="getMenuList"
     >
       <!-- 表格头部左侧操作区 -->
       <template #header-left>
@@ -29,24 +30,51 @@
         </ElButton>
       </template>
 
-      <!-- 菜单弹窗 -->
-      <template #footer>
-        <MenuDialog
-          v-model="dialogVisible"
-          :type="dialogType"
-          :editData="editData"
-          :lockType="lockMenuType"
-          @submit="handleSubmit"
-        />
+      <!-- 菜单类型列 -->
+      <template #type="{ row }">
+        <ElTag :type="getMenuTypeTag(row)">{{ getMenuTypeText(row) }}</ElTag>
+      </template>
+
+      <!-- 编辑时间列 -->
+      <template #date>2022-3-12 12:00:00</template>
+
+      <!-- 状态列 -->
+      <template #status>
+        <ElTag type="success">启用</ElTag>
+      </template>
+
+      <!-- 操作列 -->
+      <template #operation="{ row }">
+        <div style="text-align: right">
+          <template v-if="row.meta?.isAuthButton">
+            <AoButtonTable type="edit" @click="handleEditAuth(row)" />
+            <AoButtonTable type="delete" @click="handleDeleteAuth()" />
+          </template>
+          <template v-else>
+            <AoButtonTable type="add" title="新增权限" @click="handleAddAuth()" />
+            <AoButtonTable type="edit" @click="handleEditMenu(row)" />
+            <AoButtonTable type="delete" @click="handleDeleteMenu()" />
+          </template>
+        </div>
       </template>
     </AoTable>
+
+    <!-- 菜单弹窗：与表格同级，弹窗不依赖表格上下文 -->
+    <MenuDialog
+      v-model="dialogVisible"
+      :type="dialogType"
+      :editData="editData"
+      :lockType="lockMenuType"
+      @submit="handleSubmit"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, h, nextTick, onMounted, reactive, ref } from 'vue'
+  import { computed, nextTick, onMounted, reactive, ref } from 'vue'
   import { ElButton, ElMessage } from 'element-plus'
   import { formatMenuTitle } from '@/utils/router'
+  import AoTable from '@/components/tables/AoTable/index.vue'
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
@@ -145,87 +173,61 @@
     return '未知'
   }
 
-  // 表格列配置
-  const { columnChecks, columns } = useTableColumns(() => [
+  /**
+   * 获取路由列展示文本
+   * @param row 菜单行数据
+   * @returns 路由地址
+   */
+  const getPathText = (row: AppRouteRecord): string => {
+    if (row.meta?.isAuthButton) return ''
+    return row.meta?.link || row.path || ''
+  }
+
+  /**
+   * 获取权限标识列展示文本
+   * @param row 菜单行数据
+   * @returns 权限标识文本
+   */
+  const getAuthListText = (row: AppRouteRecord): string => {
+    if (row.meta?.isAuthButton) {
+      return row.meta?.authMark || ''
+    }
+    if (!row.meta?.authList?.length) return ''
+    return `${row.meta.authList.length} 个权限标识`
+  }
+
+  // 表格列配置（沿用原生 formatter，需要自定义单元格内容的列通过 slotName 指定插槽）
+  const { columnChecks, columns } = useTableColumns<AppRouteRecord>(() => [
     {
       prop: 'meta.title',
       label: '菜单名称',
       minWidth: 120,
-      formatter: (row: AppRouteRecord) => formatMenuTitle(row.meta?.title)
+      formatter: (_row, _column, cellValue) => formatMenuTitle(cellValue)
     },
     {
-      prop: 'type',
+      columnKey: 'type',
       label: '菜单类型',
-      formatter: (row: AppRouteRecord) => {
-        return h(ElTag, { type: getMenuTypeTag(row) }, () => getMenuTypeText(row))
-      }
+      slotName: 'type'
     },
     {
       prop: 'path',
       label: '路由',
-      formatter: (row: AppRouteRecord) => {
-        if (row.meta?.isAuthButton) return ''
-        return row.meta?.link || row.path || ''
-      }
+      formatter: getPathText
     },
     {
       prop: 'meta.authList',
       label: '权限标识',
-      formatter: (row: AppRouteRecord) => {
-        if (row.meta?.isAuthButton) {
-          return row.meta?.authMark || ''
-        }
-        if (!row.meta?.authList?.length) return ''
-        return `${row.meta.authList.length} 个权限标识`
-      }
+      formatter: getAuthListText
     },
     {
-      prop: 'date',
+      columnKey: 'date',
       label: '编辑时间',
-      formatter: () => '2022-3-12 12:00:00'
+      slotName: 'date'
     },
     {
-      prop: 'status',
+      columnKey: 'status',
       label: '状态',
-      formatter: () => h(ElTag, { type: 'success' }, () => '启用')
-    },
-    {
-      prop: 'operation',
-      label: '操作',
-      width: 180,
-      align: 'right',
-      formatter: (row: AppRouteRecord) => {
-        const buttonStyle = { style: 'text-align: right' }
-
-        if (row.meta?.isAuthButton) {
-          return h('div', buttonStyle, [
-            h(AoButtonTable, {
-              type: 'edit',
-              onClick: () => handleEditAuth(row)
-            }),
-            h(AoButtonTable, {
-              type: 'delete',
-              onClick: () => handleDeleteAuth()
-            })
-          ])
-        }
-
-        return h('div', buttonStyle, [
-          h(AoButtonTable, {
-            type: 'add',
-            onClick: () => handleAddAuth(),
-            title: '新增权限'
-          }),
-          h(AoButtonTable, {
-            type: 'edit',
-            onClick: () => handleEditMenu(row)
-          }),
-          h(AoButtonTable, {
-            type: 'delete',
-            onClick: () => handleDeleteMenu()
-          })
-        ])
-      }
+      slotName: 'status'
     }
   ])
 
@@ -246,13 +248,6 @@
    */
   const handleSearch = (): void => {
     Object.assign(appliedFilters, { ...formFilters.value })
-    getMenuList()
-  }
-
-  /**
-   * 刷新菜单列表
-   */
-  const handleRefresh = (): void => {
     getMenuList()
   }
 

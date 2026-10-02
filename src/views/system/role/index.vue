@@ -1,5 +1,6 @@
 <!-- 角色管理页面 -->
-<!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
+<!-- 数据由页面自行请求后通过 data 传入 AoTable；需要自定义单元格内容的列通过 slotName 指定插槽 -->
+<!-- 分页：分页状态由页面持有并通过 pagination 传入；AoTable 只渲染与上报交互，何时请求完全由页面决定 -->
 <template>
   <div class="ao-full-height">
     <!-- 搜索栏 + 表格头部 + 表格 -->
@@ -9,14 +10,14 @@
       v-model:show-search-bar="showSearchBar"
       :search-items="searchItems"
       :loading="loading"
-      :data="data"
+      :data="tableData"
       :columns="columns"
       :pagination="pagination"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
       @search="handleSearch"
-      @reset="resetSearchParams"
-      @refresh="refreshData"
-      @pagination:size-change="handleSizeChange"
-      @pagination:current-change="handleCurrentChange"
+      @reset="handleReset"
+      @refresh="fetchList"
     >
       <!-- 表格头部左侧操作区 -->
       <template #header-left>
@@ -25,51 +26,81 @@
         </ElSpace>
       </template>
 
-      <!-- 角色编辑弹窗 -->
-      <template #footer>
-        <RoleEditDialog
-          v-model="dialogVisible"
-          :dialog-type="dialogType"
-          :role-data="currentRoleData"
-          @success="refreshData"
-        />
+      <!-- 角色状态列 -->
+      <template #enabled="{ row }">
+        <ElTag :type="row.enabled ? 'success' : 'warning'">
+          {{ row.enabled ? '启用' : '禁用' }}
+        </ElTag>
+      </template>
 
-        <!-- 菜单权限弹窗 -->
-        <RolePermissionDialog
-          v-model="permissionDialog"
-          :role-data="currentRoleData"
-          @success="refreshData"
-        />
+      <!-- 操作列 -->
+      <template #operation="{ row }">
+        <AoButtonMore :list="OPERATION_LIST" @click="(item) => buttonMoreClick(item, row)" />
       </template>
     </AoTable>
+
+    <!-- 角色编辑弹窗：与表格同级，弹窗不依赖表格上下文 -->
+    <RoleEditDialog
+      v-model="dialogVisible"
+      :dialog-type="dialogType"
+      :role-data="currentRoleData"
+      @success="fetchList"
+    />
+
+    <!-- 菜单权限弹窗 -->
+    <RolePermissionDialog
+      v-model="permissionDialog"
+      :role-data="currentRoleData"
+      @success="fetchList"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { h, ref } from 'vue'
-  import { ElButton, ElMessage, ElSpace } from 'element-plus'
+  import { onMounted, reactive, ref } from 'vue'
+  import { ElButton, ElMessage, ElMessageBox, ElSpace, ElTag } from 'element-plus'
+  import AoTable from '@/components/tables/AoTable/index.vue'
+  import AoButtonMore from '@/components/forms/AoButtonMore.vue'
   import type { ButtonMoreItem } from '@/components/forms/AoButtonMore.vue'
   import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
-  import { useTable } from '@/hooks/core/useTable'
+  import type { TablePaginationState } from '@/types/component'
+  import { useTableColumns } from '@/hooks/core/useTableColumns'
   import { fetchGetRoleList } from '@/mock'
-  import AoButtonMore from '@/components/forms/AoButtonMore.vue'
   import RoleEditDialog from './components/RoleEditDialog.vue'
   import RolePermissionDialog from './components/RolePermissionDialog.vue'
-  import { ElTag, ElMessageBox } from 'element-plus'
-  import type { RoleListItem, RoleSearchFormParams } from './types'
+  import type {
+    RoleListItem,
+    RoleSearchFormParams,
+    RoleSearchParams
+  } from '@/types/api/system-manage'
 
   defineOptions({ name: 'Role' })
 
-  // 搜索表单
-  const searchForm = ref<RoleSearchFormParams>({
+  /** 搜索表单初始值 */
+  const INITIAL_SEARCH_FORM: RoleSearchFormParams = {
     roleName: undefined,
     roleCode: undefined,
     description: undefined,
     enabled: undefined,
-    daterange: undefined
-  })
+    daterange: undefined,
+    startTime: undefined,
+    endTime: undefined
+  }
+
+  // 搜索表单（通过 v-model:search-form 与 AoTable 的搜索栏双向绑定）
+  const searchForm = ref<RoleSearchFormParams>({ ...INITIAL_SEARCH_FORM })
+
+  // 已提交的查询条件，日期区间仅在查询时转换为接口参数
+  const appliedFilters = ref<RoleSearchParams>({})
 
   const showSearchBar = ref(false)
+
+  // 列表数据（由页面自行维护）
+  const tableData = ref<RoleListItem[]>([])
+  const loading = ref(false)
+
+  // 分页状态：由页面持有并通过 pagination 传入 AoTable，组件只读取、不修改
+  const pagination = reactive<TablePaginationState>({ currentPage: 1, pageSize: 10, total: 0 })
 
   // 角色状态选项
   const statusOptions = [
@@ -132,103 +163,88 @@
   const permissionDialog = ref(false)
   const currentRoleData = ref<RoleListItem | undefined>(undefined)
 
-  const {
-    columns,
-    columnChecks,
-    data,
-    loading,
-    pagination,
-    getData,
-    replaceSearchParams,
-    resetSearchParams,
-    handleSizeChange,
-    handleCurrentChange,
-    refreshData
-  } = useTable({
-    // 核心配置
-    core: {
-      apiFn: fetchGetRoleList,
-      apiParams: {
-        current: 1,
-        size: 20
-      },
-      // 排除 apiParams 中的属性
-      excludeParams: ['daterange'],
-      columnsFactory: () => [
-        {
-          prop: 'roleId',
-          label: '角色ID',
-          width: 100
-        },
-        {
-          prop: 'roleName',
-          label: '角色名称',
-          minWidth: 120
-        },
-        {
-          prop: 'roleCode',
-          label: '角色编码',
-          minWidth: 120
-        },
-        {
-          prop: 'description',
-          label: '角色描述',
-          minWidth: 150,
-          showOverflowTooltip: true
-        },
-        {
-          prop: 'enabled',
-          label: '角色状态',
-          width: 100,
-          formatter: (row) => {
-            const statusConfig = row.enabled
-              ? { type: 'success', text: '启用' }
-              : { type: 'warning', text: '禁用' }
-            return h(
-              ElTag,
-              { type: statusConfig.type as 'success' | 'warning' },
-              () => statusConfig.text
-            )
-          }
-        },
-        {
-          prop: 'createTime',
-          label: '创建日期',
-          width: 180,
-          sortable: true
-        },
-        {
-          prop: 'operation',
-          label: '操作',
-          width: 80,
-          fixed: 'right',
-          formatter: (row) =>
-            h('div', [
-              h(AoButtonMore, {
-                list: [
-                  {
-                    key: 'permission',
-                    label: '菜单权限',
-                    icon: 'ri:user-3-line'
-                  },
-                  {
-                    key: 'edit',
-                    label: '编辑角色',
-                    icon: 'ri:edit-2-line'
-                  },
-                  {
-                    key: 'delete',
-                    label: '删除角色',
-                    icon: 'ri:delete-bin-4-line',
-                    color: '#f56c6c'
-                  }
-                ],
-                onClick: (item: ButtonMoreItem) => buttonMoreClick(item, row)
-              })
-            ])
-        }
-      ]
+  /** 操作列按钮配置 */
+  const OPERATION_LIST: ButtonMoreItem[] = [
+    { key: 'permission', label: '菜单权限', icon: 'ri:user-3-line' },
+    { key: 'edit', label: '编辑角色', icon: 'ri:edit-2-line' },
+    { key: 'delete', label: '删除角色', icon: 'ri:delete-bin-4-line', color: '#f56c6c' }
+  ]
+
+  // 表格列配置（沿用原生 formatter，需要自定义单元格内容的列通过 slotName 指定插槽）
+  const { columns, columnChecks } = useTableColumns<RoleListItem>(() => [
+    { prop: 'roleId', label: '角色ID', width: 100 },
+    { prop: 'roleName', label: '角色名称', minWidth: 120 },
+    { prop: 'roleCode', label: '角色编码', minWidth: 120 },
+    { prop: 'description', label: '角色描述', minWidth: 150, showOverflowTooltip: true },
+    { prop: 'enabled', label: '角色状态', width: 100, slotName: 'enabled' },
+    { prop: 'createTime', label: '创建日期', width: 180, sortable: true }
+  ])
+
+  /**
+   * @description 加载角色列表数据
+   */
+  const fetchList = async (): Promise<void> => {
+    loading.value = true
+    try {
+      const params: RoleSearchParams = {
+        ...appliedFilters.value,
+        startTime: appliedFilters.value.startTime ?? null,
+        endTime: appliedFilters.value.endTime ?? null,
+        current: pagination.currentPage,
+        size: pagination.pageSize
+      }
+      const res = await fetchGetRoleList(params)
+      tableData.value = res.records
+      pagination.total = res.total
+    } finally {
+      loading.value = false
     }
+  }
+
+  /**
+   * @description 每页条数变化时由页面重置页码并重新请求
+   * @param pageSize 每页条数
+   */
+  const handleSizeChange = (pageSize: number): void => {
+    pagination.currentPage = 1
+    pagination.pageSize = pageSize
+    fetchList()
+  }
+
+  /**
+   * @description 当前页码变化时同步状态并重新请求
+   * @param currentPage 当前页码
+   */
+  const handleCurrentChange = (currentPage: number): void => {
+    pagination.currentPage = currentPage
+    fetchList()
+  }
+
+  /**
+   * @description 处理搜索：把日期区间拆分为起止时间、回到第一页并重新请求
+   * @param params 搜索栏输出的查询条件
+   */
+  const handleSearch = (params: RoleSearchFormParams): void => {
+    const { daterange, ...filters } = params
+    const [startTime, endTime] = Array.isArray(daterange) ? daterange : [null, null]
+
+    appliedFilters.value = { ...filters, startTime, endTime }
+    pagination.currentPage = 1
+    fetchList()
+  }
+
+  /**
+   * @description 重置搜索条件、回到第一页并重新请求
+   */
+  const handleReset = (): void => {
+    searchForm.value = { ...INITIAL_SEARCH_FORM }
+    appliedFilters.value = {}
+    pagination.currentPage = 1
+    fetchList()
+  }
+
+  onMounted(() => {
+    fetchList()
   })
 
   const dialogType = ref<'add' | 'edit'>('add')
@@ -237,19 +253,6 @@
     dialogVisible.value = true
     dialogType.value = type
     currentRoleData.value = row
-  }
-
-  /**
-   * 搜索处理
-   * @param params 搜索参数
-   */
-  const handleSearch = (params: RoleSearchFormParams) => {
-    // 处理日期区间参数，把 daterange 转换为 startTime 和 endTime
-    const { daterange, ...filtersParams } = params
-    const [startTime, endTime] = Array.isArray(daterange) ? daterange : [null, null]
-
-    replaceSearchParams({ ...filtersParams, startTime, endTime })
-    getData()
   }
 
   const buttonMoreClick = (item: ButtonMoreItem, row: RoleListItem) => {
@@ -280,7 +283,7 @@
       .then(() => {
         // TODO: 调用删除接口
         ElMessage.success('删除成功')
-        refreshData()
+        fetchList()
       })
       .catch(() => {
         ElMessage.info('已取消删除')

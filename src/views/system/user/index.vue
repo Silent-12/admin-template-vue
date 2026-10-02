@@ -1,8 +1,8 @@
 <!-- 用户管理页面 -->
 <!-- ao-full-height 自动计算出页面剩余高度 -->
+<!-- 数据由页面自行请求后通过 data 传入 AoTable；需要自定义单元格内容的列通过 slotName 指定插槽 -->
+<!-- 分页：分页状态由页面持有并通过 pagination 传入；AoTable 只渲染与上报交互，何时请求完全由页面决定 -->
 <!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
-<!-- 更多 useTable 使用示例请移步至 功能示例 下面的高级表格示例或者查看官方文档 -->
-<!-- useTable 文档：https://www.artd.pro/docs/zh/guide/hooks/use-table.html -->
 <template>
   <div class="user-page ao-full-height">
     <!-- 搜索栏 + 表格头部 + 表格 -->
@@ -12,15 +12,15 @@
       :search-items="searchItems"
       :search-rules="searchRules"
       :loading="loading"
-      :data="data"
+      :data="tableData"
       :columns="columns"
       :pagination="pagination"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
       @search="handleSearch"
-      @reset="resetSearchParams"
-      @refresh="refreshData"
+      @reset="handleReset"
+      @refresh="fetchList"
       @selection-change="handleSelectionChange"
-      @pagination:size-change="handleSizeChange"
-      @pagination:current-change="handleCurrentChange"
     >
       <!-- 表格头部左侧操作区 -->
       <template #header-left>
@@ -29,30 +29,55 @@
         </ElSpace>
       </template>
 
-      <!-- 用户弹窗 -->
-      <template #footer>
-        <UserDialog
-          v-model="dialogVisible"
-          :type="dialogType"
-          :user-data="currentUserData"
-          @submit="handleDialogSubmit"
-        />
+      <!-- 用户名列：头像 + 用户名 + 邮箱 -->
+      <template #userInfo="{ row }">
+        <div class="user">
+          <AoImage class="user-avatar" :src="row.avatar" :preview-teleported="true" />
+          <div class="user-info">
+            <p class="user-name">{{ row.userName }}</p>
+            <p class="email">{{ row.userEmail }}</p>
+          </div>
+        </div>
+      </template>
+
+      <!-- 状态列 -->
+      <template #status="{ row }">
+        <ElTag :type="getUserStatusConfig(row.status).type">
+          {{ getUserStatusConfig(row.status).text }}
+        </ElTag>
+      </template>
+
+      <!-- 操作列 -->
+      <template #operation="{ row }">
+        <div>
+          <AoButtonTable type="edit" @click="showDialog('edit', row)" />
+          <AoButtonTable type="delete" @click="deleteUser(row)" />
+        </div>
       </template>
     </AoTable>
+
+    <!-- 用户弹窗：与表格同级，弹窗不依赖表格上下文 -->
+    <UserDialog
+      v-model="dialogVisible"
+      :type="dialogType"
+      :user-data="currentUserData"
+      @submit="handleDialogSubmit"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, h, nextTick, onMounted, ref } from 'vue'
-  import { ElButton, ElMessage, ElSpace } from 'element-plus'
+  import { computed, nextTick, onMounted, reactive, ref } from 'vue'
+  import { ElButton, ElMessage, ElMessageBox, ElSpace, ElTag } from 'element-plus'
+  import type { FormRules } from 'element-plus'
+  import AoTable from '@/components/tables/AoTable/index.vue'
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import AoImage from '@/components/media/AoImage.vue'
   import { fetchGetUserList } from '@/mock'
-  import { useTable } from '@/hooks/core/useTable'
+  import { useTableColumns } from '@/hooks/core/useTableColumns'
   import UserDialog from './components/UserDialog.vue'
-  import { ElTag, ElMessageBox } from 'element-plus'
-  import type { FormRules } from 'element-plus'
   import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
+  import type { TablePaginationState } from '@/types/component'
   import type { UserSearchParams } from '@/types/api/system-manage'
   import type { DialogType, UserListItem } from './types'
 
@@ -66,14 +91,14 @@
   // 选中行
   const selectedRows = ref<UserListItem[]>([])
 
-  // 搜索表单
-  const searchForm = ref({
-    userName: undefined,
-    userGender: undefined,
-    userPhone: undefined,
-    userEmail: undefined,
-    status: '1'
-  })
+  /** 搜索表单初始值 */
+  const INITIAL_SEARCH_FORM: UserSearchParams = { status: '1' }
+
+  // 搜索表单（通过 v-model:search-form 与 AoTable 的搜索栏双向绑定）
+  const searchForm = ref<UserSearchParams>({ ...INITIAL_SEARCH_FORM })
+
+  // 已提交的查询条件，避免翻页和刷新应用尚未查询的表单修改
+  const appliedFilters = ref<UserSearchParams>({ ...INITIAL_SEARCH_FORM })
 
   // 搜索表单校验规则
   const searchRules: FormRules = {
@@ -82,6 +107,13 @@
 
   // 用户状态选项
   const statusOptions = ref<{ label: string; value: string; disabled?: boolean }[]>([])
+
+  // 列表数据（由页面自行维护）
+  const tableData = ref<UserListItem[]>([])
+  const loading = ref(false)
+
+  // 分页状态：由页面持有并通过 pagination 传入 AoTable，组件只读取、不修改
+  const pagination = reactive<TablePaginationState>({ currentPage: 1, pageSize: 10, total: 0 })
 
   /**
    * @description 模拟接口返回用户状态选项
@@ -156,6 +188,8 @@
 
   /**
    * 获取用户状态配置
+   * @param status 用户状态值
+   * @return 状态对应的标签类型与文案
    */
   const getUserStatusConfig = (status: string) => {
     return (
@@ -166,110 +200,83 @@
     )
   }
 
-  const {
-    columns,
-    columnChecks,
-    data,
-    loading,
-    pagination,
-    getData,
-    replaceSearchParams,
-    resetSearchParams,
-    handleSizeChange,
-    handleCurrentChange,
-    refreshData
-  } = useTable({
-    // 核心配置
-    core: {
-      apiFn: fetchGetUserList,
-      apiParams: {
-        current: 1,
-        size: 20,
-        ...searchForm.value
-      },
-      // 自定义分页字段映射，未设置时将使用 useTable 私有配置中的 paginationKey
-      // paginationKey: {
-      //   current: 'pageNum',
-      //   size: 'pageSize'
-      // },
-      columnsFactory: () => [
-        { type: 'selection' }, // 勾选列
-        { type: 'index', width: 60, label: '序号' }, // 序号
-        {
-          prop: 'userInfo',
-          label: '用户名',
-          width: 280,
-          // visible: false, // 默认是否显示列
-          formatter: (row) => {
-            return h('div', { class: 'user' }, [
-              h(AoImage, {
-                class: 'user-avatar',
-                src: row.avatar,
-                // 图片预览是否插入至 body 元素上，用于解决表格内部图片预览样式异常
-                previewTeleported: true
-              }),
-              h('div', { class: 'user-info' }, [
-                h('p', { class: 'user-name' }, row.userName),
-                h('p', { class: 'email' }, row.userEmail)
-              ])
-            ])
-          }
-        },
-        {
-          prop: 'userGender',
-          label: '性别',
-          sortable: true,
-          formatter: (row) => row.userGender
-        },
-        { prop: 'userPhone', label: '手机号' },
-        {
-          prop: 'status',
-          label: '状态',
-          formatter: (row) => {
-            const statusConfig = getUserStatusConfig(row.status)
-            return h(ElTag, { type: statusConfig.type }, () => statusConfig.text)
-          }
-        },
-        {
-          prop: 'createTime',
-          label: '创建日期',
-          sortable: true
-        },
-        {
-          prop: 'operation',
-          label: '操作',
-          width: 120,
-          fixed: 'right', // 固定列
-          formatter: (row) =>
-            h('div', [
-              h(AoButtonTable, {
-                type: 'edit',
-                onClick: () => showDialog('edit', row)
-              }),
-              h(AoButtonTable, {
-                type: 'delete',
-                onClick: () => deleteUser(row)
-              })
-            ])
-        }
-      ]
-    }
-  })
+  // 表格列配置（沿用原生 formatter，需要自定义单元格内容的列通过 slotName 指定插槽）
+  const { columns, columnChecks } = useTableColumns<UserListItem>(() => [
+    { type: 'selection' },
+    { type: 'index', width: 60, label: '序号' },
+    { prop: 'userName', label: '用户名', width: 280, slotName: 'userInfo' },
+    { prop: 'userGender', label: '性别', sortable: true },
+    { prop: 'userPhone', label: '手机号' },
+    { prop: 'status', label: '状态', slotName: 'status' },
+    { prop: 'createTime', label: '创建日期', sortable: true }
+  ])
 
   /**
-   * 搜索处理
-   * @param params 参数
+   * @description 加载用户列表数据
    */
-  const handleSearch = (params: UserSearchParams) => {
-    replaceSearchParams(params)
-    getData()
+  const fetchList = async (): Promise<void> => {
+    loading.value = true
+    try {
+      const params: UserSearchParams = {
+        ...appliedFilters.value,
+        current: pagination.currentPage,
+        size: pagination.pageSize
+      }
+      const res = await fetchGetUserList(params)
+      tableData.value = res.records
+      pagination.total = res.total
+    } finally {
+      loading.value = false
+    }
   }
+
+  /**
+   * @description 每页条数变化时由页面重置页码并重新请求
+   * @param pageSize 每页条数
+   */
+  const handleSizeChange = (pageSize: number): void => {
+    pagination.currentPage = 1
+    pagination.pageSize = pageSize
+    fetchList()
+  }
+
+  /**
+   * @description 当前页码变化时同步状态并重新请求
+   * @param currentPage 当前页码
+   */
+  const handleCurrentChange = (currentPage: number): void => {
+    pagination.currentPage = currentPage
+    fetchList()
+  }
+
+  /**
+   * @description 处理搜索：保存清洗后的查询条件、回到第一页并重新请求
+   * @param params 搜索栏输出的查询条件
+   */
+  const handleSearch = (params: UserSearchParams): void => {
+    appliedFilters.value = { ...params }
+    pagination.currentPage = 1
+    fetchList()
+  }
+
+  /**
+   * @description 重置搜索条件、回到第一页并重新请求
+   */
+  const handleReset = (): void => {
+    searchForm.value = { ...INITIAL_SEARCH_FORM }
+    appliedFilters.value = { ...INITIAL_SEARCH_FORM }
+    pagination.currentPage = 1
+    fetchList()
+  }
+
+  onMounted(() => {
+    fetchList()
+  })
 
   /**
    * 显示用户弹窗
    */
   const showDialog = (type: DialogType, row?: UserListItem): void => {
-    console.log('打开弹窗:', { type, row })
     dialogType.value = type
     currentUserData.value = row || {}
     nextTick(() => {
@@ -281,8 +288,7 @@
    * 删除用户
    */
   const deleteUser = (row: UserListItem): void => {
-    console.log('删除用户:', row)
-    ElMessageBox.confirm('确定要注销该用户吗？', '注销用户', {
+    ElMessageBox.confirm(`确定要注销用户"${row.userName}"吗？`, '注销用户', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'error'
@@ -295,12 +301,8 @@
    * 处理弹窗提交事件
    */
   const handleDialogSubmit = async () => {
-    try {
-      dialogVisible.value = false
-      currentUserData.value = {}
-    } catch (error) {
-      console.error('提交失败:', error)
-    }
+    dialogVisible.value = false
+    currentUserData.value = {}
   }
 
   /**
@@ -308,7 +310,6 @@
    */
   const handleSelectionChange = (selection: UserListItem[]): void => {
     selectedRows.value = selection
-    console.log('选中行数据:', selectedRows.value)
   }
 </script>
 
@@ -319,7 +320,7 @@
   }
 
   // 用户头像
-  // 使用 :deep() 穿透子组件，因为 formatter 中的 VNode 在 AoTable/ElTableColumn 内部渲染，
+  // 使用 :deep() 穿透子组件，因为插槽内容在 AoTable/ElTableColumn 内部渲染，
   // scoped 属性可能无法正确传递到 AoImage 根元素，导致 .user-avatar 样式不生效
   :deep(.user-avatar) {
     width: 2.375rem;
@@ -328,7 +329,7 @@
   }
 
   // 用户名与邮箱容器
-  // 同样使用 :deep() 穿透，原因同上：formatter 中的 VNode 在子组件内渲染
+  // 同样使用 :deep() 穿透，原因同上：插槽内容在子组件内渲染
   :deep(.user-info) {
     margin-left: 0.5rem;
   }

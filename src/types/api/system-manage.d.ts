@@ -86,3 +86,12 @@ export type RoleSearchParams = Partial<
       endTime: string | null
     }
 >
+
+/**
+ * 角色搜索表单参数
+ * @description 在角色查询参数基础上补充表单日期区间，提交查询时拆分为起止时间。
+ */
+export type RoleSearchFormParams = RoleSearchParams & {
+  // 可选的创建日期区间
+  daterange?: string[]
+}

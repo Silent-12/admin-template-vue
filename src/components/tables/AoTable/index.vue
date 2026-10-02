@@ -1,13 +1,17 @@
 <!-- 表格组件 -->
+<!-- 定位：纯展示组件。数据由页面自行请求后通过 data 传入，组件不感知任何接口响应格式 -->
 <!-- 支持：el-table 全部属性、事件、插槽，同官方文档写法 -->
-<!-- 扩展功能：分页组件、渲染自定义列、loading、表格全局边框、斑马纹、表格尺寸、表头背景配置 -->
+<!-- 扩展功能：分页组件（分页状态由页面持有并通过 pagination 传入，组件只渲染与上报交互）、命名插槽渲染列内容、loading、表格全局边框、斑马纹、表格尺寸、表头背景配置 -->
 <!-- 集成能力：传入 searchItems 自动渲染搜索栏（v-model:searchForm 双向绑定，内置查询 / 重置按钮）；编写 #header-left / #header-right 插槽自动渲染表格头部 -->
+<!-- 列内容渲染：沿用原生 formatter；填写 slotName 即使用 AoTable 上的同名插槽 -->
+<!-- 事件：size-change / current-change / search / reset / refresh 均为交互上报，分页重置与数据加载由页面决定 -->
+<!-- 插槽：#header-left / #header-right 渲染表格头部；#footer 渲染表格底部左侧内容区；#operation 自动启用末尾操作列；其他列内容插槽由 slotName 指定 -->
 <!-- 获取 ref：默认暴露了 elTableRef 外部通过 ref.value.elTableRef 可以调用 el-table 方法 -->
 <template>
   <div class="ao-table-root" :class="rootClass">
-    <!-- 搜索栏：有搜索项或显式传入 showSearchBar 时挂载；显隐交给 v-show，避免隐藏后再显示时重新挂载刷新 AoSearchBar 的重置快照 -->
+    <!-- 搜索栏：传入 searchItems 即启用；显隐交给 v-show，避免隐藏后再显示时重新挂载刷新 AoSearchBar 的重置快照 -->
     <AoSearchBar
-      v-if="hasSearchItems || showSearchBar !== undefined"
+      v-if="hasSearchItems"
       v-show="renderSearchBar"
       ref="searchBarRef"
       v-model="searchFormModel"
@@ -45,7 +49,7 @@
       <div class="ao-table" :class="{ 'is-empty': isEmpty }" :style="containerHeight">
         <ElTable ref="elTableRef" v-loading="!!loading" v-bind="mergedTableProps">
           <template #default>
-            <template v-for="col in columns" :key="col.prop || col.type">
+            <template v-for="col in columns" :key="col.columnKey || col.prop || col.type">
               <!-- 渲染全局序号列 -->
               <ElTableColumn v-if="col.type === 'globalIndex'" v-bind="{ ...col }">
                 <template #default="{ $index }">
@@ -53,38 +57,39 @@
                 </template>
               </ElTableColumn>
 
-              <!-- 渲染展开行 -->
+              <!-- 渲染展开行：内容由列配置的 slotName 对应的插槽提供 -->
               <ElTableColumn v-else-if="col.type === 'expand'" v-bind="cleanColumnProps(col)">
-                <template #default="{ row }">
-                  <component :is="col.formatter ? col.formatter(row) : null" />
+                <template v-if="col.slotName" #default="expandScope">
+                  <slot :name="col.slotName" v-bind="expandScope" />
                 </template>
               </ElTableColumn>
 
               <!-- 渲染普通列 -->
               <ElTableColumn v-else v-bind="cleanColumnProps(col)">
-                <template v-if="col.useHeaderSlot && col.prop" #header="headerScope">
-                  <slot
-                    :name="col.headerSlotName || `${col.prop}-header`"
-                    v-bind="{ ...headerScope, prop: col.prop, label: col.label }"
-                  >
-                    {{ col.label }}
-                  </slot>
-                </template>
-                <template v-if="col.useSlot && col.prop" #default="slotScope">
+                <template v-if="col.slotName" #default="slotScope">
                   <slot
                     v-if="shouldRenderSlotScope(slotScope)"
-                    :name="col.slotName || col.prop"
-                    v-bind="{
-                      ...slotScope,
-                      prop: col.prop,
-                      value: col.prop ? slotScope.row[col.prop] : undefined
-                    }"
+                    :name="col.slotName"
+                    v-bind="slotScope"
                   />
                 </template>
               </ElTableColumn>
             </template>
 
             <slot v-if="$slots.default" />
+
+            <!-- 操作列由插槽自动启用，不参与业务列配置与列显隐设置 -->
+            <ElTableColumn
+              v-if="$slots.operation"
+              label="操作"
+              :width="180"
+              fixed="right"
+              align="right"
+            >
+              <template #default="slotScope">
+                <slot v-if="shouldRenderSlotScope(slotScope)" name="operation" v-bind="slotScope" />
+              </template>
+            </ElTableColumn>
           </template>
 
           <template #empty>
@@ -92,37 +97,45 @@
             <ElEmpty v-else :description="emptyText" :image-size="120" />
           </template>
         </ElTable>
+      </div>
 
-        <div
-          class="pagination custom-pagination"
-          v-if="showPagination"
-          :class="mergedPaginationOptions?.align"
-          ref="paginationRef"
-        >
+      <!-- 表格底部栏：左侧为 #footer 内容区，右侧为分页器 -->
+      <div
+        class="ao-table-bottom"
+        :class="{ 'is-bar-empty': !showPagination && !$slots.footer }"
+        ref="bottomBarRef"
+      >
+        <!-- 左侧内容区：占满剩余空间，使分页器始终贴右 -->
+        <div class="ao-table-bottom__left">
+          <slot name="footer"></slot>
+        </div>
+
+        <div class="pagination custom-pagination" v-if="showPagination">
           <ElPagination
             v-bind="mergedPaginationOptions"
-            :total="pagination?.total"
+            :total="resolvedTotal"
             :disabled="loading"
-            :page-size="pagination?.size"
-            :current-page="pagination?.current"
+            :current-page="currentPage"
+            :page-size="pageSize"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           />
         </div>
       </div>
-
-      <!-- 卡片附加内容插槽：弹窗、抽屉等 -->
-      <slot name="footer"></slot>
     </component>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, any> = Record<string, any>">
   import { ElCard, ElEmpty, ElPagination, ElTable, ElTableColumn } from 'element-plus'
   import { ref, computed, nextTick, watchEffect, getCurrentInstance, useAttrs, useSlots } from 'vue'
-  import type { FormRules, TableInstance, TableProps } from 'element-plus'
+  import type { FormRules, TableColumnCtx, TableInstance, TableProps } from 'element-plus'
   import { storeToRefs } from 'pinia'
-  import type { ColumnOption } from '@/types/component'
+  import type {
+    ColumnOption,
+    TablePaginationOptions,
+    TablePaginationState
+  } from '@/types/component'
   import { useTableStore } from '@/store/modules/table'
   import { useCommon } from '@/hooks/core/useCommon'
   import { useTableHeight } from '@/hooks/core/useTableHeight'
@@ -132,55 +145,51 @@
 
   defineOptions({ name: 'AoTable' })
 
-  const { width } = useWindowSize()
-  const elTableRef = ref<TableInstance | null>(null)
-  const paginationRef = ref<HTMLElement>()
-  const tableHeaderRef = ref<HTMLElement>()
-  const tableStore = useTableStore()
-  const { isBorder, isZebra, tableSize, isFullScreen, isHeaderBackground } = storeToRefs(tableStore)
-  const slots = useSlots()
+  /**
+   * 显式声明插槽契约。
+   * 列内容插槽为动态命名，自动推断只能得到 ElTable 的 DefaultRow，
+   * 无法还原调用方传入的泛型，因此在此显式声明作用域类型。
+   * 固定插槽需单独声明，以保证无参数调用（如 <slot name="header-left" />）可通过类型检查。
+   */
+  defineSlots<{
+    /** 表格头部左侧操作区 */
+    'header-left': (props: any) => any
+    /** 表格头部右侧操作区 */
+    'header-right': (props: any) => any
+    /** 表格默认插槽，用于在列配置之外追加自定义列 */
+    default: (props: any) => any
+    /** 表格底部左侧内容区（分页器位于同一行的右侧） */
+    footer: (props: any) => any
+    /** 声明即启用末尾操作列，透传原生单元格作用域 */
+    operation: (props: { row: T; column: TableColumnCtx<T>; $index: number }) => any
+    /**
+     * 列内容插槽：填写 slotName 即启用 AoTable 上的同名插槽，透传原生作用域。
+     */
+    [name: string]: (props: {
+      /** 当前行数据 */
+      row: T
+      /** 列上下文 */
+      column: TableColumnCtx<T>
+      /** 行索引 */
+      $index: number
+    }) => any
+  }>()
 
-  /** 搜索栏组件实例，用于查询前触发表单校验 */
-  const searchBarRef = ref<{ validate: () => Promise<unknown> } | null>(null)
-
-  /** 分页配置接口 */
-  interface PaginationConfig {
-    /** 当前页码 */
-    current: number
-    /** 每页显示条目个数 */
-    size: number
-    /** 总条目数 */
-    total: number
-  }
-
-  /** 分页器配置选项接口 */
-  interface PaginationOptions {
-    /** 每页显示个数选择器的选项列表 */
-    pageSizes?: number[]
-    /** 分页器的对齐方式 */
-    align?: 'left' | 'center' | 'right'
-    /** 分页器的布局 */
-    layout?: string
-    /** 是否显示分页器背景 */
-    background?: boolean
-    /** 只有一页时是否隐藏分页器 */
-    hideOnSinglePage?: boolean
-    /** 分页器的大小 */
-    size?: 'small' | 'default' | 'large'
-    /** 分页器的页码数量 */
-    pagerCount?: number
-  }
-
-  /** AoTable 组件的 Props 接口 */
-  interface AoTableProps extends TableProps<Record<string, any>> {
+  /** AoTable 组件自身的 Props 接口，继承 ElTable 除 data 外的全部属性 */
+  interface AoTableProps<T extends Record<string, any> = Record<string, any>> extends Omit<
+    TableProps<T>,
+    'data'
+  > {
+    /** 表格数据，由页面请求后传入，组件不做任何二次处理 */
+    data?: T[]
+    /** 列渲染配置，单元格内容通过同名插槽渲染 */
+    columns?: ColumnOption<T>[]
+    /** 分页状态，由页面持有；交互通过原生 size-change/current-change 事件回传 */
+    pagination?: TablePaginationState
     /** 加载状态 */
     loading?: boolean
-    /** 列渲染配置 */
-    columns?: ColumnOption[]
-    /** 分页状态 */
-    pagination?: PaginationConfig
     /** 分页配置 */
-    paginationOptions?: PaginationOptions
+    paginationOptions?: Partial<TablePaginationOptions>
     /** 空数据表格高度 */
     emptyHeight?: string
     /** 空数据时显示的文本 */
@@ -207,7 +216,7 @@
     integrated?: boolean
   }
 
-  const props = withDefaults(defineProps<AoTableProps>(), {
+  const props = withDefaults(defineProps<AoTableProps<T>>(), {
     columns: () => [],
     searchItems: () => [],
     fit: true,
@@ -231,13 +240,24 @@
     default: () => ({})
   })
 
-  /** 表格头部列显示控制，支持 v-model:columnChecks 双向绑定（通常直接传入 useTable 的 columnChecks） */
-  const headerColumns = defineModel<ColumnOption[]>('columnChecks', {
+  /** 表格头部列显示控制，支持 v-model:columnChecks 双向绑定（通常直接传入 useTableColumns 的 columnChecks） */
+  const headerColumns = defineModel<ColumnOption<T>[]>('columnChecks', {
     default: () => []
   })
 
   const instance = getCurrentInstance()
   const attrs = useAttrs()
+  const slots = useSlots()
+
+  const { width } = useWindowSize()
+  const elTableRef = ref<TableInstance | null>(null)
+  const bottomBarRef = ref<HTMLElement>()
+  const tableHeaderRef = ref<HTMLElement>()
+  const tableStore = useTableStore()
+  const { isBorder, isZebra, tableSize, isFullScreen, isHeaderBackground } = storeToRefs(tableStore)
+
+  /** 搜索栏组件实例，用于查询前触发表单校验 */
+  const searchBarRef = ref<{ validate: () => Promise<unknown> } | null>(null)
 
   const LAYOUT = {
     MOBILE: 'prev, pager, next, sizes, jumper, total',
@@ -255,20 +275,13 @@
     }
   })
 
-  // 默认分页常量
-  const DEFAULT_PAGINATION_OPTIONS: PaginationOptions = {
-    pageSizes: [10, 20, 30, 50, 100],
-    align: 'center',
-    background: true,
-    layout: layout.value,
-    hideOnSinglePage: false,
-    size: 'default',
-    pagerCount: width.value > 1200 ? 7 : 5
-  }
-
-  // 合并分页配置
+  // 合并分页配置：仅覆盖布局与外观，pageSizes 等未声明项沿用 element-plus 默认配置
   const mergedPaginationOptions = computed(() => ({
-    ...DEFAULT_PAGINATION_OPTIONS,
+    background: true,
+    hideOnSinglePage: false,
+    size: 'default' as const,
+    pagerCount: width.value > 1200 ? 7 : 5,
+    layout: layout.value,
     ...props.paginationOptions
   }))
 
@@ -280,6 +293,12 @@
   const size = computed(() => props.size ?? tableSize.value)
   // 数据是否为空
   const isEmpty = computed(() => props.data?.length === 0)
+
+  // 分页状态全部派生自页面传入的 pagination，组件不持有、不修改分页状态
+  const currentPage = computed(() => props.pagination?.currentPage ?? 1)
+  const pageSize = computed(() => props.pagination?.pageSize ?? 10)
+  // 总条数：未传入 pagination 时视为不分页
+  const resolvedTotal = computed(() => props.pagination?.total ?? 0)
 
   // 是否传入搜索项
   const hasSearchItems = computed(() => (props.searchItems?.length ?? 0) > 0)
@@ -303,16 +322,16 @@
     return ['ao-table-card', { 'is-search-hidden': !renderSearchBar.value }]
   })
 
-  const paginationHeight = ref(0)
+  const bottomBarHeight = ref(0)
   const tableHeaderHeight = ref(0)
 
-  // 使用 useResizeObserver 监听分页器高度变化
-  useResizeObserver(paginationRef, (entries) => {
+  // 使用 useResizeObserver 监听底部栏高度变化（含 #footer 插槽内容，避免其高度未被计入布局）
+  useResizeObserver(bottomBarRef, (entries) => {
     const entry = entries[0]
     if (entry) {
       // 使用 requestAnimationFrame 避免 ResizeObserver loop 警告
       requestAnimationFrame(() => {
-        paginationHeight.value = entry.contentRect.height
+        bottomBarHeight.value = entry.contentRect.height
       })
     }
   })
@@ -328,15 +347,15 @@
     }
   })
 
-  // 分页器与表格之间的间距常量（计算属性，响应 showTableHeader 变化）
-  const PAGINATION_SPACING = computed(() => (props.showTableHeader ? 6 : 15))
+  // 底部栏与表格之间的间距常量（计算属性，响应 showTableHeader 变化）
+  const BOTTOM_BAR_SPACING = computed(() => (props.showTableHeader ? 6 : 15))
 
   // 使用表格高度计算 Hook
   const { containerHeight } = useTableHeight({
     showTableHeader: computed(() => props.showTableHeader),
-    paginationHeight,
+    bottomBarHeight,
     tableHeaderHeight,
-    paginationSpacing: PAGINATION_SPACING
+    bottomBarSpacing: BOTTOM_BAR_SPACING
   })
 
   // 表格高度逻辑
@@ -366,7 +385,7 @@
     return propName in rawProps || kebabName in rawProps
   }
 
-  /** AoTable 自身扩展属性，不向 ElTable 透传，避免对象 / 数组被序列化为 DOM 属性 */
+  /** AoTable 自身扩展属性，不向 ElTable 透传，避免对象 / 数组被序列化为 DOM 属性；data 需透传故不在此列 */
   const OWN_PROP_KEYS = [
     'loading',
     'columns',
@@ -414,8 +433,8 @@
       : undefined
   }))
 
-  // 是否显示分页器
-  const showPagination = computed(() => props.pagination && !isEmpty.value)
+  // 是否显示分页器：需页面传入 pagination.total 且当前页有数据
+  const showPagination = computed(() => resolvedTotal.value > 0 && !isEmpty.value)
 
   // Element Plus 在部分场景会先用 $index = -1 进行预渲染。
   // 这对普通展示无影响，但会让 ElForm 错误注册出 lineList.-1.xxx 这类字段。
@@ -423,26 +442,33 @@
     return slotScope.$index === undefined || slotScope.$index >= 0
   }
 
-  // 清理列属性，移除插槽相关的自定义属性，确保它们不会被 ElTableColumn 错误解释
-  const cleanColumnProps = (col: ColumnOption) => {
-    const columnProps = { ...col }
+  /**
+   * @description 清理列属性，移除 AoTable 自身的插槽与渲染控制字段，确保它们不会被 ElTableColumn 错误解释
+   * @param col 列配置
+   * @return 可透传给 ElTableColumn 的列属性
+   */
+  const cleanColumnProps = (col: ColumnOption<T>) => {
+    const columnProps: Record<string, unknown> = { ...col }
     // 删除自定义的插槽控制属性
-    delete columnProps.useHeaderSlot
-    delete columnProps.headerSlotName
-    delete columnProps.useSlot
     delete columnProps.slotName
     return columnProps
   }
 
-  // 分页大小变化
-  const handleSizeChange = (val: number) => {
-    emit('pagination:size-change', val)
+  /**
+   * @description 沿用原生事件上报每页条数，页码重置与请求由页面决定
+   * @param val 每页条数
+   */
+  const handleSizeChange = (val: number): void => {
+    emit('size-change', val)
   }
 
-  // 分页当前页变化
-  const handleCurrentChange = (val: number) => {
-    emit('pagination:current-change', val)
-    scrollToTop() // 页码改变后滚动到表格顶部
+  /**
+   * @description 沿用原生事件上报页码并滚动到表格顶部
+   * @param val 当前页码
+   */
+  const handleCurrentChange = (val: number): void => {
+    emit('current-change', val)
+    scrollToTop()
   }
 
   /**
@@ -460,12 +486,12 @@
     emit('search', params)
   }
 
-  /** @description 处理重置事件，表单重置由搜索栏内部完成，此处仅向父级抛出以重置查询参数 */
+  /** @description 处理重置事件，表单重置由搜索栏内部完成，此处仅上报页面 */
   const handleReset = (): void => {
     emit('reset')
   }
 
-  /** @description 处理表格头部刷新事件 */
+  /** @description 处理表格头部刷新事件，仅上报页面 */
   const handleRefresh = (): void => {
     emit('refresh')
   }
@@ -490,14 +516,12 @@
 
   // 全局序号
   const getGlobalIndex = (index: number) => {
-    if (!props.pagination) return index + 1
-    const { current, size } = props.pagination
-    return (current - 1) * size + index + 1
+    return (currentPage.value - 1) * pageSize.value + index + 1
   }
 
   const emit = defineEmits<{
-    (e: 'pagination:size-change', val: number): void
-    (e: 'pagination:current-change', val: number): void
+    (e: 'size-change', value: number): void
+    (e: 'current-change', value: number): void
     (e: 'refresh'): void
     (e: 'search', params: Record<string, any>): void
     (e: 'reset'): void

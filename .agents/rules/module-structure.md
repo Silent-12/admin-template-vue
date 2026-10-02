@@ -21,7 +21,8 @@
 
 - 所有业务表格统一使用项目封装的 `AoTable`，页面布局参考 `src/views/system/user/index.vue`：页面容器使用 `ao-full-height`，`ao-table-card` 表格卡片与表格头部由 `AoTable` 内部按需渲染，业务页面只需传入 `:search-items` / `:search-rules` / `v-model:search-form` / `v-model:column-checks` 并编写 `#header-left` / `#header-right` 插槽；搜索栏需支持显隐切换时额外绑定 `v-model:show-search-bar`；禁止在业务页面直接使用 `el-table`。
 
-- 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，它已由 `AoTable` 通过 `search-items` 集成，业务页面无需再单独引入；搜索项配置以 `searchItems` 内联在对应业务页面中，不再为每个页面创建 `components/XxxSearch.vue` 包装组件；弹窗、抽屉等卡片附加内容放入 `AoTable` 的 `#footer` 插槽。
+- 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，它已由 `AoTable` 通过 `search-items` 集成，业务页面无需再单独引入；搜索项配置以 `searchItems` 内联在对应业务页面中，不再为每个页面创建 `components/XxxSearch.vue` 包装组件；`AoTable` 的 `#footer` 插槽用于表格底部左侧内容，分页器固定靠右，弹窗和抽屉放在表格同级。
+- 表格列的 `prop` 沿用 `ElTableColumn` 原生语义，支持直接字段名和 `meta.title` 等点路径，由 Element Plus 负责取值，不增加自定义路径解析或纠错兼容层；操作列由业务页面声明 `#operation` 插槽自动启用，不在 `columns` 中配置；其他无对应数据字段的展示列使用原生 `columnKey` 标识。简单格式化沿用 `ElTableColumn` 的 `formatter`；填写 `slotName` 即启用定义在 `AoTable` 上的同名插槽，无需额外开关，插槽透传原生作用域，不额外计算 `value`。分页状态使用 `currentPage`、`pageSize`、`total`，交互沿用原生 `size-change`、`current-change` 事件，分页重置与请求由页面处理。
 
 ## 表单与关键操作
 

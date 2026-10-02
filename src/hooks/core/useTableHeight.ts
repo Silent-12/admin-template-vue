@@ -2,11 +2,12 @@
  * useTableHeight - 表格高度自动计算
  *
  * 自动计算表格容器的最佳高度，确保表格在不同布局场景下都能正确显示。
- * 根据表格头部、分页器等元素的高度动态调整容器高度，避免出现滚动条或布局错乱。
+ * 根据表格头部、底部栏（#footer 插槽 + 分页器）等元素的高度动态调整容器高度，
+ * 避免出现滚动条或布局错乱。
  *
  * ## 主要功能
  *
- * 1. 动态高度计算 - 根据表格头部、分页器高度自动计算容器高度
+ * 1. 动态高度计算 - 根据表格头部、底部栏高度自动计算容器高度
  * 2. 响应式更新 - 配置变化时自动重新计算高度
  * 3. 灵活配置 - 支持自定义各部分高度和间距
  * 4. 智能适配 - 无额外元素时自动使用 100% 高度
@@ -20,12 +21,12 @@ import { computed, type Ref } from 'vue'
 interface TableHeightOptions {
   /** 是否显示表格头部 */
   showTableHeader: Ref<boolean>
-  /** 分页器高度 */
-  paginationHeight: Ref<number>
+  /** 表格底部栏高度（含 #footer 插槽内容与分页器） */
+  bottomBarHeight: Ref<number>
   /** 表格头部高度 */
   tableHeaderHeight: Ref<number>
-  /** 分页器间距 */
-  paginationSpacing: Ref<number>
+  /** 底部栏与表格之间的间距 */
+  bottomBarSpacing: Ref<number>
 }
 
 /**
@@ -53,13 +54,13 @@ class TableHeightCalculator {
    */
   private calculateOffset(): number {
     if (!this.options.showTableHeader.value) {
-      return this.calculatePaginationOffset()
+      return this.calculateBottomBarOffset()
     }
 
     const headerHeight = this.getHeaderHeight()
-    const paginationOffset = this.calculatePaginationOffset()
+    const bottomBarOffset = this.calculateBottomBarOffset()
 
-    return headerHeight + paginationOffset + TableHeightCalculator.TABLE_HEADER_SPACING
+    return headerHeight + bottomBarOffset + TableHeightCalculator.TABLE_HEADER_SPACING
   }
 
   /**
@@ -70,11 +71,11 @@ class TableHeightCalculator {
   }
 
   /**
-   * 计算分页器偏移量
+   * 计算底部栏偏移量
    */
-  private calculatePaginationOffset(): number {
-    const { paginationHeight, paginationSpacing } = this.options
-    return paginationHeight.value === 0 ? 0 : paginationHeight.value + paginationSpacing.value
+  private calculateBottomBarOffset(): number {
+    const { bottomBarHeight, bottomBarSpacing } = this.options
+    return bottomBarHeight.value === 0 ? 0 : bottomBarHeight.value + bottomBarSpacing.value
   }
 }
 

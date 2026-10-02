@@ -1,14 +1,9 @@
 /** 角色管理页私有类型定义 */
 
-import type { RoleListItem, RoleSearchParams } from '@/types/api/system-manage'
+import type { RoleListItem } from '@/types/api/system-manage'
 
 /** 角色列表项类型别名 */
 export type { RoleListItem }
-
-/** 角色搜索表单参数（含日期区间扩展字段） */
-export type RoleSearchFormParams = RoleSearchParams & {
-  daterange?: string[]
-}
 
 /** 角色编辑弹窗 Props */
 export interface RoleEditDialogProps {
