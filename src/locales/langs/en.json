@@ -117,6 +117,14 @@
       "expand": "Expand",
       "index": "Index"
     },
+    "header": {
+      "search": "Search",
+      "refresh": "Refresh",
+      "size": "Table Size",
+      "fullscreen": "Fullscreen",
+      "columns": "Column Settings",
+      "settings": "Settings"
+    },
     "zebra": "Zebra",
     "border": "Border",
     "headerBackground": "Header BG"

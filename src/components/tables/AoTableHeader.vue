@@ -1,39 +1,37 @@
 <!-- 表格头部，包含表格大小、刷新、全屏、列设置、其他设置 -->
+<!-- 插槽契约：#left / #right 内的自定义按钮需使用 AoTableHeaderButton（已自动导入），才能获得与内置按钮一致的样式与 Tooltip 提示 -->
 <template>
   <div class="table-header-root" id="ao-table-header">
     <div class="left-wrap">
+      <!-- 左侧插槽：插槽内自定义按钮使用 AoTableHeaderButton 可复用统一样式与 Tooltip 提示 -->
       <slot name="left"></slot>
     </div>
 
     <div class="right-wrap">
+      <!-- 右侧插槽：插槽内自定义按钮使用 AoTableHeaderButton 可复用统一样式与 Tooltip 提示 -->
+      <slot name="right"></slot>
+
       <!-- 搜索按钮 -->
-      <div
+      <AoTableHeaderButton
         v-if="showSearchBar != null"
-        class="button"
+        icon="ri:search-line"
+        :content="t('table.header.search')"
+        :active="showSearchBar"
         @click="search"
-        :class="showSearchBar ? 'active' : ''"
-      >
-        <AoSvgIcon icon="ri:search-line" :class="showSearchBar ? 'is-active-icon' : 'is-icon'" />
-      </div>
+      />
 
       <!-- 刷新按钮 -->
-      <div
+      <AoTableHeaderButton
         v-if="shouldShow('refresh')"
-        class="button"
+        icon="ri:refresh-line"
+        :content="t('table.header.refresh')"
+        :loading="loading && isManualRefresh"
         @click="refresh"
-        :class="{ loading: loading && isManualRefresh }"
-      >
-        <AoSvgIcon
-          icon="ri:refresh-line"
-          :class="loading && isManualRefresh ? 'is-loading-icon' : ''"
-        />
-      </div>
+      />
 
       <!-- 表格大小选择 -->
       <ElDropdown v-if="shouldShow('size')" @command="handleTableSizeChange">
-        <div class="button">
-          <AoSvgIcon icon="ri:arrow-up-down-fill" />
-        </div>
+        <AoTableHeaderButton icon="ri:arrow-up-down-fill" :content="t('table.header.size')" />
         <template #dropdown>
           <ElDropdownMenu>
             <div
@@ -51,16 +49,17 @@
       </ElDropdown>
 
       <!-- 全屏按钮 -->
-      <div v-if="shouldShow('fullscreen')" class="button" @click="toggleFullScreen">
-        <AoSvgIcon :icon="isFullScreen ? 'ri:fullscreen-exit-line' : 'ri:fullscreen-line'" />
-      </div>
+      <AoTableHeaderButton
+        v-if="shouldShow('fullscreen')"
+        :icon="isFullScreen ? 'ri:fullscreen-exit-line' : 'ri:fullscreen-line'"
+        :content="t('table.header.fullscreen')"
+        @click="toggleFullScreen"
+      />
 
       <!-- 列设置 -->
       <ElPopover v-if="shouldShow('columns')" placement="bottom" trigger="click">
         <template #reference>
-          <div class="button">
-            <AoSvgIcon icon="ri:align-right" />
-          </div>
+          <AoTableHeaderButton icon="ri:align-right" :content="t('table.header.columns')" />
         </template>
         <div>
           <ElScrollbar max-height="380px">
@@ -101,9 +100,7 @@
       <!-- 其他设置 -->
       <ElPopover v-if="shouldShow('settings')" placement="bottom" trigger="click">
         <template #reference>
-          <div class="button">
-            <AoSvgIcon icon="ri:settings-line" />
-          </div>
+          <AoTableHeaderButton icon="ri:settings-line" :content="t('table.header.settings')" />
         </template>
         <div>
           <ElCheckbox v-if="showZebra" v-model="isZebra" :value="true">{{
@@ -117,9 +114,6 @@
           }}</ElCheckbox>
         </div>
       </ElPopover>
-
-      <!-- 右侧插槽 -->
-      <slot name="right"></slot>
     </div>
   </div>
 </template>
@@ -134,6 +128,7 @@
   import { useI18n } from 'vue-i18n'
   import type { ColumnOption } from '@/types/component'
   import { ElScrollbar } from 'element-plus'
+  import AoTableHeaderButton from './AoTableHeaderButton.vue'
 
   defineOptions({ name: 'AoTableHeader' })
 
@@ -351,60 +346,6 @@
     }
   }
 
-  // 操作按钮
-  .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    margin-left: 0.5rem;
-    color: var(--ao-gray-700);
-    cursor: pointer;
-    background-color: color-mix(in srgb, var(--ao-gray-300) 55%, transparent);
-    border-radius: 0.375rem;
-    &:hover {
-      background-color: var(--ao-gray-300);
-    }
-    @media (width >= 48rem) {
-      margin-right: 0.625rem;
-      margin-left: 0;
-    }
-    .dark & {
-      background-color: color-mix(in srgb, var(--ao-gray-300) 40%, transparent);
-    }
-  }
-
-  // 搜索按钮激活态
-  .button.active {
-    background-color: var(--theme-color) !important;
-    &:hover {
-      background-color: color-mix(in srgb, var(--theme-color) 80%, transparent) !important;
-    }
-  }
-
-  // 搜索图标激活态
-  .button :deep(.is-active-icon) {
-    color: var(--ao-white);
-  }
-
-  // 搜索图标默认态
-  .button :deep(.is-icon) {
-    color: var(--ao-gray-700);
-  }
-
-  // 刷新按钮加载中图标
-  .button :deep(.is-loading-icon) {
-    color: var(--ao-gray-600);
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
   // 表格大小选项容器
   .table-size-btn-item {
     :deep(.el-dropdown-menu__item) {
@@ -459,6 +400,11 @@
     min-width: 0;
     :deep(.el-checkbox__label) {
       overflow: hidden;
+      // Element Plus 默认 line-height: 1，行盒高度恰好等于 14px 字号，
+      // 而中文字形的基线下笔画（如「序」的竖钩尾、「日」的底横下缘）会落到行盒之外，
+      // 被上面的 overflow: hidden 裁掉一行；提高行高为字形留出纵向余量即可修复。
+      // .el-checkbox 固定 32px 且垂直居中，label 变高不会影响行高与弹层尺寸
+      line-height: 1.5;
       text-overflow: ellipsis;
       white-space: nowrap;
     }

@@ -117,6 +117,14 @@
       "expand": "展开",
       "index": "序号"
     },
+    "header": {
+      "search": "搜索",
+      "refresh": "刷新",
+      "size": "表格大小",
+      "fullscreen": "全屏",
+      "columns": "列设置",
+      "settings": "其他设置"
+    },
     "zebra": "斑马纹",
     "border": "边框",
     "headerBackground": "表头背景"
