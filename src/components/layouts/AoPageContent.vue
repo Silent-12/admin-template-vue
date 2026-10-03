@@ -36,7 +36,8 @@
   defineOptions({ name: 'AoPageContent' })
 
   const route = useRoute()
-  const { containerMinHeight } = useAutoLayoutHeight()
+  // 驱动头部高度测量：测量结果写入 CSS 变量，内容区高度在 app.scss 中由 CSS 组合
+  useAutoLayoutHeight()
   const { refresh } = storeToRefs(useSettingStore())
   const { keepAliveExclude } = storeToRefs(useWorktabStore())
 
@@ -82,9 +83,10 @@
     })
   })
 
-  const contentStyle = computed((): CSSProperties => ({
-    minHeight: containerMinHeight.value
-  }))
+  /** 内容区最小高度：引用 --ao-full-height，具体数值由 CSS 组合（见 app.scss） */
+  const contentStyle: CSSProperties = {
+    minHeight: 'var(--ao-full-height)'
+  }
 
   const reload = () => {
     isRefresh.value = false

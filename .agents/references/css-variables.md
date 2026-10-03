@@ -65,6 +65,17 @@
 | `--ao-active-color`    | `#f2f4f5` | `#202226` | 点击激活背景        |
 | `--ao-el-active-color` | `#f2f4f5` | `#2e2e38` | Element组件选中背景 |
 
+### 布局尺寸变量
+
+| 变量名                       | 值 / 来源           | 典型用途         |
+| ---------------------------- | ------------------- | ---------------- |
+| `--ao-page-gap`              | `app.scss`，`10px`  | 上下留白唯一来源 |
+| `--ao-header-height`         | 运行时写入          | 头部实测高度     |
+| `--ao-content-header-height` | 运行时写入          | 内容头部实测高度 |
+| `--ao-full-height`           | `app.scss` 组合计算 | 内容区全高       |
+
+`--ao-page-gap` 是上下留白的唯一来源：顶部由 `#app-header` 的 `padding-bottom` 消费，底部由 `--ao-full-height` 的计算式消费。脚本只负责把头部高度写入 `--ao-header-height` / `--ao-content-header-height`，不参与间距计算，因此调整 `--ao-page-gap` 即可让内容区上下间距同步变化，媒体查询中同样生效。
+
 ### Element Plus 桥接变量（`src/assets/styles/el-ui.scss`）
 
 | 变量名                         | 说明                                          |

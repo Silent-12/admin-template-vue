@@ -103,6 +103,17 @@
   }
 }
 
+// 页面布局高度：--ao-page-gap 是上下留白的唯一来源，头部高度由脚本运行时写入
+// --ao-full-height 在此由 CSS 组合，脚本不参与间距计算；改 --ao-page-gap 即可让内容区上下间距同步变化
+:root {
+  --ao-page-gap: 10px;
+  --ao-header-height: 0px;
+  --ao-content-header-height: 0px;
+  --ao-full-height: calc(
+    100vh - var(--ao-header-height) - var(--ao-content-header-height) - var(--ao-page-gap)
+  );
+}
+
 // 容器全高
 .ao-full-height {
   height: var(--ao-full-height);

@@ -46,7 +46,8 @@
         z-index: 50;
         flex-shrink: 0;
         width: 100%;
-        padding-bottom: 10px;
+        // 与底部留白同源，统一由 --ao-page-gap 控制
+        padding-bottom: var(--ao-page-gap);
       }
       #app-content {
         flex: 1;
