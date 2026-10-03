@@ -478,7 +478,8 @@
       font-size: 0.75rem;
       line-height: 1rem;
       cursor: pointer;
-      border-radius: calc(var(--custom-radius) / 2.5 + 2px) !important;
+      border: none !important;
+      border-radius: 20px !important;
       // 悬停时同步设置标签和图标颜色
       &:hover {
         color: var(--theme-color);
@@ -489,6 +490,11 @@
       // 激活状态：
       &--active {
         color: var(--theme-color) !important;
+        background: var(--el-color-primary-light-9) !important;
+        // 暗黑模式：light-9 比容器底色更深，改用主题色叠加，保证选中态可辨识
+        .dark & {
+          background: color-mix(in srgb, var(--el-color-primary) 22%, transparent) !important;
+        }
         .work-tab__item-icon {
           color: var(--theme-color);
         }
@@ -496,12 +502,15 @@
       // 非激活状态
       &--inactive {
         color: var(--ao-gray-600);
+        background: var(--default-bg-color) !important;
         .work-tab__item-icon {
           color: var(--ao-gray-600);
         }
         // 暗黑模式
         .dark & {
           color: var(--ao-gray-800);
+          // 页面底色在暗色下比容器更深，改用灰色叠加形成抬起的胶囊底色
+          background: color-mix(in srgb, var(--ao-gray-300) 45%, transparent) !important;
           .work-tab__item-icon {
             color: var(--ao-gray-800);
           }
