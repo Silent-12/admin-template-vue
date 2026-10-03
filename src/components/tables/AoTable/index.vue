@@ -2,7 +2,7 @@
 <!-- 定位：纯展示组件。数据由页面自行请求后通过 data 传入，组件不感知任何接口响应格式 -->
 <!-- 支持：el-table 全部属性、事件、插槽，同官方文档写法 -->
 <!-- 扩展功能：分页组件（分页状态由页面持有并通过 pagination 传入，组件只渲染与上报交互）、命名插槽渲染列内容、loading、表格全局边框、斑马纹、表格尺寸、表头背景配置 -->
-<!-- 集成能力：传入 searchItems 自动渲染搜索栏（v-model:searchForm 双向绑定，内置查询 / 重置按钮）；编写 #header-left / #header-right 插槽自动渲染表格头部 -->
+<!-- 集成能力：传入 searchItems 自动渲染搜索栏（v-model:searchForm 双向绑定，内置查询 / 重置按钮）；搜索栏默认显示，头部搜索开关可切换显隐，v-model:show-search-bar 可接管状态；编写 #header-left / #header-right 插槽自动渲染表格头部 -->
 <!-- 布局：集成模式下根容器为唯一卡片外框，搜索栏、表格头部、表格与分页共用同一层边框，搜索栏下边框作为分隔线 -->
 <!-- 列内容渲染：沿用原生 formatter；填写 slotName 即使用 AoTable 上的同名插槽 -->
 <!-- 事件：size-change / current-change / search / reset / refresh 均为交互上报，分页重置与数据加载由页面决定 -->
@@ -30,7 +30,7 @@
       <AoTableHeader
         v-if="renderHeader"
         v-model:columns="headerColumns"
-        :show-search-bar="showSearchBar"
+        :show-search-bar="headerShowSearchBar"
         :show-zebra="headerShowZebra"
         :show-border="headerShowBorder"
         :show-header-background="headerShowHeaderBackground"
@@ -205,7 +205,7 @@
     searchSpan?: number
     /** 搜索栏是否显示展开 / 收起按钮，默认沿用 AoSearchBar 的 true */
     searchShowExpand?: boolean
-    /** 是否渲染搜索栏；显式传入时同时作为表格头部搜索切换按钮的开关状态 */
+    /** 是否显示搜索栏；有搜索项时默认显示并启用头部搜索开关，显式传入可覆盖 */
     showSearchBar?: boolean
     /** 表格头部是否显示斑马纹开关，默认沿用 AoTableHeader 的 true */
     headerShowZebra?: boolean
@@ -309,8 +309,15 @@
   const isIntegrated = computed(
     () => props.integrated ?? (hasSearchItems.value || hasHeaderSlot.value)
   )
+  // 搜索栏显隐状态：页面未显式传入 show-search-bar 时由组件内部维护，默认显示
+  const innerShowSearchBar = ref(true)
+  const resolvedShowSearchBar = computed(() => props.showSearchBar ?? innerShowSearchBar.value)
   // 搜索栏是否显示（仅控制 v-show 显隐，不影响挂载，避免重置快照被刷新）
-  const renderSearchBar = computed(() => props.showSearchBar ?? hasSearchItems.value)
+  const renderSearchBar = computed(() => resolvedShowSearchBar.value)
+  // 头部搜索开关状态：无搜索项时不渲染开关，避免出现无效的切换按钮
+  const headerShowSearchBar = computed(() =>
+    hasSearchItems.value ? resolvedShowSearchBar.value : undefined
+  )
   // 是否渲染表格头部
   const renderHeader = computed(() => isIntegrated.value && props.showTableHeader)
   // 根容器样式类：集成模式为纵向容器，默认模式不生成盒子以保持既有 DOM 布局
@@ -499,6 +506,10 @@
    * @param value 搜索栏显示状态
    */
   const handleShowSearchBarChange = (value: boolean): void => {
+    // 页面未显式传入 show-search-bar 时同步内部状态，保证开关可切换
+    if (props.showSearchBar === undefined) {
+      innerShowSearchBar.value = value
+    }
     emit('update:showSearchBar', value)
   }
 
