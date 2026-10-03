@@ -217,7 +217,7 @@
   .layout-sidebar {
     // 展开的宽度
     .el-menu:not(.el-menu--collapse) {
-      width: 220px;
+      width: 200px;
     }
     // 折叠后宽度
     .el-menu--collapse {
