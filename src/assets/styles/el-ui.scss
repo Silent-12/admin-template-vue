@@ -330,6 +330,12 @@
   font-weight: 500 !important;
 }
 
+// ==================== el-card 卡片样式 ====================
+// 卡片容器统一使用直角
+.el-card {
+  border-radius: 0 !important;
+}
+
 // ==================== el-table 表格样式 ====================
 .el-table__column-filter-trigger i {
   color: var(--theme-color) !important;

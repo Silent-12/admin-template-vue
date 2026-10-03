@@ -35,7 +35,7 @@ interface TableHeightOptions {
 class TableHeightCalculator {
   // 常量配置
   private static readonly DEFAULT_TABLE_HEADER_HEIGHT = 44
-  private static readonly TABLE_HEADER_SPACING = 12
+  private static readonly TABLE_HEADER_SPACING = 10
 
   constructor(private options: TableHeightOptions) {}
 

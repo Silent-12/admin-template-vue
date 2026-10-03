@@ -572,7 +572,15 @@
 
 <style lang="scss" scoped>
   .ao-search-bar {
-    padding: 15px 20px 0;
+    padding: 10px;
+    // 收紧表单项垂直间距，提升搜索区域信息密度
+    :deep(.el-form-item) {
+      margin-bottom: 12px;
+    }
+    // 抵消表单末行自带的 12px 下边距（表单项 / 按钮区各一处），使卡片四周留白统一为 10px
+    :deep(.el-form) {
+      margin-bottom: -12px;
+    }
     .action-column {
       flex: 1;
       max-width: 100%;
@@ -613,7 +621,6 @@
   // 响应式优化
   @media (width <= 768px) {
     .ao-search-bar {
-      padding: 16px 16px 0;
       .action-column {
         .action-buttons-wrapper {
           flex-direction: column;

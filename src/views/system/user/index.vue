@@ -323,8 +323,8 @@
   // 使用 :deep() 穿透子组件，因为插槽内容在 AoTable/ElTableColumn 内部渲染，
   // scoped 属性可能无法正确传递到 AoImage 根元素，导致 .user-avatar 样式不生效
   :deep(.user-avatar) {
-    width: 2.375rem;
-    height: 2.375rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 0.375rem;
   }
 

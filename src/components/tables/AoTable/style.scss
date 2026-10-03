@@ -29,7 +29,7 @@
   height: 100%;
   .el-table {
     height: 100%;
-    margin-top: 10px;
+    margin-top: 8px;
   }
   :deep(.el-loading-mask) {
     z-index: 100;
@@ -54,7 +54,7 @@
 .ao-table-bottom {
   display: flex;
   align-items: center;
-  margin-top: 13px;
+  margin-top: 10px;
 
   // 既无分页器也无底部插槽时不占位
   &.is-bar-empty {

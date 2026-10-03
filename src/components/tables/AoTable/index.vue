@@ -82,7 +82,7 @@
             <ElTableColumn
               v-if="$slots.operation"
               label="操作"
-              :width="180"
+              :width="170"
               fixed="right"
               align="right"
             >
@@ -347,8 +347,8 @@
     }
   })
 
-  // 底部栏与表格之间的间距常量（计算属性，响应 showTableHeader 变化）
-  const BOTTOM_BAR_SPACING = computed(() => (props.showTableHeader ? 6 : 15))
+  // 底部栏与表格之间的间距常量（与 style.scss 中 .ao-table-bottom 的 margin-top 保持一致）
+  const BOTTOM_BAR_SPACING = computed(() => 10)
 
   // 使用表格高度计算 Hook
   const { containerHeight } = useTableHeight({
