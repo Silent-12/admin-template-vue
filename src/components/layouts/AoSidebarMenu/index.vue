@@ -26,16 +26,6 @@
           }"
         >
           {{ AppConfig.systemInfo.name }}
-          <ElTag
-            v-if="menuOpen"
-            class="system-version"
-            type="primary"
-            effect="light"
-            size="small"
-            round
-          >
-            {{ AppConfig.systemInfo.version }}
-          </ElTag>
         </p>
       </div>
 
@@ -76,7 +66,7 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { ElMenu, ElScrollbar, ElTag } from 'element-plus'
+  import { ElMenu, ElScrollbar } from 'element-plus'
   import AppConfig from '@/config'
   import { useSettingStore } from '@/store/modules/setting'
   import { useMenuStore } from '@/store/modules/menu'
