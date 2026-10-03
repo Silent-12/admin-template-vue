@@ -3,6 +3,7 @@
 <!-- 支持：el-table 全部属性、事件、插槽，同官方文档写法 -->
 <!-- 扩展功能：分页组件（分页状态由页面持有并通过 pagination 传入，组件只渲染与上报交互）、命名插槽渲染列内容、loading、表格全局边框、斑马纹、表格尺寸、表头背景配置 -->
 <!-- 集成能力：传入 searchItems 自动渲染搜索栏（v-model:searchForm 双向绑定，内置查询 / 重置按钮）；编写 #header-left / #header-right 插槽自动渲染表格头部 -->
+<!-- 布局：集成模式下根容器为唯一卡片外框，搜索栏、表格头部、表格与分页共用同一层边框，搜索栏下边框作为分隔线 -->
 <!-- 列内容渲染：沿用原生 formatter；填写 slotName 即使用 AoTable 上的同名插槽 -->
 <!-- 事件：size-change / current-change / search / reset / refresh 均为交互上报，分页重置与数据加载由页面决定 -->
 <!-- 插槽：#header-left / #header-right 渲染表格头部；#footer 渲染表格底部左侧内容区；#operation 自动启用末尾操作列；其他列内容插槽由 slotName 指定 -->
@@ -23,7 +24,7 @@
       @reset="handleReset"
     />
 
-    <!-- 表格容器：集成模式由卡片承载；默认模式使用 display: contents 透传，保持既有 DOM 布局不变 -->
+    <!-- 表格容器：集成模式下根容器即卡片，此处仅作为内部纵向布局层；默认模式使用 display: contents 透传，保持既有 DOM 布局不变 -->
     <component :is="cardComponent" :class="cardClass">
       <!-- 表格头部：集成模式下由 AoTable 内部渲染，#header-left / #header-right 插槽内容写入对应位置 -->
       <AoTableHeader
@@ -314,13 +315,10 @@
   const renderHeader = computed(() => isIntegrated.value && props.showTableHeader)
   // 根容器样式类：集成模式为纵向容器，默认模式不生成盒子以保持既有 DOM 布局
   const rootClass = computed(() => (isIntegrated.value ? 'is-integrated' : 'is-bare'))
-  // 表格容器组件：集成模式使用卡片承载
+  // 表格容器组件：集成模式使用 ElCard 作为内部布局层（卡片外观由根容器统一承担）
   const cardComponent = computed(() => (isIntegrated.value ? ElCard : 'div'))
-  // 表格容器样式类：集成模式使用卡片承载，未显示搜索栏时卡片紧贴页面顶部
-  const cardClass = computed(() => {
-    if (!isIntegrated.value) return 'ao-table-bare'
-    return ['ao-table-card', { 'is-search-hidden': !renderSearchBar.value }]
-  })
+  // 表格容器样式类：集成模式下退化为根卡片内的透明布局层，默认模式保持原有透传
+  const cardClass = computed(() => (isIntegrated.value ? 'ao-table-card' : 'ao-table-bare'))
 
   const bottomBarHeight = ref(0)
   const tableHeaderHeight = ref(0)
