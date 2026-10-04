@@ -46,7 +46,7 @@
 | 变量名                | 亮色值    | 暗色值    | 典型用途             |
 | --------------------- | --------- | --------- | -------------------- |
 | `--ao-color`          | `#ffffff` | `#000000` | 基础色（组件内底色） |
-| `--default-bg-color`  | `#f7f8fa` | `#070707` | 页面全局背景         |
+| `--default-bg-color`  | `#ffffff` | `#161618` | 页面全局背景         |
 | `--default-box-color` | `#ffffff` | `#161618` | 卡片/弹窗/容器背景   |
 
 ### 边框变量
@@ -69,12 +69,11 @@
 
 | 变量名                       | 值 / 来源           | 典型用途         |
 | ---------------------------- | ------------------- | ---------------- |
-| `--ao-page-gap`              | `app.scss`，`10px`  | 上下留白唯一来源 |
 | `--ao-header-height`         | 运行时写入          | 头部实测高度     |
 | `--ao-content-header-height` | 运行时写入          | 内容头部实测高度 |
 | `--ao-full-height`           | `app.scss` 组合计算 | 内容区全高       |
 
-`--ao-page-gap` 是上下留白的唯一来源：顶部由 `#app-header` 的 `padding-bottom` 消费，底部由 `--ao-full-height` 的计算式消费。脚本只负责把头部高度写入 `--ao-header-height` / `--ao-content-header-height`，不参与间距计算，因此调整 `--ao-page-gap` 即可让内容区上下间距同步变化，媒体查询中同样生效。
+`--ao-full-height` 在 `app.scss` 中由 `100vh` 减去运行时写入的头部高度组合而成；内容区上下留白由各容器自身内边距提供（如搜索栏 `10px`、表格卡片体 `10px`、`.page-content` `20px`），不设全局页面间距变量。脚本只负责把头部高度写入 `--ao-header-height` / `--ao-content-header-height`，不参与间距计算。
 
 ### Element Plus 桥接变量（`src/assets/styles/el-ui.scss`）
 

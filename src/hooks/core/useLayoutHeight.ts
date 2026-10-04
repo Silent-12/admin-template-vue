@@ -8,7 +8,7 @@
  *
  * 1. 头部高度测量 - 监听头部元素的尺寸变化
  * 2. CSS 变量同步 - 将测量结果写入 --ao-header-height / --ao-content-header-height
- * 3. 留白单一来源 - 上下留白由 app.scss 的 --ao-page-gap 统一定义
+ * 3. 留白职责分离 - 内容区留白由各容器自身内边距提供，脚本只负责头部高度
  * 4. 自动查找模式 - 提供通过 ID 自动查找元素的便捷方式
  */
 
@@ -24,7 +24,7 @@ const CONTENT_HEADER_HEIGHT_CSS_VAR = '--ao-content-header-height'
 
 /**
  * @description 测量头部元素高度并同步写入 CSS 变量。
- * 页面全高由 app.scss 依据这些变量与 --ao-page-gap 组合，脚本不感知留白数值。
+ * 页面全高由 app.scss 依据这些变量组合，脚本不感知留白数值。
  * @param headerRef 头部元素引用
  * @param contentHeaderRef 内容头部元素引用
  * @return 头部与内容头部的高度（响应式）
@@ -34,7 +34,7 @@ function useHeaderHeightVars(
   contentHeaderRef: Ref<HTMLElement | undefined>
 ) {
   // 使用 VueUse 自动监听元素尺寸变化
-  // box: 'border-box' 使测量结果包含 padding / border，头部 padding-bottom 的间距会被正确计入
+  // box: 'border-box' 使测量结果包含 padding / border，头部内边距与边框会被正确计入
   const { height: headerHeight } = useElementSize(
     headerRef,
     { width: 0, height: 0 },
@@ -87,7 +87,7 @@ export function useLayoutHeight() {
 
 /**
  * @description 通过 ID 自动查找头部元素，测量其高度并写入 CSS 变量。
- * 适用于无法直接获取元素引用的场景；页面全高由 app.scss 依据写入的变量与 --ao-page-gap 组合。
+ * 适用于无法直接获取元素引用的场景；页面全高由 app.scss 依据写入的变量组合。
  * @param headerIds 头部元素的 ID 数组，依次为头部与内容头部
  * @return 头部元素引用、内容头部元素引用及两者高度（响应式）
  */

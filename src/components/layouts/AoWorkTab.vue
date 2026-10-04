@@ -502,14 +502,15 @@
       // 非激活状态
       &--inactive {
         color: var(--ao-gray-600);
-        background: var(--default-bg-color) !important;
+        // 亮色下页面底色为纯白，胶囊底色改用灰阶变量保持可辨识
+        background: var(--ao-gray-200) !important;
         .work-tab__item-icon {
           color: var(--ao-gray-600);
         }
         // 暗黑模式
         .dark & {
           color: var(--ao-gray-800);
-          // 页面底色在暗色下比容器更深，改用灰色叠加形成抬起的胶囊底色
+          // 暗色下页面底色与容器同为 #161618，改用灰色叠加形成抬起的胶囊底色
           background: color-mix(in srgb, var(--ao-gray-300) 45%, transparent) !important;
           .work-tab__item-icon {
             color: var(--ao-gray-800);

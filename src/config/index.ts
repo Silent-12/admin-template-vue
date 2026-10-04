@@ -71,7 +71,7 @@ const appConfig: SystemConfig = {
   themeList: [
     {
       theme: MenuThemeEnum.DESIGN,
-      background: '#FFFFFF',
+      background: '#f3f5f8',
       systemNameColor: 'var(--ao-gray-800)',
       iconColor: '#6B6B6B',
       textColor: '#29343D',

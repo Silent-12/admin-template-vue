@@ -4,7 +4,7 @@
 $menu-height: 42px;
 $menu-icon-size: 20px;
 $menu-font-size: 14px;
-$hover-bg-color: var(--ao-gray-200);
+$hover-bg-color: var(--ao-hover-color);
 $popup-menu-height: 40px;
 $popup-menu-padding: 8px;
 $popup-menu-margin: 5px;
@@ -136,7 +136,8 @@ $popup-menu-radius: 6px;
   // ---------------------- Design theme menu ----------------------
   .el-menu-design {
     @include theme-menu-base;
-    @include menu-active(var(--theme-color), var(--el-color-primary-light-9));
+    // 选中项直接使用主题色实底：light-9 与 #f3f5f8 侧边栏底色过于接近无法区分
+    @include menu-active(var(--ao-white), var(--theme-color), var(--ao-white));
     @include menu-hover($hover-bg-color);
     .el-sub-menu__icon-arrow {
       color: var(--ao-gray-600);
