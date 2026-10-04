@@ -265,7 +265,7 @@
    * 根据屏幕尺寸智能降级，避免小屏幕上表单项被压缩过小
    */
   const getColSpan = (itemSpan: number | undefined, breakpoint: ResponsiveBreakpoint): number => {
-    return calculateResponsiveSpan(itemSpan, span.value, breakpoint)
+    return calculateResponsiveSpan(itemSpan ?? span.value, breakpoint)
   }
 
   /**

@@ -80,6 +80,20 @@ export const FORM_ITEM_ROOT_PROPS = [
 const OPTION_CHILD_TYPES = ['select', 'checkboxgroup', 'radiogroup']
 
 /**
+ * 分组标题项的类型标识
+ * @description 声明该 type 的表单项独占一行、只渲染标题文本，不渲染表单控件，也不写入表单数据。
+ * key 仅用于列表渲染去重，建议使用 `section-*` 这类不与业务字段同名的标识。
+ */
+export const FORM_TITLE_TYPE = 'title'
+
+/**
+ * @description 判断表单项是否为分组标题项
+ * @param item 表单项配置
+ * @return 是否为分组标题项
+ */
+export const isFormTitleItem = (item: FormItemBase): boolean => item.type === FORM_TITLE_TYPE
+
+/**
  * @description 判断表单项配置字段是否需要在透传给渲染组件前剔除
  * @param key 字段名
  * @param type 表单项类型
@@ -390,43 +404,55 @@ const BREAKPOINT_CONFIG: Record<
 
 /**
  * @description 计算响应式列宽：根据屏幕尺寸智能降级，避免小屏幕上表单项被压缩过小
- * @param itemSpan 表单项自定义的 span 值
- * @param defaultSpan 默认的 span 值
+ * @param span 已解析的 24 栅格列宽，默认值由调用方在传入前决定
  * @param breakpoint 当前断点
  * @return 计算后的 span 值
  */
-export function calculateResponsiveSpan(
-  itemSpan: number | undefined,
-  defaultSpan: number,
-  breakpoint: ResponsiveBreakpoint
-): number {
-  const finalSpan = itemSpan ?? defaultSpan
+export function calculateResponsiveSpan(span: number, breakpoint: ResponsiveBreakpoint): number {
   const config = BREAKPOINT_CONFIG[breakpoint]
 
   // 如果没有配置（lg/xl），直接返回原始 span
   if (!config) {
-    return finalSpan
+    return span
   }
 
   // 如果 span 小于阈值，使用降级值
-  return finalSpan >= config.threshold ? finalSpan : config.fallback
+  return span >= config.threshold ? span : config.fallback
 }
 
 /** 移动端断点（px），两个组件的响应式布局与按钮对齐共用同一阈值 */
 export const FORM_MOBILE_BREAKPOINT = 500
 
+/** AoForm 表单项未声明 span 时的默认格数（相对行基准），对应 24 栅格基准下每行 4 个 */
+export const FORM_DEFAULT_ITEM_SPAN = 6
+
+/**
+ * @description 将表单项格数（相对行基准）换算为 ElCol 的 24 栅格宽度，如行基准 12 时 4 格换算为 8
+ * @param itemSpan 表单项声明的格数，未声明时使用 FORM_DEFAULT_ITEM_SPAN
+ * @param baseSpan 行基准格数，非法值（非正数或未定义）按 24 处理
+ * @return 24 栅格下的列宽，收敛到 [1, 24]
+ */
+export const convertItemSpanToCol = (
+  itemSpan: number | undefined,
+  baseSpan: number | undefined
+): number => {
+  const base = baseSpan && baseSpan > 0 ? baseSpan : 24
+  const raw = ((itemSpan ?? FORM_DEFAULT_ITEM_SPAN) / base) * 24
+  return Math.min(24, Math.max(1, Math.round(raw)))
+}
+
 /**
  * @description 计算操作按钮的对齐方式：移动端靠右；非移动端在表单项数量不超过阈值时靠左，否则靠右
  * @param isMobile 是否处于移动端
  * @param visibleItemCount 可见表单项数量
- * @param buttonLeftLimit 按钮靠左对齐的表单项数量上限
+ * @param buttonLeftLimit 按钮靠左对齐的表单项数量上限，未定义时按默认值 2 处理
  * @return 对应 CSS justify-content 的取值
  */
 export const resolveActionButtonsAlign = (
   isMobile: boolean,
   visibleItemCount: number,
-  buttonLeftLimit: number
+  buttonLeftLimit?: number
 ): 'flex-start' | 'flex-end' => {
   if (isMobile) return 'flex-end'
-  return visibleItemCount <= buttonLeftLimit ? 'flex-start' : 'flex-end'
+  return visibleItemCount <= (buttonLeftLimit ?? 2) ? 'flex-start' : 'flex-end'
 }

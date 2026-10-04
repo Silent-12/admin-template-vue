@@ -1,49 +1,38 @@
 <template>
-  <ElDialog
+  <!-- AoForm 默认弹窗表单模式：底部为 取消 / 确定，确定 = 校验 + submit；表单重置在 closed 回调中处理 -->
+  <AoForm
+    ref="formRef"
+    v-model="form"
+    v-model:visible="visible"
     :title="dialogTitle"
-    v-model="visible"
     width="860px"
     align-center
-    class="menu-dialog"
+    :items="formItems"
+    :rules="rules"
+    :span="width > 640 ? 12 : 24"
+    :gutter="20"
+    label-width="100px"
+    @submit="handleSubmit"
     @closed="handleClosed"
   >
-    <AoForm
-      ref="formRef"
-      v-model="form"
-      :items="formItems"
-      :rules="rules"
-      :span="width > 640 ? 12 : 24"
-      :gutter="20"
-      label-width="100px"
-      :show-reset="false"
-      :show-submit="false"
-    >
-      <template #menuType>
-        <ElRadioGroup v-model="form.menuType" :disabled="disableMenuType">
-          <ElRadioButton value="menu" label="menu">菜单</ElRadioButton>
-          <ElRadioButton value="button" label="button">按钮</ElRadioButton>
-        </ElRadioGroup>
-      </template>
-    </AoForm>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <ElButton @click="handleCancel">取 消</ElButton>
-        <ElButton type="primary" @click="handleSubmit">确 定</ElButton>
-      </span>
+    <template #menuType>
+      <ElRadioGroup v-model="form.menuType" :disabled="disableMenuType">
+        <ElRadioButton value="menu" label="menu">菜单</ElRadioButton>
+        <ElRadioButton value="button" label="button">按钮</ElRadioButton>
+      </ElRadioGroup>
     </template>
-  </ElDialog>
+  </AoForm>
 </template>
 
 <script setup lang="ts">
   import { computed, h, nextTick, reactive, ref, watch } from 'vue'
-  import { ElButton, ElDialog, ElMessage, ElRadioButton, ElRadioGroup } from 'element-plus'
+  import { ElMessage, ElRadioButton, ElRadioGroup } from 'element-plus'
   import type { FormRules } from 'element-plus'
   import { ElIcon, ElTooltip } from 'element-plus'
   import { QuestionFilled } from '@element-plus/icons-vue'
   import { formatMenuTitle } from '@/utils/router'
-  import type { FormItem } from '@/components/forms/AoForm.vue'
-  import AoForm from '@/components/forms/AoForm.vue'
+  import type { FormItem } from '@/components/forms/AoForm/index.vue'
+  import AoForm from '@/components/forms/AoForm/index.vue'
   import { useWindowSize } from '@vueuse/core'
   import type { MenuDialogProps, MenuDialogEmits, MenuDialogFormData } from '../types'
   import type { AppRouteRecord } from '@/types/router'
@@ -136,8 +125,8 @@
   const formItems = computed<FormItem[]>(() => {
     const baseItems: FormItem[] = [{ label: '菜单类型', key: 'menuType', span: 24 }]
 
-    // Switch 组件的 span：小屏幕 12，大屏幕 6
-    const switchSpan = width.value < 640 ? 12 : 6
+    // Switch 组件的格数（相对行基准）：小屏幕 12（半行），大屏幕 3（四分之一行）
+    const switchSpan = width.value < 640 ? 12 : 3
 
     if (form.menuType === 'menu') {
       return [
@@ -293,25 +282,11 @@
   }
 
   /**
-   * @description 提交表单
+   * @description 提交表单（AoForm 弹窗模式在触发 submit 前已完成校验）
    */
-  const handleSubmit = async (): Promise<void> => {
-    if (!formRef.value) return
-
-    try {
-      await formRef.value.validate()
-      emit('submit', { ...form })
-      ElMessage.success(`${isEdit.value ? '编辑' : '新增'}成功`)
-      handleCancel()
-    } catch {
-      ElMessage.error('表单校验失败，请检查输入')
-    }
-  }
-
-  /**
-   * @description 取消操作
-   */
-  const handleCancel = (): void => {
+  const handleSubmit = (): void => {
+    emit('submit', { ...form })
+    ElMessage.success(`${isEdit.value ? '编辑' : '新增'}成功`)
     visible.value = false
   }
 

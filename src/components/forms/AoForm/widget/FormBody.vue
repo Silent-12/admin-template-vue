@@ -1,8 +1,7 @@
-<!-- 表单组件 -->
+<!-- AoForm 表单主体：只负责 ElForm 渲染与表单项循环，不承载操作按钮；弹窗模式的操作按钮在上级 index.vue 的底部，内联模式由页面自行提供 -->
 <!-- 支持常用表单组件、自定义组件、插槽、校验、隐藏表单项 -->
 <!-- 写法同 ElementPlus 官方文档组件，把属性写在 props 里面就可以了 -->
 <!-- 与 AoSearchBar 的契约差异：本组件直接对 v-model 对象做受控变更（就地修改，不整体替换）；AoSearchBar 内部持有状态并整体上报 -->
-<!-- 对外 API：ref 可调用 validate / reset / getOutput；getOutput 允许外部在不触发提交事件时读取清洗后的表单输出，sanitizeOutput 可按业务覆盖清洗策略 -->
 <template>
   <section class="form-section">
     <ElForm
@@ -11,17 +10,23 @@
       :label-position="labelPosition"
       v-bind="{ ...$attrs }"
     >
-      <ElRow class="form-row" :gutter="gutter">
+      <ElRow :gutter="gutter">
         <ElCol
           v-for="item in visibleFormItems"
           :key="item.key"
-          :xs="getColSpan(item.span, 'xs')"
-          :sm="getColSpan(item.span, 'sm')"
-          :md="getColSpan(item.span, 'md')"
-          :lg="getColSpan(item.span, 'lg')"
-          :xl="getColSpan(item.span, 'xl')"
+          :xs="getColSpan(item, 'xs')"
+          :sm="getColSpan(item, 'sm')"
+          :md="getColSpan(item, 'md')"
+          :lg="getColSpan(item, 'lg')"
+          :xl="getColSpan(item, 'xl')"
         >
+          <!-- 分组标题项：独占一行，只渲染标题文本，不产生表单控件与数据 -->
+          <div v-if="isFormTitleItem(item)" class="form-title">
+            <component v-if="typeof item.label !== 'string'" :is="item.label" />
+            <span v-else>{{ item.label }}</span>
+          </div>
           <ElFormItem
+            v-else
             :prop="item.key"
             :label-width="item.label ? item.labelWidth || labelWidth : undefined"
           >
@@ -75,25 +80,6 @@
             </slot>
           </ElFormItem>
         </ElCol>
-        <ElCol :xs="24" :sm="24" :md="span" :lg="span" :xl="span" class="form-action-col">
-          <div class="form-action-buttons" :style="actionButtonsStyle">
-            <div class="form-button-group">
-              <ElButton v-if="showReset" class="reset-button" @click="handleReset" v-ripple>
-                {{ t('table.form.reset') }}
-              </ElButton>
-              <ElButton
-                v-if="showSubmit"
-                type="primary"
-                class="submit-button"
-                @click="handleSubmit"
-                v-ripple
-                :disabled="disabledSubmit"
-              >
-                {{ t('table.form.submit') }}
-              </ElButton>
-            </div>
-          </div>
-        </ElCol>
       </ElRow>
     </ElForm>
   </section>
@@ -101,95 +87,38 @@
 
 <script setup lang="ts">
   import { computed, ref, toRefs, useTemplateRef, watch } from 'vue'
-  import type { Component, VNode } from 'vue'
-  import {
-    ElButton,
-    ElCheckbox,
-    ElCol,
-    ElForm,
-    ElFormItem,
-    ElOption,
-    ElRadio,
-    ElRow
-  } from 'element-plus'
+  import { ElCheckbox, ElCol, ElForm, ElFormItem, ElOption, ElRadio, ElRow } from 'element-plus'
   import type { FormInstance } from 'element-plus'
-  import { useWindowSize } from '@vueuse/core'
-  import { useI18n } from 'vue-i18n'
-  import type { FormItemBase, ResponsiveBreakpoint, SanitizeOutputOptions } from '@/types/component'
+  import type {
+    FormItem,
+    FormProps,
+    FormEmits,
+    ResponsiveBreakpoint,
+    SanitizeOutputOptions
+  } from '@/types/component'
   import {
     DEFAULT_SANITIZE_OPTIONS,
-    FORM_MOBILE_BREAKPOINT,
     calculateResponsiveSpan,
     cloneModelValue,
+    convertItemSpanToCol,
     getOptions,
     getRenderComponent,
     getValidSlots,
     getItemProps,
     getValueByPath,
-    resolveActionButtonsAlign,
+    isFormTitleItem,
     sanitizeFormOutput,
     setValueByPath
-  } from './form-shared'
+  } from '../../form-shared'
 
-  defineOptions({ name: 'AoForm' })
-
-  // 表单项配置
-  export interface FormItem extends FormItemBase {
-    /** 表单项的标签文本或自定义渲染函数 */
-    label: string | (() => VNode) | Component
-  }
-
-  // 表单配置
-  interface FormProps {
-    /** 表单数据 */
-    items: FormItem[]
-    /** 每列的宽度（基于 24 格布局） */
-    span?: number
-    /** 表单控件间隙 */
-    gutter?: number
-    /** 表单域标签的位置 */
-    labelPosition?: 'left' | 'right' | 'top'
-    /** 文字宽度 */
-    labelWidth?: string | number
-    /** 按钮靠左对齐限制（表单项小于等于该值时） */
-    buttonLeftLimit?: number
-    /** 是否显示重置按钮 */
-    showReset?: boolean
-    /** 是否显示提交按钮 */
-    showSubmit?: boolean
-    /** 是否禁用提交按钮 */
-    disabledSubmit?: boolean
-    /** 提交时是否清洗空值 */
-    sanitizeOutput?: Partial<SanitizeOutputOptions>
-  }
-
-  const props = withDefaults(defineProps<FormProps>(), {
-    items: () => [],
-    span: 6,
-    gutter: 12,
-    labelPosition: 'right',
-    labelWidth: '70px',
-    buttonLeftLimit: 2,
-    showReset: true,
-    showSubmit: true,
-    disabledSubmit: false,
-    sanitizeOutput: () => ({})
-  })
-
-  interface FormEmits {
-    reset: []
-    submit: [Record<string, any>]
-  }
+  // 表单配置：默认值统一由入口 index.vue 定义，本组件只负责消费
+  const props = defineProps<FormProps>()
 
   const emit = defineEmits<FormEmits>()
 
   const modelValue = defineModel<Record<string, any>>({
     default: () => ({}) as Record<string, any>
   })
-
-  const { width } = useWindowSize()
-  const { t } = useI18n()
-  const isMobile = computed(() => width.value < FORM_MOBILE_BREAKPOINT)
 
   const formInstance = useTemplateRef<FormInstance>('formRef')
 
@@ -228,11 +157,14 @@
   }
 
   /**
-   * 获取列宽 span 值
-   * 根据屏幕尺寸智能降级，避免小屏幕上表单项被压缩过小
+   * @description 计算表单项列宽：先把相对行基准的格数换算为 24 栅格宽度，再按屏幕尺寸智能降级，避免小屏幕上表单项被压缩过小；分组标题项独占一行，固定占满 24 栅格
+   * @param item 表单项配置
+   * @param breakpoint 当前断点
+   * @return 计算后的 24 栅格 span 值
    */
-  const getColSpan = (itemSpan: number | undefined, breakpoint: ResponsiveBreakpoint): number => {
-    return calculateResponsiveSpan(itemSpan, span.value, breakpoint)
+  const getColSpan = (item: FormItem, breakpoint: ResponsiveBreakpoint): number => {
+    if (isFormTitleItem(item)) return 24
+    return calculateResponsiveSpan(convertItemSpanToCol(item.span, span.value), breakpoint)
   }
 
   /**
@@ -241,17 +173,6 @@
   const visibleFormItems = computed(() => {
     return props.items.filter((item) => !item.hidden)
   })
-
-  /**
-   * 操作按钮样式
-   */
-  const actionButtonsStyle = computed(() => ({
-    'justify-content': resolveActionButtonsAlign(
-      isMobile.value,
-      props.items.filter((item) => !item.hidden).length,
-      props.buttonLeftLimit
-    )
-  }))
 
   /**
    * @description 获取清洗后的表单输出，供外部在不触发提交事件时主动读取
@@ -279,12 +200,14 @@
   }
 
   /**
-   * @description 处理提交事件，先执行表单校验，未通过则不触发提交
+   * @description 处理提交事件：执行表单校验，校验失败在控制台报错并中断提交，校验通过或无规则时上报清洗后的表单数据
    */
   const handleSubmit = async (): Promise<void> => {
     try {
       await formInstance.value?.validate()
     } catch {
+      // 校验失败：控制台报错且不触发提交事件，行内错误由 ElForm 渲染
+      console.error('[AoForm] 表单校验失败')
       return
     }
 
@@ -297,6 +220,7 @@
       ...args: Parameters<FormInstance['validate']>
     ): ReturnType<FormInstance['validate']> => formInstance.value!.validate(...args),
     reset: handleReset,
+    submit: handleSubmit,
     // 允许外部在不触发提交事件时主动获取清洗后的输出。
     getOutput: getSanitizedOutput
   })
@@ -306,48 +230,34 @@
 </script>
 
 <style scoped lang="scss">
-  // 表单容器
+  // 表单容器：左右留白由容器自身提供（弹窗 body 只提供垂直留白）；底部不留白，末行下边距已含校验提示的落位空间
   .form-section {
     padding: 1rem 1rem 0;
-    @media (width >= 48rem) {
-      padding-top: 1rem;
-      padding-right: 1rem;
-      padding-left: 1rem;
+
+    // 行内校验提示为绝对定位（top: 100%），依赖表单项下边距容纳其高度：
+    // 压缩该间距会让提示与下一行重叠，或被弹窗的 overflow: hidden 裁切
+    :deep(.el-form-item) {
+      margin-bottom: 18px;
     }
   }
 
-  // 表单行
-  .form-row {
+  // 分组标题：左侧色条 + 标题文本，配合额外的上间距形成「组间距 > 行间距」的层级
+  .form-title {
     display: flex;
-    flex-wrap: wrap;
-  }
-
-  // 操作按钮列
-  .form-action-col {
-    flex: 1 1 0%;
-    max-width: 100%;
-  }
-
-  // 操作按钮容器
-  .form-action-buttons {
-    display: flex;
-    flex-wrap: wrap;
+    gap: 8px;
     align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 0.75rem;
-    @media (width >= 48rem) {
-      flex-direction: row;
-      gap: 0.5rem;
-      align-items: stretch;
-    }
-  }
+    margin: 4px 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ao-gray-900);
 
-  // 按钮组
-  .form-button-group {
-    display: flex;
-    gap: 0.5rem;
-    @media (width >= 48rem) {
-      justify-content: center;
+    &::before {
+      flex-shrink: 0;
+      width: 3px;
+      height: 14px;
+      content: '';
+      background: var(--theme-color);
+      border-radius: 2px;
     }
   }
 </style>

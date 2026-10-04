@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import viteCompression from 'vite-plugin-compression'
 import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 /**
  * @description 创建 Vite 构建配置并加载当前运行模式的环境变量。
@@ -63,9 +64,13 @@ export default ({ mode }: { mode: string }) => {
     },
     plugins: [
       vue(),
-      // 自动按需导入组件
+      // 自动导入本地组件与 Element Plus 指令，Element Plus 组件保持显式导入
       Components({
-        dts: 'src/types/generated/components.d.ts'
+        dts: 'src/types/generated/components.d.ts',
+        // Element Plus 样式已由全局 SCSS 入口统一引入
+        resolvers: ElementPlusResolver({ importStyle: false }).filter(
+          (resolver) => typeof resolver !== 'function' && resolver.type === 'directive'
+        )
       }),
       // 压缩
       viteCompression({

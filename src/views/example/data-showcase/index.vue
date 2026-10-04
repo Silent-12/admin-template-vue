@@ -1,6 +1,6 @@
 <!-- 数据展示示例页面 -->
 <!-- 单页集中展示 AoForm 与 AoTable 的全部支持写法，mock 数据由页面内生成 -->
-<!-- AoForm 部分：以弹窗承载，覆盖全部预定义表单项类型、render 自定义渲染、slots 插槽、hidden 隐藏项、span / labelWidth 覆盖、label 渲染函数、校验规则、提交输出清洗与 ref.getOutput -->
+<!-- AoForm 部分：以弹窗承载，覆盖全部预定义表单项类型、分组标题项（type: 'title'）、render 自定义渲染、slots 插槽、hidden 隐藏项、span / labelWidth 覆盖、label 渲染函数、校验规则、提交输出清洗与 ref.getOutput；另演示默认弹窗表单模式与 span 行基准换行（:dialog="false" 时为内联模式） -->
 <!-- AoTable 部分：集成布局（搜索栏 + 表格头部 + 分页）、selection / index / globalIndex / expand 特殊列、原生 formatter、点路径 prop、slotName 自定义单元格、列设置（columnChecks）、操作列与底部内容插槽 -->
 <template>
   <div class="data-showcase ao-full-height">
@@ -9,13 +9,18 @@
       <template #header>
         <div class="card-header">
           <span class="card-title">AoForm 表单写法展示</span>
-          <ElButton v-ripple type="primary" @click="formDialogVisible = true">
-            打开表单弹窗
-          </ElButton>
+          <ElSpace>
+            <ElButton v-ripple type="primary" @click="formDialogVisible = true">
+              打开表单弹窗
+            </ElButton>
+            <ElButton v-ripple @click="quickFormVisible = true">弹窗表单模式</ElButton>
+          </ElSpace>
         </div>
       </template>
       <p class="card-tip">
-        覆盖全部表单项类型与自定义渲染方式（render / slots / 隐藏项等），点击右上角按钮在弹窗中查看。
+        覆盖全部表单项类型与自定义渲染方式（render / slots / 分组标题项 /
+        隐藏项等），点击右上角按钮在弹窗中查看；「弹窗表单模式」演示 AoForm 内置 ElDialog 与 span
+        行基准自动换行。
       </p>
     </ElCard>
 
@@ -102,15 +107,24 @@
       </template>
     </AoTable>
 
-    <!-- ============ AoForm 展示弹窗：与表格同级，弹窗不依赖表格上下文 ============ -->
-    <ElDialog v-model="formDialogVisible" title="AoForm 表单写法展示" width="960px">
+    <!-- ============ AoForm 内联模式：:dialog="false" 时为普通表单，由页面自行用 ElDialog 承载 ============ -->
+    <!-- span=12 表示每行基准 12 格：表单项 span=6 时每行 2 个、span=12 时独占一行，任意组合都不会产生栅格余数 -->
+    <ElDialog
+      v-model="formDialogVisible"
+      title="AoForm 表单写法展示"
+      width="800px"
+      align-center
+      class="ao-form-dialog"
+    >
       <!-- rules 经由 $attrs 透传给内部 ElForm；v-model 就地修改表单对象 -->
       <AoForm
         ref="formRef"
         v-model="formModel"
+        :dialog="false"
         :items="formItems"
         :rules="formRules"
-        label-width="84px"
+        :span="12"
+        label-width="100px"
         @submit="handleFormSubmit"
       >
         <!-- 具名插槽兜底：AoForm 默认插槽按 key 覆盖单个表单项的渲染 -->
@@ -122,10 +136,33 @@
       <!-- 提交后清洗输出的 JSON 预览 -->
       <pre v-if="formOutputJson" class="form-output">{{ formOutputJson }}</pre>
 
+      <!-- 内联模式不内置操作按钮，由页面自行提供；确定 = 校验通过后读取清洗输出 -->
       <template #footer>
-        <ElButton @click="readFormOutput">ref.getOutput 读取输出</ElButton>
+        <div class="dialog-footer">
+          <ElButton @click="readFormOutput">ref.getOutput 读取输出</ElButton>
+          <ElSpace>
+            <ElButton @click="formDialogVisible = false">取消</ElButton>
+            <ElButton type="primary" @click="handleShowcaseConfirm">确定</ElButton>
+          </ElSpace>
+        </div>
       </template>
     </ElDialog>
+
+    <!-- ============ AoForm 弹窗表单模式（默认）：内置 ElDialog，底部固定为 取消 / 确定，默认右对齐 ============ -->
+    <!-- cancel-text / confirm-text 覆盖底部按钮文案；需要替换按钮时用 #footer 插槽整体接管 -->
+    <!-- span=12 表示每行基准 12 格：三个 span=4 的表单项刚好占满一行，第四个宽度不够自动换行 -->
+    <AoForm
+      v-model="quickFormModel"
+      v-model:visible="quickFormVisible"
+      title="弹窗表单模式"
+      width="720px"
+      :span="12"
+      :items="quickFormItems"
+      :rules="quickFormRules"
+      cancel-text="关闭"
+      confirm-text="保存"
+      @submit="handleQuickFormSubmit"
+    />
   </div>
 </template>
 
@@ -144,7 +181,8 @@
     ElTag
   } from 'element-plus'
   import type { FormRules } from 'element-plus'
-  import AoForm from '@/components/forms/AoForm.vue'
+  import AoForm from '@/components/forms/AoForm/index.vue'
+  import type { FormItem } from '@/components/forms/AoForm/index.vue'
   import AoTable from '@/components/tables/AoTable/index.vue'
   import AoButtonTable from '@/components/forms/AoButtonTable.vue'
   import AoImage from '@/components/media/AoImage.vue'
@@ -257,10 +295,12 @@
   ]
 
   /**
-   * @description 构造 AoForm 展示项：覆盖全部预定义类型及 render / slots / hidden / span 等扩展写法
+   * @description 构造 AoForm 展示项：覆盖全部预定义类型及分组标题项 / render / slots / hidden / span 等扩展写法
    * @return 表单项配置列表
    */
   const buildFormItems = () => [
+    // 分组标题项：type 为 'title' 时独占一行，只渲染标题文本，key 不会写入表单输出
+    { key: 'section-basic', type: 'title', label: '基础信息' },
     // 具名插槽 #name 接管渲染（见模板）
     { key: 'name', label: '插槽接管', span: 6 },
     // 全部预定义表单项类型
@@ -269,6 +309,8 @@
     { key: 'dept', label: '部门', type: 'select', span: 6, options: DEPT_OPTIONS },
     { key: 'enabled', label: '启用', type: 'switch', span: 6 },
     { key: 'agree', label: '同意', type: 'checkbox', span: 6, props: { label: '同意协议' } },
+
+    { key: 'section-choose', type: 'title', label: '选择与权限' },
     {
       key: 'roles',
       label: '角色',
@@ -289,43 +331,7 @@
         { label: '女', value: '2' }
       ]
     },
-    {
-      key: 'date',
-      label: '日期',
-      type: 'date',
-      span: 6,
-      props: { valueFormat: 'YYYY-MM-DD' }
-    },
-    {
-      key: 'daterange',
-      label: '日期范围',
-      type: 'daterange',
-      span: 8,
-      props: { valueFormat: 'YYYY-MM-DD', startPlaceholder: '开始', endPlaceholder: '结束' }
-    },
-    {
-      key: 'datetime',
-      label: '日期时间',
-      type: 'datetime',
-      span: 6,
-      props: { valueFormat: 'YYYY-MM-DD HH:mm:ss' }
-    },
-    {
-      key: 'datetimerange',
-      label: '时间范围',
-      type: 'datetimerange',
-      span: 8,
-      props: {
-        valueFormat: 'YYYY-MM-DD HH:mm:ss',
-        startPlaceholder: '开始',
-        endPlaceholder: '结束'
-      }
-    },
-    { key: 'rate', label: '评分', type: 'rate', span: 6, props: { allowHalf: true } },
-    { key: 'percent', label: '滑块', type: 'slider', span: 6, props: { min: 0, max: 100 } },
     { key: 'region', label: '级联', type: 'cascader', span: 6, options: REGION_OPTIONS },
-    { key: 'workTime', label: '时间', type: 'timepicker', span: 6 },
-    { key: 'breakfast', label: '时刻', type: 'timeselect', span: 6 },
     {
       key: 'leader',
       label: '树选择',
@@ -338,11 +344,57 @@
         defaultExpandAll: true
       }
     },
+
+    { key: 'section-datetime', type: 'title', label: '日期与时间' },
+    {
+      key: 'date',
+      label: '日期',
+      type: 'date',
+      span: 6,
+      props: { valueFormat: 'YYYY-MM-DD' }
+    },
+    {
+      key: 'datetime',
+      label: '日期时间',
+      type: 'datetime',
+      span: 6,
+      props: { valueFormat: 'YYYY-MM-DD HH:mm:ss' }
+    },
+    // 范围类控件需要约两倍于单值的宽度，独占一行避免起止值被挤成逗号串
+    {
+      key: 'daterange',
+      label: '日期范围',
+      type: 'daterange',
+      span: 12,
+      props: { valueFormat: 'YYYY-MM-DD', startPlaceholder: '开始', endPlaceholder: '结束' }
+    },
+    {
+      key: 'datetimerange',
+      label: '时间范围',
+      type: 'datetimerange',
+      span: 12,
+      props: {
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        startPlaceholder: '开始',
+        endPlaceholder: '结束'
+      }
+    },
+    {
+      key: 'workTime',
+      label: '时间',
+      type: 'timepicker',
+      span: 6,
+      props: { valueFormat: 'HH:mm', format: 'HH:mm' }
+    },
+    { key: 'breakfast', label: '时刻', type: 'timeselect', span: 6 },
+
+    { key: 'section-render', type: 'title', label: '评价与自定义渲染' },
+    { key: 'rate', label: '评分', type: 'rate', span: 6, props: { allowHalf: true } },
+    { key: 'percent', label: '滑块', type: 'slider', span: 6, props: { min: 0, max: 100 } },
     // render 自定义渲染：优先级高于 type，此处用 render 函数绑定评分组件
     {
       key: 'renderField',
       label: 'render 渲染',
-      labelWidth: '100px',
       span: 6,
       render: () =>
         h(ElRate, {
@@ -358,15 +410,17 @@
       span: 6,
       slots: { append: () => h('span', null, '.com') }
     },
+
+    { key: 'section-label', type: 'title', label: '标签写法' },
     // hidden: true 不渲染，但保留在提交输出中
     { key: 'secret', label: '隐藏字段', type: 'input', hidden: true },
-    // span 覆盖与 labelWidth 覆盖
+    // labelWidth 覆盖：独占一行，便于对比覆盖前后的标签宽度
     {
       key: 'labelWidthField',
       label: '标签宽度覆盖',
       labelWidth: '110px',
       type: 'input',
-      span: 8
+      span: 12
     },
     // label 支持渲染函数
     {
@@ -374,7 +428,7 @@
       label: () => h('span', null, ['函数标签 ', h(ElTag, { size: 'small' }, () => 'label')]),
       labelWidth: '120px',
       type: 'input',
-      span: 8
+      span: 12
     }
   ]
 
@@ -397,6 +451,50 @@
     formOutputJson.value = JSON.stringify(formRef.value?.getOutput() ?? {}, null, 2)
   }
 
+  /**
+   * @description 确认示例表单：先校验，未通过时只展示行内错误且不上报；通过后读取清洗输出并关闭弹窗
+   */
+  const handleShowcaseConfirm = async (): Promise<void> => {
+    if (!formRef.value) return
+
+    const valid = await formRef.value.validate().catch(() => false)
+    if (!valid) return
+
+    handleFormSubmit(formRef.value.getOutput())
+    formDialogVisible.value = false
+  }
+
+  // ============ AoForm 弹窗表单模式演示 ============
+
+  // 弹窗相关
+  const quickFormVisible = ref(false)
+
+  // 表单数据
+  const quickFormModel = ref<Record<string, any>>({})
+
+  /** 弹窗模式演示项：span=12 行基准下三个 span=4 占满一行，第四个自动换行 */
+  const quickFormItems: FormItem[] = [
+    { key: 'name', label: '姓名', type: 'input', span: 4 },
+    { key: 'phone', label: '手机号', type: 'input', span: 4 },
+    { key: 'email', label: '邮箱', type: 'input', span: 4 },
+    { key: 'remark', label: '备注', type: 'input', span: 4 }
+  ]
+
+  /** 弹窗模式演示规则：留空时点击底部「保存」会展示行内错误且不上报 submit */
+  const quickFormRules: FormRules = {
+    name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+    phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }]
+  }
+
+  /**
+   * @description 处理弹窗模式表单提交（确定按钮校验通过后触发），提交成功关闭弹窗
+   * @param output 清洗后的表单输出
+   */
+  const handleQuickFormSubmit = (output: Record<string, any>): void => {
+    ElMessage.success(`弹窗表单提交成功：${JSON.stringify(output)}`)
+    quickFormVisible.value = false
+  }
+
   // ============ AoTable 部分 ============
 
   /** 状态展示配置 */
@@ -411,12 +509,7 @@
   const GIVEN_NAMES = ['清羽', '望舒', '云舟', '疏影', '听澜', '知遥']
   const DEPT_NAMES = ['研发部', '产品部', '设计部', '运营部']
   const STATUS_CYCLE: ShowcaseRow['status'][] = ['online', 'online', 'busy', 'offline']
-  const TAG_POOL = [
-    ['Vue', 'TypeScript'],
-    ['Element Plus'],
-    ['Vite', 'Pinia'],
-    ['SCSS', 'Vue']
-  ]
+  const TAG_POOL = [['Vue', 'TypeScript'], ['Element Plus'], ['Vite', 'Pinia'], ['SCSS', 'Vue']]
 
   /**
    * @description 生成 60 条确定性的示例数据（无随机性，便于核对分页与筛选结果）
@@ -512,7 +605,7 @@
     { type: 'selection', width: 50 },
     { type: 'index', label: '本页序号', width: 90 },
     { type: 'globalIndex', label: '全局序号', width: 90, columnKey: 'globalIndex' },
-    { type: 'expand', slotName: 'expand', width: 50 },
+    { type: 'expand', label: 'JOSN', slotName: 'expand', width: 50 },
     { prop: 'name', label: '成员', minWidth: 200, slotName: 'member' },
     // 点路径 prop：沿用 Element Plus 原生取值
     { prop: 'dept.name', label: '部门', width: 100 },
@@ -648,10 +741,18 @@
     color: var(--el-text-color-secondary);
   }
 
+  // 弹窗底部：演示按钮靠左，操作按钮靠右
+  .dialog-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .form-output {
     max-height: 220px;
     padding: 10px 12px;
-    margin: 0;
+    margin: 0 1rem 1rem;
     overflow: auto;
     font-size: 12px;
     line-height: 1.6;
