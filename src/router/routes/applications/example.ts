@@ -64,6 +64,12 @@ export const exampleRoutes: AppRouteRecord = {
           name: 'Menus',
           component: '/system/menu',
           meta: { title: 'menus.system.menu', keepAlive: true }
+        },
+        {
+          path: 'data-showcase',
+          name: 'DataShowcase',
+          component: '/example/data-showcase',
+          meta: { title: '组件示例', keepAlive: true }
         }
       ]
     }
