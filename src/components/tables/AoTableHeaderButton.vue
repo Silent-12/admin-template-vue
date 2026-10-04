@@ -7,12 +7,14 @@
     <!-- 图标尺寸固定 1rem，不随外层继承的 font-size 变化（ElDropdown 会给其触发器设置 14px） -->
     <AoSvgIcon :icon="icon" size="1rem" :class="iconClass" />
 
+    <!-- show-after 固定 500ms：鼠标停留 0.5s 后才展示提示，避免扫过按钮时频繁弹出 -->
     <ElTooltip
       v-if="content"
       :virtual-ref="triggerRef"
       virtual-triggering
       :content="content"
       placement="top"
+      :show-after="500"
     />
   </div>
 </template>
