@@ -13,7 +13,7 @@
     <!-- 搜索栏：传入 searchItems 即启用；显隐交给 v-show，避免隐藏后再显示时重新挂载刷新 AoSearchBar 的重置快照 -->
     <AoSearchBar
       v-if="hasSearchItems"
-      v-show="renderSearchBar"
+      v-show="resolvedShowSearchBar"
       ref="searchBarRef"
       v-model="searchFormModel"
       :items="searchItems"
@@ -29,6 +29,7 @@
       <!-- 表格头部：集成模式下由 AoTable 内部渲染，#header-left / #header-right 插槽内容写入对应位置 -->
       <AoTableHeader
         v-if="renderHeader"
+        ref="tableHeaderCompRef"
         v-model:columns="headerColumns"
         :show-search-bar="headerShowSearchBar"
         :show-zebra="headerShowZebra"
@@ -52,7 +53,7 @@
           <template #default>
             <template v-for="col in columns" :key="col.columnKey || col.prop || col.type">
               <!-- 渲染全局序号列 -->
-              <ElTableColumn v-if="col.type === 'globalIndex'" v-bind="{ ...col }">
+              <ElTableColumn v-if="col.type === 'globalIndex'" v-bind="cleanColumnProps(col)">
                 <template #default="{ $index }">
                   <span>{{ getGlobalIndex($index) }}</span>
                 </template>
@@ -130,6 +131,7 @@
 <script setup lang="ts" generic="T extends Record<string, any> = Record<string, any>">
   import { ElCard, ElEmpty, ElPagination, ElTable, ElTableColumn } from 'element-plus'
   import { ref, computed, nextTick, watchEffect, getCurrentInstance, useAttrs, useSlots } from 'vue'
+  import type { ComponentPublicInstance } from 'vue'
   import type { FormRules, TableColumnCtx, TableInstance, TableProps } from 'element-plus'
   import { storeToRefs } from 'pinia'
   import type {
@@ -260,6 +262,9 @@
   /** 搜索栏组件实例，用于查询前触发表单校验 */
   const searchBarRef = ref<{ validate: () => Promise<unknown> } | null>(null)
 
+  /** 表格头部组件实例，用于获取根元素监听高度变化 */
+  const tableHeaderCompRef = ref<ComponentPublicInstance | null>(null)
+
   const LAYOUT = {
     MOBILE: 'prev, pager, next, sizes, jumper, total',
     IPAD: 'prev, pager, next, jumper, total',
@@ -312,8 +317,6 @@
   // 搜索栏显隐状态：页面未显式传入 show-search-bar 时由组件内部维护，默认显示
   const innerShowSearchBar = ref(true)
   const resolvedShowSearchBar = computed(() => props.showSearchBar ?? innerShowSearchBar.value)
-  // 搜索栏是否显示（仅控制 v-show 显隐，不影响挂载，避免重置快照被刷新）
-  const renderSearchBar = computed(() => resolvedShowSearchBar.value)
   // 头部搜索开关状态：无搜索项时不渲染开关，避免出现无效的切换按钮
   const headerShowSearchBar = computed(() =>
     hasSearchItems.value ? resolvedShowSearchBar.value : undefined
@@ -353,7 +356,7 @@
   })
 
   // 底部栏与表格之间的间距常量（与 style.scss 中 .ao-table-bottom 的 margin-top 保持一致）
-  const BOTTOM_BAR_SPACING = computed(() => 10)
+  const BOTTOM_BAR_SPACING = ref(10)
 
   // 使用表格高度计算 Hook
   const { containerHeight } = useTableHeight({
@@ -447,15 +450,19 @@
     return slotScope.$index === undefined || slotScope.$index >= 0
   }
 
+  /** 列配置中 AoTable / 列设置自有的字段，不透传给 ElTableColumn，避免被错误解释或泄漏为 DOM 属性 */
+  const COLUMN_OWN_PROP_KEYS = ['slotName', 'checked', 'visible', 'disabled']
+
   /**
-   * @description 清理列属性，移除 AoTable 自身的插槽与渲染控制字段，确保它们不会被 ElTableColumn 错误解释
+   * @description 清理列属性，移除 AoTable 与列设置自有的字段，确保它们不会被 ElTableColumn 错误解释
    * @param col 列配置
    * @return 可透传给 ElTableColumn 的列属性
    */
   const cleanColumnProps = (col: ColumnOption<T>) => {
     const columnProps: Record<string, unknown> = { ...col }
-    // 删除自定义的插槽控制属性
-    delete columnProps.slotName
+    COLUMN_OWN_PROP_KEYS.forEach((key) => {
+      delete columnProps[key]
+    })
     return columnProps
   }
 
@@ -537,37 +544,10 @@
     (e: 'update:showSearchBar', value: boolean): void
   }>()
 
-  // 查找并绑定表格头部元素 - 使用 VueUse 优化
-  const findTableHeader = () => {
-    if (!props.showTableHeader) {
-      tableHeaderRef.value = undefined
-      return
-    }
-
-    const tableHeader = document.getElementById('ao-table-header')
-    if (tableHeader) {
-      tableHeaderRef.value = tableHeader
-    } else {
-      // 如果找不到表格头部，设置为 undefined，useElementSize 会返回 0
-      tableHeaderRef.value = undefined
-    }
-  }
-
+  // 表格头部根元素：经子组件实例获取，随 v-if 挂载 / 卸载自动同步，避免全局 getElementById 在多表格场景下取错元素
   watchEffect(
     () => {
-      // 访问响应式数据以建立依赖追踪
-      void props.data?.length // 追踪数据变化
-      const shouldShow = props.showTableHeader
-
-      // 只有在需要显示表格头部时才查找
-      if (shouldShow) {
-        nextTick(() => {
-          findTableHeader()
-        })
-      } else {
-        // 不显示时清空引用
-        tableHeaderRef.value = undefined
-      }
+      tableHeaderRef.value = (tableHeaderCompRef.value?.$el as HTMLElement | undefined) ?? undefined
     },
     { flush: 'post' }
   )

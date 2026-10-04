@@ -1,7 +1,7 @@
 <!-- 表格头部，包含表格大小、刷新、全屏、列设置、其他设置 -->
 <!-- 插槽契约：#left / #right 内的自定义按钮需使用 AoTableHeaderButton（已自动导入），才能获得与内置按钮一致的样式与 Tooltip 提示 -->
 <template>
-  <div class="table-header-root" id="ao-table-header">
+  <div class="table-header-root">
     <div class="left-wrap">
       <!-- 左侧插槽：插槽内自定义按钮使用 AoTableHeaderButton 可复用统一样式与 Tooltip 提示 -->
       <slot name="left"></slot>

@@ -1,6 +1,8 @@
 <!-- 表单组件 -->
 <!-- 支持常用表单组件、自定义组件、插槽、校验、隐藏表单项 -->
 <!-- 写法同 ElementPlus 官方文档组件，把属性写在 props 里面就可以了 -->
+<!-- 与 AoSearchBar 的契约差异：本组件直接对 v-model 对象做受控变更（就地修改，不整体替换）；AoSearchBar 内部持有状态并整体上报 -->
+<!-- 对外 API：ref 可调用 validate / reset / getOutput；getOutput 允许外部在不触发提交事件时读取清洗后的表单输出，sanitizeOutput 可按业务覆盖清洗策略 -->
 <template>
   <section class="form-section">
     <ElForm
@@ -29,40 +31,44 @@
             </template>
             <slot :name="item.key" :item="item" :modelValue="modelValue">
               <component
-                :is="getComponent(item)"
+                :is="getRenderComponent(item)"
                 :model-value="getFieldValue(item.key)"
                 @update:model-value="setFieldValue(item.key, $event)"
-                v-bind="getProps(item)"
+                v-bind="getItemProps(item)"
               >
                 <!-- 下拉选择 -->
-                <template v-if="item.type === 'select' && getProps(item)?.options">
+                <template v-if="item.type === 'select' && getOptions(item).length">
                   <ElOption
-                    v-for="option in getProps(item).options"
+                    v-for="option in getOptions(item)"
                     v-bind="option"
-                    :key="option.value"
+                    :key="String(option.value)"
                   />
                 </template>
 
                 <!-- 复选框组 -->
-                <template v-if="item.type === 'checkboxgroup' && getProps(item)?.options">
+                <template v-if="item.type === 'checkboxgroup' && getOptions(item).length">
                   <ElCheckbox
-                    v-for="option in getProps(item).options"
+                    v-for="option in getOptions(item)"
                     v-bind="option"
-                    :key="option.value"
+                    :key="String(option.value)"
                   />
                 </template>
 
                 <!-- 单选框组 -->
-                <template v-if="item.type === 'radiogroup' && getProps(item)?.options">
+                <template v-if="item.type === 'radiogroup' && getOptions(item).length">
                   <ElRadio
-                    v-for="option in getProps(item).options"
+                    v-for="option in getOptions(item)"
                     v-bind="option"
-                    :key="option.value"
+                    :key="String(option.value)"
                   />
                 </template>
 
                 <!-- 动态插槽支持 -->
-                <template v-for="(slotFn, slotName) in getSlots(item)" :key="slotName" #[slotName]>
+                <template
+                  v-for="(slotFn, slotName) in getValidSlots(item)"
+                  :key="slotName"
+                  #[slotName]
+                >
                   <component :is="slotFn" />
                 </template>
               </component>
@@ -94,87 +100,43 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, toRefs, useTemplateRef } from 'vue'
-  import { ElButton, ElCol, ElForm, ElFormItem, ElOption, ElRadio, ElRow } from 'element-plus'
+  import { computed, ref, toRefs, useTemplateRef, watch } from 'vue'
+  import type { Component, VNode } from 'vue'
+  import {
+    ElButton,
+    ElCheckbox,
+    ElCol,
+    ElForm,
+    ElFormItem,
+    ElOption,
+    ElRadio,
+    ElRow
+  } from 'element-plus'
+  import type { FormInstance } from 'element-plus'
   import { useWindowSize } from '@vueuse/core'
   import { useI18n } from 'vue-i18n'
-  import { toRaw } from 'vue'
-  import type { Component, VNode } from 'vue'
-
+  import type { FormItemBase, ResponsiveBreakpoint, SanitizeOutputOptions } from '@/types/component'
   import {
-    ElCascader,
-    ElCheckbox,
-    ElCheckboxGroup,
-    ElDatePicker,
-    ElInput,
-    ElInputTag,
-    ElInputNumber,
-    ElRadioGroup,
-    ElRate,
-    ElSelect,
-    ElSlider,
-    ElSwitch,
-    ElTimePicker,
-    ElTimeSelect,
-    ElTreeSelect,
-    type FormInstance
-  } from 'element-plus'
-  import { calculateResponsiveSpan, type ResponsiveBreakpoint } from '@/utils/form/responsive'
+    DEFAULT_SANITIZE_OPTIONS,
+    FORM_MOBILE_BREAKPOINT,
+    calculateResponsiveSpan,
+    cloneModelValue,
+    getOptions,
+    getRenderComponent,
+    getValidSlots,
+    getItemProps,
+    getValueByPath,
+    resolveActionButtonsAlign,
+    sanitizeFormOutput,
+    setValueByPath
+  } from './form-shared'
 
   defineOptions({ name: 'AoForm' })
 
-  const componentMap = {
-    input: ElInput, // 输入框
-    inputtag: ElInputTag, // 标签输入框
-    number: ElInputNumber, // 数字输入框
-    select: ElSelect, // 选择器
-    switch: ElSwitch, // 开关
-    checkbox: ElCheckbox, // 复选框
-    checkboxgroup: ElCheckboxGroup, // 复选框组
-    radiogroup: ElRadioGroup, // 单选框组
-    date: ElDatePicker, // 日期选择器
-    daterange: ElDatePicker, // 日期范围选择器
-    datetime: ElDatePicker, // 日期时间选择器
-    datetimerange: ElDatePicker, // 日期时间范围选择器
-    rate: ElRate, // 评分
-    slider: ElSlider, // 滑块
-    cascader: ElCascader, // 级联选择器
-    timepicker: ElTimePicker, // 时间选择器
-    timeselect: ElTimeSelect, // 时间选择
-    treeselect: ElTreeSelect // 树选择器
-  }
-
-  const { width } = useWindowSize()
-  const { t } = useI18n()
-  const isMobile = computed(() => width.value < 500)
-
-  const formInstance = useTemplateRef<FormInstance>('formRef')
-
   // 表单项配置
-  export interface FormItem {
-    /** 表单项的唯一标识 */
-    key: string
+  export interface FormItem extends FormItemBase {
     /** 表单项的标签文本或自定义渲染函数 */
     label: string | (() => VNode) | Component
-    /** 表单项标签的宽度，会覆盖 Form 的 labelWidth */
-    labelWidth?: string | number
-    /** 表单项类型，支持预定义的组件类型 */
-    type?: keyof typeof componentMap | string
-    /** 自定义渲染函数或组件，用于渲染自定义组件（优先级高于 type） */
-    render?: (() => VNode) | Component
-    /** 是否隐藏该表单项 */
-    hidden?: boolean
-    /** 表单项占据的列宽，基于24格栅格系统 */
-    span?: number
-    /** 选项数据，用于 select、checkbox-group、radio-group 等 */
-    options?: Record<string, any>
-    /** 传递给表单项组件的属性 */
-    props?: Record<string, any>
-    /** 表单项的插槽配置 */
-    slots?: Record<string, (() => any) | undefined>
-    /** 表单项的占位符文本 */
-    placeholder?: string
-    /** 更多属性配置请参考 ElementPlus 官方文档 */
   }
 
   // 表单配置
@@ -201,21 +163,6 @@
     sanitizeOutput?: Partial<SanitizeOutputOptions>
   }
 
-  interface SanitizeOutputOptions {
-    /** 移除空字符串 */
-    removeEmptyString: boolean
-    /** 移除空数组 */
-    removeEmptyArray: boolean
-    /** 移除清洗后为空的对象 */
-    removeEmptyObject: boolean
-    /** 移除空富文本占位内容，如 <p><br></p> */
-    removeEmptyRichText: boolean
-    /** 保留数字 0 这类有效值 */
-    keepZero: boolean
-    /** 保留 false 这类有效值 */
-    keepFalse: boolean
-  }
-
   const props = withDefaults(defineProps<FormProps>(), {
     items: () => [],
     span: 6,
@@ -239,216 +186,45 @@
   const modelValue = defineModel<Record<string, any>>({
     default: () => ({}) as Record<string, any>
   })
+
+  const { width } = useWindowSize()
+  const { t } = useI18n()
+  const isMobile = computed(() => width.value < FORM_MOBILE_BREAKPOINT)
+
+  const formInstance = useTemplateRef<FormInstance>('formRef')
+
+  // 表单快照：保存组件初始化时的表单值，用于 reset 时恢复默认值
   const initialModelValue = ref<Record<string, any>>({})
-
-  // 保存组件初始化时的表单快照，用于 reset 时恢复默认值。
-  /**
-   * @description 深度克隆表单数据，避免重置时修改原始引用
-   * @param value 待克隆的表单数据
-   * @return 克隆后的表单数据
-   */
-  const cloneModelValue = (value: Record<string, any> | undefined): Record<string, any> => {
-    if (!value) return {}
-
-    const deepClone = (source: unknown): unknown => {
-      if (Array.isArray(source)) {
-        return source.map((item) => deepClone(item))
-      }
-
-      if (source && typeof source === 'object') {
-        const rawSource = toRaw(source)
-        return Object.keys(rawSource).reduce<Record<string, unknown>>((accumulator, key) => {
-          accumulator[key] = deepClone((rawSource as Record<string, unknown>)[key])
-          return accumulator
-        }, {})
-      }
-
-      return source
-    }
-
-    return deepClone(toRaw(value)) as Record<string, any>
-  }
 
   initialModelValue.value = cloneModelValue(modelValue.value)
 
-  const rootProps = ['label', 'labelWidth', 'key', 'type', 'hidden', 'span', 'slots']
+  /**
+   * @description 父级整体替换 v-model 对象时重新快照；就地修改（如编辑回填）不触发，保持重置恢复挂载时初始值的契约
+   */
+  watch(modelValue, (value) => {
+    initialModelValue.value = cloneModelValue(value)
+  })
+
   // 输出时的清洗策略默认偏“接口友好”，但允许按业务覆盖。
   const sanitizeOutputOptions = computed<SanitizeOutputOptions>(() => ({
-    removeEmptyString: true,
-    removeEmptyArray: true,
-    removeEmptyObject: true,
-    removeEmptyRichText: true,
-    keepZero: true,
-    keepFalse: true,
+    ...DEFAULT_SANITIZE_OPTIONS,
     ...props.sanitizeOutput
   }))
 
-  const PATH_NUMBER_RE = /^\d+$/
+  /**
+   * @description 读取表单项当前值（key 支持点路径）
+   * @param key 表单项唯一标识
+   * @return 表单项当前值
+   */
+  const getFieldValue = (key: string): unknown => getValueByPath(modelValue.value, key)
 
-  // 兼容 a.b、a.0.b 这类路径写法，数字段会被当作数组索引处理。
-  const parsePath = (path: string) => {
-    return path
-      .split('.')
-      .filter(Boolean)
-      .map((segment) => (PATH_NUMBER_RE.test(segment) ? Number(segment) : segment))
-  }
-
-  const getFieldValue = (path: string) => {
-    return parsePath(path).reduce<any>((currentValue, segment) => {
-      if (currentValue == null) return undefined
-      return currentValue[segment]
-    }, modelValue.value)
-  }
-
-  // 清空字段时只删除路径的最后一段，避免误删同级数据。
-  const deleteFieldValue = (path: string) => {
-    const segments = parsePath(path)
-    if (!segments.length) return
-
-    const lastSegment = segments.pop()
-    const parent = segments.reduce<any>((currentValue, segment) => {
-      if (currentValue == null) return undefined
-      return currentValue[segment]
-    }, modelValue.value)
-
-    if (parent != null && lastSegment !== undefined) {
-      delete parent[lastSegment]
-    }
-  }
-
-  // 表单清空输入时不保留空字符串，同时按路径自动补齐中间对象或数组。
-  const setFieldValue = (path: string, value: unknown) => {
-    const normalizedValue = value === '' ? undefined : value
-    const segments = parsePath(path)
-
-    if (!segments.length) return
-
-    if (normalizedValue === undefined) {
-      deleteFieldValue(path)
-      return
-    }
-
-    let currentValue: any = modelValue.value
-
-    segments.forEach((segment, index) => {
-      const isLast = index === segments.length - 1
-
-      if (isLast) {
-        currentValue[segment] = normalizedValue
-        return
-      }
-
-      const nextSegment = segments[index + 1]
-      const nextContainer = typeof nextSegment === 'number' ? [] : {}
-
-      if (
-        currentValue[segment] === null ||
-        currentValue[segment] === undefined ||
-        typeof currentValue[segment] !== 'object'
-      ) {
-        currentValue[segment] = nextContainer
-      }
-
-      currentValue = currentValue[segment]
-    })
-  }
-
-  const isRichTextEmpty = (value: string) => {
-    if (/<(img|video|audio|iframe|embed|object)\b/i.test(value)) {
-      return false
-    }
-
-    // 去掉编辑器常见占位标签后再判断是否还有实际内容。
-    return (
-      value
-        .replace(/&nbsp;/gi, '')
-        .replace(/<br\s*\/?>/gi, '')
-        .replace(/<[^>]*>/g, '')
-        .trim() === ''
-    )
-  }
-
-  // 提交时按配置清洗空值，但保留 0 和 false 这类有效值。
-  const sanitizeOutputValue = (value: unknown): unknown => {
-    const options = sanitizeOutputOptions.value
-
-    if (Array.isArray(value)) {
-      const sanitizedArray = value
-        .map((item) => sanitizeOutputValue(item))
-        .filter((item) => item !== undefined)
-      return sanitizedArray.length === 0 && options.removeEmptyArray ? undefined : sanitizedArray
-    }
-
-    if (value && typeof value === 'object') {
-      const rawValue = toRaw(value)
-      const sanitizedObject = Object.entries(rawValue).reduce<Record<string, unknown>>(
-        (accumulator, [key, item]) => {
-          const sanitizedItem = sanitizeOutputValue(item)
-          if (sanitizedItem !== undefined) {
-            accumulator[key] = sanitizedItem
-          }
-          return accumulator
-        },
-        {}
-      )
-      return Object.keys(sanitizedObject).length === 0 && options.removeEmptyObject
-        ? undefined
-        : sanitizedObject
-    }
-
-    if (typeof value === 'string') {
-      if (options.removeEmptyString && value.trim() === '') {
-        return undefined
-      }
-      if (options.removeEmptyRichText && isRichTextEmpty(value)) {
-        return undefined
-      }
-      return value
-    }
-
-    if (value === 0) {
-      return options.keepZero ? value : undefined
-    }
-
-    if (value === false) {
-      return options.keepFalse ? value : undefined
-    }
-
-    return value ?? undefined
-  }
-
-  const getSanitizedOutput = () => {
-    return (sanitizeOutputValue(cloneModelValue(modelValue.value)) || {}) as Record<string, any>
-  }
-
-  const getProps = (item: FormItem) => {
-    if (item.props) return item.props
-    const props = { ...item }
-    rootProps.forEach((key) => delete (props as Record<string, any>)[key])
-    return props
-  }
-
-  // 获取插槽
-  const getSlots = (item: FormItem) => {
-    if (!item.slots) return {}
-    const validSlots: Record<string, () => any> = {}
-    Object.entries(item.slots).forEach(([key, slotFn]) => {
-      if (slotFn) {
-        validSlots[key] = slotFn
-      }
-    })
-    return validSlots
-  }
-
-  // 组件
-  const getComponent = (item: FormItem) => {
-    // 优先使用 render 函数或组件渲染自定义组件
-    if (item.render) {
-      return item.render
-    }
-    // 使用 type 获取预定义组件
-    const { type } = item
-    return componentMap[type as keyof typeof componentMap] || componentMap['input']
+  /**
+   * @description 写入表单项值，清空输入时不保留空字符串
+   * @param key 表单项唯一标识
+   * @param value 待写入的值
+   */
+  const setFieldValue = (key: string, value: unknown): void => {
+    setValueByPath(modelValue.value, key, value)
   }
 
   /**
@@ -470,15 +246,23 @@
    * 操作按钮样式
    */
   const actionButtonsStyle = computed(() => ({
-    'justify-content': isMobile.value
-      ? 'flex-end'
-      : props.items.filter((item) => !item.hidden).length <= props.buttonLeftLimit
-        ? 'flex-start'
-        : 'flex-end'
+    'justify-content': resolveActionButtonsAlign(
+      isMobile.value,
+      props.items.filter((item) => !item.hidden).length,
+      props.buttonLeftLimit
+    )
   }))
 
   /**
-   * 处理重置事件
+   * @description 获取清洗后的表单输出，供外部在不触发提交事件时主动读取
+   * @return 清洗后的表单输出
+   */
+  const getSanitizedOutput = (): Record<string, any> => {
+    return sanitizeFormOutput<Record<string, any>>(modelValue.value, sanitizeOutputOptions.value)
+  }
+
+  /**
+   * @description 处理重置事件：重置表单字段并恢复初始表单值（保留默认值而不是简单清空），最后上报页面
    */
   const handleReset = () => {
     // 重置表单字段（UI 层）
@@ -495,16 +279,23 @@
   }
 
   /**
-   * 处理提交事件
+   * @description 处理提交事件，先执行表单校验，未通过则不触发提交
    */
-  const handleSubmit = () => {
+  const handleSubmit = async (): Promise<void> => {
+    try {
+      await formInstance.value?.validate()
+    } catch {
+      return
+    }
+
     // 对外只抛出清洗后的结果，避免业务层重复过滤空值。
     emit('submit', getSanitizedOutput())
   }
 
   defineExpose({
-    ref: formInstance,
-    validate: (...args: any[]) => formInstance.value?.validate(...args),
+    validate: (
+      ...args: Parameters<FormInstance['validate']>
+    ): ReturnType<FormInstance['validate']> => formInstance.value!.validate(...args),
     reset: handleReset,
     // 允许外部在不触发提交事件时主动获取清洗后的输出。
     getOutput: getSanitizedOutput

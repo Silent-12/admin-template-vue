@@ -1,6 +1,7 @@
 <!-- 表格搜索组件 -->
 <!-- 支持常用表单组件、自定义组件、插槽、校验、隐藏表单项 -->
 <!-- 写法同 ElementPlus 官方文档组件，把属性写在 props 里面就可以了 -->
+<!-- 与 AoForm 的契约差异：本组件内部持有表单状态并通过 update:modelValue 整体上报；AoForm 直接对 v-model 对象做受控变更 -->
 <template>
   <section class="ao-search-bar ao-card-xs" :class="{ 'is-expanded': isExpanded }">
     <ElForm ref="formRef" :model="formModel" :label-position="labelPosition" v-bind="{ ...$attrs }">
@@ -24,10 +25,10 @@
             </template>
             <slot :name="item.key" :item="item" :modelValue="formModel">
               <component
-                :is="getComponent(item)"
+                :is="getRenderComponent(item)"
                 :model-value="getFieldValue(item.key)"
                 @update:model-value="setFieldValue(item.key, $event)"
-                v-bind="getProps(item)"
+                v-bind="getItemProps(item)"
               >
                 <!-- 下拉选择 -->
                 <template v-if="item.type === 'select' && getOptions(item).length">
@@ -57,7 +58,11 @@
                 </template>
 
                 <!-- 动态插槽支持 -->
-                <template v-for="(slotFn, slotName) in getSlots(item)" :key="slotName" #[slotName]>
+                <template
+                  v-for="(slotFn, slotName) in getValidSlots(item)"
+                  :key="slotName"
+                  #[slotName]
+                >
                   <component :is="slotFn" />
                 </template>
               </component>
@@ -98,9 +103,11 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs, useTemplateRef } from 'vue'
+  import { computed, ref, toRefs, useTemplateRef, watch } from 'vue'
+  import type { Component, VNode } from 'vue'
   import {
     ElButton,
+    ElCheckbox,
     ElCol,
     ElForm,
     ElFormItem,
@@ -109,87 +116,32 @@
     ElRadio,
     ElRow
   } from 'element-plus'
+  import type { FormInstance } from 'element-plus'
   import { ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
   import { useWindowSize } from '@vueuse/core'
   import { useI18n } from 'vue-i18n'
-  import { computed, ref, toRaw, watch, type Component, type VNode } from 'vue'
+  import type { FormItemBase, ResponsiveBreakpoint, SanitizeOutputOptions } from '@/types/component'
   import {
-    ElCascader,
-    ElCheckbox,
-    ElCheckboxGroup,
-    ElDatePicker,
-    ElInput,
-    ElInputTag,
-    ElInputNumber,
-    ElRadioGroup,
-    ElRate,
-    ElSelect,
-    ElSlider,
-    ElSwitch,
-    ElTimePicker,
-    ElTimeSelect,
-    ElTreeSelect,
-    type FormInstance
-  } from 'element-plus'
-  import { calculateResponsiveSpan, type ResponsiveBreakpoint } from '@/utils/form/responsive'
+    DEFAULT_SANITIZE_OPTIONS,
+    FORM_MOBILE_BREAKPOINT,
+    calculateResponsiveSpan,
+    cloneModelValue,
+    getOptions,
+    getRenderComponent,
+    getValidSlots,
+    getItemProps,
+    getValueByPath,
+    resolveActionButtonsAlign,
+    sanitizeFormOutput,
+    setValueByPath
+  } from './form-shared'
 
   defineOptions({ name: 'AoSearchBar' })
 
-  const componentMap = {
-    input: ElInput, // 输入框
-    inputTag: ElInputTag, // 标签输入框
-    number: ElInputNumber, // 数字输入框
-    select: ElSelect, // 选择器
-    switch: ElSwitch, // 开关
-    checkbox: ElCheckbox, // 复选框
-    checkboxgroup: ElCheckboxGroup, // 复选框组
-    radiogroup: ElRadioGroup, // 单选框组
-    date: ElDatePicker, // 日期选择器
-    daterange: ElDatePicker, // 日期范围选择器
-    datetime: ElDatePicker, // 日期时间选择器
-    datetimerange: ElDatePicker, // 日期时间范围选择器
-    rate: ElRate, // 评分
-    slider: ElSlider, // 滑块
-    cascader: ElCascader, // 级联选择器
-    timepicker: ElTimePicker, // 时间选择器
-    timeselect: ElTimeSelect, // 时间选择
-    treeselect: ElTreeSelect // 树选择器
-  }
-
-  const { width } = useWindowSize()
-  const { t } = useI18n()
-  const isMobile = computed(() => width.value < 500)
-
-  const formInstance = useTemplateRef<FormInstance>('formRef')
-
-  /** 选项数据结构 */
-  type SearchFormOption = { value: string | number | boolean; [key: string]: unknown }
-
   // 表单项配置
-  export interface SearchFormItem {
-    /** 表单项的唯一标识 */
-    key: string
+  export interface SearchFormItem extends FormItemBase {
     /** 表单项的标签文本或自定义渲染函数 */
     label: string | (() => VNode) | Component
-    /** 表单项标签的宽度，会覆盖 Form 的 labelWidth */
-    labelWidth?: string | number
-    /** 表单项类型，支持预定义的组件类型 */
-    type?: keyof typeof componentMap | string
-    /** 自定义渲染函数或组件，用于渲染自定义组件（优先级高于 type） */
-    render?: (() => VNode) | Component
-    /** 是否隐藏该表单项 */
-    hidden?: boolean
-    /** 表单项占据的列宽，基于24格栅格系统 */
-    span?: number
-    /** 选项数据，用于 select、checkbox-group、radio-group 等 */
-    options?: Array<SearchFormOption>
-    /** 传递给表单项组件的属性 */
-    props?: Record<string, unknown>
-    /** 表单项的插槽配置 */
-    slots?: Record<string, (() => VNode) | undefined>
-    /** 表单项的占位符文本 */
-    placeholder?: string
-    /** 更多属性配置请参考 ElementPlus 官方文档 */
   }
 
   /** 搜索表单数据模型 */
@@ -227,21 +179,6 @@
     sanitizeOutput?: Partial<SanitizeOutputOptions>
   }
 
-  interface SanitizeOutputOptions {
-    /** 移除空字符串 */
-    removeEmptyString: boolean
-    /** 移除空数组 */
-    removeEmptyArray: boolean
-    /** 移除清洗后为空的对象 */
-    removeEmptyObject: boolean
-    /** 移除空富文本占位内容，如 <p><br></p> */
-    removeEmptyRichText: boolean
-    /** 保留数字 0 这类有效筛选值 */
-    keepZero: boolean
-    /** 保留 false 这类有效筛选值 */
-    keepFalse: boolean
-  }
-
   const props = withDefaults(defineProps<SearchBarProps>(), {
     items: () => [],
     modelValue: () => ({}) as SearchFormModel,
@@ -267,33 +204,11 @@
 
   const emit = defineEmits<SearchBarEmits>()
 
-  /**
-   * 深度克隆表单数据
-   * @description 保存组件初始化时的表单快照，用于 reset 时恢复默认筛选条件
-   * @param value 待克隆的表单数据
-   * @return 克隆后的表单数据
-   */
-  const cloneModelValue = (value: SearchFormModel | undefined): SearchFormModel => {
-    if (!value) return {}
+  const { width } = useWindowSize()
+  const { t } = useI18n()
+  const isMobile = computed(() => width.value < FORM_MOBILE_BREAKPOINT)
 
-    const deepClone = (source: unknown): unknown => {
-      if (Array.isArray(source)) {
-        return source.map((item) => deepClone(item))
-      }
-
-      if (source && typeof source === 'object') {
-        const rawSource = toRaw(source)
-        return Object.keys(rawSource).reduce<Record<string, unknown>>((accumulator, key) => {
-          accumulator[key] = deepClone((rawSource as Record<string, unknown>)[key])
-          return accumulator
-        }, {})
-      }
-
-      return source
-    }
-
-    return deepClone(toRaw(value)) as SearchFormModel
-  }
+  const formInstance = useTemplateRef<FormInstance>('formRef')
 
   const formModel = ref<SearchFormModel>(cloneModelValue(props.modelValue))
   const initialModelValue = ref<SearchFormModel>(cloneModelValue(props.modelValue))
@@ -320,58 +235,29 @@
    */
   const isExpanded = ref(props.defaultExpanded)
 
-  const rootProps = ['label', 'labelWidth', 'key', 'type', 'hidden', 'span', 'slots']
   // 搜索参数默认更激进地去掉空值，减少无效 query 参数。
   const sanitizeOutputOptions = computed<SanitizeOutputOptions>(() => ({
-    removeEmptyString: true,
-    removeEmptyArray: true,
-    removeEmptyObject: true,
-    removeEmptyRichText: true,
-    keepZero: true,
-    keepFalse: true,
+    ...DEFAULT_SANITIZE_OPTIONS,
     ...props.sanitizeOutput
   }))
 
   /**
-   * 获取表单项需要透传给组件的属性
-   * @description 优先使用 item.props，否则剔除 SearchFormItem 自有字段后返回其余配置
-   * @param item 表单项配置
-   * @return 需要绑定到表单组件的属性对象
+   * @description 读取搜索项当前值（key 即单段点路径）
+   * @param key 搜索项唯一标识
+   * @return 搜索项当前值
    */
-  const getProps = (item: SearchFormItem): Record<string, unknown> => {
-    if (item.props) return item.props
-    return Object.fromEntries(
-      Object.entries(item).filter(([key]) => !rootProps.includes(key))
-    ) as Record<string, unknown>
-  }
+  const getFieldValue = (key: string): unknown => getValueByPath(formModel.value, key)
 
   /**
-   * 获取选项数据
-   * @description 支持通过 item.props.options 或 item.options 传入
-   * @param item 表单项配置
-   * @return 选项数组
+   * @description 写入搜索项值并上报父级，清空输入时不保留空字符串
+   * @param key 搜索项唯一标识
+   * @param value 待写入的值
    */
-  const getOptions = (item: SearchFormItem): Array<SearchFormOption> => {
-    const options = item.props?.options ?? item.options
-    return Array.isArray(options) ? options : []
-  }
+  const setFieldValue = (key: string, value: unknown): void => {
+    setValueByPath(formModel.value, key, value)
 
-  /**
-   * 获取有效插槽配置
-   * @param item 表单项配置
-   * @return 过滤掉空值后的插槽映射
-   */
-  const getSlots = (item: SearchFormItem): Record<string, (() => VNode) | undefined> => {
-    if (!item.slots) return {}
-    return Object.entries(item.slots).reduce<Record<string, (() => VNode) | undefined>>(
-      (accumulator, [key, slotFn]) => {
-        if (slotFn) {
-          accumulator[key] = slotFn
-        }
-        return accumulator
-      },
-      {}
-    )
+    lastEmittedModel = formModel.value
+    emit('update:modelValue', formModel.value)
   }
 
   /**
@@ -380,105 +266,6 @@
    */
   const getColSpan = (itemSpan: number | undefined, breakpoint: ResponsiveBreakpoint): number => {
     return calculateResponsiveSpan(itemSpan, span.value, breakpoint)
-  }
-
-  // 搜索表单清空输入时不保留空字符串，避免后续请求携带空字段。
-  const normalizeFieldValue = (value: unknown) => {
-    return value === '' ? undefined : value
-  }
-
-  const getFieldValue = (key: string) => formModel.value[key]
-
-  const setFieldValue = (key: string, value: unknown) => {
-    const normalizedValue = normalizeFieldValue(value)
-
-    if (normalizedValue === undefined) {
-      delete formModel.value[key]
-    } else {
-      formModel.value[key] = normalizedValue
-    }
-
-    lastEmittedModel = formModel.value
-    emit('update:modelValue', formModel.value)
-  }
-
-  const isRichTextEmpty = (value: string) => {
-    if (/<(img|video|audio|iframe|embed|object)\b/i.test(value)) {
-      return false
-    }
-
-    // 去掉编辑器常见占位标签后再判断是否还有实际内容。
-    return (
-      value
-        .replace(/&nbsp;/gi, '')
-        .replace(/<br\s*\/?>/gi, '')
-        .replace(/<[^>]*>/g, '')
-        .trim() === ''
-    )
-  }
-
-  // 搜索时按配置清洗空值，但保留 0 和 false 这类有效筛选条件。
-  const sanitizeOutputValue = (value: unknown): unknown => {
-    const options = sanitizeOutputOptions.value
-
-    if (Array.isArray(value)) {
-      const sanitizedArray = value
-        .map((item) => sanitizeOutputValue(item))
-        .filter((item) => item !== undefined)
-      return sanitizedArray.length === 0 && options.removeEmptyArray ? undefined : sanitizedArray
-    }
-
-    if (value && typeof value === 'object') {
-      const rawValue = toRaw(value)
-      const sanitizedObject = Object.entries(rawValue).reduce<Record<string, unknown>>(
-        (accumulator, [key, item]) => {
-          const sanitizedItem = sanitizeOutputValue(item)
-          if (sanitizedItem !== undefined) {
-            accumulator[key] = sanitizedItem
-          }
-          return accumulator
-        },
-        {}
-      )
-      return Object.keys(sanitizedObject).length === 0 && options.removeEmptyObject
-        ? undefined
-        : sanitizedObject
-    }
-
-    if (typeof value === 'string') {
-      if (options.removeEmptyString && value.trim() === '') {
-        return undefined
-      }
-      if (options.removeEmptyRichText && isRichTextEmpty(value)) {
-        return undefined
-      }
-      return value
-    }
-
-    if (value === 0) {
-      return options.keepZero ? value : undefined
-    }
-
-    if (value === false) {
-      return options.keepFalse ? value : undefined
-    }
-
-    return value ?? undefined
-  }
-
-  const getSanitizedOutput = (): SearchFormModel => {
-    return (sanitizeOutputValue(cloneModelValue(formModel.value)) || {}) as SearchFormModel
-  }
-
-  // 组件
-  const getComponent = (item: SearchFormItem) => {
-    // 优先使用 render 函数或组件渲染自定义组件
-    if (item.render) {
-      return item.render
-    }
-    // 使用 type 获取预定义组件
-    const { type } = item
-    return componentMap[type as keyof typeof componentMap] || componentMap['input']
   }
 
   /**
@@ -515,11 +302,11 @@
    * 操作按钮样式
    */
   const actionButtonsStyle = computed(() => ({
-    'justify-content': isMobile.value
-      ? 'flex-end'
-      : props.items.filter((item) => !item.hidden).length <= props.buttonLeftLimit
-        ? 'flex-start'
-        : 'flex-end'
+    'justify-content': resolveActionButtonsAlign(
+      isMobile.value,
+      props.items.filter((item) => !item.hidden).length,
+      props.buttonLeftLimit
+    )
   }))
 
   /**
@@ -553,17 +340,20 @@
    */
   const handleSearch = () => {
     // 对外只抛出清洗后的查询参数，避免接口收到空数组/空字符串。
-    emit('search', getSanitizedOutput())
+    emit(
+      'search',
+      sanitizeFormOutput<SearchFormModel>(formModel.value, sanitizeOutputOptions.value)
+    )
   }
 
   defineExpose({
-    ref: formInstance,
     validate: (
       ...args: Parameters<FormInstance['validate']>
     ): ReturnType<FormInstance['validate']> => formInstance.value!.validate(...args),
     reset: handleReset,
     // 允许外部在手动组装请求前直接读取清洗后的参数。
-    getOutput: getSanitizedOutput
+    getOutput: (): SearchFormModel =>
+      sanitizeFormOutput<SearchFormModel>(formModel.value, sanitizeOutputOptions.value)
   })
 
   // 解构 props 以便在模板中直接使用

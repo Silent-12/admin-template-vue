@@ -6,6 +6,7 @@
  * ## 主要功能
  *
  * - 表格列配置类型
+ * - 表单配置类型（见 ./form）
  *
  * ## 使用场景
  *
@@ -78,3 +79,5 @@ export type TablePaginationOptions = Pick<
   PaginationProps,
   'pageSizes' | 'layout' | 'background' | 'hideOnSinglePage' | 'size' | 'pagerCount'
 >
+
+export * from './form'
