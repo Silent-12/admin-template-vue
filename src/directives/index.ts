@@ -1,7 +1,6 @@
 import type { App } from 'vue'
 import { setupAuthDirective, type AuthDirective } from './auth'
 import { setupHighlightDirective, type HighlightDirective } from './highlight'
-import { setupRippleDirective, type RippleDirective } from './ripple'
 
 /**
  * @description 注册应用内置的全局自定义指令
@@ -11,7 +10,6 @@ import { setupRippleDirective, type RippleDirective } from './ripple'
 export function setupGlobDirectives(app: App): void {
   setupAuthDirective(app) // 权限指令
   setupHighlightDirective(app) // 高亮指令
-  setupRippleDirective(app) // 水波纹指令
 }
 
-export type { AuthDirective, HighlightDirective, RippleDirective }
+export type { AuthDirective, HighlightDirective }

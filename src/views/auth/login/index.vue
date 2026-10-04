@@ -57,7 +57,6 @@
                 type="primary"
                 @click="handleSubmit"
                 :loading="loading"
-                v-ripple
               >
                 登录
               </ElButton>

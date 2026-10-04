@@ -10,10 +10,10 @@
         <div class="card-header">
           <span class="card-title">AoForm 表单写法展示</span>
           <ElSpace>
-            <ElButton v-ripple type="primary" @click="formDialogVisible = true">
+            <ElButton type="primary" @click="formDialogVisible = true">
               打开表单弹窗
             </ElButton>
-            <ElButton v-ripple @click="quickFormVisible = true">弹窗表单模式</ElButton>
+            <ElButton @click="quickFormVisible = true">弹窗表单模式</ElButton>
           </ElSpace>
         </div>
       </template>
@@ -44,13 +44,13 @@
       <!-- 表格头部左侧操作区 -->
       <template #header-left>
         <ElSpace wrap>
-          <ElButton v-ripple @click="showRowMessage('新增')">新增</ElButton>
+          <ElButton @click="showRowMessage('新增')">新增</ElButton>
         </ElSpace>
       </template>
 
       <!-- 表格头部右侧操作区 -->
       <template #header-right>
-        <ElButton v-ripple @click="showRowMessage('导出')">导出</ElButton>
+        <ElButton @click="showRowMessage('导出')">导出</ElButton>
       </template>
 
       <!-- 成员列：头像 + 姓名 + 邮箱组合展示 -->

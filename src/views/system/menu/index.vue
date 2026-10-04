@@ -24,8 +24,8 @@
     >
       <!-- 表格头部左侧操作区 -->
       <template #header-left>
-        <ElButton v-auth="'add'" @click="handleAddMenu" v-ripple> 添加菜单 </ElButton>
-        <ElButton @click="toggleExpand" v-ripple>
+        <ElButton v-auth="'add'" @click="handleAddMenu"> 添加菜单 </ElButton>
+        <ElButton @click="toggleExpand">
           {{ isExpanded ? '收起' : '展开' }}
         </ElButton>
       </template>

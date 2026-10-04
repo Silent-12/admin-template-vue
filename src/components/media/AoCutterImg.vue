@@ -14,10 +14,10 @@
         class="img-cutter"
       >
         <template #choose>
-          <ElButton type="primary" plain v-ripple>选择图片</ElButton>
+          <ElButton type="primary" plain>选择图片</ElButton>
         </template>
         <template #cancel>
-          <ElButton type="danger" plain v-ripple>清除</ElButton>
+          <ElButton type="danger" plain>清除</ElButton>
         </template>
         <template #confirm>
           <!-- <ElButton type="primary" style="margin-left: 10px">确定</ElButton> -->
@@ -37,7 +37,7 @@
       >
         <img class="preview-img" :src="temImgPath" alt="预览图" v-if="temImgPath" />
       </div>
-      <ElButton class="download-btn" @click="downloadImg" :disabled="!temImgPath" v-ripple
+      <ElButton class="download-btn" @click="downloadImg" :disabled="!temImgPath"
         >下载图片</ElButton
       >
     </div>

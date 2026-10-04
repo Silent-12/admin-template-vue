@@ -35,13 +35,12 @@
     <!-- 底部操作区：默认右对齐 取消 / 确定；确定 = 校验通过后上报清洗输出 -->
     <template #footer>
       <slot name="footer">
-        <ElButton v-ripple @click="handleCancel">
+        <ElButton @click="handleCancel">
           {{ cancelText || t('common.cancel') }}
         </ElButton>
         <ElButton
           v-if="showSubmit"
           type="primary"
-          v-ripple
           :disabled="disabledSubmit"
           @click="handleConfirm"
         >

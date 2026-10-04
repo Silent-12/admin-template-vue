@@ -13,7 +13,7 @@
   - 路由核心能力放在 `src/router/services/` 下，扩展时优先复用既有 `RouteRegistry`、`MenuRouteService`、`RouteTransformer`、`RouteComponentLoader`、`RouteConfigValidator` 等能力。
   - 路由守卫在 `src/router/guards/`，禁止在业务页面内手写路由拦截。
 
-- 自定义指令统一放在 `src/directives/` 根目录（`auth`、`highlight`、`ripple`），通过 `src/directives/index.ts` 统一注册。
+- 自定义指令统一放在 `src/directives/` 根目录（`auth`、`highlight`），通过 `src/directives/index.ts` 统一注册。
 
 - 复用逻辑优先抽成 Composable，放置在 `src/hooks/core/` 下，命名以 `use` 开头（如 `useTable`、`useAuth`、`useTheme`）；不要在组件内重复实现已存在的 hook 能力。
 

@@ -4,7 +4,7 @@
       <ThemeSvg :src="data.imgUrl" size="100%" class="exception-img" />
       <div class="exception-text">
         <p class="exception-desc">{{ data.desc }}</p>
-        <ElButton type="primary" size="large" @click="backHome" v-ripple class="exception-btn">{{
+        <ElButton type="primary" size="large" @click="backHome" class="exception-btn">{{
           data.btnText
         }}</ElButton>
       </div>

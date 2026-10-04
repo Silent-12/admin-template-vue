@@ -77,7 +77,7 @@
       </div>
 
       <div class="notification-panel__footer">
-        <ElButton class="notification-panel__view-all" @click="handleViewAll" v-ripple>
+        <ElButton class="notification-panel__view-all" @click="handleViewAll">
           {{ $t('notice.viewAll') }}
         </ElButton>
       </div>

@@ -25,7 +25,7 @@
       <!-- 表格头部左侧操作区 -->
       <template #header-left>
         <ElSpace wrap>
-          <ElButton @click="showDialog('add')" v-ripple>新增用户</ElButton>
+          <ElButton @click="showDialog('add')">新增用户</ElButton>
         </ElSpace>
       </template>
 

@@ -5,7 +5,6 @@
     :size="size"
     :loading="isExporting"
     :disabled="disabled || !hasData"
-    v-ripple
     @click="handleExport"
   >
     <template #loading>
