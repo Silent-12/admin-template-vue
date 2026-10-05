@@ -1,6 +1,6 @@
 # 项目定位
 
-- 本项目是纯前端后台管理模板 `art-design-pro`，无后端、数据库或 Redis/MQ；数据通过 `src/api/` 对接后端。
+- 本项目是纯前端后台管理模板 `Ao Design Pro`，无后端、数据库或 Redis/MQ；数据通过 `src/api/` 对接后端。
 - 技术栈：Vue 3、Vite、TypeScript、Pinia、Vue Router、Element Plus、Axios、SCSS、vue-i18n。
 - 使用 `pnpm`，Node.js 要求 `>=20.19.0`；开发与调试命令必须兼容 Windows PowerShell。
 
