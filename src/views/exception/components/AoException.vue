@@ -15,7 +15,7 @@
 <script setup lang="ts">
   import { useRouter } from 'vue-router'
   import { ElButton } from 'element-plus'
-  import { useCommon } from '@/hooks/core/useCommon'
+  import { useCommon } from '@ao/admin-layout'
   import { useUserStore } from '@/store/modules/user'
 
   const router = useRouter()

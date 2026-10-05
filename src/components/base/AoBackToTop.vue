@@ -17,7 +17,7 @@
 <script setup lang="ts">
   import { onMounted, ref, watch } from 'vue'
   import { useScroll } from '@vueuse/core'
-  import { useCommon } from '@/hooks/core/useCommon'
+  import { useCommon } from '@ao/admin-layout'
 
   defineOptions({ name: 'AoBackToTop' })
 

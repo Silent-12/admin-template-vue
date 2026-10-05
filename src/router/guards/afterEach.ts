@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import type { Router } from 'vue-router'
 import NProgress from 'nprogress'
-import { useCommon } from '@/hooks/core/useCommon'
+import { useCommon } from '@ao/admin-layout'
 import { loadingService } from '@/utils/ui'
 import { getPendingLoading, resetPendingLoading } from './beforeEach'
 

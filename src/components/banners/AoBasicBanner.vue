@@ -69,7 +69,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { onMounted, ref, computed } from 'vue'
-  import { useSettingStore } from '@/store/modules/setting'
+  import { useSettingStore } from '@ao/admin-layout'
   const settingStore = useSettingStore()
   const { isDark } = storeToRefs(settingStore)
 

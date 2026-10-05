@@ -71,6 +71,7 @@
 </template>
 
 <script setup lang="ts">
+  import { AoLogo } from '@ao/admin-components'
   import AppConfig from '@/config'
   import loginIcon from '@imgs/svg/login_icon.svg'
   import { themeAnimation } from '@/utils/ui/animation'

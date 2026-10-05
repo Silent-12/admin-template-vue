@@ -19,7 +19,7 @@
   import zh from 'element-plus/es/locale/lang/zh-cn'
   import en from 'element-plus/es/locale/lang/en'
   import { toggleTransition } from './utils/ui/animation'
-  import { initializeTheme } from './hooks/core/useTheme'
+  import { initializeTheme } from '@ao/admin-layout'
 
   const userStore = useUserStore()
   const { language } = storeToRefs(userStore)

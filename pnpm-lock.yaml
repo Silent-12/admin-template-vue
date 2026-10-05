@@ -11,6 +11,9 @@ importers:
       '@ao/admin-components':
         specifier: git+https://github.com/Silent-12/admin-components.git
         version: git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
+      '@ao/admin-layout':
+        specifier: git+https://github.com/Silent-12/admin-layout.git
+        version: git+https://github.com/Silent-12/admin-layout.git#2bee34f111a8cdefe86d072cc9306b0ea578fbd5(@ao/admin-components@git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3)))(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue-router@4.6.4(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.40(typescript@5.6.3))
@@ -167,6 +170,20 @@ packages:
       pinia-plugin-persistedstate: ^4.3.0
       vue: ^3.5.0
       vue-i18n: ^9.14.0
+
+  '@ao/admin-layout@git+https://github.com/Silent-12/admin-layout.git#2bee34f111a8cdefe86d072cc9306b0ea578fbd5':
+    resolution: {commit: 2bee34f111a8cdefe86d072cc9306b0ea578fbd5, repo: https://github.com/Silent-12/admin-layout.git, type: git}
+    version: 0.0.0
+    engines: {node: '>=20.19.0', pnpm: '>=8.8.0'}
+    peerDependencies:
+      '@ao/admin-components': https://github.com/Silent-12/admin-components.git#v1
+      '@vueuse/core': ^13.9.0
+      element-plus: ^2.14.3
+      pinia: ^3.0.3
+      pinia-plugin-persistedstate: ^4.3.0
+      vue: ^3.5.0
+      vue-i18n: ^9.14.0
+      vue-router: ^4.5.1
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -3465,6 +3482,18 @@ snapshots:
     transitivePeerDependencies:
       - '@types/sortablejs'
       - '@vue/composition-api'
+
+  '@ao/admin-layout@git+https://github.com/Silent-12/admin-layout.git#2bee34f111a8cdefe86d072cc9306b0ea578fbd5(@ao/admin-components@git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3)))(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue-router@4.6.4(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))':
+    dependencies:
+      '@ao/admin-components': git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
+      '@vueuse/core': 13.9.0(vue@3.5.40(typescript@5.6.3))
+      element-plus: 2.14.3(vue@3.5.40(typescript@5.6.3))
+      nprogress: 0.2.0
+      pinia: 3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))
+      pinia-plugin-persistedstate: 4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))
+      vue: 3.5.40(typescript@5.6.3)
+      vue-i18n: 9.14.5(vue@3.5.40(typescript@5.6.3))
+      vue-router: 4.6.4(vue@3.5.40(typescript@5.6.3))
 
   '@babel/code-frame@7.29.7':
     dependencies:

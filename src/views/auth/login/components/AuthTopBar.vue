@@ -58,12 +58,13 @@
 </template>
 
 <script setup lang="ts">
+  import { AoLogo, AoSvgIcon } from '@ao/admin-components'
   import { storeToRefs } from 'pinia'
   import { ElDropdown, ElDropdownItem, ElDropdownMenu } from 'element-plus'
   import { useI18n } from 'vue-i18n'
-  import { useSettingStore } from '@/store/modules/setting'
+  import { useSettingStore } from '@ao/admin-layout'
   import { useUserStore } from '@/store/modules/user'
-  import { useHeaderBar } from '@/hooks/core/useHeaderBar'
+  import { useHeaderBar } from '@ao/admin-layout'
   import { themeAnimation } from '@/utils/ui/animation'
   import { languageOptions } from '@/locales'
   import { LanguageEnum } from '@/enums'

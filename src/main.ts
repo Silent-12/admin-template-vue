@@ -1,19 +1,27 @@
 import App from './App.vue'
-import { createApp } from 'vue'
+import { createApp, toRef } from 'vue'
 import { useUserStore } from './store/modules/user'
 import { AdminComponents } from '@ao/admin-components'
+import { AdminLayout, useSettingStore } from '@ao/admin-layout'
 // 组件包样式：SFC scoped 样式编译产物，需与全局样式一同引入
 import '@ao/admin-components/styles.css'
+// 布局包样式底座：主题变量 / 布局骨架类 / 暗色与切换动画
+import '@ao/admin-layout/styles.css'
 import logoUrl from '@imgs/common/logo.webp'
 
 // Store
 import { initStore } from './store'
+import { useMenuStore } from './store/modules/menu'
+import { router } from './router'
 // Router
 import { initRouter } from './router'
 // 多语言
 import language from './locales'
 // 全局样式
 import '@styles/index.scss'
+// 全局配置
+import AppConfig from '@/config'
+import { LanguageEnum } from '@/enums'
 // 自定义指令
 import { setupGlobDirectives } from './directives'
 // 全局错误处理
@@ -61,5 +69,40 @@ app.use(AdminComponents, {
   getAuthList: () => useUserStore().info?.auth,
   resolveLocalSvg,
   assets: { logo: logoUrl }
+})
+// 布局包：注入菜单数据、用户信息、语言与登出回调（业务数据由本项目持有）
+const menuStore = useMenuStore()
+
+/**
+ * @description 同步 vue-i18n 全局 locale（兼容 legacy / composition 两种取值形态）。
+ * @param lang 目标语言。
+ */
+const setI18nLocale = (lang: string) => {
+  const globalLocale = language.global.locale
+  if (typeof globalLocale === 'string') {
+    language.global.locale = lang
+  } else {
+    globalLocale.value = lang
+  }
+}
+
+app.use(AdminLayout, {
+  i18n: language,
+  router,
+  menuSource: () => ({
+    menuList: menuStore.menuList,
+    applicationList: menuStore.applicationList,
+    currentApplication: menuStore.currentApplication,
+    homePath: menuStore.getHomePath()
+  }),
+  userInfo: () => useUserStore().info,
+  language: toRef(useUserStore(), 'language'),
+  onLanguageChange: (lang: string) => {
+    setI18nLocale(lang)
+    useUserStore().setLanguage(lang as LanguageEnum)
+    useSettingStore().reload()
+  },
+  onLogout: () => useUserStore().logOut(),
+  config: { systemName: AppConfig.systemInfo.name ?? undefined }
 })
 app.mount('#app')

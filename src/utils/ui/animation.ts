@@ -24,10 +24,10 @@
  * - 通过 CSS class 控制过渡效果
  * - 自动计算最大扩散半径
  */
-import { useCommon } from '@/hooks/core/useCommon'
-import { useTheme } from '@/hooks/core/useTheme'
+import { useCommon } from '@ao/admin-layout'
+import { useTheme } from '@ao/admin-layout'
 import { SystemThemeEnum } from '@/enums'
-import { useSettingStore } from '@/store/modules/setting'
+import { useSettingStore } from '@ao/admin-layout'
 const { LIGHT, DARK } = SystemThemeEnum
 
 /**

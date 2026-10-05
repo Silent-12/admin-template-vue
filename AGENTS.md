@@ -16,7 +16,7 @@
 - 页面与路由文案默认直接使用中文文本，不做 i18n 适配、不新增语言包键值，除非用户明确提出需要适配 i18n。
 - 先检索、再复用，遵循现有架构，按软件工程最佳实践新增、修改或重构功能；无用字段、变量、引入和组件及时清理，无需保留无用兼容代码。
 - 请求统一通过默认 `request` 实例，响应使用 `BaseResponse<T>`；类型集中在 `src/types/`，业务持久化通过 Pinia `persist`。
-- 业务表格和搜索统一使用 `AoTable` 集成的能力；公共逻辑优先复用组件、Composable 和路由服务。
+- 布局与公共组件已抽离为独立包：`@ao/admin-layout`（布局骨架、setting/app/worktab store、主题底座）与 `@ao/admin-components`（AoTable、AoForm 等表格表单组件），经 git tag 依赖安装，只允许从包入口导入、禁止深引内部路径；业务数据由本项目持有，经 `main.ts` 的 install 注入。公共逻辑优先复用组件、Composable 和路由服务。
 - 样式使用 SCSS 与 CSS 变量，兼容深色模式；源码使用 UTF-8 无 BOM，业务函数同步维护 JSDoc。
 - 完成后执行与改动范围对应的检查，并说明实际验证结果与未验证项；具体命令见必读流程。
 

@@ -39,7 +39,7 @@ import { ElMessage } from 'element-plus'
  * - RGB: rgb(255, 255, 255)
  * - RGBA: rgba(255, 255, 255, 0.5)
  */
-import { useSettingStore } from '@/store/modules/setting'
+import { useSettingStore } from '@ao/admin-layout'
 
 /**
  * 颜色转换结果接口

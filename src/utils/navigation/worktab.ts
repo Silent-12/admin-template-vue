@@ -18,10 +18,10 @@
  * - 页面切换时更新标签页状态
  * - 多标签页导航系统
  */
-import { useWorktabStore } from '@/store/modules/worktab'
+import { useWorktabStore } from '@ao/admin-layout'
 import { RouteLocationNormalized } from 'vue-router'
-import { useSettingStore } from '@/store/modules/setting'
-import { useCommon } from '@/hooks/core/useCommon'
+import { useSettingStore } from '@ao/admin-layout'
+import { useCommon } from '@ao/admin-layout'
 
 /**
  * 根据当前路由信息设置工作标签页（worktab）
