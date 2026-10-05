@@ -74,7 +74,7 @@
   import { AoButtonTable } from '@ao/admin-components'
   import AoImage from '@/components/media/AoImage.vue'
   import { fetchGetUserList } from '@/mock'
-  import { useTableColumns } from '@/hooks/core/useTableColumns'
+  import { useTableColumns } from '@ao/admin-components'
   import UserDialog from './components/UserDialog.vue'
   import type { SearchFormItem } from '@ao/admin-components'
   import type { TablePaginationState } from '@ao/admin-components'

@@ -77,7 +77,7 @@
   import { AoTable } from '@ao/admin-components'
   import { AoButtonTable } from '@ao/admin-components'
   import type { SearchFormItem } from '@ao/admin-components'
-  import { useTableColumns } from '@/hooks/core/useTableColumns'
+  import { useTableColumns } from '@ao/admin-components'
   import type { AppRouteRecord } from '@/types/router'
   import MenuDialog from './components/MenuDialog.vue'
   import { fetchGetMenuList } from '@/mock'

@@ -188,7 +188,7 @@
   import { AoButtonTable } from '@ao/admin-components'
   import { AoExcelExport, AoExcelImport } from '@ao/admin-components'
   import AoImage from '@/components/media/AoImage.vue'
-  import { useTableColumns } from '@/hooks/core/useTableColumns'
+  import { useTableColumns } from '@ao/admin-components'
   import type { SearchFormItem } from '@ao/admin-components'
   import type { TablePaginationState } from '@ao/admin-components'
 
