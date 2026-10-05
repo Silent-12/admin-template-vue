@@ -2,7 +2,7 @@
 
 [返回主索引](../../AGENTS.md) · [样式规则](../rules/styles.md)
 
-本文件用于查找变量用途，路径均相对仓库根目录。数值为迁移时的参考快照，使用前以 `theme.scss`、`el-ui.scss`、`dark.scss` 和相关样式源码为准；变量变更时同步维护本表。
+本文件用于查找变量用途。数值为迁移时的参考快照，使用前以**布局包仓库**的 `src/styles/` 下 `theme.scss`、`dark.scss`、`app.scss` 及宿主 `src/assets/styles/el-ui.scss` 为准（布局包安装产物只发布 `dist`，宿主侧以 `@ao/admin-layout/styles.css` 即其 `dist/index.css` 为实际生效结果，不保留其源码副本）。变量变更时同步维护本表。
 
 ### 样式整理语义变量
 
@@ -15,7 +15,7 @@
 | `--ao-login-yellow-start` / `--ao-login-yellow-end` / `--ao-login-blue-shadow` | 登录页装饰色和阴影 |
 | `--ao-login-dark-shadow` / `--ao-login-light-shadow` / `--ao-login-banner-dark` | 登录页暗色主题及横幅辅助色 |
 
-### 语义色变量（`src/assets/styles/theme.scss`）
+### 语义色变量（布局包仓库 `src/styles/theme.scss`）
 
 | 变量名           | 亮色值 (`:root`)         | 暗色值 (`.dark`) | 典型用途 |
 | ---------------- | ------------------------ | ---------------- | -------- |
@@ -67,13 +67,13 @@
 
 ### 布局尺寸变量
 
-| 变量名                       | 值 / 来源           | 典型用途         |
-| ---------------------------- | ------------------- | ---------------- |
-| `--ao-header-height`         | 运行时写入          | 头部实测高度     |
-| `--ao-content-header-height` | 运行时写入          | 内容头部实测高度 |
-| `--ao-full-height`           | `app.scss` 组合计算 | 内容区全高       |
+| 变量名                       | 值 / 来源                  | 典型用途         |
+| ---------------------------- | -------------------------- | ---------------- |
+| `--ao-header-height`         | 运行时写入                 | 头部实测高度     |
+| `--ao-content-header-height` | 运行时写入                 | 内容头部实测高度 |
+| `--ao-full-height`           | 布局包 `app.scss` 组合计算 | 内容区全高       |
 
-`--ao-full-height` 在 `app.scss` 中由 `100vh` 减去运行时写入的头部高度组合而成；内容区上下留白由各容器自身内边距提供（如搜索栏 `10px`、表格卡片体 `10px`、`.page-content` `20px`），不设全局页面间距变量。脚本只负责把头部高度写入 `--ao-header-height` / `--ao-content-header-height`，不参与间距计算。
+`--ao-full-height` 在布局包 `app.scss` 中由 `100vh` 减去运行时写入的头部高度组合而成；内容区上下留白由各容器自身内边距提供（如搜索栏 `10px`、表格卡片体 `10px`、`.page-content` `20px`），不设全局页面间距变量。脚本只负责把头部高度写入 `--ao-header-height` / `--ao-content-header-height`，不参与间距计算。
 
 ### Element Plus 桥接变量（`src/assets/styles/el-ui.scss`）
 
@@ -87,7 +87,7 @@
 | `--el-border-radius-base`      | Element 基础圆角（由 `--custom-radius` 计算） |
 | `--el-border-radius-small`     | Element 小圆角（由 `--custom-radius` 计算）   |
 
-### Element Plus 暗色覆盖（`src/assets/styles/dark.scss`，仅 `html.dark` 下生效）
+### Element Plus 暗色覆盖（布局包仓库 `src/styles/dark.scss`，仅 `html.dark` 下生效）
 
 | 变量名                    | 暗色值                     |
 | ------------------------- | -------------------------- |

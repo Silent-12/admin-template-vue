@@ -1,7 +1,7 @@
 <!-- 数据展示示例页面 -->
 <!-- 单页集中展示 AoForm 与 AoTable 的全部支持写法，mock 数据由页面内生成 -->
 <!-- AoForm 部分：以弹窗承载，覆盖全部预定义表单项类型、分组标题项（type: 'title'）、render 自定义渲染、slots 插槽、hidden 隐藏项、span / labelWidth 覆盖、label 渲染函数、校验规则、提交输出清洗与 ref.getOutput；另演示默认弹窗表单模式与 span 行基准换行（:dialog="false" 时为内联模式） -->
-<!-- AoTable 部分：集成布局（搜索栏 + 表格头部 + 分页）、selection / index / globalIndex / expand 特殊列、原生 formatter、点路径 prop、slotName 自定义单元格、列设置（columnChecks）、操作列与底部内容插槽 -->
+<!-- AoTable 部分：集成布局（搜索栏 + 表格头部 + 分页）、selection / index / globalIndex / expand 特殊列、原生 formatter、点路径 prop、slotName 自定义单元格、列设置（columnChecks）、操作列与底部内容插槽，并在表格头部右侧演示 AoExcelExport / AoExcelImport 的导出与导入 -->
 <template>
   <div class="data-showcase ao-full-height">
     <!-- ============ AoForm 展示区入口 ============ -->
@@ -10,9 +10,7 @@
         <div class="card-header">
           <span class="card-title">AoForm 表单写法展示</span>
           <ElSpace>
-            <ElButton type="primary" @click="formDialogVisible = true">
-              打开表单弹窗
-            </ElButton>
+            <ElButton type="primary" @click="formDialogVisible = true"> 打开表单弹窗 </ElButton>
             <ElButton @click="quickFormVisible = true">弹窗表单模式</ElButton>
           </ElSpace>
         </div>
@@ -50,7 +48,10 @@
 
       <!-- 表格头部右侧操作区 -->
       <template #header-right>
-        <ElButton @click="showRowMessage('导出')">导出</ElButton>
+        <ElSpace>
+          <AoExcelExport :data="excelData" filename="组件示例" />
+          <AoExcelImport @import-success="handleExcelImport" @import-error="handleExcelError" />
+        </ElSpace>
       </template>
 
       <!-- 成员列：头像 + 姓名 + 邮箱组合展示 -->
@@ -167,7 +168,7 @@
 </template>
 
 <script setup lang="ts">
-  import { h, onMounted, reactive, ref } from 'vue'
+  import { computed, h, onMounted, reactive, ref } from 'vue'
   import {
     ElButton,
     ElCard,
@@ -185,6 +186,7 @@
   import type { FormItem } from '@ao/admin-components'
   import { AoTable } from '@ao/admin-components'
   import { AoButtonTable } from '@ao/admin-components'
+  import { AoExcelExport, AoExcelImport } from '@ao/admin-components'
   import AoImage from '@/components/media/AoImage.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { SearchFormItem } from '@ao/admin-components'
@@ -234,6 +236,27 @@
   const loading = ref(false)
   const selectedRows = ref<ShowcaseRow[]>([])
   const formOutputJson = ref('')
+
+  // Excel 示例仅导出当前页的基础字段，导入结果在本地展示行数。
+  const excelData = computed(() =>
+    tableData.value.map((row) => ({ 姓名: row.name, 邮箱: row.email, 积分: row.score }))
+  )
+
+  /**
+   * @description 展示 Excel 本地解析结果，不写入业务数据。
+   * @param rows 首个工作表解析出的数据行。
+   */
+  const handleExcelImport = (rows: Array<Record<string, unknown>>): void => {
+    ElMessage.success(`Excel 解析成功，共 ${rows.length} 行`)
+  }
+
+  /**
+   * @description 提示 Excel 解析失败原因。
+   * @param error 文件解析错误。
+   */
+  const handleExcelError = (error: Error): void => {
+    ElMessage.error(`Excel 解析失败：${error.message}`)
+  }
 
   // 表单数据（v-model 就地修改，携带全部类型的默认值）
   const formModel = ref<Record<string, any>>({

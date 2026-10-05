@@ -223,6 +223,7 @@
     display: flex;
     width: 100%;
     height: 100vh;
+    background-color: var(--default-bg-color);
   }
 
   /* 右侧区域容器 */

@@ -50,8 +50,8 @@ export default ({ mode }: { mode: string }) => {
       minify: 'terser',
       terserOptions: {
         compress: {
-          // 生产环境去除 console
-          drop_console: true,
+          // 保留 info 供公共包输出版本，生产环境移除调试日志
+          drop_console: ['log', 'debug', 'trace'],
           // 生产环境去除 debugger
           drop_debugger: true
         }
