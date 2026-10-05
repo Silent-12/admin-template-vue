@@ -181,14 +181,14 @@
     ElTag
   } from 'element-plus'
   import type { FormRules } from 'element-plus'
-  import AoForm from '@/components/forms/AoForm/index.vue'
-  import type { FormItem } from '@/components/forms/AoForm/index.vue'
-  import AoTable from '@/components/tables/AoTable/index.vue'
-  import AoButtonTable from '@/components/forms/AoButtonTable.vue'
+  import { AoForm } from '@ao/admin-components'
+  import type { FormItem } from '@ao/admin-components'
+  import { AoTable } from '@ao/admin-components'
+  import { AoButtonTable } from '@ao/admin-components'
   import AoImage from '@/components/media/AoImage.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
-  import type { SearchFormItem } from '@/components/forms/AoSearchBar.vue'
-  import type { TablePaginationState } from '@/types/component'
+  import type { SearchFormItem } from '@ao/admin-components'
+  import type { TablePaginationState } from '@ao/admin-components'
 
   defineOptions({ name: 'DataShowcase' })
 

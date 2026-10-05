@@ -31,7 +31,7 @@
 
 import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
 import { $t } from '@/locales'
-import type { ColumnOption } from '@/types/component'
+import type { ColumnOption } from '@ao/admin-components'
 
 /**
  * 特殊列类型

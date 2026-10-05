@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@ao/admin-components':
+        specifier: git+https://github.com/Silent-12/admin-components.git
+        version: git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.40(typescript@5.6.3))
@@ -28,13 +31,13 @@ importers:
         version: 2.0.5
       highlight.js:
         specifier: ^11.10.0
-        version: 11.11.1
+        version: 11.12.0
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
       ohash:
         specifier: ^2.0.11
-        version: 2.0.11
+        version: 2.0.12
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))
@@ -152,6 +155,18 @@ packages:
 
   '@antfu/utils@0.7.10':
     resolution: {integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==}
+
+  '@ao/admin-components@git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1':
+    resolution: {commit: 246a74d8d543a3432be9348746d82c162cfa0bd1, repo: https://github.com/Silent-12/admin-components.git, type: git}
+    version: 0.0.0
+    engines: {node: '>=20.19.0', pnpm: '>=8.8.0'}
+    peerDependencies:
+      '@vueuse/core': ^13.9.0
+      element-plus: ^2.14.3
+      pinia: ^3.0.3
+      pinia-plugin-persistedstate: ^4.3.0
+      vue: ^3.5.0
+      vue-i18n: ^9.14.0
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -1097,6 +1112,11 @@ packages:
 
   '@volar/typescript@2.4.28':
     resolution: {integrity: sha512-Ja6yvWrbis2QtN4ClAKreeUZPVYMARDYZl9LMEv1iQ1QdepB6wn0jTRxA9MftYmYa4DQ4k/DaSZpFPUfxl8giw==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   '@vue/babel-helper-vue-transform-on@1.1.5':
     resolution: {integrity: sha512-SgUymFpMoAyWeYWLAY+MkCK3QEROsiUnfaw5zxOVD/M64KQs8D/4oK6Q5omVA2hnvEOE0SCkH2TZxs/jnnUj7w==}
@@ -1709,6 +1729,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -1994,8 +2015,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  highlight.js@11.11.1:
-    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+  highlight.js@11.12.0:
+    resolution: {integrity: sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==}
     engines: {node: '>=12.0.0'}
 
   hookable@5.5.3:
@@ -2559,8 +2580,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  ohash@2.0.11:
-    resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
+  ohash@2.0.12:
+    resolution: {integrity: sha512-65S/5gk9YSsaRjcyf7Nfa6h/d3E8/1gslpXfI4W7Dxn/oap8IKRuNT5VXkLQ1YFKIEg4apRY4Pj6aiwFzrDdmw==}
 
   onetime@6.0.0:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
@@ -2900,6 +2921,10 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+  source-map-js@1.2.2:
+    resolution: {integrity: sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==}
+    engines: {node: '>=0.10.0'}
+
   source-map-support@0.5.21:
     resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
 
@@ -3222,6 +3247,7 @@ packages:
     engines: {node: '>=v14.21.3'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0
+      vue: '*'
 
   vite-plugin-vue-inspector@5.4.0:
     resolution: {integrity: sha512-Iq/024CydcE46FZqWPU4t4lw4uYOdLnFSO1RNxJVt2qY9zxIjmnkBqhHnYaReWM82kmNnaXs7OkfgRrV2GEjyw==}
@@ -3422,6 +3448,23 @@ packages:
 snapshots:
 
   '@antfu/utils@0.7.10': {}
+
+  '@ao/admin-components@git+https://github.com/Silent-12/admin-components.git#246a74d8d543a3432be9348746d82c162cfa0bd1(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))':
+    dependencies:
+      '@element-plus/icons-vue': 2.3.2(vue@3.5.40(typescript@5.6.3))
+      '@iconify/vue': 5.0.1(vue@3.5.40(typescript@5.6.3))
+      '@vueuse/core': 13.9.0(vue@3.5.40(typescript@5.6.3))
+      element-plus: 2.14.3(vue@3.5.40(typescript@5.6.3))
+      file-saver: 2.0.5
+      pinia: 3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))
+      pinia-plugin-persistedstate: 4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))
+      vue: 3.5.40(typescript@5.6.3)
+      vue-draggable-plus: 0.6.1(@types/sortablejs@1.15.9)
+      vue-i18n: 9.14.5(vue@3.5.40(typescript@5.6.3))
+      xlsx: 0.18.5
+    transitivePeerDependencies:
+      - '@types/sortablejs'
+      - '@vue/composition-api'
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -4309,11 +4352,13 @@ snapshots:
 
   '@volar/source-map@2.4.28': {}
 
-  '@volar/typescript@2.4.28':
+  '@volar/typescript@2.4.28(typescript@5.6.3)':
     dependencies:
       '@volar/language-core': 2.4.28
       path-browserify: 1.0.1
       vscode-uri: 3.1.0
+    optionalDependencies:
+      typescript: 5.6.3
 
   '@vue/babel-helper-vue-transform-on@1.1.5': {}
 
@@ -5322,7 +5367,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  highlight.js@11.11.1: {}
+  highlight.js@11.12.0: {}
 
   hookable@5.5.3: {}
 
@@ -5789,7 +5834,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  ohash@2.0.11: {}
+  ohash@2.0.12: {}
 
   onetime@6.0.0:
     dependencies:
@@ -5947,7 +5992,7 @@ snapshots:
     dependencies:
       nanoid: 3.3.16
       picocolors: 1.1.1
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
 
   prelude-ls@1.2.1: {}
 
@@ -6109,6 +6154,8 @@ snapshots:
       is-fullwidth-code-point: 5.1.0
 
   source-map-js@1.2.1: {}
+
+  source-map-js@1.2.2: {}
 
   source-map-support@0.5.21:
     dependencies:
@@ -6473,11 +6520,11 @@ snapshots:
       vite: 7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0)(sass@1.101.0)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0)
       vite-plugin-inspect: 0.8.9(rollup@4.62.2)(supports-color@7.2.0)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0)(sass@1.101.0)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
       vite-plugin-vue-inspector: 5.4.0(supports-color@7.2.0)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0)(sass@1.101.0)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
+      vue: 3.5.40(typescript@5.6.3)
     transitivePeerDependencies:
       - '@nuxt/kit'
       - rollup
       - supports-color
-      - vue
 
   vite-plugin-vue-inspector@5.4.0(supports-color@7.2.0)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0)(sass@1.101.0)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0)):
     dependencies:
@@ -6563,7 +6610,7 @@ snapshots:
 
   vue-tsc@2.1.6(typescript@5.6.3):
     dependencies:
-      '@volar/typescript': 2.4.28
+      '@volar/typescript': 2.4.28(typescript@5.6.3)
       '@vue/language-core': 2.1.6(typescript@5.6.3)
       semver: 7.8.5
       typescript: 5.6.3
