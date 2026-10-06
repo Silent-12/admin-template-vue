@@ -2,7 +2,6 @@
  * 无需业务菜单注册的公共路由。
  */
 import type { RouteRecordRaw } from 'vue-router'
-import { AppLayout } from '@ao/admin-layout'
 
 export const publicRoutes: RouteRecordRaw[] = [
   {
@@ -26,7 +25,7 @@ export const publicRoutes: RouteRecordRaw[] = [
   {
     path: '/outside',
     name: 'Outside',
-    component: AppLayout,
+    component: () => import('@/components/layouts/AoAdminLayout/index.vue'),
     meta: { title: '内嵌页面' },
     children: [
       {

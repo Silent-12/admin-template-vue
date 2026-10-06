@@ -3,7 +3,6 @@
  */
 import type { Component } from 'vue'
 import { h } from 'vue'
-import { AppLayout } from '@ao/admin-layout'
 
 type AsyncComponentLoader = () => Promise<Component>
 
@@ -40,7 +39,7 @@ export class RouteComponentLoader {
    * @return 异步 Vue 组件加载函数。
    */
   loadLayout(): AsyncComponentLoader {
-    return () => Promise.resolve(AppLayout)
+    return () => import('@/components/layouts/AoAdminLayout/index.vue')
   }
 
   /**

@@ -131,7 +131,13 @@
     if (form.menuType === 'menu') {
       return [
         ...baseItems,
-        { label: '菜单名称', key: 'name', type: 'input', props: { placeholder: '菜单名称' } },
+        {
+          label: '菜单名称',
+          key: 'name',
+          type: 'input',
+          span: 6,
+          props: { placeholder: '菜单名称' }
+        },
         {
           label: createLabelTooltip(
             '路由地址',
@@ -139,9 +145,16 @@
           ),
           key: 'path',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：/dashboard 或 console' }
         },
-        { label: '权限标识', key: 'label', type: 'input', props: { placeholder: '如：User' } },
+        {
+          label: '权限标识',
+          key: 'label',
+          type: 'input',
+          span: 6,
+          props: { placeholder: '如：User' }
+        },
         {
           label: createLabelTooltip(
             '组件路径',
@@ -149,9 +162,16 @@
           ),
           key: 'component',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：/system/user 或留空' }
         },
-        { label: '图标', key: 'icon', type: 'input', props: { placeholder: '如：ri:user-line' } },
+        {
+          label: '图标',
+          key: 'icon',
+          type: 'input',
+          span: 6,
+          props: { placeholder: '如：ri:user-line' }
+        },
         {
           label: createLabelTooltip(
             '角色权限',
@@ -159,24 +179,28 @@
           ),
           key: 'roles',
           type: 'inputtag',
+          span: 6,
           props: { placeholder: '输入角色标识后按回车，如：R_SUPER' }
         },
         {
           label: '菜单排序',
           key: 'sort',
           type: 'number',
+          span: 6,
           props: { min: 1, controlsPosition: 'right', style: { width: '100%' } }
         },
         {
           label: '外部链接',
           key: 'link',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：https://www.example.com' }
         },
         {
           label: '文本徽章',
           key: 'showTextBadge',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：New、Hot' }
         },
         {
@@ -186,6 +210,7 @@
           ),
           key: 'activePath',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：/system/user' }
         },
         { label: '是否启用', key: 'isEnable', type: 'switch', span: switchSpan },
@@ -204,18 +229,21 @@
           label: '权限名称',
           key: 'authName',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：新增、编辑、删除' }
         },
         {
           label: '权限标识',
           key: 'authLabel',
           type: 'input',
+          span: 6,
           props: { placeholder: '如：add、edit、delete' }
         },
         {
           label: '权限排序',
           key: 'authSort',
           type: 'number',
+          span: 6,
           props: { min: 1, controlsPosition: 'right', style: { width: '100%' } }
         }
       ]

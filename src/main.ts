@@ -70,7 +70,7 @@ app.use(AdminComponents, {
   resolveLocalSvg,
   assets: { logo: logoUrl }
 })
-// 布局包：注入菜单数据、用户信息、语言与登出回调（业务数据由本项目持有）
+// 布局包：注入菜单数据、语言与系统配置；用户信息与登出属业务域，由本项目经 #user-avatar 插槽自行渲染
 const menuStore = useMenuStore()
 
 /**
@@ -95,14 +95,12 @@ app.use(AdminLayout, {
     currentApplication: menuStore.currentApplication,
     homePath: menuStore.getHomePath()
   }),
-  userInfo: () => useUserStore().info,
   language: toRef(useUserStore(), 'language'),
   onLanguageChange: (lang: string) => {
     setI18nLocale(lang)
     useUserStore().setLanguage(lang as LanguageEnum)
     useSettingStore().reload()
   },
-  onLogout: () => useUserStore().logOut(),
   config: { systemName: AppConfig.systemInfo.name ?? undefined }
 })
 app.mount('#app')
