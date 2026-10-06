@@ -4,9 +4,10 @@
 <!-- 分页：分页状态由页面持有并通过 pagination 传入；AoTable 只渲染与上报交互，何时请求完全由页面决定 -->
 <!-- AoTable 已集成搜索栏与表格头部：传入 searchItems 即可渲染搜索栏，#header-left / #header-right 插槽内容自动渲染到表格头部 -->
 <template>
-  <div class="user-page ao-full-height">
+  <div class="user-page ao-full-height page-flush-table">
     <!-- 搜索栏 + 表格头部 + 表格 -->
     <AoTable
+      class="page-main-table"
       v-model:search-form="searchForm"
       v-model:column-checks="columnChecks"
       :search-items="searchItems"

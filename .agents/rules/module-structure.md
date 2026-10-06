@@ -19,6 +19,8 @@
 
 ## 业务表格与搜索
 
+- 无间距且主体为表格的页面，在路由页面根容器添加 `page-flush-table`，并在直接子级 `AoTable` 添加 `page-main-table`（`AoTable` 须为根容器首个元素子级且页面内容头部为空，否则上边框不消除；全屏路由页不参与衔接）。布局包统一消除与顶栏、桌面侧栏相接的重复外框；页面不得自行覆盖这些边框。有页面间距、独立卡片或弹窗内表格不添加此标记。
+
 - 所有业务表格统一使用 `@ao/admin-components` 导出的 `AoTable`，页面布局参考 `src/views/system/user/index.vue`：页面容器使用 `ao-full-height`，`ao-table-card` 表格卡片与表格头部由 `AoTable` 内部按需渲染，业务页面只需传入 `:search-items` / `:search-rules` / `v-model:search-form` / `v-model:column-checks` 并编写 `#header-left` / `#header-right` 插槽；搜索栏显隐开关默认启用（有搜索项时默认显示搜索栏，头部搜索按钮可切换显隐）；页面需自定义初始显隐或接管状态时额外绑定 `v-model:show-search-bar`；禁止在业务页面直接使用 `el-table`。
 
 - 所有业务搜索区域统一使用项目封装的 `AoSearchBar`，它已由 `AoTable` 通过 `search-items` 集成，业务页面无需再单独引入；搜索项配置以 `searchItems` 内联在对应业务页面中，不再为每个页面创建 `components/XxxSearch.vue` 包装组件；`AoTable` 的 `#footer` 插槽用于表格底部左侧内容，分页器固定靠右，弹窗和抽屉放在表格同级。

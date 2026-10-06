@@ -2,9 +2,10 @@
 <!-- 数据由页面自行请求后通过 data 传入 AoTable；需要自定义单元格内容的列通过 slotName 指定插槽 -->
 <!-- 加载时机完全由页面决定：挂载、查询、重置、刷新各自调用页面自身的 getMenuList -->
 <template>
-  <div class="menu-page ao-full-height">
+  <div class="menu-page ao-full-height page-flush-table">
     <!-- 搜索栏 + 表格头部 + 表格 -->
     <AoTable
+      class="page-main-table"
       ref="tableRef"
       v-model:search-form="formFilters"
       v-model:column-checks="columnChecks"

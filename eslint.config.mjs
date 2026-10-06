@@ -48,11 +48,12 @@ export default [
   {
     ignores: [
       'node_modules',
-      'dist',
+      '**/dist',
       'public',
       '.vscode/**',
       'src/assets/**',
-      'src/utils/console.ts'
+      'src/utils/console.ts',
+      '**/*.local/**'
     ]
   }
 ]

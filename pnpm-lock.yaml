@@ -12,8 +12,8 @@ importers:
         specifier: git+https://github.com/Silent-12/admin-components.git#v3
         version: https://codeload.github.com/Silent-12/admin-components/tar.gz/c91aee16af07501f4c1c8e6825b7f568562beeb8(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
       '@ao/admin-layout':
-        specifier: git+https://github.com/Silent-12/admin-layout.git#v4
-        version: https://codeload.github.com/Silent-12/admin-layout/tar.gz/ac9b791a4a08fba016b2d6b61c72e302a2e804ff(@ao/admin-components@https://codeload.github.com/Silent-12/admin-components/tar.gz/c91aee16af07501f4c1c8e6825b7f568562beeb8(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3)))(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue-router@4.6.4(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
+        specifier: git+https://github.com/Silent-12/admin-layout.git#v5
+        version: https://codeload.github.com/Silent-12/admin-layout/tar.gz/4c1426a07af46f5bd6041e763a99e2cececff65e(@ao/admin-components@https://codeload.github.com/Silent-12/admin-components/tar.gz/c91aee16af07501f4c1c8e6825b7f568562beeb8(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3)))(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue-router@4.6.4(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.40(typescript@5.6.3))
@@ -171,12 +171,12 @@ packages:
       vue: ^3.5.0
       vue-i18n: ^9.14.0
 
-  '@ao/admin-layout@https://codeload.github.com/Silent-12/admin-layout/tar.gz/ac9b791a4a08fba016b2d6b61c72e302a2e804ff':
-    resolution: {gitHosted: true, integrity: sha512-KFfCehS0gFr4PsdmuMUDFjgIX5M1zYmpDrUkzKIso9wby9fvaVWgB7esRGnJHC2K5XvRosAI7i1iD2GhhrcIAw==, tarball: https://codeload.github.com/Silent-12/admin-layout/tar.gz/ac9b791a4a08fba016b2d6b61c72e302a2e804ff}
+  '@ao/admin-layout@https://codeload.github.com/Silent-12/admin-layout/tar.gz/4c1426a07af46f5bd6041e763a99e2cececff65e':
+    resolution: {gitHosted: true, integrity: sha512-ttkPgKxepD9rrXC35gG+V3k1muNd/7BeaxLn6Aa1AZOyrsLH0hKosp5Xnm+jTji2nFfNr5bOfA41yEMU5LIJgA==, tarball: https://codeload.github.com/Silent-12/admin-layout/tar.gz/4c1426a07af46f5bd6041e763a99e2cececff65e}
     version: 0.0.0
     engines: {node: '>=20.19.0', pnpm: '>=8.8.0'}
     peerDependencies:
-      '@ao/admin-components': https://github.com/Silent-12/admin-components.git#v1
+      '@ao/admin-components': https://github.com/Silent-12/admin-components.git#v3
       '@vueuse/core': ^13.9.0
       element-plus: ^2.14.3
       pinia: ^3.0.3
@@ -3483,7 +3483,7 @@ snapshots:
       - '@types/sortablejs'
       - '@vue/composition-api'
 
-  '@ao/admin-layout@https://codeload.github.com/Silent-12/admin-layout/tar.gz/ac9b791a4a08fba016b2d6b61c72e302a2e804ff(@ao/admin-components@https://codeload.github.com/Silent-12/admin-components/tar.gz/c91aee16af07501f4c1c8e6825b7f568562beeb8(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3)))(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue-router@4.6.4(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))':
+  '@ao/admin-layout@https://codeload.github.com/Silent-12/admin-layout/tar.gz/4c1426a07af46f5bd6041e763a99e2cececff65e(@ao/admin-components@https://codeload.github.com/Silent-12/admin-components/tar.gz/c91aee16af07501f4c1c8e6825b7f568562beeb8(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3)))(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue-router@4.6.4(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))':
     dependencies:
       '@ao/admin-components': https://codeload.github.com/Silent-12/admin-components/tar.gz/c91aee16af07501f4c1c8e6825b7f568562beeb8(@types/sortablejs@1.15.9)(@vueuse/core@13.9.0(vue@3.5.40(typescript@5.6.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.6.3)))(pinia-plugin-persistedstate@4.7.1(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3))))(pinia@3.0.3(typescript@5.6.3)(vue@3.5.40(typescript@5.6.3)))(vue-i18n@9.14.5(vue@3.5.40(typescript@5.6.3)))(vue@3.5.40(typescript@5.6.3))
       '@vueuse/core': 13.9.0(vue@3.5.40(typescript@5.6.3))

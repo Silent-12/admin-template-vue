@@ -2,9 +2,10 @@
 <!-- 数据由页面自行请求后通过 data 传入 AoTable；需要自定义单元格内容的列通过 slotName 指定插槽 -->
 <!-- 分页：分页状态由页面持有并通过 pagination 传入；AoTable 只渲染与上报交互，何时请求完全由页面决定 -->
 <template>
-  <div class="ao-full-height">
+  <div class="ao-full-height page-flush-table">
     <!-- 搜索栏 + 表格头部 + 表格 -->
     <AoTable
+      class="page-main-table"
       v-model:search-form="searchForm"
       v-model:column-checks="columnChecks"
       v-model:show-search-bar="showSearchBar"
