@@ -35,7 +35,7 @@ const localSvgModules = import.meta.glob('@/assets/svg/**/*.svg', {
 }) as Record<string, string>
 
 /**
- * @description 按图标名解析宿主本地 SVG 资源地址。
+ * @description 按图标名解析宿主本地 SVG 资源地址
  * @param icon 图标名称，使用连字符表示 SVG 目录层级。
  * @return 本地 SVG URL，未找到时返回 undefined。
  */
@@ -74,7 +74,7 @@ app.use(AdminComponents, {
 const menuStore = useMenuStore()
 
 /**
- * @description 同步 vue-i18n 全局 locale（兼容 legacy / composition 两种取值形态）。
+ * @description 同步 vue-i18n 全局 locale（兼容 legacy / composition 两种取值形态）
  * @param lang 目标语言。
  */
 const setI18nLocale = (lang: string) => {

@@ -8,7 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 /**
- * @description 创建 Vite 构建配置并加载当前运行模式的环境变量。
+ * @description 创建 Vite 构建配置并加载当前运行模式的环境变量
  * @param options Vite 当前运行模式参数。
  * @return Vite 构建配置。
  */

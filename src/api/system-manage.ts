@@ -25,7 +25,7 @@ export function fetchGetRoleList(params: RoleSearchParams) {
 
 // 获取菜单列表
 /**
- * @description 获取当前用户可访问的全部业务系统路由。
+ * @description 获取当前用户可访问的全部业务系统路由
  * @return 一级业务系统路由列表。
  */
 export function fetchGetMenuList(): Promise<AppRouteRecord[]> {

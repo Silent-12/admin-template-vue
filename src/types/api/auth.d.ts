@@ -1,11 +1,11 @@
 /**
  * 认证接口类型
- * @description 定义登录和当前用户信息接口使用的请求、响应数据结构。
+ * @description 定义登录和当前用户信息接口使用的请求、响应数据结构
  */
 
 /**
  * 登录参数
- * @description 定义用户登录接口所需的账号和密码。
+ * @description 定义用户登录接口所需的账号和密码
  */
 export interface LoginParams {
   // 用户名
@@ -16,7 +16,7 @@ export interface LoginParams {
 
 /**
  * 登录响应
- * @description 定义登录接口返回的访问令牌和刷新令牌。
+ * @description 定义登录接口返回的访问令牌和刷新令牌
  */
 export interface LoginResponse {
   // 访问令牌
@@ -27,7 +27,7 @@ export interface LoginResponse {
 
 /**
  * 用户信息
- * @description 定义当前登录用户的基础资料和后端授权标识。
+ * @description 定义当前登录用户的基础资料和后端授权标识
  */
 export interface UserInfo {
   // 后端返回的操作权限标识列表

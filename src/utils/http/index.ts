@@ -168,7 +168,7 @@ function delay(ms: number) {
 }
 
 /**
- * @description 发起经过拦截器处理的 HTTP 请求并返回业务数据。
+ * @description 发起经过拦截器处理的 HTTP 请求并返回业务数据
  * @param config 请求地址、方法和请求配置。
  * @return 业务响应数据。
  */

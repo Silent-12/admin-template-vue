@@ -15,17 +15,18 @@ description: 'TypeScript 类型定义的 JSDoc + // 双层注释规范。Invoke 
 
 - **第一行**：简短描述，说明类型/接口的名称或作用
 - **第二行**：`@description` 标签，详细描述类型/接口的用途
+- **标点约定**：第一行简短描述不加句号，`@description` 行末不加句号。
 
 ```typescript
 /**
  * 类型的简短描述
- * @description 详细说明这个类型的作用和使用场景。
+ * @description 详细说明这个类型的作用和使用场景
  */
 export type TypeName = ...;
 
 /**
  * 接口的简短描述
- * @description 详细说明这个接口的用途和包含的内容。
+ * @description 详细说明这个接口的用途和包含的内容
  */
 export interface InterfaceName {
   // 字段注释

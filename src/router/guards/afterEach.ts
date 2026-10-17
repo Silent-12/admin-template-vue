@@ -6,7 +6,7 @@ import { loadingService } from '@/utils/ui'
 import { getPendingLoading, resetPendingLoading } from './beforeEach'
 
 /**
- * @description 注册路由全局后置守卫，处理滚动位置、进度条与加载状态。
+ * @description 注册路由全局后置守卫，处理滚动位置、进度条与加载状态
  * @param router Vue Router 实例。
  * @return 无返回值。
  */
